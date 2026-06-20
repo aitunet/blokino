@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "tunet/before-after",
+  "version": "0.1.0",
+  "title": "Tunet Before / After",
+  "category": "design",
+  "icon": "image-flip-horizontal",
+  "description": "Image comparison with a draggable divider (before / after).",
+  "keywords": ["before", "after", "comparison", "slider"],
+  "textdomain": "tunet",
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "align": ["wide", "full"],
+    "spacing": { "margin": true }
+  },
+  "attributes": {
+    "beforeId": { "type": "number" },
+    "beforeUrl": { "type": "string", "default": "" },
+    "beforeAlt": { "type": "string", "default": "" },
+    "afterId": { "type": "number" },
+    "afterUrl": { "type": "string", "default": "" },
+    "afterAlt": { "type": "string", "default": "" },
+    "width": { "type": "number" },
+    "height": { "type": "number" },
+    "startPosition": { "type": "number", "default": 50 },
+    "beforeLabel": { "type": "string", "default": "" },
+    "afterLabel": { "type": "string", "default": "" }
+  },
+  "editorScript": "file:./edit.js",
+  "viewScript": "file:./view.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}

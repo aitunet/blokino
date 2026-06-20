@@ -1,0 +1,37 @@
+/* ==========================================================================
+ * Tunet Core · Block tunet/counter
+ * --------------------------------------------------------------------------
+ * Número grande de display. Estética 100% desde tokens --tnt-*; el tamaño es
+ * sobreescribible por el control de tipografía del block.
+ * tabular-nums evita el "salto" de ancho mientras cuenta.
+ * ========================================================================== */
+
+.tunet-counter {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: var( --tnt-space-2, 0.5rem );
+	margin: 0;
+	font-family: var( --tnt-font-display );
+	/* Tamaño apto para métricas en columnas; sobreescribible por el control
+	   de tipografía del block (p. ej. subirlo a 2xl para un stat de hero). */
+	font-size: var( --tnt-text-xl );
+	line-height: var( --tnt-leading-tight, 1.05 );
+	letter-spacing: var( --tnt-tracking-tight );
+	color: var( --tnt-color-text );
+}
+
+.tunet-counter__num {
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: "tnum" 1;
+	white-space: nowrap; /* el número nunca se parte (p. ej. 24,000). */
+}
+
+/* Prefijo/sufijo más discretos que el número. */
+.tunet-counter__affix {
+	font-family: var( --tnt-font-body );
+	font-size: 0.45em;
+	font-weight: 600;
+	color: var( --tnt-color-accent );
+	letter-spacing: var( --tnt-tracking-wide );
+}

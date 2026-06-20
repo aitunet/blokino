@@ -1,0 +1,18 @@
+/* ==========================================================================
+ * Tunet Core · Block tunet/section — overrides SOLO del editor
+ * --------------------------------------------------------------------------
+ * En el front, .tunet-section usa overflow:hidden (para bg/dividers). En el
+ * editor eso recorta el botón "+" de añadir bloque (appender). Aquí lo dejamos
+ * visible para poder editar con comodidad.
+ * ========================================================================== */
+
+.editor-styles-wrapper .tunet-section {
+	overflow: visible;
+}
+
+/* Asegura que el appender de InnerBlocks quede por encima de bg/overlay. */
+.editor-styles-wrapper .tunet-section .block-editor-inner-blocks,
+.editor-styles-wrapper .tunet-section .block-list-appender {
+	position: relative;
+	z-index: 2;
+}

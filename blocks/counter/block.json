@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "tunet/counter",
+  "version": "0.1.0",
+  "title": "Tunet Counter",
+  "category": "design",
+  "icon": "chart-bar",
+  "description": "Number that counts up to its value when it enters the viewport. Great for metrics and social proof.",
+  "keywords": ["counter", "number", "metric", "stats"],
+  "textdomain": "tunet",
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "align": ["wide", "full"],
+    "spacing": { "margin": true, "padding": true },
+    "typography": { "fontSize": true, "lineHeight": true },
+    "color": { "text": true, "background": true }
+  },
+  "attributes": {
+    "start": { "type": "number", "default": 0 },
+    "end": { "type": "number", "default": 100 },
+    "duration": { "type": "number", "default": 2000 },
+    "decimals": { "type": "number", "default": 0 },
+    "separator": { "type": "boolean", "default": false },
+    "prefix": { "type": "string", "default": "" },
+    "suffix": { "type": "string", "default": "" }
+  },
+  "editorScript": "file:./edit.js",
+  "viewScript": "file:./view.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}

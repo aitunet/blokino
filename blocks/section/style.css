@@ -1,0 +1,146 @@
+/* ==========================================================================
+ * Tunet Core · Block tunet/section — fondos avanzados + dividers
+ * --------------------------------------------------------------------------
+ * Capas: __bg (z0) → __overlay (z1) → __inner (z2) → __divider (z3).
+ * Estética 100% desde tokens --tnt-*; los valores por block llegan como CSS
+ * vars (--tf-sec-*). Animaciones de fondo en loop (linear/ease permitido) y
+ * desactivadas con prefers-reduced-motion.
+ * ========================================================================== */
+
+.tunet-section {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	isolation: isolate;
+	overflow: hidden;
+	min-height: var( --tf-sec-min-h, auto );
+}
+
+/* width:100% + padding-inline en __inner exige border-box; sin él, el padding
+   se suma al 100% y la sección desborda el viewport (visible en móvil). */
+.tunet-section,
+.tunet-section__inner,
+.tunet-section__bg,
+.tunet-section__overlay {
+	box-sizing: border-box;
+}
+
+.tunet-section.is-valign-top    { justify-content: flex-start; }
+.tunet-section.is-valign-center { justify-content: center; }
+.tunet-section.is-valign-bottom { justify-content: flex-end; }
+
+/* --- Contenido --- */
+.tunet-section__inner {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	margin-inline: auto;
+	padding-inline: var( --tnt-space-4 );
+}
+
+/* Ancho del contenido (independiente del ancho de la sección):
+   constrained = content-size · wide = wide-size · full = sin límite. */
+.tunet-section.is-content-constrained .tunet-section__inner {
+	max-width: var( --wp--style--global--content-size, 44rem );
+}
+.tunet-section.is-content-wide .tunet-section__inner {
+	max-width: var( --wp--style--global--wide-size, 76rem );
+}
+.tunet-section.is-content-full .tunet-section__inner {
+	max-width: none;
+	padding-inline: 0;
+}
+
+/* --- Capa de fondo --- */
+.tunet-section__bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	pointer-events: none;
+}
+
+.is-bg-color .tunet-section__bg {
+	background: var( --tf-sec-bg, var( --tnt-color-surface ) );
+}
+
+.is-bg-gradient .tunet-section__bg {
+	background: var( --tf-sec-gradient, linear-gradient( 135deg, var( --tnt-color-primary ), var( --tnt-color-accent ) ) );
+	background-size: 200% 200%;
+}
+.is-bg-gradient.is-animated .tunet-section__bg {
+	animation: tunet-section-pan 16s linear infinite alternate;
+}
+
+.is-bg-mesh .tunet-section__bg {
+	background-color: var( --tnt-color-bg );
+	background-image:
+		radial-gradient( at 18% 24%, var( --tf-mesh-1, color-mix( in srgb, var( --tnt-color-primary ) 70%, transparent ) ) 0px, transparent 45% ),
+		radial-gradient( at 82% 18%, var( --tf-mesh-2, color-mix( in srgb, var( --tnt-color-accent ) 70%, transparent ) ) 0px, transparent 45% ),
+		radial-gradient( at 50% 82%, var( --tf-mesh-3, color-mix( in srgb, var( --tnt-color-accent-2 ) 70%, transparent ) ) 0px, transparent 50% );
+	background-size: 180% 180%;
+	animation: tunet-section-mesh 22s ease-in-out infinite alternate;
+}
+
+.is-bg-image .tunet-section__bg {
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.is-bg-video .tunet-section__bg {
+	object-fit: cover;
+}
+
+/* --- Overlay --- */
+.tunet-section__overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+	background: var( --tf-sec-overlay, var( --tnt-color-bg ) );
+	opacity: var( --tf-sec-overlay-op, 0.4 );
+}
+
+/* --- Shape dividers --- */
+.tunet-section__divider {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: var( --tf-sec-divider-h, 60px );
+	z-index: 3;
+	line-height: 0;
+	pointer-events: none;
+	color: var( --tf-sec-divider-color, var( --tnt-color-bg ) );
+}
+.tunet-section__divider--top {
+	top: 0;
+	transform: rotate( 180deg );
+}
+.tunet-section__divider--bottom {
+	bottom: 0;
+}
+.tunet-section__divider svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.tunet-section__divider path {
+	fill: currentColor;
+}
+
+/* --- Animaciones (loop continuo) --- */
+@keyframes tunet-section-pan {
+	to { background-position: 100% 50%; }
+}
+@keyframes tunet-section-mesh {
+	to { background-position: 100% 100%; }
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.tunet-section__bg {
+		animation: none !important;
+	}
+}

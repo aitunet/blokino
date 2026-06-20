@@ -1,0 +1,67 @@
+/* ==========================================================================
+ * Tunet Core · Block tunet/marquee — banda infinita
+ * --------------------------------------------------------------------------
+ * Loop sin costuras: el track contiene dos grupos idénticos; al animar
+ * translateX(-50%) el segundo grupo ocupa exactamente el hueco del primero.
+ * Cada grupo incluye su separación final (padding-inline-end) para que el
+ * espaciado entre la última y la primera repetición sea uniforme.
+ *
+ * Loop continuo → linear es correcto (la única excepción a "nunca linear").
+ * Separación y duración salen de los atributos del block.
+ * ========================================================================== */
+
+.tunet-marquee {
+	overflow: hidden;
+	/* Desvanecido sutil en los bordes (detalle premium). */
+	-webkit-mask-image: linear-gradient( 90deg, transparent, #000 6%, #000 94%, transparent );
+	        mask-image: linear-gradient( 90deg, transparent, #000 6%, #000 94%, transparent );
+}
+
+.tunet-marquee__track {
+	display: flex;
+	width: max-content;
+	will-change: transform;
+	animation: tunet-marquee-scroll var( --tnt-marquee-duration, 30s ) linear infinite;
+}
+
+.tunet-marquee.is-right .tunet-marquee__track {
+	animation-direction: reverse;
+}
+
+.tunet-marquee__group {
+	display: flex;
+	align-items: center;
+	gap: var( --tnt-marquee-gap, 3rem );
+	padding-inline-end: var( --tnt-marquee-gap, 3rem );
+	flex: 0 0 auto;
+}
+
+/* Los bloques internos no deben encogerse dentro de la banda. */
+.tunet-marquee__group > * {
+	flex: 0 0 auto;
+	margin-block: 0;
+}
+
+.tunet-marquee.is-pausable:hover .tunet-marquee__track {
+	animation-play-state: paused;
+}
+
+@keyframes tunet-marquee-scroll {
+	to {
+		transform: translateX( -50% );
+	}
+}
+
+/* Accesibilidad: sin movimiento, la banda se vuelve desplazable y se elimina
+   el duplicado decorativo (§10). */
+@media ( prefers-reduced-motion: reduce ) {
+	.tunet-marquee {
+		overflow-x: auto;
+	}
+	.tunet-marquee__track {
+		animation: none;
+	}
+	.tunet-marquee__group[aria-hidden="true"] {
+		display: none;
+	}
+}

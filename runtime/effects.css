@@ -1,0 +1,408 @@
+/* ==========================================================================
+ * Tunet Core · CSS del runtime de efectos — FASE B (catálogo completo)
+ * --------------------------------------------------------------------------
+ * COMPOSICIÓN DE TRANSFORM POR VARIABLES (endurecido):
+ *   Ningún efecto escribe `transform` directamente. Cada uno escribe SOLO sus
+ *   custom properties namespaced; un ÚNICO transform compuesto las lee y las
+ *   combina (translate suma · scale multiplica · rotate identidad). Así apilar
+ *   entrada + parallax + hover en un mismo block compone sin sobrescribirse.
+ *
+ *   entrada  → --tf-enter-x / --tf-enter-y / --tf-enter-scale
+ *   parallax → --tf-parallax-y
+ *   hover    → --tf-hover-x / --tf-hover-y / --tf-hover-scale
+ *   tilt     → --tf-rot-x / --tf-rot-y (+ --tf-perspective)
+ *
+ *   Las variables se REGISTRAN con @property (tipadas) para ser interpolables:
+ *   cada efecto transiciona su propia variable con su curva/duración, sin
+ *   transicionar `transform` en sí (el parallax sigue al scroll en tiempo real
+ *   porque --tf-parallax-y NO se transiciona).
+ *
+ *   opacity / filter / clip-path van por separado (no entran en transform).
+ *
+ * AGNÓSTICO: duración, curva, distancia y color salen de los tokens --tnt-*.
+ * Gate anti-FOUC con .tunet-tf-ready intacto. prefers-reduced-motion respetado.
+ * ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+ * 0) Registro tipado de las variables de composición (valores identidad).
+ *    inherits:true en las de entrada → permiten que los hijos de un stagger
+ *    reutilicen la animación del contenedor.
+ * ------------------------------------------------------------------------ */
+@property --tf-enter-x    { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --tf-enter-y    { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --tf-enter-scale{ syntax: "<number>"; inherits: false; initial-value: 1; }
+@property --tf-parallax-y { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --tf-hover-x    { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --tf-hover-y    { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --tf-hover-scale{ syntax: "<number>"; inherits: false; initial-value: 1; }
+@property --tf-rot-x      { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+@property --tf-rot-y      { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+@property --tf-rotate     { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+@property --tf-perspective{ syntax: "<length>"; inherits: false; initial-value: 100000px; }
+@property --tf-zoom-scale { syntax: "<number>"; inherits: false; initial-value: 1; }
+@property --tf-angle      { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+
+/* ---------------------------------------------------------------------------
+ * 1) Transform compuesto + transiciones por variable.
+ *    Se aplica a cualquier elemento con un efecto que toque transform.
+ *    `transform` NO se transiciona; se transicionan las variables (cada una
+ *    con su curva). --tf-parallax-y queda fuera → instantáneo (sigue el scroll).
+ * ------------------------------------------------------------------------ */
+.tunet-tf-ready [data-tf-animation]:not( [data-tf-stagger] ):not( [data-tf-animation="text-stagger"] ),
+.tunet-tf-ready [data-tf-stagger] > .tf-stagger-item,
+.tunet-tf-ready [data-tf-animation="text-stagger"] .tf-word,
+.tunet-tf-ready [data-tf-scroll="reveal-on-scroll"],
+[data-tf-scroll="parallax"],
+[data-tf-scroll="zoom"],
+[data-tf-hover="lift"],
+[data-tf-hover="tilt"],
+[data-tf-hover="magnetic"] {
+	transform:
+		perspective( var( --tf-perspective, 100000px ) )
+		translate3d(
+			calc( var( --tf-enter-x, 0px ) + var( --tf-hover-x, 0px ) ),
+			calc( var( --tf-enter-y, 0px ) + var( --tf-parallax-y, 0px ) + var( --tf-hover-y, 0px ) ),
+			0
+		)
+		scale( calc( var( --tf-enter-scale, 1 ) * var( --tf-hover-scale, 1 ) * var( --tf-zoom-scale, 1 ) ) )
+		rotate( var( --tf-rotate, 0deg ) )
+		rotateX( var( --tf-rot-x, 0deg ) )
+		rotateY( var( --tf-rot-y, 0deg ) );
+}
+
+/* Transiciones: variables de entrada (con delay), hover, rotación y opacidad/
+   filtro/clip/sombra. box-shadow se incluye para lift/glow. */
+.tunet-tf-ready [data-tf-animation]:not( [data-tf-stagger] ):not( [data-tf-animation="text-stagger"] ),
+.tunet-tf-ready [data-tf-stagger] > .tf-stagger-item,
+.tunet-tf-ready [data-tf-animation="text-stagger"] .tf-word,
+.tunet-tf-ready [data-tf-scroll="reveal-on-scroll"],
+[data-tf-hover="lift"],
+[data-tf-hover="glow"],
+[data-tf-hover="tilt"],
+[data-tf-hover="magnetic"] {
+	transition:
+		--tf-enter-x var( --tf-duration, var( --tnt-dur-base ) ) var( --tf-ease, var( --tnt-ease-expo ) ) var( --tf-delay, 0ms ),
+		--tf-enter-y var( --tf-duration, var( --tnt-dur-base ) ) var( --tf-ease, var( --tnt-ease-expo ) ) var( --tf-delay, 0ms ),
+		--tf-enter-scale var( --tf-duration, var( --tnt-dur-base ) ) var( --tf-ease, var( --tnt-ease-expo ) ) var( --tf-delay, 0ms ),
+		opacity var( --tf-duration, var( --tnt-dur-base ) ) var( --tf-ease, var( --tnt-ease-expo ) ) var( --tf-delay, 0ms ),
+		filter var( --tf-duration, var( --tnt-dur-base ) ) var( --tf-ease, var( --tnt-ease-expo ) ) var( --tf-delay, 0ms ),
+		clip-path var( --tf-duration, var( --tnt-dur-base ) ) var( --tf-ease, var( --tnt-ease-expo ) ) var( --tf-delay, 0ms ),
+		--tf-hover-x var( --tnt-dur-base ) var( --tf-hover-ease, var( --tnt-ease-power3 ) ),
+		--tf-hover-y var( --tnt-dur-base ) var( --tf-hover-ease, var( --tnt-ease-power3 ) ),
+		--tf-hover-scale var( --tnt-dur-base ) var( --tf-hover-ease, var( --tnt-ease-power3 ) ),
+		box-shadow var( --tnt-dur-base ) var( --tnt-ease-power3 ),
+		--tf-rot-x var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
+		--tf-rot-y var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
+		--tf-rotate var( --tnt-dur-fast ) var( --tnt-ease-power3 );
+}
+
+/* will-change SOLO en efectos continuos (parallax/hover interactivo), no en
+   reveals de una sola vez ni en cada palabra → no infla memoria. */
+[data-tf-scroll="parallax"],
+[data-tf-scroll="zoom"],
+[data-tf-hover="lift"],
+[data-tf-hover="tilt"],
+[data-tf-hover="magnetic"] {
+	will-change: transform;
+}
+
+/* Hero zoom: la escala sigue al scroll (scroll-driven nativo; rAF de fallback
+   en el runtime). overflow del contenedor recorta el zoom para sensación cine. */
+[data-tf-scroll="zoom"] {
+	transform-origin: center;
+}
+@supports ( animation-timeline: view() ) {
+	[data-tf-scroll="zoom"] {
+		animation: tf-zoom linear both;
+		animation-timeline: view();
+		animation-range: cover;
+	}
+	@keyframes tf-zoom {
+		from { --tf-zoom-scale: 1; }
+		to   { --tf-zoom-scale: 1.14; }
+	}
+}
+@media ( prefers-reduced-motion: reduce ) {
+	[data-tf-scroll="zoom"] { animation: none !important; --tf-zoom-scale: 1 !important; }
+}
+
+/* ---------------------------------------------------------------------------
+ * 2) ENTRADA — estado oculto. Cada animación fija SOLO sus variables/opacity.
+ *    El mismo valor sirve al standalone y a los hijos de un stagger (que así
+ *    reutilizan la animación del contenedor, sin herencia global problemática).
+ * ------------------------------------------------------------------------ */
+.tunet-tf-ready [data-tf-animation="fade-up"]:not( [data-tf-stagger] ),
+.tunet-tf-ready [data-tf-animation="fade-up"][data-tf-stagger] > .tf-stagger-item {
+	--tf-enter-y: var( --tf-distance, var( --tnt-space-5 ) );
+	opacity: 0;
+}
+.tunet-tf-ready [data-tf-animation="slide-left"]:not( [data-tf-stagger] ),
+.tunet-tf-ready [data-tf-animation="slide-left"][data-tf-stagger] > .tf-stagger-item {
+	--tf-enter-x: calc( -1 * var( --tf-distance, var( --tnt-space-6 ) ) );
+	opacity: 0;
+}
+.tunet-tf-ready [data-tf-animation="slide-right"]:not( [data-tf-stagger] ),
+.tunet-tf-ready [data-tf-animation="slide-right"][data-tf-stagger] > .tf-stagger-item {
+	--tf-enter-x: var( --tf-distance, var( --tnt-space-6 ) );
+	opacity: 0;
+}
+.tunet-tf-ready [data-tf-animation="scale-in"]:not( [data-tf-stagger] ),
+.tunet-tf-ready [data-tf-animation="scale-in"][data-tf-stagger] > .tf-stagger-item {
+	--tf-enter-scale: var( --tf-scale-from, 0.92 );
+	opacity: 0;
+}
+.tunet-tf-ready [data-tf-animation="blur-in"]:not( [data-tf-stagger] ),
+.tunet-tf-ready [data-tf-animation="blur-in"][data-tf-stagger] > .tf-stagger-item {
+	filter: blur( var( --tf-blur, 12px ) );
+	opacity: 0;
+}
+/* clip-reveal y mask-up usan clip-path; el escalonado en hijos no clipa
+   (limitación documentada: usar fade/slide/scale/blur para stagger). */
+.tunet-tf-ready [data-tf-animation="mask-up"]:not( [data-tf-stagger] ) {
+	--tf-enter-y: var( --tf-distance, var( --tnt-space-4 ) );
+	clip-path: inset( 0 0 100% 0 );
+}
+.tunet-tf-ready [data-tf-animation="clip-reveal"]:not( [data-tf-stagger] ) {
+	clip-path: inset( 100% 0 0 0 );
+}
+
+/* text-stagger: el runtime parte el texto en .tf-word con índice --tf-i. */
+.tunet-tf-ready [data-tf-animation="text-stagger"] .tf-word {
+	display: inline-block;
+	--tf-enter-y: var( --tf-distance, 0.4em );
+	opacity: 0;
+}
+
+/* reveal-on-scroll: reveal sencillo en la categoría scroll. */
+.tunet-tf-ready [data-tf-scroll="reveal-on-scroll"] {
+	--tf-enter-y: var( --tf-distance, var( --tnt-space-5 ) );
+	opacity: 0;
+}
+
+/* Escalonado: el retardo crece con el índice y la cadencia (sobre-escribe el
+   delay del shorthand de transición, manteniendo duraciones/curvas). */
+.tunet-tf-ready [data-tf-stagger] > .tf-stagger-item,
+.tunet-tf-ready [data-tf-animation="text-stagger"] .tf-word {
+	transition-delay: calc( var( --tf-i, 0 ) * var( --tf-stagger, 60ms ) + var( --tf-delay, 0ms ) );
+}
+
+/* ---------------------------------------------------------------------------
+ * 3) ENTRADA — estado revelado (lo dispara .is-tf-in). Resetea SOLO las
+ *    variables/opacity a identidad; nunca toca `transform` (no pisaría hover
+ *    ni parallax que comparten el mismo transform compuesto).
+ * ------------------------------------------------------------------------ */
+.tunet-tf-ready [data-tf-animation].is-tf-in:not( [data-tf-stagger] ):not( [data-tf-animation="text-stagger"] ),
+.tunet-tf-ready [data-tf-stagger].is-tf-in > .tf-stagger-item,
+.tunet-tf-ready [data-tf-animation="text-stagger"].is-tf-in .tf-word,
+.tunet-tf-ready [data-tf-scroll="reveal-on-scroll"].is-tf-in {
+	--tf-enter-x: 0px;
+	--tf-enter-y: 0px;
+	--tf-enter-scale: 1;
+	opacity: 1;
+	filter: none;
+}
+.tunet-tf-ready [data-tf-animation="clip-reveal"].is-tf-in,
+.tunet-tf-ready [data-tf-animation="mask-up"].is-tf-in {
+	clip-path: inset( 0 );
+}
+
+/* ---------------------------------------------------------------------------
+ * 4) HOVER. Escriben SOLO sus variables namespaced (o box-shadow/pseudo);
+ *    el transform compuesto las recoge. lift/glow/underline-grow/image-zoom
+ *    son CSS; tilt/magnetic reciben las variables del runtime.
+ * ------------------------------------------------------------------------ */
+[data-tf-hover="lift"]:hover {
+	--tf-hover-y: calc( -1 * var( --tnt-space-2 ) );
+	box-shadow: var( --tnt-shadow-3 );
+}
+[data-tf-hover="glow"] {
+	transition: box-shadow var( --tnt-dur-base ) var( --tnt-ease-power3 );
+}
+[data-tf-hover="glow"]:hover {
+	box-shadow: 0 0 var( --tnt-space-6 ) color-mix( in srgb, var( --tnt-color-accent ) 55%, transparent );
+}
+[data-tf-hover="tilt"] {
+	--tf-perspective: 800px; /* activa la profundidad solo en tilt */
+	transform-style: preserve-3d;
+}
+[data-tf-hover="magnetic"] {
+	--tf-hover-ease: var( --tnt-ease-spring );
+}
+
+/* image-zoom: la imagen interna escala dentro de un marco recortado. */
+[data-tf-hover="image-zoom"] {
+	overflow: hidden;
+}
+[data-tf-hover="image-zoom"] img {
+	transition: transform var( --tnt-dur-slow ) var( --tnt-ease-expo );
+	will-change: transform;
+}
+[data-tf-hover="image-zoom"]:hover img {
+	transform: scale( 1.06 );
+}
+
+/* underline-grow: subrayado que crece desde la izquierda (pseudo, no compone). */
+[data-tf-hover="underline-grow"] {
+	position: relative;
+}
+[data-tf-hover="underline-grow"]::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -0.08em;
+	width: 100%;
+	height: 0.08em;
+	background: var( --tnt-color-accent );
+	transform: scaleX( 0 );
+	transform-origin: left center;
+	transition: transform var( --tnt-dur-base ) var( --tnt-ease-expo );
+}
+[data-tf-hover="underline-grow"]:hover::after {
+	transform: scaleX( 1 );
+}
+
+/* ---------------------------------------------------------------------------
+ * 5) SCROLL. parallax compone vía --tf-parallax-y (no se transiciona).
+ *    sticky-pin y progress son CSS; reveal-on-scroll usa el sistema de entrada.
+ * ------------------------------------------------------------------------ */
+[data-tf-scroll="sticky-pin"] {
+	position: sticky;
+	top: var( --tf-pin-top, var( --tnt-space-5 ) );
+}
+[data-tf-scroll="progress"] {
+	position: relative;
+}
+[data-tf-scroll="progress"]::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 0.2em;
+	background: var( --tnt-color-accent );
+	transform: scaleX( var( --tf-progress, 0 ) );
+	transform-origin: left center;
+}
+
+/* Mejora progresiva: scroll-driven nativo donde exista. El runtime detecta el
+   mismo soporte y NO ejecuta rAF, así que nunca se duplican. */
+@supports ( animation-timeline: view() ) {
+	[data-tf-scroll="parallax"] {
+		animation: tf-parallax linear both;
+		animation-timeline: view();
+	}
+	@keyframes tf-parallax {
+		from { --tf-parallax-y: calc( var( --tf-parallax-speed, 20 ) * 1px ); }
+		to   { --tf-parallax-y: calc( var( --tf-parallax-speed, 20 ) * -1px ); }
+	}
+}
+@supports ( animation-timeline: scroll() ) {
+	[data-tf-scroll="progress"]::after {
+		transform: scaleX( 0 );
+		animation: tf-progress linear both;
+		animation-timeline: scroll( root );
+	}
+	@keyframes tf-progress {
+		from { transform: scaleX( 0 ); }
+		to   { transform: scaleX( 1 ); }
+	}
+}
+
+/* ---------------------------------------------------------------------------
+ * 6) BLEND: modo de mezcla. CSS puro.
+ * ------------------------------------------------------------------------ */
+[data-tf-blend="multiply"]   { mix-blend-mode: multiply; }
+[data-tf-blend="screen"]     { mix-blend-mode: screen; }
+[data-tf-blend="overlay"]    { mix-blend-mode: overlay; }
+[data-tf-blend="difference"] { mix-blend-mode: difference; }
+[data-tf-blend="exclusion"]  { mix-blend-mode: exclusion; }
+[data-tf-blend="luminosity"] { mix-blend-mode: luminosity; }
+
+/* ---------------------------------------------------------------------------
+ * 7) BORDER-FX: borde de gradiente, con o sin rotación (anillo con
+ *    mask-composite). Colores de tokens. linear en loop continuo (OK).
+ * ------------------------------------------------------------------------ */
+[data-tf-border-fx="gradient"],
+[data-tf-border-fx="conic-rotate"] {
+	position: relative;
+	isolation: isolate;
+}
+[data-tf-border-fx="gradient"]::before,
+[data-tf-border-fx="conic-rotate"]::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	/* Grosor: configurable por block (--tf-bw), default 2px. */
+	padding: var( --tf-bw, 2px );
+	border-radius: inherit;
+	-webkit-mask:
+		linear-gradient( #000 0 0 ) content-box,
+		linear-gradient( #000 0 0 );
+	-webkit-mask-composite: xor;
+	        mask-composite: exclude;
+}
+/* Colores: configurables por block (--tf-bc1/2); por defecto, acentos del
+   theme. Velocidad: --tf-bdur, default token del theme. */
+[data-tf-border-fx="gradient"]::before {
+	background: linear-gradient(
+		120deg,
+		var( --tf-bc1, var( --tnt-color-accent ) ),
+		var( --tf-bc2, var( --tnt-color-accent-2 ) ),
+		var( --tf-bc1, var( --tnt-color-accent ) )
+	);
+	background-size: 200% 200%;
+	animation: tf-border-pan var( --tf-bdur, var( --tnt-dur-slow ) ) linear infinite alternate;
+}
+[data-tf-border-fx="conic-rotate"]::before {
+	background: conic-gradient(
+		from var( --tf-angle ),
+		var( --tf-bc1, var( --tnt-color-accent ) ),
+		var( --tf-bc2, var( --tnt-color-accent-2 ) ),
+		var( --tf-bc1, var( --tnt-color-accent ) )
+	);
+	animation: tf-border-spin var( --tf-bdur, var( --tnt-dur-slow ) ) linear infinite;
+}
+@keyframes tf-border-pan {
+	to { background-position: 100% 50%; }
+}
+@keyframes tf-border-spin {
+	to { --tf-angle: 360deg; }
+}
+
+/* ---------------------------------------------------------------------------
+ * 8) Accesibilidad: sin movimiento, todo visible y estático (§10).
+ *    Como `transform` se compone, basta anularlo (todas las variables quedan
+ *    en identidad de facto) y mostrar el contenido.
+ * ------------------------------------------------------------------------ */
+@media ( prefers-reduced-motion: reduce ) {
+	.tunet-tf-ready [data-tf-animation],
+	.tunet-tf-ready [data-tf-stagger] > .tf-stagger-item,
+	.tunet-tf-ready [data-tf-animation="text-stagger"] .tf-word,
+	.tunet-tf-ready [data-tf-scroll="reveal-on-scroll"] {
+		opacity: 1 !important;
+		transform: none !important;
+		filter: none !important;
+		clip-path: none !important;
+		transition: none !important;
+	}
+
+	[data-tf-scroll="parallax"],
+	[data-tf-hover="lift"],
+	[data-tf-hover="tilt"],
+	[data-tf-hover="magnetic"] {
+		transform: none !important;
+		transition: none !important;
+		animation: none !important;
+	}
+	[data-tf-hover="image-zoom"]:hover img {
+		transform: none !important;
+	}
+	[data-tf-hover="underline-grow"]:hover::after {
+		transform: scaleX( 1 ) !important; /* visible al instante, sin animar */
+	}
+	[data-tf-border-fx="gradient"]::before,
+	[data-tf-border-fx="conic-rotate"]::before {
+		animation: none !important;
+	}
+}

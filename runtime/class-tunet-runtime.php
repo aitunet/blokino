@@ -1,0 +1,492 @@
+<?php
+/**
+ * Runtime de efectos — registro, carga CONDICIONAL e inyección PHP — FASE A.
+ *
+ * Filosofía (CLAUDE.md §3, §4.3, §10):
+ *  - Nada se carga "por si acaso". El runtime se ENCOLA solo si la página
+ *    contiene al menos un block con un efecto tf* activo.
+ *  - El CSS de efectos es agnóstico: lee los tokens --tnt-* del theme activo.
+ *  - GSAP queda PREPARADO (window.tunetCore.loadGSAP) pero NO se usa en FASE A:
+ *    fade-up es solo IntersectionObserver + CSS.
+ *
+ * Patrón de carga (no bloquea el render):
+ *  - <head>: SOLO un snippet inline mínimo (sin red) que añade la clase
+ *    .tunet-tf-ready a <html>. Es el gate anti-FOUC: el estado oculto del CSS
+ *    depende de esa clase, así que el contenido arranca oculto desde el primer
+ *    paint sin necesidad de descargar el runtime.
+ *  - footer: el runtime real (IntersectionObserver) con strategy "defer", que
+ *    no bloquea el parseo. Revela los elementos al entrar en viewport.
+ *  - Si el runtime nunca carga, el contenido queda visible (resiliencia) y no
+ *    hay CLS: solo se animan opacity/transform, nunca display.
+ *
+ * Detección: se pre-escanea el contenido del objeto consultado en
+ * wp_enqueue_scripts. Como red de seguridad, render_block también encola al
+ * renderizar un block con efecto (cubre blocks dinámicos / contextos no
+ * singulares); en ese caso el snippet inline puede no llegar al <head> y la
+ * clase la añade defensivamente el propio runtime.
+ *
+ * @package Tunet\Core
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Gestiona los assets del runtime de efectos y la inyección server-side.
+ */
+class Tunet_Core_Runtime {
+
+	const STYLE_HANDLE  = 'tunet-core-effects';
+	const SCRIPT_HANDLE = 'tunet-core-runtime';
+
+	/** Curvas de easing válidas (mapean a tokens --tnt-ease-*). */
+	const EASINGS = array( 'expo', 'power3', 'spring', 'circ' );
+
+	/** Efectos hover válidos (LOTE 2). */
+	const HOVERS = array( 'lift', 'glow', 'tilt', 'magnetic', 'underline-grow', 'image-zoom' );
+
+	/** Efectos en scroll válidos (LOTE 3). 'cinematic-zoom' = scrub GSAP bajo demanda. */
+	const SCROLLS = array( 'parallax', 'sticky-pin', 'reveal-on-scroll', 'progress', 'zoom', 'cinematic-zoom' );
+
+	/** Modos de mezcla válidos (LOTE 3). */
+	const BLENDS = array( 'multiply', 'screen', 'overlay', 'difference', 'exclusion', 'luminosity' );
+
+	/** Efectos de borde válidos (LOTE 3). */
+	const BORDER_FX = array( 'gradient', 'conic-rotate' );
+
+	/**
+	 * Evita encolar dos veces en la misma request.
+	 *
+	 * @var bool
+	 */
+	private static $enqueued = false;
+
+	/**
+	 * Cablea registro, detección e inyección.
+	 */
+	public function __construct() {
+		// Registrar (no encolar) en front-end.
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ), 10 );
+
+		// Detección temprana (antes de wp_head) → decide si hay que cargar.
+		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_runtime' ), 20 );
+
+		// Snippet inline mínimo en <head>: gate anti-FOUC, sin red.
+		add_action( 'wp_head', array( $this, 'print_bootstrap' ), 1 );
+
+		// Inyección para blocks (estáticos ya la traen del save; este filtro
+		// cubre blocks dinámicos) + red de seguridad de carga (§4.1, paso 4).
+		add_filter( 'render_block', array( $this, 'render_block_effects' ), 10, 2 );
+
+		// Branding global (overrides --tnt-* + Google Fonts) en front y editor.
+		// Independiente del toggle de efectos. enqueue_block_assets cubre ambos.
+		add_action( 'enqueue_block_assets', array( $this, 'enqueue_branding' ) );
+	}
+
+	/**
+	 * Inyecta los overrides de branding y carga las Google Fonts elegidas.
+	 *
+	 * El theme define los tokens por defecto; aquí solo se añaden los overrides
+	 * que el usuario haya configurado en el panel (vacío = nada). Aplica tanto
+	 * en el front como en el iframe del editor.
+	 */
+	public function enqueue_branding() {
+		if ( ! class_exists( 'Tunet_Core_Admin' ) ) {
+			return;
+		}
+
+		$settings = Tunet_Core_Admin::get_settings();
+
+		$fonts_url = Tunet_Core_Admin::fonts_url( $settings );
+		if ( $fonts_url ) {
+			wp_enqueue_style( 'tunet-core-fonts', $fonts_url, array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- URL versionada por Google.
+		}
+
+		$css = Tunet_Core_Admin::branding_css( $settings );
+		if ( $css ) {
+			if ( ! wp_style_is( 'tunet-core-branding', 'registered' ) ) {
+				wp_register_style( 'tunet-core-branding', false );
+			}
+			wp_enqueue_style( 'tunet-core-branding' );
+			wp_add_inline_style( 'tunet-core-branding', $css );
+		}
+	}
+
+	/* ---------------------------------------------------------------------
+	 * Registro y encolado
+	 * ------------------------------------------------------------------ */
+
+	/**
+	 * Registra los assets del runtime SIN encolarlos.
+	 *
+	 * El CSS va en el <head> (define el estado oculto). El script va en el
+	 * footer con strategy "defer": no bloquea el parseo y se ejecuta tras él.
+	 * El gate anti-FOUC no depende de este script, sino del snippet inline
+	 * de print_bootstrap().
+	 */
+	public function register_assets() {
+		wp_register_style(
+			self::STYLE_HANDLE,
+			TUNET_CORE_URL . 'runtime/effects.css',
+			array(),
+			self::asset_version( 'runtime/effects.css' )
+		);
+
+		wp_register_script(
+			self::SCRIPT_HANDLE,
+			TUNET_CORE_URL . 'runtime/effects.js',
+			array(),
+			self::asset_version( 'runtime/effects.js' ),
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
+
+		// Base URL del GSAP vendorizado (carga bajo demanda desde el runtime,
+		// nunca CDN). El runtime la lee solo si una sección pide cinematic-zoom.
+		wp_add_inline_script(
+			self::SCRIPT_HANDLE,
+			'window.tunetCore=window.tunetCore||{};window.tunetCore.gsapBase=' . wp_json_encode( TUNET_CORE_URL . 'runtime/vendor/gsap/' ) . ';',
+			'before'
+		);
+	}
+
+	/**
+	 * Imprime el bootstrap inline en el <head>: añade .tunet-tf-ready a <html>.
+	 *
+	 * Mínimo y síncrono, sin red. Solo se emite si el runtime está activo en
+	 * esta página (carga condicional). Es lo único del runtime que toca el
+	 * <head>; el estado oculto del CSS depende de esta clase, garantizando que
+	 * el contenido arranca oculto sin descargar el runtime y que, si nada
+	 * carga, permanece visible.
+	 */
+	public function print_bootstrap() {
+		if ( ! self::$enqueued ) {
+			return;
+		}
+
+		echo "<script id=\"tunet-tf-bootstrap\">document.documentElement.classList.add('tunet-tf-ready');</script>\n";
+	}
+
+	/**
+	 * Pre-escaneo del contenido consultado: si hay un efecto activo, encola.
+	 */
+	public function maybe_enqueue_runtime() {
+		if ( is_admin() || ! self::effects_enabled() ) {
+			return;
+		}
+
+		$object = get_queried_object();
+		if ( $object instanceof WP_Post && self::content_has_effects( $object->post_content ) ) {
+			self::enqueue();
+		}
+	}
+
+	/**
+	 * Encola el runtime bajo demanda. Idempotente.
+	 */
+	public static function enqueue() {
+		if ( self::$enqueued ) {
+			return;
+		}
+
+		if ( ! wp_style_is( self::STYLE_HANDLE, 'registered' ) ) {
+			wp_register_style( self::STYLE_HANDLE, TUNET_CORE_URL . 'runtime/effects.css', array(), TUNET_CORE_VERSION );
+		}
+		if ( ! wp_script_is( self::SCRIPT_HANDLE, 'registered' ) ) {
+			wp_register_script(
+				self::SCRIPT_HANDLE,
+				TUNET_CORE_URL . 'runtime/effects.js',
+				array(),
+				TUNET_CORE_VERSION,
+				array(
+					'in_footer' => true,
+					'strategy'  => 'defer',
+				)
+			);
+		}
+
+		wp_enqueue_style( self::STYLE_HANDLE );
+		wp_enqueue_script( self::SCRIPT_HANDLE );
+
+		self::$enqueued = true;
+	}
+
+	/* ---------------------------------------------------------------------
+	 * Detección de efectos en contenido
+	 * ------------------------------------------------------------------ */
+
+	/**
+	 * ¿El contenido contiene algún block con un efecto tf* activo?
+	 *
+	 * @param string $content Contenido de bloques.
+	 * @return bool
+	 */
+	private static function content_has_effects( $content ) {
+		if ( empty( $content ) || ! has_blocks( $content ) ) {
+			return false;
+		}
+
+		// Fast-path barato: los atributos se serializan como JSON en el
+		// comentario del block; si no aparece ninguna clave, no hay efecto.
+		if ( false === strpos( $content, '"tfAnimation"' )
+			&& false === strpos( $content, '"tfHover"' )
+			&& false === strpos( $content, '"tfScroll"' )
+			&& false === strpos( $content, '"tfBlend"' )
+			&& false === strpos( $content, '"tfBorderFx"' ) ) {
+			return false;
+		}
+
+		return self::blocks_have_effects( parse_blocks( $content ) );
+	}
+
+	/**
+	 * Recorre recursivamente los blocks buscando un efecto tf* activo.
+	 *
+	 * @param array $blocks Blocks parseados.
+	 * @return bool
+	 */
+	private static function blocks_have_effects( $blocks ) {
+		foreach ( $blocks as $block ) {
+			if ( ! empty( $block['attrs'] ) && self::attrs_have_effect( $block['attrs'] ) ) {
+				return true;
+			}
+			if ( ! empty( $block['innerBlocks'] ) && self::blocks_have_effects( $block['innerBlocks'] ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * ¿Los atributos de un block activan algún efecto tf*?
+	 *
+	 * Punto único de extensión a medida que crece el catálogo (scroll, blend…).
+	 *
+	 * @param array $attrs Atributos del block.
+	 * @return bool
+	 */
+	/**
+	 * ¿Está activado el motor de efectos? (ajuste global del admin).
+	 *
+	 * @return bool
+	 */
+	private static function effects_enabled() {
+		if ( class_exists( 'Tunet_Core_Admin' ) ) {
+			return Tunet_Core_Admin::effects_enabled();
+		}
+		return true;
+	}
+
+	private static function attrs_have_effect( $attrs ) {
+		$keys = array( 'tfAnimation', 'tfHover', 'tfScroll', 'tfBlend', 'tfBorderFx' );
+		foreach ( $keys as $key ) {
+			if ( ! empty( $attrs[ $key ] ) && 'none' !== $attrs[ $key ] ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/* ---------------------------------------------------------------------
+	 * Inyección server-side (paso 4 del §4.1)
+	 * ------------------------------------------------------------------ */
+
+	/**
+	 * Inyecta data-tf-* en el markup renderizado de un block con efecto.
+	 *
+	 * Única vía de inyección (estáticos y dinámicos): el markup GUARDADO nunca
+	 * se toca, así que no hay errores de validación de bloques en el editor.
+	 * Los atributos viven en el comentario del block y se leen aquí. El valor
+	 * del easing se construye con tokens --tnt-* (nada hardcodeado).
+	 *
+	 * Se inyecta siempre en la PRIMERA etiqueta (el wrapper propio del block);
+	 * los data-tf-* de bloques anidados quedan más adentro y no interfieren.
+	 *
+	 * @param string $block_content HTML renderizado.
+	 * @param array  $block         Block parseado.
+	 * @return string
+	 */
+	public function render_block_effects( $block_content, $block ) {
+		if ( ! self::effects_enabled() ) {
+			return $block_content;
+		}
+
+		$attrs = isset( $block['attrs'] ) ? $block['attrs'] : array();
+
+		if ( ! self::attrs_have_effect( $attrs ) ) {
+			return $block_content;
+		}
+
+		// Red de seguridad de carga (contextos que el pre-escaneo no cubre).
+		self::enqueue();
+
+		// Atributos data-* a inyectar en el wrapper del block.
+		$data_atts = array();
+
+		$animation = isset( $attrs['tfAnimation'] ) ? (string) $attrs['tfAnimation'] : '';
+		if ( '' !== $animation && 'none' !== $animation ) {
+			$data_atts['data-tf-animation'] = $animation;
+			if ( ! empty( $attrs['tfStagger'] ) && 'text-stagger' !== $animation ) {
+				$data_atts['data-tf-stagger'] = (string) absint( $attrs['tfStagger'] );
+			}
+		}
+
+		$hover = isset( $attrs['tfHover'] ) ? (string) $attrs['tfHover'] : '';
+		if ( in_array( $hover, self::HOVERS, true ) ) {
+			$data_atts['data-tf-hover'] = $hover;
+		}
+
+		$scroll = isset( $attrs['tfScroll'] ) ? (string) $attrs['tfScroll'] : '';
+		if ( in_array( $scroll, self::SCROLLS, true ) ) {
+			$data_atts['data-tf-scroll'] = $scroll;
+		}
+
+		$blend = isset( $attrs['tfBlend'] ) ? (string) $attrs['tfBlend'] : '';
+		if ( in_array( $blend, self::BLENDS, true ) ) {
+			$data_atts['data-tf-blend'] = $blend;
+		}
+
+		$border = isset( $attrs['tfBorderFx'] ) ? (string) $attrs['tfBorderFx'] : '';
+		if ( in_array( $border, self::BORDER_FX, true ) ) {
+			$data_atts['data-tf-border-fx'] = $border;
+		}
+
+		if ( empty( $data_atts ) ) {
+			return $block_content;
+		}
+
+		$style = self::build_style_vars( $attrs );
+
+		return self::inject_into_first_tag( $block_content, $data_atts, $style );
+	}
+
+	/**
+	 * Construye la cadena de CSS vars inline a partir de los atributos tf*.
+	 *
+	 * @param array $attrs Atributos del block.
+	 * @return string Ej: "--tf-delay:200ms;--tf-ease:var(--tnt-ease-power3)".
+	 */
+	private static function build_style_vars( $attrs ) {
+		$vars = array();
+
+		if ( ! empty( $attrs['tfAnimDelay'] ) ) {
+			$vars[] = '--tf-delay:' . absint( $attrs['tfAnimDelay'] ) . 'ms';
+		}
+		if ( ! empty( $attrs['tfAnimDuration'] ) ) {
+			$vars[] = '--tf-duration:' . absint( $attrs['tfAnimDuration'] ) . 'ms';
+		}
+		if ( ! empty( $attrs['tfAnimEasing'] ) && in_array( $attrs['tfAnimEasing'], self::EASINGS, true ) ) {
+			$vars[] = '--tf-ease:var(--tnt-ease-' . $attrs['tfAnimEasing'] . ')';
+		}
+		if ( ! empty( $attrs['tfStagger'] ) ) {
+			$vars[] = '--tf-stagger:' . absint( $attrs['tfStagger'] ) . 'ms';
+		}
+		// Parallax: número sin unidad (lo consumen rAF y el calc() del CSS).
+		if ( ! empty( $attrs['tfParallaxSpeed'] )
+			&& isset( $attrs['tfScroll'] ) && 'parallax' === $attrs['tfScroll'] ) {
+			$vars[] = '--tf-parallax-speed:' . absint( $attrs['tfParallaxSpeed'] );
+		}
+
+		// Parámetros del borde animado (solo si hay border-fx).
+		// OJO: los nombres NO deben contener "border-color"/"border-width"/etc.,
+		// porque WordPress aplica reglas globales :where([style*="border-color"])
+		// que pondrían un borde sólido espurio al elemento. Usamos --tf-bw/bdur/bc*.
+		if ( ! empty( $attrs['tfBorderFx'] ) && in_array( $attrs['tfBorderFx'], self::BORDER_FX, true ) ) {
+			if ( ! empty( $attrs['tfBorderWidth'] ) ) {
+				$vars[] = '--tf-bw:' . absint( $attrs['tfBorderWidth'] ) . 'px';
+			}
+			if ( ! empty( $attrs['tfBorderSpeed'] ) ) {
+				$vars[] = '--tf-bdur:' . (float) $attrs['tfBorderSpeed'] . 's';
+			}
+			$c1 = self::sanitize_css_color( isset( $attrs['tfBorderColor1'] ) ? $attrs['tfBorderColor1'] : '' );
+			if ( '' !== $c1 ) {
+				$vars[] = '--tf-bc1:' . $c1;
+			}
+			$c2 = self::sanitize_css_color( isset( $attrs['tfBorderColor2'] ) ? $attrs['tfBorderColor2'] : '' );
+			if ( '' !== $c2 ) {
+				$vars[] = '--tf-bc2:' . $c2;
+			}
+		}
+
+		return implode( ';', $vars );
+	}
+
+	/**
+	 * Inserta atributos data-tf-* (y CSS vars) en la primera etiqueta del HTML.
+	 *
+	 * @param string $html       HTML del block.
+	 * @param array  $data_atts  Pares nombre => valor de atributos a inyectar.
+	 * @param string $style      Cadena de CSS vars inline (puede ir vacía).
+	 * @return string
+	 */
+	private static function inject_into_first_tag( $html, $data_atts, $style ) {
+		// Captura la primera etiqueta de apertura y su lista de atributos.
+		if ( ! preg_match( '/<([a-zA-Z][\w:-]*)((?:[^>"\']|"[^"]*"|\'[^\']*\')*)>/', $html, $m, PREG_OFFSET_CAPTURE ) ) {
+			return $html;
+		}
+
+		$whole_tag  = $m[0][0];
+		$tag_offset = $m[0][1];
+		$tag_name   = $m[1][0];
+		$attr_str   = $m[2][0];
+
+		$inject = '';
+		foreach ( $data_atts as $name => $value ) {
+			$inject .= ' ' . $name . '="' . esc_attr( $value ) . '"';
+		}
+
+		if ( '' !== $style ) {
+			if ( preg_match( '/\sstyle\s*=\s*"([^"]*)"/', $attr_str, $sm ) ) {
+				$merged   = rtrim( $sm[1], ';' ) . ';' . $style;
+				$attr_str = preg_replace( '/\sstyle\s*=\s*"[^"]*"/', ' style="' . esc_attr( $merged ) . '"', $attr_str, 1 );
+			} else {
+				$attr_str .= ' style="' . esc_attr( $style ) . '"';
+			}
+		}
+
+		$new_tag = '<' . $tag_name . $inject . $attr_str . '>';
+
+		return substr( $html, 0, $tag_offset ) . $new_tag . substr( $html, $tag_offset + strlen( $whole_tag ) );
+	}
+
+	/* ---------------------------------------------------------------------
+	 * Utilidades
+	 * ------------------------------------------------------------------ */
+
+	/**
+	 * Sanea un color CSS proveniente del color picker (hex o funcional).
+	 *
+	 * Acepta #hex (3/4/6/8) y rgb()/rgba()/hsl()/hsla(); cualquier otra cosa se
+	 * descarta. Evita inyección en el atributo style.
+	 *
+	 * @param mixed $value Valor del atributo.
+	 * @return string Color válido o cadena vacía.
+	 */
+	private static function sanitize_css_color( $value ) {
+		if ( ! is_string( $value ) || '' === $value ) {
+			return '';
+		}
+		$value = trim( $value );
+		if ( preg_match( '/^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/', $value ) ) {
+			return $value;
+		}
+		if ( preg_match( '/^(?:rgb|rgba|hsl|hsla)\(\s*[0-9.,%\s\/]+\)$/i', $value ) ) {
+			return $value;
+		}
+		return '';
+	}
+
+	/**
+	 * Versión de un asset basada en filemtime (cache-busting en desarrollo).
+	 *
+	 * @param string $relative_path Ruta relativa al directorio del plugin.
+	 * @return string
+	 */
+	private static function asset_version( $relative_path ) {
+		$abs = TUNET_CORE_PATH . $relative_path;
+		return file_exists( $abs ) ? (string) filemtime( $abs ) : TUNET_CORE_VERSION;
+	}
+}

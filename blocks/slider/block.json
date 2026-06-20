@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "tunet/slider",
+  "version": "0.1.0",
+  "title": "Tunet Slider",
+  "category": "design",
+  "icon": "images-alt2",
+  "description": "Carousel powered by Swiper.js (vendored, lazy-loaded). Each inner block is a slide.",
+  "keywords": ["slider", "carousel", "swiper", "slides"],
+  "textdomain": "tunet",
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "align": ["wide", "full"],
+    "spacing": { "margin": true, "padding": true }
+  },
+  "attributes": {
+    "effect": { "type": "string", "default": "slide" },
+    "slidesPerView": { "type": "number", "default": 1 },
+    "spaceBetween": { "type": "number", "default": 24 },
+    "loop": { "type": "boolean", "default": true },
+    "autoplay": { "type": "boolean", "default": false },
+    "autoplayDelay": { "type": "number", "default": 4000 },
+    "pagination": { "type": "boolean", "default": true },
+    "navigation": { "type": "boolean", "default": true },
+    "speed": { "type": "number", "default": 600 }
+  },
+  "editorScript": "file:./edit.js",
+  "viewScript": "file:./view.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}
