@@ -406,9 +406,34 @@ class Tunet_Core_Demo {
 			);
 			if ( ! is_wp_error( $id ) && $id ) {
 				$this->track( 'posts', $id );
+				if ( ! empty( $page['front'] ) ) {
+					$this->set_front_page( (int) $id );
+				}
 			}
 		}
 	}
+
+	/**
+	 * Mark a created page as the static front page, remembering the previous
+	 * reading settings so rollback can restore them.
+	 *
+	 * @param int $id Page ID.
+	 */
+	private function set_front_page( $id ) {
+		$r = self::get_record();
+		if ( ! isset( $r['prev_front'] ) ) {
+			$this->set_record(
+				'prev_front',
+				array(
+					'show_on_front' => get_option( 'show_on_front' ),
+					'page_on_front' => (int) get_option( 'page_on_front' ),
+				)
+			);
+		}
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', (int) $id );
+	}
+
 	/**
 	 * Create WooCommerce products from the manifest (Woo active only).
 	 */
@@ -498,6 +523,12 @@ class Tunet_Core_Demo {
 		}
 		foreach ( (array) ( $r['product_cats'] ?? array() ) as $tid ) {
 			wp_delete_term( (int) $tid, 'product_cat' );
+		}
+
+		// Restore the previous front-page settings if the import changed them.
+		if ( ! empty( $r['prev_front'] ) && is_array( $r['prev_front'] ) ) {
+			update_option( 'show_on_front', $r['prev_front']['show_on_front'] );
+			update_option( 'page_on_front', (int) $r['prev_front']['page_on_front'] );
 		}
 
 		$this->clear_record();
