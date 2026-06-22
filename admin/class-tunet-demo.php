@@ -409,7 +409,62 @@ class Tunet_Core_Demo {
 			}
 		}
 	}
-	public function step_products() {}
+	/**
+	 * Create WooCommerce products from the manifest (Woo active only).
+	 */
+	public function step_products() {
+		if ( ! class_exists( 'WC_Product_Simple' ) ) {
+			return;
+		}
+		$woo = self::manifest()['woo'] ?? array();
+
+		// Categories.
+		$cat_map = array();
+		foreach ( (array) ( $woo['categories'] ?? array() ) as $cat_name ) {
+			$term = term_exists( $cat_name, 'product_cat' );
+			if ( ! $term ) {
+				$term = wp_insert_term( $cat_name, 'product_cat' );
+				if ( ! is_wp_error( $term ) ) {
+					$this->track( 'product_cats', (int) $term['term_id'] );
+				}
+			}
+			if ( ! is_wp_error( $term ) && isset( $term['term_id'] ) ) {
+				$cat_map[ $cat_name ] = (int) $term['term_id'];
+			}
+		}
+
+		foreach ( (array) ( $woo['products'] ?? array() ) as $pr ) {
+			if ( get_page_by_path( $pr['slug'], OBJECT, 'product' ) ) {
+				continue;
+			}
+			$product = new WC_Product_Simple();
+			$product->set_name( $pr['title'] );
+			$product->set_slug( $pr['slug'] );
+			$product->set_status( 'publish' );
+			$product->set_catalog_visibility( 'visible' );
+			$product->set_regular_price( (string) $pr['price'] );
+			$product->set_short_description( $pr['short'] ?? '' );
+			$product->set_description( $pr['desc'] ?? '' );
+
+			$cat_ids = array();
+			foreach ( (array) ( $pr['cats'] ?? array() ) as $c ) {
+				if ( isset( $cat_map[ $c ] ) ) {
+					$cat_ids[] = $cat_map[ $c ];
+				}
+			}
+			if ( $cat_ids ) {
+				$product->set_category_ids( $cat_ids );
+			}
+			$att = $this->image_id( $pr['image'] ?? '' );
+			if ( $att ) {
+				$product->set_image_id( $att );
+			}
+			$pid = $product->save();
+			if ( $pid ) {
+				$this->track( 'products', $pid );
+			}
+		}
+	}
 
 	/**
 	 * Final step (no-op for now).
