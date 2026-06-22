@@ -231,8 +231,102 @@ class Tunet_Core_Demo {
 	}
 
 	public function step_cf7() {}
-	public function step_projects() {}
-	public function step_posts() {}
+	/**
+	 * Create the `project` CPT entries from the manifest.
+	 */
+	public function step_projects() {
+		$projects = self::manifest()['projects'] ?? array();
+		foreach ( $projects as $p ) {
+			if ( get_page_by_path( $p['slug'], OBJECT, 'project' ) ) {
+				continue; // idempotent guard within a single build
+			}
+			$id = wp_insert_post(
+				array(
+					'post_type'    => 'project',
+					'post_status'  => 'publish',
+					'post_title'   => $p['title'],
+					'post_name'    => $p['slug'],
+					'post_excerpt' => $p['excerpt'] ?? '',
+					'post_content' => $p['content'] ?? '',
+				),
+				true
+			);
+			if ( is_wp_error( $id ) || ! $id ) {
+				continue;
+			}
+			$this->track( 'projects', $id );
+
+			if ( ! empty( $p['types'] ) ) {
+				$term_ids = $this->ensure_terms( $p['types'], 'project_type' );
+				wp_set_object_terms( $id, $term_ids, 'project_type' );
+			}
+			foreach ( (array) ( $p['meta'] ?? array() ) as $mk => $mv ) {
+				update_post_meta( $id, $mk, $mv );
+			}
+			$att = $this->image_id( $p['image'] ?? '' );
+			if ( $att ) {
+				set_post_thumbnail( $id, $att );
+			}
+		}
+	}
+	/**
+	 * Create journal posts from the manifest.
+	 */
+	public function step_posts() {
+		$posts = self::manifest()['posts'] ?? array();
+		foreach ( $posts as $p ) {
+			if ( get_page_by_path( $p['slug'], OBJECT, 'post' ) ) {
+				continue;
+			}
+			$id = wp_insert_post(
+				array(
+					'post_type'    => 'post',
+					'post_status'  => 'publish',
+					'post_title'   => $p['title'],
+					'post_name'    => $p['slug'],
+					'post_content' => $p['content'] ?? '',
+				),
+				true
+			);
+			if ( is_wp_error( $id ) || ! $id ) {
+				continue;
+			}
+			$this->track( 'posts', $id );
+
+			if ( ! empty( $p['category'] ) ) {
+				$cat_ids = $this->ensure_terms( array( $p['category'] ), 'category' );
+				wp_set_post_terms( $id, $cat_ids, 'category' );
+			}
+			$att = $this->image_id( $p['image'] ?? '' );
+			if ( $att ) {
+				set_post_thumbnail( $id, $att );
+			}
+		}
+	}
+	/**
+	 * Ensure terms exist; return their IDs. Tracks newly-created project_type terms.
+	 *
+	 * @param string[] $names    Term names.
+	 * @param string   $taxonomy Taxonomy.
+	 * @return int[]
+	 */
+	private function ensure_terms( $names, $taxonomy ) {
+		$ids = array();
+		foreach ( $names as $name ) {
+			$term = term_exists( $name, $taxonomy );
+			if ( ! $term ) {
+				$term = wp_insert_term( $name, $taxonomy );
+				if ( ! is_wp_error( $term ) && 'project_type' === $taxonomy ) {
+					$this->track( 'project_types', (int) $term['term_id'] );
+				}
+			}
+			if ( ! is_wp_error( $term ) && isset( $term['term_id'] ) ) {
+				$ids[] = (int) $term['term_id'];
+			}
+		}
+		return $ids;
+	}
+
 	public function step_pages() {}
 	public function step_products() {}
 
