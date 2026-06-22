@@ -1,7 +1,7 @@
 <?php
 /**
  * Engine admin: settings (stacked sections), global branding overrides, brand
- * logos, and a separate Tools page (import/export + demo importer).
+ * logos, and a separate Tools page (import/export).
  *
  * (CLAUDE.md §4.4.) OVERRIDE MODEL: the theme is the source of truth for the
  * --tnt-* tokens; this panel only stores overrides, which the runtime injects
@@ -25,9 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Tunet_Core_Admin {
 
-	const OPTION      = 'tunet_core_settings';
-	const DEMO_OPTION = 'tunet_core_demo_posts';
-	const MENU_SLUG   = 'tunet-core';
+	const OPTION     = 'tunet_core_settings';
+	const MENU_SLUG  = 'tunet-core';
 	const TOOLS_SLUG  = 'tunet-tools';
 	const CAPABILITY  = 'manage_options';
 
@@ -269,8 +268,6 @@ class Tunet_Core_Admin {
 		add_action( 'admin_post_tunet_save_settings', array( $this, 'handle_save_settings' ) );
 		add_action( 'admin_post_tunet_export', array( $this, 'handle_export' ) );
 		add_action( 'admin_post_tunet_import', array( $this, 'handle_import' ) );
-		add_action( 'wp_ajax_tunet_demo_step', array( $this, 'ajax_demo_step' ) );
-		add_action( 'wp_ajax_tunet_demo_rollback', array( $this, 'ajax_demo_rollback' ) );
 	}
 
 	/**
@@ -323,8 +320,9 @@ class Tunet_Core_Admin {
 	public function enqueue_assets( $hook ) {
 		$is_settings = ( 'toplevel_page_' . self::MENU_SLUG === $hook );
 		$is_tools    = ( false !== strpos( $hook, self::TOOLS_SLUG ) );
+		$is_demo     = ( false !== strpos( $hook, Tunet_Core_Demo::MENU_SLUG ) );
 
-		if ( ! $is_settings && ! $is_tools ) {
+		if ( ! $is_settings && ! $is_tools && ! $is_demo ) {
 			return;
 		}
 
@@ -341,8 +339,6 @@ class Tunet_Core_Admin {
 			array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 				'nonce'   => wp_create_nonce( 'tunet_demo' ),
-				'steps'   => count( $this->demo_step_labels() ),
-				'labels'  => $this->demo_step_labels(),
 				'i18n'    => array(
 					'importing'  => __( 'Importing…', 'tunet' ),
 					'done'       => __( 'Demo imported.', 'tunet' ),
@@ -484,7 +480,6 @@ class Tunet_Core_Admin {
 		}
 		$notice   = isset( $_GET['tunet_notice'] ) ? sanitize_key( wp_unslash( $_GET['tunet_notice'] ) ) : '';
 		$post_url = admin_url( 'admin-post.php' );
-		$has_demo = (bool) get_option( self::DEMO_OPTION, array() );
 		?>
 		<div class="wrap tunet-admin">
 			<h1><?php esc_html_e( 'Tunet Core · Tools', 'tunet' ); ?></h1>
@@ -516,16 +511,6 @@ class Tunet_Core_Admin {
 					</form>
 				</div>
 
-				<div class="card">
-					<h2><?php esc_html_e( 'Demo importer', 'tunet' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Creates demo content using the Tunet blocks. You can undo it.', 'tunet' ); ?></p>
-					<div class="tunet-progress" hidden><div class="tunet-progress__bar"></div></div>
-					<p class="tunet-progress__status" aria-live="polite"></p>
-					<p>
-						<button type="button" class="button button-primary" id="tunet-demo-import"><?php esc_html_e( 'Import demo', 'tunet' ); ?></button>
-						<button type="button" class="button" id="tunet-demo-rollback" <?php disabled( ! $has_demo ); ?>><?php esc_html_e( 'Undo import', 'tunet' ); ?></button>
-					</p>
-				</div>
 			</div>
 		</div>
 		<?php
@@ -786,138 +771,4 @@ class Tunet_Core_Admin {
 		exit;
 	}
 
-	/* ---------------------------------------------------------------------
-	 * Demo importer
-	 * ------------------------------------------------------------------ */
-
-	/**
-	 * Step labels (defines the total).
-	 *
-	 * @return string[]
-	 */
-	private function demo_step_labels() {
-		return array(
-			__( 'Applying settings…', 'tunet' ),
-			__( 'Creating home page…', 'tunet' ),
-			__( 'Creating metrics page…', 'tunet' ),
-		);
-	}
-
-	/**
-	 * Process one importer step.
-	 */
-	public function ajax_demo_step() {
-		check_ajax_referer( 'tunet_demo', 'nonce' );
-		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet' ) ) );
-		}
-
-		$step  = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 0;
-		$total = count( $this->demo_step_labels() );
-
-		switch ( $step ) {
-			case 0:
-				$s                    = self::get_settings();
-				$s['effects_enabled'] = true;
-				update_option( self::OPTION, $s );
-				break;
-			case 1:
-				$this->create_demo_page( __( 'Tunet — Demo Home', 'tunet' ), $this->demo_home_content() );
-				break;
-			case 2:
-				$this->create_demo_page( __( 'Tunet — Demo Metrics', 'tunet' ), $this->demo_metrics_content() );
-				break;
-		}
-
-		$next = $step + 1;
-		wp_send_json_success(
-			array(
-				'done'     => ( $next >= $total ),
-				'next'     => $next,
-				'progress' => (int) round( ( $next / $total ) * 100 ),
-			)
-		);
-	}
-
-	/**
-	 * Demo rollback.
-	 */
-	public function ajax_demo_rollback() {
-		check_ajax_referer( 'tunet_demo', 'nonce' );
-		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet' ) ) );
-		}
-
-		$ids = get_option( self::DEMO_OPTION, array() );
-		if ( is_array( $ids ) ) {
-			foreach ( $ids as $id ) {
-				wp_delete_post( (int) $id, true );
-			}
-		}
-		delete_option( self::DEMO_OPTION );
-
-		wp_send_json_success( array( 'deleted' => is_array( $ids ) ? count( $ids ) : 0 ) );
-	}
-
-	/**
-	 * Create a demo page and track its ID.
-	 *
-	 * @param string $title   Title.
-	 * @param string $content Content.
-	 * @return int
-	 */
-	private function create_demo_page( $title, $content ) {
-		$id = wp_insert_post(
-			array(
-				'post_title'   => $title,
-				'post_content' => $content,
-				'post_status'  => 'publish',
-				'post_type'    => 'page',
-			),
-			true
-		);
-		if ( is_wp_error( $id ) || ! $id ) {
-			return 0;
-		}
-		$ids   = get_option( self::DEMO_OPTION, array() );
-		$ids   = is_array( $ids ) ? $ids : array();
-		$ids[] = (int) $id;
-		update_option( self::DEMO_OPTION, $ids );
-		return (int) $id;
-	}
-
-	/**
-	 * Demo content: home.
-	 *
-	 * @return string
-	 */
-	private function demo_home_content() {
-		return '<!-- wp:tunet/section {"bgType":"mesh","minHeight":70,"verticalAlignment":"center","dividerBottom":"wave","contentWidth":"constrained","align":"full","tfAnimation":"fade-up"} -->
-<!-- wp:heading {"textAlign":"center","level":1} --><h1 class="wp-block-heading has-text-align-center">Build premium sites with Tunet</h1><!-- /wp:heading -->
-<!-- wp:paragraph {"align":"center"} --><p class="has-text-align-center">An opt-in effects engine and bespoke blocks, ready for your brand.</p><!-- /wp:paragraph -->
-<!-- /wp:tunet/section -->
-
-<!-- wp:tunet/marquee {"speed":18} -->
-<!-- wp:heading {"level":4} --><h4 class="wp-block-heading">★ FAST</h4><!-- /wp:heading -->
-<!-- wp:heading {"level":4} --><h4 class="wp-block-heading">★ ACCESSIBLE</h4><!-- /wp:heading -->
-<!-- wp:heading {"level":4} --><h4 class="wp-block-heading">★ PREMIUM</h4><!-- /wp:heading -->
-<!-- /wp:tunet/marquee -->';
-	}
-
-	/**
-	 * Demo content: metrics.
-	 *
-	 * @return string
-	 */
-	private function demo_metrics_content() {
-		return '<!-- wp:heading {"textAlign":"center","tfAnimation":"fade-up"} --><h2 class="wp-block-heading has-text-align-center">By the numbers</h2><!-- /wp:heading -->
-
-<!-- wp:columns {"tfAnimation":"fade-up","tfStagger":120} -->
-<div class="wp-block-columns">
-<!-- wp:column --><div class="wp-block-column"><!-- wp:tunet/counter {"end":1200,"suffix":"+","duration":2000} /--></div><!-- /wp:column -->
-<!-- wp:column --><div class="wp-block-column"><!-- wp:tunet/counter {"end":98,"suffix":"%","duration":1800} /--></div><!-- /wp:column -->
-<!-- wp:column --><div class="wp-block-column"><!-- wp:tunet/counter {"end":24000,"separator":true,"duration":2200} /--></div><!-- /wp:column -->
-</div>
-<!-- /wp:columns -->';
-	}
 }

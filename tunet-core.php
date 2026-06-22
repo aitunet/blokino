@@ -41,6 +41,7 @@ require_once TUNET_CORE_PATH . 'blocks/class-tunet-blocks.php';
 require_once TUNET_CORE_PATH . 'runtime/class-tunet-runtime.php';
 require_once TUNET_CORE_PATH . 'content/class-tunet-content.php';
 require_once TUNET_CORE_PATH . 'admin/class-tunet-admin.php';
+require_once TUNET_CORE_PATH . 'admin/class-tunet-demo.php';
 
 /**
  * Orquestador principal del motor.
@@ -116,6 +117,7 @@ final class Tunet_Core {
 
 		if ( is_admin() ) {
 			new Tunet_Core_Admin();
+			new Tunet_Core_Demo();
 		}
 	}
 }
