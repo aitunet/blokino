@@ -125,3 +125,12 @@
 	color: #50575e;
 	font-style: italic;
 }
+
+.tunet-wizard__panel { margin: 1rem 0; }
+.tunet-plugins { list-style: none; margin: 0 0 1rem; padding: 0; }
+.tunet-plugins li { display: flex; align-items: center; gap: .5rem; padding: .6rem 0; border-bottom: 1px solid #e2e4e7; }
+.tunet-pill { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: #edeff2; }
+.tunet-pill--ok { background: #e6f4ea; color: #1e7e34; }
+.tunet-err { color: #b32d2e; font-size: 12px; }
+.tunet-progress { height: 8px; background: #e2e4e7; border-radius: 999px; overflow: hidden; max-width: 480px; }
+.tunet-progress__bar { height: 100%; width: 0; background: #2271b1; transition: width .25s ease; }
