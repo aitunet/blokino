@@ -472,9 +472,36 @@ class Tunet_Core_Demo {
 	public function step_finalize() {}
 
 	/**
-	 * Delete everything tracked in the record (implemented in Task 7).
+	 * Delete everything tracked in the current record, then clear it.
 	 */
-	public function replace() {}
+	public function replace() {
+		$r = self::get_record();
+		if ( ! $r ) {
+			return;
+		}
+
+		// Posts of all kinds (pages, journal posts, projects, products).
+		foreach ( array( 'posts', 'projects', 'products', 'attachments' ) as $bucket ) {
+			foreach ( (array) ( $r[ $bucket ] ?? array() ) as $id ) {
+				wp_delete_post( (int) $id, true );
+			}
+		}
+
+		// CF7 form (a post too).
+		if ( ! empty( $r['cf7'] ) ) {
+			wp_delete_post( (int) $r['cf7'], true );
+		}
+
+		// Terms.
+		foreach ( (array) ( $r['project_types'] ?? array() ) as $tid ) {
+			wp_delete_term( (int) $tid, 'project_type' );
+		}
+		foreach ( (array) ( $r['product_cats'] ?? array() ) as $tid ) {
+			wp_delete_term( (int) $tid, 'product_cat' );
+		}
+
+		$this->clear_record();
+	}
 
 	/* ---- AJAX -------------------------------------------------------- */
 
