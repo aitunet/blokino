@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Tunet Core · Admin — tabs, selector de logos, demo importer y colores.
+ * Tunet Core · Admin — tabs, selector de logos y colores.
  * ========================================================================== */
 ( function () {
 	'use strict';
@@ -86,64 +86,6 @@
 		} );
 	} );
 
-	/* --- Demo importer (solo en Herramientas) --- */
-	var importBtn = document.getElementById( 'tunet-demo-import' );
-	var rollbackBtn = document.getElementById( 'tunet-demo-rollback' );
-	var progress = document.querySelector( '.tunet-progress' );
-	var bar = document.querySelector( '.tunet-progress__bar' );
-	var status = document.querySelector( '.tunet-progress__status' );
-
-	function post( action, extra ) {
-		var body = 'action=' + encodeURIComponent( action ) + '&nonce=' + encodeURIComponent( cfg.nonce );
-		if ( extra ) { body += extra; }
-		return fetch( cfg.ajaxUrl, {
-			method: 'POST',
-			credentials: 'same-origin',
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-			body: body
-		} ).then( function ( r ) { return r.json(); } );
-	}
-
-	function setProgress( pct, label ) {
-		if ( progress ) { progress.hidden = false; }
-		if ( bar ) { bar.style.width = pct + '%'; }
-		if ( status ) { status.textContent = label || ''; }
-	}
-
-	function runStep( step ) {
-		var label = ( cfg.labels && cfg.labels[ step ] ) || ( cfg.i18n && cfg.i18n.importing );
-		setProgress( Math.round( ( step / cfg.steps ) * 100 ), label );
-		return post( 'tunet_demo_step', '&step=' + step ).then( function ( res ) {
-			if ( ! res || ! res.success ) { throw new Error( 'step failed' ); }
-			setProgress( res.data.progress, label );
-			return res.data.done ? true : runStep( res.data.next );
-		} );
-	}
-
-	if ( importBtn ) {
-		importBtn.addEventListener( 'click', function () {
-			importBtn.disabled = true;
-			runStep( 0 ).then( function () {
-				setProgress( 100, cfg.i18n.done );
-				if ( rollbackBtn ) { rollbackBtn.disabled = false; }
-				importBtn.disabled = false;
-			} ).catch( function () {
-				if ( status ) { status.textContent = cfg.i18n.error; }
-				importBtn.disabled = false;
-			} );
-		} );
-	}
-	if ( rollbackBtn ) {
-		rollbackBtn.addEventListener( 'click', function () {
-			rollbackBtn.disabled = true;
-			post( 'tunet_demo_rollback' ).then( function ( res ) {
-				if ( res && res.success ) {
-					setProgress( 0, cfg.i18n.rollback );
-					if ( progress ) { progress.hidden = true; }
-				} else { rollbackBtn.disabled = false; }
-			} ).catch( function () { rollbackBtn.disabled = false; } );
-		} );
-	}
 } )();
 
 ( function () {
