@@ -338,6 +338,7 @@ class Tunet_Core_Admin {
 			'tunetCoreAdmin',
 			array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'homeUrl' => home_url( '/' ),
 				'nonce'   => wp_create_nonce( 'tunet_demo' ),
 				'i18n'    => array(
 					'importing'    => __( 'Importing…', 'tunet' ),

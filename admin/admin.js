@@ -184,7 +184,7 @@
 	function finish() {
 		setStatus( i18n.done );
 		undoBtn.disabled = false;
-		panel.innerHTML = '<p><a class="button button-primary" href="' + location.origin + '/">' + i18n.viewSite + '</a></p>';
+		panel.innerHTML = '<p><a class="button button-primary" href="' + ( cfg.homeUrl || ( location.origin + '/' ) ) + '">' + i18n.viewSite + '</a></p>';
 	}
 
 	startBtn.addEventListener( 'click', function () { startBtn.disabled = true; showPlugins(); } );
