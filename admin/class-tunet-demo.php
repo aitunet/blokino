@@ -161,7 +161,75 @@ class Tunet_Core_Demo {
 	}
 
 	/** Placeholder builder steps — implemented in later tasks. */
-	public function step_media() {}
+
+	/**
+	 * Copy a theme-relative file into the media library.
+	 *
+	 * @param string $relpath e.g. 'assets/img/work/fintech.webp'.
+	 * @return int Attachment ID (0 on failure).
+	 */
+	public function sideload_image( $relpath ) {
+		$src = get_theme_file_path( $relpath );
+		if ( ! file_exists( $src ) ) {
+			return 0;
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$uploads = wp_upload_dir();
+		if ( ! empty( $uploads['error'] ) ) {
+			return 0;
+		}
+		$filename = wp_unique_filename( $uploads['path'], basename( $src ) );
+		$dest     = trailingslashit( $uploads['path'] ) . $filename;
+
+		if ( ! @copy( $src, $dest ) ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			return 0;
+		}
+
+		$filetype = wp_check_filetype( $dest, null );
+		$attach   = array(
+			'post_mime_type' => $filetype['type'] ? $filetype['type'] : 'image/webp',
+			'post_title'     => sanitize_file_name( pathinfo( $filename, PATHINFO_FILENAME ) ),
+			'post_status'    => 'inherit',
+		);
+		$att_id = wp_insert_attachment( $attach, $dest );
+		if ( is_wp_error( $att_id ) || ! $att_id ) {
+			return 0;
+		}
+		wp_update_attachment_metadata( $att_id, wp_generate_attachment_metadata( $att_id, $dest ) );
+		return (int) $att_id;
+	}
+
+	/**
+	 * Sideload all manifest images; store key→id map; track attachments.
+	 */
+	public function step_media() {
+		$images = self::manifest()['images'] ?? array();
+		$map    = array();
+		foreach ( $images as $key => $relpath ) {
+			$id = $this->sideload_image( $relpath );
+			if ( $id ) {
+				$map[ $key ] = $id;
+				$this->track( 'attachments', $id );
+			}
+		}
+		$this->set_record( 'images_map', $map );
+	}
+
+	/**
+	 * Resolve a manifest image key to its attachment ID (post-media step).
+	 *
+	 * @param string $key Image key.
+	 * @return int
+	 */
+	public function image_id( $key ) {
+		$map = self::get_record()['images_map'] ?? array();
+		return isset( $map[ $key ] ) ? (int) $map[ $key ] : 0;
+	}
+
 	public function step_cf7() {}
 	public function step_projects() {}
 	public function step_posts() {}
