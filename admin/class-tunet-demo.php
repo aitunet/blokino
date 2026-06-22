@@ -230,7 +230,61 @@ class Tunet_Core_Demo {
 		return isset( $map[ $key ] ) ? (int) $map[ $key ] : 0;
 	}
 
-	public function step_cf7() {}
+	/**
+	 * Create a Contact Form 7 form from the manifest (CF7 active only).
+	 */
+	public function step_cf7() {
+		if ( ! class_exists( 'WPCF7_ContactForm' ) ) {
+			return;
+		}
+		$cfg   = self::manifest()['cf7'] ?? array();
+		$title = $cfg['title'] ?? 'Contact';
+
+		$form_markup = "<label>" . __( 'Your name', 'tunet' ) . "\n    [text* your-name]</label>\n\n"
+			. "<label>" . __( 'Your email', 'tunet' ) . "\n    [email* your-email]</label>\n\n"
+			. "<label>" . __( 'Subject', 'tunet' ) . "\n    [text your-subject]</label>\n\n"
+			. "<label>" . __( 'Your message (optional)', 'tunet' ) . "\n    [textarea your-message]</label>\n\n"
+			. "[submit \"" . __( 'Submit', 'tunet' ) . "\"]";
+
+		$form = WPCF7_ContactForm::get_template( array( 'title' => $title ) );
+		$form->set_properties(
+			array(
+				'form' => $form_markup,
+				'mail' => array(
+					'active'             => true,
+					'subject'            => '[your-subject]',
+					'sender'             => '[your-name] <wordpress@' . wp_parse_url( home_url(), PHP_URL_HOST ) . '>',
+					'recipient'          => get_option( 'admin_email' ),
+					'body'               => "From: [your-name] <[your-email]>\n\n[your-message]",
+					'additional_headers' => 'Reply-To: [your-email]',
+				),
+			)
+		);
+		$id = $form->save();
+		if ( $id ) {
+			$this->set_record( 'cf7', (int) $id );
+		}
+	}
+
+	/**
+	 * Freshly execute a theme pattern's PHP and return its markup.
+	 *
+	 * Re-includes the file (rather than the cached registered content) so the
+	 * contact patterns' CF7 conditional resolves against the just-created form.
+	 *
+	 * @param string $slug e.g. 'aurora/studio'.
+	 * @return string
+	 */
+	public function expand_pattern( $slug ) {
+		$name = preg_replace( '#^[^/]+/#', '', $slug ); // strip 'aurora/'
+		$file = get_theme_file_path( 'patterns/' . $name . '.php' );
+		if ( ! file_exists( $file ) ) {
+			return '';
+		}
+		ob_start();
+		include $file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+		return (string) ob_get_clean();
+	}
 	/**
 	 * Create the `project` CPT entries from the manifest.
 	 */
@@ -327,7 +381,34 @@ class Tunet_Core_Demo {
 		return $ids;
 	}
 
-	public function step_pages() {}
+	/**
+	 * Create demo pages from patterns.
+	 */
+	public function step_pages() {
+		$pages = self::manifest()['pages'] ?? array();
+		foreach ( $pages as $page ) {
+			if ( get_page_by_path( $page['slug'] ) ) {
+				continue;
+			}
+			$content = $this->expand_pattern( $page['pattern'] );
+			if ( '' === $content ) {
+				continue; // pattern missing — skip, don't abort
+			}
+			$id = wp_insert_post(
+				array(
+					'post_type'    => 'page',
+					'post_status'  => 'publish',
+					'post_title'   => $page['title'],
+					'post_name'    => $page['slug'],
+					'post_content' => $content,
+				),
+				true
+			);
+			if ( ! is_wp_error( $id ) && $id ) {
+				$this->track( 'posts', $id );
+			}
+		}
+	}
 	public function step_products() {}
 
 	/**
