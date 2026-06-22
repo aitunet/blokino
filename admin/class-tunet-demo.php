@@ -547,25 +547,92 @@ class Tunet_Core_Demo {
 	}
 
 	/**
-	 * Report recommended-plugin state (implemented in Task 9).
+	 * Current state of a recommended plugin.
+	 *
+	 * @param array $info file/label/optional.
+	 * @return string active|inactive|missing
+	 */
+	private function plugin_state( $info ) {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$installed = array_key_exists( $info['file'], get_plugins() );
+		if ( ! $installed ) {
+			return 'missing';
+		}
+		return is_plugin_active( $info['file'] ) ? 'active' : 'inactive';
+	}
+
+	/**
+	 * Report recommended-plugin state.
 	 */
 	public function ajax_plugins() {
 		check_ajax_referer( self::NONCE, 'nonce' );
 		if ( ! current_user_can( self::CAPABILITY ) ) {
 			wp_send_json_error();
 		}
-		wp_send_json_success( array( 'plugins' => array() ) );
+		$out      = array();
+		$pending  = false;
+		foreach ( self::recommended_plugins() as $slug => $info ) {
+			$state = $this->plugin_state( $info );
+			if ( ! $info['optional'] && 'active' !== $state ) {
+				$pending = true;
+			}
+			$out[] = array(
+				'slug'     => $slug,
+				'label'    => $info['label'],
+				'optional' => (bool) $info['optional'],
+				'state'    => $state,
+			);
+		}
+		wp_send_json_success( array( 'plugins' => $out, 'all_satisfied' => ! $pending ) );
 	}
 
 	/**
-	 * Install + activate one plugin (implemented in Task 9).
+	 * Install (if missing) + activate one recommended plugin.
 	 */
 	public function ajax_install() {
 		check_ajax_referer( self::NONCE, 'nonce' );
-		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_send_json_error();
+		if ( ! current_user_can( self::CAPABILITY ) || ! current_user_can( 'install_plugins' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet' ) ) );
 		}
-		wp_send_json_error( array( 'message' => 'not implemented' ) );
+
+		$slug = isset( $_POST['slug'] ) ? sanitize_key( wp_unslash( $_POST['slug'] ) ) : '';
+		$all  = self::recommended_plugins();
+		if ( ! isset( $all[ $slug ] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Unknown plugin.', 'tunet' ) ) );
+		}
+		$info = $all[ $slug ];
+
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/misc.php';
+		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+		$install_url = self_admin_url( 'plugin-install.php?s=' . rawurlencode( $info['label'] ) . '&tab=search&type=term' );
+
+		// Install only if missing.
+		if ( ! array_key_exists( $info['file'], get_plugins() ) ) {
+			$api = plugins_api( 'plugin_information', array( 'slug' => $slug, 'fields' => array( 'sections' => false ) ) );
+			if ( is_wp_error( $api ) || empty( $api->download_link ) ) {
+				wp_send_json_error( array( 'message' => __( 'Could not reach the plugin directory.', 'tunet' ), 'install_url' => $install_url ) );
+			}
+			$skin     = new Automatic_Upgrader_Skin();
+			$upgrader = new Plugin_Upgrader( $skin );
+			$result   = $upgrader->install( $api->download_link );
+			if ( is_wp_error( $result ) || ! $result ) {
+				wp_send_json_error( array( 'message' => __( 'Install failed — install it manually.', 'tunet' ), 'install_url' => $install_url ) );
+			}
+		}
+
+		// Activate.
+		$activate = activate_plugin( $info['file'] );
+		if ( is_wp_error( $activate ) ) {
+			wp_send_json_error( array( 'message' => $activate->get_error_message(), 'install_url' => $install_url ) );
+		}
+
+		wp_send_json_success( array( 'slug' => $slug, 'state' => 'active' ) );
 	}
 
 	/* ---- Admin page -------------------------------------------------- */
