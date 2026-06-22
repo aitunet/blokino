@@ -667,7 +667,7 @@ class Tunet_Core_Demo {
 				<div class="tunet-progress" hidden><div class="tunet-progress__bar"></div></div>
 				<p class="tunet-progress__status" aria-live="polite"></p>
 				<p>
-					<button type="button" class="button button-primary" id="tunet-demo-import"><?php esc_html_e( 'Start', 'tunet' ); ?></button>
+					<button type="button" class="button button-primary" id="tunet-demo-import"><?php esc_html_e( 'Import demo', 'tunet' ); ?></button>
 					<button type="button" class="button" id="tunet-demo-rollback" <?php disabled( ! $has_demo ); ?>><?php esc_html_e( 'Undo import', 'tunet' ); ?></button>
 				</p>
 			</div>
