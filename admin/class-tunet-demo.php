@@ -492,9 +492,19 @@ class Tunet_Core_Demo {
 	}
 
 	/**
-	 * Final step (no-op for now).
+	 * Final step: make the demo's pretty URLs work on a brand-new site. A fresh
+	 * WordPress defaults permalinks to "Plain", which 404s /work/, /studio/, etc.
+	 * Switch to postname if still unset, then flush so the project CPT and the
+	 * created pages resolve. NOT reverted on rollback — reverting to Plain would
+	 * break the whole site's URLs, not just the demo's.
 	 */
-	public function step_finalize() {}
+	public function step_finalize() {
+		if ( '' === get_option( 'permalink_structure' ) ) {
+			global $wp_rewrite;
+			$wp_rewrite->set_permalink_structure( '/%postname%/' );
+		}
+		flush_rewrite_rules();
+	}
 
 	/**
 	 * Delete everything tracked in the current record, then clear it.
