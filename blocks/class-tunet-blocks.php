@@ -34,6 +34,7 @@ class Tunet_Core_Blocks {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_blocks' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'localize_logos' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'localize_icons' ) );
 	}
 
 	/**
@@ -48,6 +49,7 @@ class Tunet_Core_Blocks {
 		'slider',
 		'section',
 		'logo',
+		'icon',
 	);
 
 	/**
@@ -66,6 +68,16 @@ class Tunet_Core_Blocks {
 		wp_register_script( 'tunet-logos-data', false, array(), TUNET_CORE_VERSION, false );
 		wp_enqueue_script( 'tunet-logos-data' );
 		wp_add_inline_script( 'tunet-logos-data', 'window.tunetLogos = ' . wp_json_encode( $data ) . ';', 'before' );
+	}
+
+	/**
+	 * Expone el set curado de iconos al editor (para el picker de tunet/icon).
+	 */
+	public function localize_icons() {
+		require_once TUNET_CORE_PATH . 'blocks/icon/icons.php';
+		wp_register_script( 'tunet-icons-data', false, array(), TUNET_CORE_VERSION, false );
+		wp_enqueue_script( 'tunet-icons-data' );
+		wp_add_inline_script( 'tunet-icons-data', 'window.tunetIcons = ' . wp_json_encode( tunet_core_icon_set() ) . ';', 'before' );
 	}
 
 	/**

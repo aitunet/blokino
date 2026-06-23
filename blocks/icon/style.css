@@ -1,0 +1,10 @@
+/* Tunet Core · block tunet/icon — estilos base (mínimos; el "badge" o el tamaño
+ * fino los pone el consumidor con su clase, p.ej. .aurora-bento__icon). */
+.tunet-icon {
+	display: inline-flex;
+	line-height: 0;
+	color: currentColor;
+}
+.tunet-icon svg {
+	display: block;
+}

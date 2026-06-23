@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "tunet/icon",
+  "version": "0.1.0",
+  "title": "Tunet Icon",
+  "category": "design",
+  "icon": "star-filled",
+  "description": "An inline SVG icon from a curated stroke set. Inherits color (currentColor), so it's theme-token friendly — no raw HTML needed.",
+  "keywords": ["icon", "svg", "symbol", "glyph"],
+  "textdomain": "tunet",
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "spacing": { "margin": true, "padding": true },
+    "color": { "text": true, "background": true }
+  },
+  "attributes": {
+    "icon": { "type": "string", "default": "star" },
+    "size": { "type": "number", "default": 24 },
+    "strokeWidth": { "type": "number", "default": 2 },
+    "label": { "type": "string", "default": "" }
+  },
+  "editorScript": "file:./edit.js",
+  "editorStyle": "file:./editor.css",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}
