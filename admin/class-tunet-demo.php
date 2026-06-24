@@ -797,12 +797,12 @@ class Tunet_Core_Demo {
 							?>
 						</p>
 						<?php if ( $summary ) : ?>
-							<ul class="tunet-demo-stats">
+							<ul class="tunet-summary">
 								<?php foreach ( $summary as $row ) : ?>
-									<li class="tunet-demo-stats__item">
+									<li class="tunet-summary__item">
 										<span class="dashicons dashicons-<?php echo esc_attr( $row['icon'] ); ?>" aria-hidden="true"></span>
-										<span class="tunet-demo-stats__n"><?php echo esc_html( number_format_i18n( $row['n'] ) ); ?></span>
-										<span class="tunet-demo-stats__l"><?php echo esc_html( $row['label'] ); ?></span>
+										<span class="tunet-summary__n"><?php echo esc_html( number_format_i18n( $row['n'] ) ); ?></span>
+										<span class="tunet-summary__l"><?php echo esc_html( $row['label'] ); ?></span>
 									</li>
 								<?php endforeach; ?>
 							</ul>

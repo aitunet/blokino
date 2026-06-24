@@ -139,10 +139,18 @@
 .tunet-demo-empty p { margin: 0 0 4px; }
 .tunet-demo-empty .dashicons { color: #2271b1; }
 
-.tunet-wizard { margin-top: 16px; }
+.tunet-wizard {
+	margin-top: 16px;
+	max-width: 1000px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 12px;
+	box-shadow: 0 1px 3px rgba( 0, 0, 0, .06 );
+	padding: 22px 28px 28px;
+}
 
 /* Step indicator */
-.tunet-stepper { display: flex; gap: 28px; margin: 0 0 22px; padding: 0; list-style: none; }
+.tunet-stepper { display: flex; gap: 28px; margin: 0 0 22px; padding: 0 0 18px; list-style: none; border-bottom: 1px solid #f0f0f1; }
 .tunet-stepper__item { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #8c8f94; }
 .tunet-stepper__n {
 	display: inline-flex; align-items: center; justify-content: center;
@@ -152,9 +160,14 @@
 .tunet-stepper__item.is-current .tunet-stepper__n { background: #2271b1; }
 .tunet-stepper__item.is-done .tunet-stepper__n { background: #1e7e34; }
 
-/* Two-column body: preview aside + step main */
-.tunet-wizard__grid { display: grid; grid-template-columns: 330px 1fr; gap: 28px; align-items: start; }
-@media ( max-width: 900px ) { .tunet-wizard__grid { grid-template-columns: 1fr; } }
+/* Two-column body inside the card: preview aside + step main */
+.tunet-wizard__grid { display: grid; grid-template-columns: 300px 1fr; gap: 30px; align-items: start; }
+.tunet-wizard__aside { min-width: 0; }
+.tunet-wizard__main { min-width: 0; padding-inline-start: 30px; border-inline-start: 1px solid #f0f0f1; }
+@media ( max-width: 900px ) {
+	.tunet-wizard__grid { grid-template-columns: 1fr; }
+	.tunet-wizard__main { padding-inline-start: 0; border-inline-start: 0; padding-block-start: 22px; border-block-start: 1px solid #f0f0f1; }
+}
 
 /* Preview — browser frame + theme screenshot */
 .tunet-preview { border: 1px solid #dcdcde; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba( 0, 0, 0, .07 ); }
@@ -164,15 +177,15 @@
 .tunet-preview__shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tunet-preview__caption { margin: 10px 2px 14px; color: #50575e; font-size: 13px; }
 
-/* Summary chips */
-.tunet-demo-stats { display: grid; grid-template-columns: repeat( auto-fill, minmax( 128px, 1fr ) ); gap: 10px; margin: 0; padding: 0; list-style: none; }
-.tunet-demo-stats__item { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 14px; background: #f6f7f7; border: 1px solid #e2e4e7; border-radius: 9px; }
-.tunet-demo-stats__item .dashicons { width: 20px; height: 20px; margin-bottom: 4px; font-size: 20px; color: #2271b1; }
-.tunet-demo-stats__n { font-size: 22px; font-weight: 700; line-height: 1; color: #1d2327; }
-.tunet-demo-stats__l { font-size: 12px; color: #646970; }
+/* Summary — compact list (under the preview) */
+.tunet-summary { margin: 14px 0 0; padding: 14px 0 0; border-top: 1px solid #f0f0f1; list-style: none; display: grid; gap: 9px; }
+.tunet-summary__item { display: flex; align-items: center; gap: 9px; font-size: 13px; }
+.tunet-summary__item .dashicons { width: 18px; height: 18px; font-size: 18px; color: #a7aaad; }
+.tunet-summary__n { font-weight: 700; color: #1d2327; min-width: 1.4em; }
+.tunet-summary__l { color: #646970; }
 
-/* Step card */
-.tunet-step { background: #fff; border: 1px solid #dcdcde; border-radius: 12px; padding: 24px 26px; box-shadow: 0 1px 2px rgba( 0, 0, 0, .04 ); }
+/* Step content (lives inside the wizard card) */
+.tunet-step { min-width: 0; }
 .tunet-step__title { margin: 0 0 6px; font-size: 18px; }
 .tunet-step__lead { margin: 0 0 18px; color: #50575e; max-width: 60ch; }
 .tunet-step__actions { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
@@ -194,7 +207,11 @@
 
 /* Toggle switch (styled checkbox) */
 .tunet-switch { position: relative; display: inline-flex; flex: 0 0 auto; cursor: pointer; }
-.tunet-switch input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.tunet-switch input,
+.tunet-switch input:disabled,
+.tunet-switch input:checked { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; opacity: 0 !important; background: transparent !important; -webkit-appearance: none; appearance: none; box-shadow: none !important; cursor: pointer; }
+.tunet-switch.is-locked input { cursor: default; }
+.tunet-switch input::before { content: none !important; }
 .tunet-switch__track { display: inline-flex; align-items: center; width: 40px; height: 22px; background: #c3c4c7; border-radius: 999px; transition: background .18s ease; }
 .tunet-switch__dot { width: 16px; height: 16px; margin: 0 3px; border-radius: 999px; background: #fff; box-shadow: 0 1px 2px rgba( 0, 0, 0, .25 ); transition: transform .18s ease; }
 .tunet-switch input:checked + .tunet-switch__track { background: #2271b1; }
