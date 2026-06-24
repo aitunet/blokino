@@ -39,6 +39,7 @@ class Tunet_Core_Runtime {
 
 	const STYLE_HANDLE  = 'tunet-core-effects';
 	const SCRIPT_HANDLE = 'tunet-core-runtime';
+	const TOKENS_HANDLE = 'tunet-core-tokens';
 
 	/** Curvas de easing válidas (mapean a tokens --tnt-ease-*). */
 	const EASINGS = array( 'expo', 'power3', 'spring', 'circ' );
@@ -79,9 +80,33 @@ class Tunet_Core_Runtime {
 		// cubre blocks dinámicos) + red de seguridad de carga (§4.1, paso 4).
 		add_filter( 'render_block', array( $this, 'render_block_effects' ), 10, 2 );
 
+		// Baseline de tokens --tnt-*: fallback neutral en cascade layer para que
+		// el motor degrade con dignidad SIN un theme Tunet (§12, regla 1).
+		// Prioridad 5: antes que los overrides de branding (que deben ganar).
+		// enqueue_block_assets cubre front + iframe del editor.
+		add_action( 'enqueue_block_assets', array( $this, 'enqueue_token_defaults' ), 5 );
+
 		// Branding global (overrides --tnt-* + Google Fonts) en front y editor.
 		// Independiente del toggle de efectos. enqueue_block_assets cubre ambos.
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_branding' ) );
+	}
+
+	/**
+	 * Encola el baseline de tokens --tnt-* del motor (front + editor).
+	 *
+	 * Fallback neutral y theme-agnóstico en una @layer: cualquier theme (Tunet o
+	 * no) que defina --tnt-* en :root lo sobre-escribe sin importar el orden de
+	 * carga. Garantiza que los efectos y bloques del core se vean bien aun sin un
+	 * theme Tunet activo (CLAUDE.md §12, regla 1). Es un archivo pequeño y se
+	 * carga siempre: si un theme lo redefine, queda inerte pero sin coste real.
+	 */
+	public function enqueue_token_defaults() {
+		wp_enqueue_style(
+			self::TOKENS_HANDLE,
+			TUNET_CORE_URL . 'runtime/tnt-defaults.css',
+			array(),
+			self::asset_version( 'runtime/tnt-defaults.css' )
+		);
 	}
 
 	/**

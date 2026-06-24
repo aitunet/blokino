@@ -1,0 +1,105 @@
+/* ==========================================================================
+ * Tunet Core · Defaults del contrato de tokens (--tnt-*)
+ * --------------------------------------------------------------------------
+ * Tunet Core va a wp.org y DEBE ser útil por sí solo (CLAUDE.md §12, regla 1):
+ * sin un theme Tunet activo, los efectos y bloques del motor seguirían leyendo
+ * --tnt-* sin valor. Aquí definimos un baseline NEUTRAL y theme-agnóstico para
+ * que todo "degrade con dignidad" en cualquier theme.
+ *
+ * Por qué @layer: las declaraciones de un theme (su tokens.css en :root y las
+ * variables que genera theme.json, ambas SIN capa) ganan SIEMPRE sobre las de
+ * una cascade layer, sin importar el orden de carga ni la especificidad. Así un
+ * theme Tunet sobre-escribe estos defaults de forma limpia y robusta, y un theme
+ * cualquiera de wp.org recibe un baseline coherente.
+ *
+ * Decisiones de diseño (a propósito):
+ *  - Paleta neutra y ampliamente compatible (indigo/teal/rose). NO es la estética
+ *    de ningún theme Tunet ni ninguno de los clichés "hechos por IA" (§7.2).
+ *  - Tipografía: SOLO system stacks. El motor nunca impone una webfont; cada
+ *    theme carga las suyas y redefine --tnt-font-*.
+ *  - Sin auto dark-mode: el baseline es claro y predecible; el modo oscuro es
+ *    decisión del theme.
+ * ========================================================================== */
+
+@layer tnt-defaults {
+	:root {
+		/* ---- COLOR (neutral, theme-agnóstico) ---- */
+		--tnt-color-bg:         #FAFAFC; /* off-white frío, no blanco puro */
+		--tnt-color-surface:    #FFFFFF;
+		--tnt-color-text:       #1A1A22; /* casi-negro, no negro puro */
+		--tnt-color-text-muted: #5A5A66;
+		--tnt-color-primary:    #4F46E5; /* indigo — acciones/enlaces */
+		--tnt-color-accent:     #0EA5A4; /* teal — highlights/glow */
+		--tnt-color-accent-2:   #DB2777; /* rose — pop, uso mínimo */
+		--tnt-color-border:     #E7E7EE;
+
+		/* ---- TIPOGRAFÍA (system stacks; el theme impone las webfonts) ---- */
+		--tnt-font-display: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+		--tnt-font-body:    system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+		--tnt-font-mono:    ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+
+		/* Escala fluida con clamp() */
+		--tnt-text-xs:   clamp(0.75rem,  0.72rem + 0.15vw, 0.8125rem);
+		--tnt-text-sm:   clamp(0.875rem, 0.84rem + 0.18vw, 0.9375rem);
+		--tnt-text-base: clamp(1rem,     0.95rem + 0.25vw, 1.0625rem);
+		--tnt-text-md:   clamp(1.25rem,  1.1rem  + 0.7vw,  1.5rem);
+		--tnt-text-lg:   clamp(1.6rem,   1.35rem + 1.2vw,  2.25rem);
+		--tnt-text-xl:   clamp(2rem,     1.55rem + 2.2vw,  3rem);
+		--tnt-text-2xl:  clamp(2.5rem,   1.7rem  + 4vw,    4.5rem);
+
+		--tnt-leading-tight:  1.1;
+		--tnt-leading-body:   1.6;
+		--tnt-tracking-tight: -0.02em;
+		--tnt-tracking-wide:   0.06em;
+
+		/* ---- ESPACIO (escala fluida) ---- */
+		--tnt-space-1:  clamp(0.25rem, 0.24rem + 0.05vw, 0.3125rem);
+		--tnt-space-2:  clamp(0.5rem,  0.48rem + 0.1vw,  0.625rem);
+		--tnt-space-3:  clamp(0.75rem, 0.71rem + 0.2vw,  0.9375rem);
+		--tnt-space-4:  clamp(1rem,    0.95rem + 0.25vw, 1.25rem);
+		--tnt-space-5:  clamp(1.5rem,  1.4rem  + 0.5vw,  2rem);
+		--tnt-space-6:  clamp(2rem,    1.8rem  + 1vw,    3rem);
+		--tnt-space-7:  clamp(2.75rem, 2.3rem  + 2.2vw,  4.5rem);
+		--tnt-space-8:  clamp(3.5rem,  2.8rem  + 3.5vw,  6rem);
+		--tnt-space-9:  clamp(4.5rem,  3.4rem  + 5vw,    8rem);
+		--tnt-space-10: clamp(6rem,    4.4rem  + 7vw,   10rem);
+		--tnt-space-11: clamp(7.5rem,  5.4rem  + 9vw,   13rem);
+		--tnt-space-12: clamp(9rem,    6rem    + 13vw,  17rem);
+
+		/* ---- FORMA ---- */
+		--tnt-radius-sm:   0.375rem;
+		--tnt-radius-md:   0.75rem;
+		--tnt-radius-lg:   1.25rem;
+		--tnt-radius-pill: 999px;
+
+		--tnt-shadow-1:
+			0 1px 2px rgba(17, 17, 27, 0.04),
+			0 1px 1px rgba(17, 17, 27, 0.05);
+		--tnt-shadow-2:
+			0 6px 16px rgba(17, 17, 27, 0.06),
+			0 2px 6px rgba(17, 17, 27, 0.05);
+		--tnt-shadow-3:
+			0 18px 50px rgba(17, 17, 27, 0.12),
+			0 6px 16px rgba(17, 17, 27, 0.07);
+
+		/* ---- MOVIMIENTO (curvas reales; nunca linear salvo loops) ---- */
+		--tnt-ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+		--tnt-ease-power3: cubic-bezier(0.215, 0.61, 0.355, 1);
+		--tnt-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+		--tnt-ease-circ:   cubic-bezier(0.85, 0, 0.15, 1);
+
+		--tnt-dur-fast: 250ms;
+		--tnt-dur-base: 550ms;
+		--tnt-dur-slow: 900ms;
+	}
+
+	/* Accesibilidad: el motor respeta prefers-reduced-motion también en el
+	   baseline (el runtime ya lo respeta; esto cubre durations leídas por CSS). */
+	@media ( prefers-reduced-motion: reduce ) {
+		:root {
+			--tnt-dur-fast: 0.01ms;
+			--tnt-dur-base: 0.01ms;
+			--tnt-dur-slow: 0.01ms;
+		}
+	}
+}
