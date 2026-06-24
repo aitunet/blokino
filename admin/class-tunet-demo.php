@@ -693,22 +693,120 @@ class Tunet_Core_Demo {
 	}
 
 	/**
-	 * Render the wizard shell (steps filled in by admin.js — Task 9).
+	 * Build a human "what's included" summary from a manifest.
+	 *
+	 * Each row is { n, label, icon (dashicon slug) }. Only non-empty buckets are
+	 * returned, so a theme with a partial manifest still previews cleanly.
+	 *
+	 * @param array $manifest Manifest array.
+	 * @return array<int,array{n:int,label:string,icon:string}>
+	 */
+	private static function manifest_summary( $manifest ) {
+		$rows = array();
+
+		$pages = isset( $manifest['pages'] ) && is_array( $manifest['pages'] ) ? count( $manifest['pages'] ) : 0;
+		if ( $pages ) {
+			$rows[] = array( 'n' => $pages, 'label' => _n( 'Page', 'Pages', $pages, 'tunet' ), 'icon' => 'admin-page' );
+		}
+
+		$projects = isset( $manifest['projects'] ) && is_array( $manifest['projects'] ) ? count( $manifest['projects'] ) : 0;
+		if ( $projects ) {
+			$rows[] = array( 'n' => $projects, 'label' => _n( 'Project', 'Projects', $projects, 'tunet' ), 'icon' => 'portfolio' );
+		}
+
+		$posts = isset( $manifest['posts'] ) && is_array( $manifest['posts'] ) ? count( $manifest['posts'] ) : 0;
+		if ( $posts ) {
+			$rows[] = array( 'n' => $posts, 'label' => _n( 'Journal post', 'Journal posts', $posts, 'tunet' ), 'icon' => 'admin-post' );
+		}
+
+		$products = isset( $manifest['woo']['products'] ) && is_array( $manifest['woo']['products'] ) ? count( $manifest['woo']['products'] ) : 0;
+		if ( $products ) {
+			$rows[] = array( 'n' => $products, 'label' => _n( 'Product', 'Products', $products, 'tunet' ), 'icon' => 'cart' );
+		}
+
+		$images = isset( $manifest['images'] ) && is_array( $manifest['images'] ) ? count( $manifest['images'] ) : 0;
+		if ( $images ) {
+			$rows[] = array( 'n' => $images, 'label' => _n( 'Image', 'Images', $images, 'tunet' ), 'icon' => 'format-image' );
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Render the demo wizard: a manifest-driven preview + the import controls.
+	 *
+	 * Degrades with dignity (§12, regla 3): a theme without a manifest shows a
+	 * friendly empty state and a disabled importer instead of failing.
 	 */
 	public function render_demo_page() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
 			return;
 		}
-		$has_demo = (bool) self::get_record();
+		$manifest  = self::manifest();
+		$has_demo  = (bool) self::get_record();
+		$has_items = ! empty( $manifest );
+		$theme     = wp_get_theme();
+		$summary   = self::manifest_summary( $manifest );
 		?>
-		<div class="wrap tunet-admin">
+		<div class="wrap tunet-admin tunet-demo">
 			<h1><?php esc_html_e( 'Tunet Core · Demo', 'tunet' ); ?></h1>
-			<p class="description"><?php esc_html_e( 'Recreate the theme demo as editable blocks. You can undo it.', 'tunet' ); ?></p>
+
+			<?php if ( ! $has_items ) : ?>
+				<div class="tunet-demo-empty">
+					<span class="dashicons dashicons-info-outline" aria-hidden="true"></span>
+					<div>
+						<p><strong><?php esc_html_e( 'No demo to import for the active theme.', 'tunet' ); ?></strong></p>
+						<p class="description">
+							<?php
+							printf(
+								/* translators: %s: active theme name. */
+								esc_html__( '%s does not ship a demo manifest. Activate a Tunet theme to unlock its designed demo.', 'tunet' ),
+								'<strong>' . esc_html( $theme->get( 'Name' ) ) . '</strong>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							);
+							?>
+						</p>
+					</div>
+				</div>
+			<?php else : ?>
+				<div id="tunet-demo-intro" class="tunet-demo-intro">
+					<div class="tunet-demo-intro__body">
+						<p class="tunet-demo-intro__eyebrow">
+							<?php
+							printf(
+								/* translators: %s: active theme name. */
+								esc_html__( 'Demo for %s', 'tunet' ),
+								'<strong>' . esc_html( $theme->get( 'Name' ) ) . '</strong>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							);
+							?>
+						</p>
+						<h2 class="tunet-demo-intro__title"><?php esc_html_e( 'Recreate the full demo as editable content.', 'tunet' ); ?></h2>
+						<p class="tunet-demo-intro__lede"><?php esc_html_e( 'Everything is created as native blocks you can edit freely — pages, portfolio, journal and shop. Missing plugins are offered first, and a single click undoes it all.', 'tunet' ); ?></p>
+					</div>
+					<?php if ( $summary ) : ?>
+						<ul class="tunet-demo-stats">
+							<?php foreach ( $summary as $row ) : ?>
+								<li class="tunet-demo-stats__item">
+									<span class="dashicons dashicons-<?php echo esc_attr( $row['icon'] ); ?>" aria-hidden="true"></span>
+									<span class="tunet-demo-stats__n"><?php echo esc_html( number_format_i18n( $row['n'] ) ); ?></span>
+									<span class="tunet-demo-stats__l"><?php echo esc_html( $row['label'] ); ?></span>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
+
 			<div id="tunet-wizard" data-has-demo="<?php echo $has_demo ? '1' : '0'; ?>">
+				<?php if ( $has_demo ) : ?>
+					<p class="tunet-demo-note">
+						<span class="dashicons dashicons-yes-alt" aria-hidden="true"></span>
+						<?php esc_html_e( 'A demo is already imported. Re-importing replaces it; Undo removes it.', 'tunet' ); ?>
+					</p>
+				<?php endif; ?>
 				<div class="tunet-progress" hidden><div class="tunet-progress__bar"></div></div>
 				<p class="tunet-progress__status" aria-live="polite"></p>
-				<p>
-					<button type="button" class="button button-primary" id="tunet-demo-import"><?php esc_html_e( 'Import demo', 'tunet' ); ?></button>
+				<p class="tunet-demo-actions">
+					<button type="button" class="button button-primary" id="tunet-demo-import" <?php disabled( ! $has_items ); ?>><?php esc_html_e( 'Import demo', 'tunet' ); ?></button>
 					<button type="button" class="button" id="tunet-demo-rollback" <?php disabled( ! $has_demo ); ?>><?php esc_html_e( 'Undo import', 'tunet' ); ?></button>
 				</p>
 			</div>

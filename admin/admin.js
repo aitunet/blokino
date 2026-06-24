@@ -187,11 +187,19 @@
 		panel.innerHTML = '<p><a class="button button-primary" href="' + ( cfg.homeUrl || ( location.origin + '/' ) ) + '">' + i18n.viewSite + '</a></p>';
 	}
 
-	startBtn.addEventListener( 'click', function () { startBtn.disabled = true; showPlugins(); } );
+	var intro = document.getElementById( 'tunet-demo-intro' );
+
+	startBtn.addEventListener( 'click', function () {
+		startBtn.disabled = true;
+		if ( intro ) { intro.hidden = true; }
+		showPlugins();
+	} );
 	undoBtn.addEventListener( 'click', function () {
 		undoBtn.disabled = true; setStatus( i18n.importing );
 		post( 'tunet_demo_rollback', {} ).then( function () {
 			setStatus( i18n.rollback ); setBar( 0 ); startBtn.disabled = false;
+			panel.innerHTML = '';
+			if ( intro ) { intro.hidden = false; }
 		} );
 	} );
 }() );
