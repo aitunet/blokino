@@ -126,84 +126,85 @@
 	font-style: italic;
 }
 
-/* Demo wizard — intro preview */
-.tunet-demo-intro {
-	max-width: 1100px;
-	margin: 16px 0 20px;
-	padding: 24px 28px;
-	background: #fff;
-	border: 1px solid #dcdcde;
-	border-radius: 12px;
-	box-shadow: 0 1px 2px rgba( 0, 0, 0, .04 );
-}
-.tunet-demo-intro__eyebrow {
-	margin: 0 0 6px;
-	font-size: 12px;
-	letter-spacing: .08em;
-	text-transform: uppercase;
-	color: #646970;
-}
-.tunet-demo-intro__title { margin: 0 0 6px; font-size: 22px; line-height: 1.2; }
-.tunet-demo-intro__lede { margin: 0; max-width: 64ch; color: #50575e; }
-
-.tunet-demo-stats {
-	display: grid;
-	grid-template-columns: repeat( auto-fit, minmax( 140px, 1fr ) );
-	gap: 12px;
-	margin: 20px 0 0;
-	padding: 0;
-	list-style: none;
-}
-.tunet-demo-stats__item {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 2px;
-	padding: 14px 16px;
-	background: #f6f7f7;
-	border: 1px solid #e2e4e7;
-	border-radius: 10px;
-}
-.tunet-demo-stats__item .dashicons {
-	width: 22px;
-	height: 22px;
-	margin-bottom: 6px;
-	font-size: 22px;
-	color: #2271b1;
-}
-.tunet-demo-stats__n { font-size: 26px; font-weight: 700; line-height: 1; color: #1d2327; }
-.tunet-demo-stats__l { font-size: 13px; color: #646970; }
+/* ==========================================================================
+ * Demo wizard — stepper (Plugins → Import)
+ * ========================================================================== */
+.tunet-demo { max-width: 1080px; }
 
 .tunet-demo-empty {
-	display: flex;
-	gap: 12px;
-	align-items: flex-start;
-	max-width: 1100px;
-	margin: 16px 0;
-	padding: 18px 20px;
-	background: #fff;
-	border: 1px solid #dcdcde;
-	border-left: 4px solid #72aee6;
-	border-radius: 8px;
+	display: flex; gap: 12px; align-items: flex-start;
+	max-width: 880px; margin: 16px 0; padding: 18px 20px;
+	background: #fff; border: 1px solid #dcdcde; border-left: 4px solid #72aee6; border-radius: 8px;
 }
 .tunet-demo-empty p { margin: 0 0 4px; }
 .tunet-demo-empty .dashicons { color: #2271b1; }
 
-.tunet-demo-note {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	margin: 4px 0 10px;
-	color: #1e7e34;
-}
-.tunet-demo-note .dashicons { color: #1e7e34; }
-.tunet-demo-actions { display: flex; gap: 10px; margin-top: 8px; }
+.tunet-wizard { margin-top: 16px; }
 
-.tunet-wizard__panel { margin: 1rem 0; }
-.tunet-plugins { list-style: none; margin: 0 0 1rem; padding: 0; }
-.tunet-plugins li { display: flex; align-items: center; gap: .5rem; padding: .6rem 0; border-bottom: 1px solid #e2e4e7; }
-.tunet-pill { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: #edeff2; }
-.tunet-pill--ok { background: #e6f4ea; color: #1e7e34; }
+/* Step indicator */
+.tunet-stepper { display: flex; gap: 28px; margin: 0 0 22px; padding: 0; list-style: none; }
+.tunet-stepper__item { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #8c8f94; }
+.tunet-stepper__n {
+	display: inline-flex; align-items: center; justify-content: center;
+	width: 24px; height: 24px; border-radius: 999px; background: #dcdcde; color: #fff; font-size: 12px;
+}
+.tunet-stepper__item.is-current { color: #1d2327; }
+.tunet-stepper__item.is-current .tunet-stepper__n { background: #2271b1; }
+.tunet-stepper__item.is-done .tunet-stepper__n { background: #1e7e34; }
+
+/* Two-column body: preview aside + step main */
+.tunet-wizard__grid { display: grid; grid-template-columns: 330px 1fr; gap: 28px; align-items: start; }
+@media ( max-width: 900px ) { .tunet-wizard__grid { grid-template-columns: 1fr; } }
+
+/* Preview — browser frame + theme screenshot */
+.tunet-preview { border: 1px solid #dcdcde; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba( 0, 0, 0, .07 ); }
+.tunet-preview__bar { display: flex; gap: 6px; align-items: center; padding: 9px 12px; background: #f0f0f1; border-bottom: 1px solid #e2e4e7; }
+.tunet-preview__bar span { width: 9px; height: 9px; border-radius: 999px; background: #cdd0d4; }
+.tunet-preview__shot { aspect-ratio: 4 / 3; background: #1d2327; }
+.tunet-preview__shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tunet-preview__caption { margin: 10px 2px 14px; color: #50575e; font-size: 13px; }
+
+/* Summary chips */
+.tunet-demo-stats { display: grid; grid-template-columns: repeat( auto-fill, minmax( 128px, 1fr ) ); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.tunet-demo-stats__item { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 14px; background: #f6f7f7; border: 1px solid #e2e4e7; border-radius: 9px; }
+.tunet-demo-stats__item .dashicons { width: 20px; height: 20px; margin-bottom: 4px; font-size: 20px; color: #2271b1; }
+.tunet-demo-stats__n { font-size: 22px; font-weight: 700; line-height: 1; color: #1d2327; }
+.tunet-demo-stats__l { font-size: 12px; color: #646970; }
+
+/* Step card */
+.tunet-step { background: #fff; border: 1px solid #dcdcde; border-radius: 12px; padding: 24px 26px; box-shadow: 0 1px 2px rgba( 0, 0, 0, .04 ); }
+.tunet-step__title { margin: 0 0 6px; font-size: 18px; }
+.tunet-step__lead { margin: 0 0 18px; color: #50575e; max-width: 60ch; }
+.tunet-step__actions { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
+.tunet-step__spacer { flex: 1 1 auto; }
+
+/* Plugin rows */
+.tunet-plugins { list-style: none; margin: 0 0 12px; padding: 0; }
+.tunet-plugin { display: flex; align-items: center; gap: 12px; padding: 14px 2px; border-bottom: 1px solid #f0f0f1; }
+.tunet-plugin:last-child { border-bottom: 0; }
+.tunet-plugin__name { font-weight: 600; color: #1d2327; }
+.tunet-plugin__badge { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: .03em; }
+.tunet-plugin__badge.is-req { background: #fcf0e6; color: #bd5b18; }
+.tunet-plugin__badge.is-opt { background: #edeff2; color: #646970; }
+.tunet-plugin__badge.is-ok  { background: #e6f4ea; color: #1e7e34; }
+.tunet-plugin__state { margin-left: auto; min-width: 1.4em; color: #50575e; font-size: 13px; display: inline-flex; align-items: center; }
+.tunet-plugin__state .dashicons { color: #1e7e34; width: 18px; height: 18px; font-size: 18px; }
 .tunet-err { color: #b32d2e; font-size: 12px; }
-.tunet-progress { height: 8px; background: #e2e4e7; border-radius: 999px; overflow: hidden; max-width: 480px; }
-.tunet-progress__bar { height: 100%; width: 0; background: #2271b1; transition: width .25s ease; }
+.tunet-plugins__msg { min-height: 1.2em; margin: 0; color: #1e7e34; font-size: 13px; }
+
+/* Toggle switch (styled checkbox) */
+.tunet-switch { position: relative; display: inline-flex; flex: 0 0 auto; cursor: pointer; }
+.tunet-switch input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.tunet-switch__track { display: inline-flex; align-items: center; width: 40px; height: 22px; background: #c3c4c7; border-radius: 999px; transition: background .18s ease; }
+.tunet-switch__dot { width: 16px; height: 16px; margin: 0 3px; border-radius: 999px; background: #fff; box-shadow: 0 1px 2px rgba( 0, 0, 0, .25 ); transition: transform .18s ease; }
+.tunet-switch input:checked + .tunet-switch__track { background: #2271b1; }
+.tunet-switch input:checked + .tunet-switch__track .tunet-switch__dot { transform: translateX( 18px ); }
+.tunet-switch.is-locked, .tunet-switch.is-locked input { cursor: default; }
+.tunet-switch.is-locked .tunet-switch__track { opacity: .85; }
+
+/* Import step */
+.tunet-demo-note { display: flex; align-items: center; gap: 6px; margin: 0 0 14px; color: #1e7e34; }
+.tunet-demo-note .dashicons { color: #1e7e34; }
+.tunet-done { margin: 6px 0 0; }
+.tunet-step .tunet-progress { height: 8px; background: #e2e4e7; border-radius: 999px; overflow: hidden; margin: 4px 0 8px; }
+.tunet-step .tunet-progress__bar { height: 100%; width: 0; background: linear-gradient( 90deg, #2271b1, #72aee6 ); transition: width .25s ease; }

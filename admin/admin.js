@@ -88,118 +88,174 @@
 
 } )();
 
+/* ==========================================================================
+ * Tunet Core · Demo wizard — stepper (Plugins → Import).
+ * ========================================================================== */
 ( function () {
 	'use strict';
 	var root = document.getElementById( 'tunet-wizard' );
 	if ( ! root || ! window.tunetCoreAdmin ) { return; }
-	var cfg = window.tunetCoreAdmin, i18n = cfg.i18n;
+	var cfg = window.tunetCoreAdmin, i18n = cfg.i18n || {};
 
-	var statusEl = root.querySelector( '.tunet-progress__status' );
-	var progress = root.querySelector( '.tunet-progress' );
-	var bar      = root.querySelector( '.tunet-progress__bar' );
-	var startBtn = root.querySelector( '#tunet-demo-import' );
-	var undoBtn  = root.querySelector( '#tunet-demo-rollback' );
-	var panel    = document.createElement( 'div' );
-	panel.className = 'tunet-wizard__panel';
-	root.insertBefore( panel, progress );
+	function $( sel ) { return root.querySelector( sel ); }
+	function $all( sel, ctx ) { return Array.prototype.slice.call( ( ctx || root ).querySelectorAll( sel ) ); }
 
 	function post( action, data ) {
 		var body = new URLSearchParams();
 		body.set( 'action', action );
 		body.set( 'nonce', cfg.nonce );
 		Object.keys( data || {} ).forEach( function ( k ) { body.set( k, data[ k ] ); } );
-		return fetch( cfg.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: body } )
-			.then( function ( r ) { return r.json(); } );
+		return fetch( cfg.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: body } ).then( function ( r ) { return r.json(); } );
 	}
 
-	function setStatus( t ) { statusEl.textContent = t || ''; }
-	function setBar( pct ) { progress.hidden = false; bar.style.width = pct + '%'; }
-
-	// --- Plugins screen ---
-	function showPlugins() {
-		post( 'tunet_demo_plugins', {} ).then( function ( res ) {
-			if ( ! res || ! res.success ) { return runImport(); }
-			if ( res.data.all_satisfied ) { return runImport(); }
-			panel.innerHTML = '<h2>' + i18n.pluginsTitle + '</h2>';
-			var list = document.createElement( 'ul' );
-			list.className = 'tunet-plugins';
-			res.data.plugins.forEach( function ( p ) {
-				var li = document.createElement( 'li' );
-				li.dataset.slug = p.slug;
-				renderPluginRow( li, p );
-				list.appendChild( li );
-			} );
-			panel.appendChild( list );
-			var cont = document.createElement( 'button' );
-			cont.className = 'button button-primary';
-			cont.textContent = i18n.continue;
-			cont.addEventListener( 'click', runImport );
-			panel.appendChild( cont );
+	/* ---- Step navigation ---- */
+	var stepEls = $all( '.tunet-stepper__item' );
+	var stepPanels = $all( '.tunet-step' );
+	function goStep( name ) {
+		stepPanels.forEach( function ( p ) { p.hidden = ( p.getAttribute( 'data-panel' ) !== name ); } );
+		var idx = ( name === 'import' ) ? 1 : 0;
+		stepEls.forEach( function ( el, i ) {
+			el.classList.toggle( 'is-current', i === idx );
+			el.classList.toggle( 'is-done', i < idx );
 		} );
 	}
 
-	function renderPluginRow( li, p ) {
-		var name = '<strong>' + p.label + '</strong>' + ( p.optional ? ' <em>(' + i18n.optional + ')</em>' : '' );
-		if ( p.state === 'active' ) {
-			li.innerHTML = name + ' <span class="tunet-pill tunet-pill--ok">' + i18n.active + '</span>';
-			return;
-		}
-		var label = ( p.state === 'missing' ) ? i18n.installAct : i18n.activate;
-		li.innerHTML = name + ' ';
-		var btn = document.createElement( 'button' );
-		btn.className = 'button';
-		btn.textContent = label;
-		btn.addEventListener( 'click', function () {
-			btn.disabled = true; btn.textContent = '…';
+	/* ---- Step 1: plugins ---- */
+	var listEl = $( '#tunet-plugins-list' );
+	var msgEl = $( '.tunet-plugins__msg' );
+	var installBtn = $( '#tunet-plugins-install' );
+	var continueBtn = $( '#tunet-plugins-continue' );
+	var plugins = [];
+
+	function requiredSatisfied() {
+		return plugins.every( function ( p ) { return p.optional || p.state === 'active'; } );
+	}
+	function syncUI() {
+		var pending = plugins.some( function ( p ) { return p._on && p.state !== 'active'; } );
+		if ( continueBtn ) { continueBtn.disabled = ! requiredSatisfied(); }
+		if ( installBtn ) { installBtn.disabled = ! pending; installBtn.hidden = ! pending; }
+	}
+	function badge( p ) {
+		if ( p.state === 'active' ) { return '<span class="tunet-plugin__badge is-ok">' + ( i18n.active || 'Active' ) + '</span>'; }
+		return p.optional
+			? '<span class="tunet-plugin__badge is-opt">' + ( i18n.optional || 'Optional' ) + '</span>'
+			: '<span class="tunet-plugin__badge is-req">' + ( i18n.required || 'Required' ) + '</span>';
+	}
+	function renderPlugins() {
+		listEl.innerHTML = '';
+		plugins.forEach( function ( p, i ) {
+			var active = p.state === 'active';
+			// Required → always on. Optional → on if active or user opted in.
+			p._on = active ? true : ( p.optional ? !! p._on : true );
+			var locked = active || ! p.optional;
+			var li = document.createElement( 'li' );
+			li.className = 'tunet-plugin' + ( active ? ' is-active' : '' );
+			li.innerHTML =
+				'<label class="tunet-switch' + ( locked ? ' is-locked' : '' ) + '">' +
+					'<input type="checkbox" data-i="' + i + '"' + ( p._on ? ' checked' : '' ) + ( locked ? ' disabled' : '' ) + '>' +
+					'<span class="tunet-switch__track"><span class="tunet-switch__dot"></span></span>' +
+				'</label>' +
+				'<span class="tunet-plugin__name">' + p.label + '</span>' +
+				badge( p ) +
+				'<span class="tunet-plugin__state" data-i="' + i + '"></span>';
+			listEl.appendChild( li );
+		} );
+		$all( 'input[type=checkbox]', listEl ).forEach( function ( cb ) {
+			cb.addEventListener( 'change', function () {
+				plugins[ cb.getAttribute( 'data-i' ) ]._on = cb.checked;
+				syncUI();
+			} );
+		} );
+		syncUI();
+	}
+
+	function loadPlugins() {
+		post( 'tunet_demo_plugins', {} ).then( function ( res ) {
+			if ( ! res || ! res.success ) { goStep( 'import' ); return; }
+			plugins = res.data.plugins || [];
+			renderPlugins();
+		} );
+	}
+
+	function installSelected() {
+		var queue = plugins.filter( function ( p ) { return p._on && p.state !== 'active'; } );
+		if ( ! queue.length ) { return; }
+		installBtn.disabled = true;
+		msgEl.textContent = '';
+		var i = 0;
+		function next() {
+			if ( i >= queue.length ) {
+				renderPlugins();
+				if ( requiredSatisfied() ) { msgEl.textContent = i18n.pluginsReady || ''; }
+				return;
+			}
+			var p = queue[ i++ ];
+			var stateEl = $( '.tunet-plugin__state[data-i="' + plugins.indexOf( p ) + '"]' );
+			if ( stateEl ) { stateEl.textContent = '…'; }
 			post( 'tunet_demo_install', { slug: p.slug } ).then( function ( res ) {
 				if ( res && res.success ) {
-					p.state = 'active'; renderPluginRow( li, p );
+					p.state = 'active';
+					if ( stateEl ) { stateEl.innerHTML = '<span class="dashicons dashicons-yes"></span>'; }
 				} else {
-					btn.disabled = false; btn.textContent = label;
 					var url = res && res.data && res.data.install_url;
-					li.querySelector( '.tunet-err' ) || li.insertAdjacentHTML( 'beforeend',
-						' <span class="tunet-err">' + ( ( res && res.data && res.data.message ) || i18n.error ) +
-						( url ? ' <a href="' + url + '" target="_blank">' + i18n.installManually + '</a>' : '' ) + '</span>' );
+					if ( stateEl ) {
+						stateEl.innerHTML = '<span class="tunet-err">' + ( ( res && res.data && res.data.message ) || i18n.error ) +
+							( url ? ' <a href="' + url + '" target="_blank" rel="noopener">' + i18n.installManually + '</a>' : '' ) + '</span>';
+					}
 				}
+				next();
 			} );
-		} );
-		li.appendChild( btn );
+		}
+		next();
 	}
 
-	// --- Import (stepped) ---
+	/* ---- Step 2: import ---- */
+	var importBtn = $( '#tunet-demo-import' );
+	var undoBtn = $( '#tunet-demo-rollback' );
+	var progress = $( '.tunet-progress' );
+	var bar = $( '.tunet-progress__bar' );
+	var statusEl = $( '.tunet-progress__status' );
+	var doneEl = $( '.tunet-done' );
+	function setStatus( t ) { if ( statusEl ) { statusEl.textContent = t || ''; } }
+	function setBar( pct ) { if ( progress ) { progress.hidden = false; } if ( bar ) { bar.style.width = pct + '%'; } }
+
 	function runImport() {
-		panel.innerHTML = '';
+		importBtn.disabled = true;
+		if ( doneEl ) { doneEl.hidden = true; }
 		setStatus( i18n.importing ); setBar( 0 );
 		function step( n ) {
 			post( 'tunet_demo_step', { step: n } ).then( function ( res ) {
-				if ( ! res || ! res.success ) { setStatus( i18n.error ); return; }
+				if ( ! res || ! res.success ) { setStatus( i18n.error ); importBtn.disabled = false; return; }
 				setBar( res.data.progress );
 				if ( res.data.label ) { setStatus( res.data.label ); }
-				if ( res.data.done ) { finish(); } else { step( res.data.next ); }
+				if ( res.data.done ) { finishImport(); } else { step( res.data.next ); }
 			} );
 		}
 		step( 0 );
 	}
-
-	function finish() {
+	function finishImport() {
 		setStatus( i18n.done );
-		undoBtn.disabled = false;
-		panel.innerHTML = '<p><a class="button button-primary" href="' + ( cfg.homeUrl || ( location.origin + '/' ) ) + '">' + i18n.viewSite + '</a></p>';
+		if ( undoBtn ) { undoBtn.disabled = false; }
+		if ( doneEl ) { doneEl.hidden = false; }
 	}
 
-	var intro = document.getElementById( 'tunet-demo-intro' );
-
-	startBtn.addEventListener( 'click', function () {
-		startBtn.disabled = true;
-		if ( intro ) { intro.hidden = true; }
-		showPlugins();
+	/* ---- Wire ---- */
+	if ( installBtn ) { installBtn.addEventListener( 'click', installSelected ); }
+	if ( continueBtn ) { continueBtn.addEventListener( 'click', function () { goStep( 'import' ); } ); }
+	$all( '.tunet-back' ).forEach( function ( b ) {
+		b.addEventListener( 'click', function () { goStep( b.getAttribute( 'data-to' ) || 'plugins' ); } );
 	} );
-	undoBtn.addEventListener( 'click', function () {
-		undoBtn.disabled = true; setStatus( i18n.importing );
-		post( 'tunet_demo_rollback', {} ).then( function () {
-			setStatus( i18n.rollback ); setBar( 0 ); startBtn.disabled = false;
-			panel.innerHTML = '';
-			if ( intro ) { intro.hidden = false; }
+	if ( importBtn ) { importBtn.addEventListener( 'click', runImport ); }
+	if ( undoBtn ) {
+		undoBtn.addEventListener( 'click', function () {
+			undoBtn.disabled = true; setStatus( i18n.importing );
+			post( 'tunet_demo_rollback', {} ).then( function () {
+				setStatus( i18n.rollback ); setBar( 0 );
+				if ( importBtn ) { importBtn.disabled = false; }
+				if ( doneEl ) { doneEl.hidden = true; }
+			} );
 		} );
-	} );
+	}
+
+	loadPlugins();
 }() );

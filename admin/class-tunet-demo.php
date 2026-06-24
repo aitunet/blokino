@@ -733,10 +733,12 @@ class Tunet_Core_Demo {
 	}
 
 	/**
-	 * Render the demo wizard: a manifest-driven preview + the import controls.
+	 * Render the demo wizard — a stylized, step-by-step screen.
 	 *
-	 * Degrades with dignity (§12, regla 3): a theme without a manifest shows a
-	 * friendly empty state and a disabled importer instead of failing.
+	 * Step 1: recommended plugins (styled switch list). Step 2: import. A live
+	 * preview of the active theme's screenshot sits in the aside. Degrades with
+	 * dignity (§12, regla 3): a theme without a manifest shows a friendly empty
+	 * state instead of failing.
 	 */
 	public function render_demo_page() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
@@ -747,6 +749,9 @@ class Tunet_Core_Demo {
 		$has_items = ! empty( $manifest );
 		$theme     = wp_get_theme();
 		$summary   = self::manifest_summary( $manifest );
+		$shot      = $theme->get_screenshot();
+		$home      = home_url( '/' );
+		$cancel    = self_admin_url( 'admin.php?page=' . Tunet_Core_Admin::MENU_SLUG );
 		?>
 		<div class="wrap tunet-admin tunet-demo">
 			<h1><?php esc_html_e( 'Tunet Core · Demo', 'tunet' ); ?></h1>
@@ -768,9 +773,21 @@ class Tunet_Core_Demo {
 					</div>
 				</div>
 			<?php else : ?>
-				<div id="tunet-demo-intro" class="tunet-demo-intro">
-					<div class="tunet-demo-intro__body">
-						<p class="tunet-demo-intro__eyebrow">
+			<div id="tunet-wizard" class="tunet-wizard" data-has-demo="<?php echo $has_demo ? '1' : '0'; ?>">
+				<ol class="tunet-stepper">
+					<li class="tunet-stepper__item is-current" data-step="plugins"><span class="tunet-stepper__n">1</span><?php esc_html_e( 'Plugins', 'tunet' ); ?></li>
+					<li class="tunet-stepper__item" data-step="import"><span class="tunet-stepper__n">2</span><?php esc_html_e( 'Import', 'tunet' ); ?></li>
+				</ol>
+
+				<div class="tunet-wizard__grid">
+					<aside class="tunet-wizard__aside">
+						<?php if ( $shot ) : ?>
+							<div class="tunet-preview">
+								<div class="tunet-preview__bar"><span></span><span></span><span></span></div>
+								<div class="tunet-preview__shot"><img src="<?php echo esc_url( $shot ); ?>" alt="<?php echo esc_attr( sprintf( /* translators: %s: theme name. */ __( '%s preview', 'tunet' ), $theme->get( 'Name' ) ) ); ?>" /></div>
+							</div>
+						<?php endif; ?>
+						<p class="tunet-preview__caption">
 							<?php
 							printf(
 								/* translators: %s: active theme name. */
@@ -779,37 +796,53 @@ class Tunet_Core_Demo {
 							);
 							?>
 						</p>
-						<h2 class="tunet-demo-intro__title"><?php esc_html_e( 'Recreate the full demo as editable content.', 'tunet' ); ?></h2>
-						<p class="tunet-demo-intro__lede"><?php esc_html_e( 'Everything is created as native blocks you can edit freely — pages, portfolio, journal and shop. Missing plugins are offered first, and a single click undoes it all.', 'tunet' ); ?></p>
-					</div>
-					<?php if ( $summary ) : ?>
-						<ul class="tunet-demo-stats">
-							<?php foreach ( $summary as $row ) : ?>
-								<li class="tunet-demo-stats__item">
-									<span class="dashicons dashicons-<?php echo esc_attr( $row['icon'] ); ?>" aria-hidden="true"></span>
-									<span class="tunet-demo-stats__n"><?php echo esc_html( number_format_i18n( $row['n'] ) ); ?></span>
-									<span class="tunet-demo-stats__l"><?php echo esc_html( $row['label'] ); ?></span>
-								</li>
-							<?php endforeach; ?>
-						</ul>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
+						<?php if ( $summary ) : ?>
+							<ul class="tunet-demo-stats">
+								<?php foreach ( $summary as $row ) : ?>
+									<li class="tunet-demo-stats__item">
+										<span class="dashicons dashicons-<?php echo esc_attr( $row['icon'] ); ?>" aria-hidden="true"></span>
+										<span class="tunet-demo-stats__n"><?php echo esc_html( number_format_i18n( $row['n'] ) ); ?></span>
+										<span class="tunet-demo-stats__l"><?php echo esc_html( $row['label'] ); ?></span>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
+					</aside>
 
-			<div id="tunet-wizard" data-has-demo="<?php echo $has_demo ? '1' : '0'; ?>">
-				<?php if ( $has_demo ) : ?>
-					<p class="tunet-demo-note">
-						<span class="dashicons dashicons-yes-alt" aria-hidden="true"></span>
-						<?php esc_html_e( 'A demo is already imported. Re-importing replaces it; Undo removes it.', 'tunet' ); ?>
-					</p>
-				<?php endif; ?>
-				<div class="tunet-progress" hidden><div class="tunet-progress__bar"></div></div>
-				<p class="tunet-progress__status" aria-live="polite"></p>
-				<p class="tunet-demo-actions">
-					<button type="button" class="button button-primary" id="tunet-demo-import" <?php disabled( ! $has_items ); ?>><?php esc_html_e( 'Import demo', 'tunet' ); ?></button>
-					<button type="button" class="button" id="tunet-demo-rollback" <?php disabled( ! $has_demo ); ?>><?php esc_html_e( 'Undo import', 'tunet' ); ?></button>
-				</p>
+					<div class="tunet-wizard__main">
+						<section class="tunet-step" data-panel="plugins">
+							<h2 class="tunet-step__title"><?php esc_html_e( 'Recommended plugins', 'tunet' ); ?></h2>
+							<p class="tunet-step__lead"><?php esc_html_e( 'These power the demo. Required ones are pre-selected; pick any optional extras, then install & activate.', 'tunet' ); ?></p>
+							<ul class="tunet-plugins" id="tunet-plugins-list"></ul>
+							<p class="tunet-plugins__msg" aria-live="polite"></p>
+							<div class="tunet-step__actions">
+								<a class="button button-link tunet-cancel" href="<?php echo esc_url( $cancel ); ?>"><?php esc_html_e( 'Cancel', 'tunet' ); ?></a>
+								<span class="tunet-step__spacer"></span>
+								<button type="button" class="button" id="tunet-plugins-install"><?php esc_html_e( 'Install & activate', 'tunet' ); ?></button>
+								<button type="button" class="button button-primary" id="tunet-plugins-continue" disabled><?php esc_html_e( 'Continue', 'tunet' ); ?></button>
+							</div>
+						</section>
+
+						<section class="tunet-step" data-panel="import" hidden>
+							<h2 class="tunet-step__title"><?php esc_html_e( 'Import the demo', 'tunet' ); ?></h2>
+							<p class="tunet-step__lead"><?php esc_html_e( 'Creates the demo as native, editable blocks — pages, content and settings. You can undo it with one click.', 'tunet' ); ?></p>
+							<?php if ( $has_demo ) : ?>
+								<p class="tunet-demo-note"><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span> <?php esc_html_e( 'A demo is already imported. Re-importing replaces it; Undo removes it.', 'tunet' ); ?></p>
+							<?php endif; ?>
+							<div class="tunet-progress" hidden><div class="tunet-progress__bar"></div></div>
+							<p class="tunet-progress__status" aria-live="polite"></p>
+							<p class="tunet-done" hidden><a class="button button-primary button-hero" href="<?php echo esc_url( $home ); ?>"><?php esc_html_e( 'View site', 'tunet' ); ?></a></p>
+							<div class="tunet-step__actions">
+								<button type="button" class="button tunet-back" data-to="plugins">&larr; <?php esc_html_e( 'Back', 'tunet' ); ?></button>
+								<span class="tunet-step__spacer"></span>
+								<button type="button" class="button button-primary" id="tunet-demo-import"><?php esc_html_e( 'Import demo', 'tunet' ); ?></button>
+								<button type="button" class="button" id="tunet-demo-rollback" <?php disabled( ! $has_demo ); ?>><?php esc_html_e( 'Undo import', 'tunet' ); ?></button>
+							</div>
+						</section>
+					</div>
+				</div>
 			</div>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
