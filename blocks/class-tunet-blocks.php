@@ -50,6 +50,7 @@ class Tunet_Core_Blocks {
 		'section',
 		'logo',
 		'icon',
+		'badge',
 	);
 
 	/**

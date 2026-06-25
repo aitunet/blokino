@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "tunet/badge",
+  "version": "0.1.0",
+  "title": "Tunet Badge",
+  "category": "design",
+  "icon": "image-rotate",
+  "description": "Rotating circular badge button — caption text on a ring around a center arrow. Links anywhere.",
+  "keywords": ["badge", "circular", "rotate", "cta", "button"],
+  "textdomain": "tunet",
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "align": ["left", "center", "right"],
+    "spacing": { "margin": true }
+  },
+  "attributes": {
+    "text": { "type": "string", "default": "Get in touch · Get in touch · " },
+    "url": { "type": "string", "default": "" },
+    "speed": { "type": "number", "default": 18 },
+    "reverse": { "type": "boolean", "default": false }
+  },
+  "editorScript": "file:./edit.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}

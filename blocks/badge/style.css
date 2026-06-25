@@ -1,0 +1,41 @@
+/* Tunet Badge — botón circular con texto en anillo giratorio + flecha. */
+.tunet-badge {
+	position: relative;
+	display: inline-grid;
+	place-items: center;
+	inline-size: clamp( 6.5rem, 10vw, 9rem );
+	aspect-ratio: 1;
+	border-radius: 50%;
+	color: var( --tnt-color-text );
+	text-decoration: none;
+	background: transparent;
+}
+.tunet-badge__ring {
+	position: absolute;
+	inset: 0;
+	animation: tunet-badge-spin var( --tnt-badge-speed, 18s ) linear infinite;
+}
+.tunet-badge.is-reverse .tunet-badge__ring { animation-direction: reverse; }
+.tunet-badge__ring text {
+	font-family: var( --tnt-font-mono, monospace );
+	font-size: 8.1px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	fill: currentColor;
+}
+.tunet-badge__arrow {
+	display: grid;
+	place-items: center;
+	inline-size: 38%;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: var( --tnt-color-primary );
+	color: var( --tnt-color-on-ink, #fff );
+	transition: transform var( --tnt-dur-fast, 250ms ) var( --tnt-ease-spring, ease );
+}
+.tunet-badge__arrow svg { inline-size: 46%; }
+.tunet-badge:hover .tunet-badge__arrow { transform: scale( 1.08 ); }
+@keyframes tunet-badge-spin { to { transform: rotate( 360deg ); } }
+@media ( prefers-reduced-motion: reduce ) {
+	.tunet-badge__ring { animation: none !important; }
+}
