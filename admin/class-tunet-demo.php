@@ -3,8 +3,9 @@
  * Tunet Core · Demo importer + recommended-plugins wizard.
  *
  * Engine-side and theme-agnostic: reads the theme's `tunet_core_demo_manifest`
- * and builds content, recording every created ID for replace/rollback. Optional
- * WooCommerce/Contact Form 7 are resolved conditionally.
+ * and builds content, recording every created ID for replace/rollback. The
+ * recommended plugins and the conditional Woo/CF7 content are declared by the
+ * theme's manifest, not hardcoded here.
  *
  * @package Tunet\Core
  */
@@ -23,20 +24,46 @@ class Tunet_Core_Demo {
 	const CAPABILITY = 'manage_options';
 	const NONCE      = 'tunet_demo';
 
-	/** Recommended plugins: slug (wp.org) => [file, label, optional]. */
+	/**
+	 * Plugins the wizard offers — resolved from the ACTIVE THEME's manifest
+	 * (`plugins` key), never hardcoded, so the engine stays theme-agnostic (§12).
+	 * The theme declares which plugins its demo uses and whether each is optional;
+	 * the engine only supplies detection metadata (the plugin file) for the ones
+	 * it knows how to install from wp.org. A theme may pass its own `file`/`label`
+	 * for a plugin the engine doesn't know.
+	 *
+	 * A theme that uses no third-party plugin simply omits the key → the wizard
+	 * shows nothing (e.g. a theme without WooCommerce never sees Woo). All entries
+	 * default to optional: the wizard recommends, it never forces an install.
+	 *
+	 * Manifest shape:  'plugins' => array( 'contact-form-7' => array( 'optional' => true ), … )
+	 *
+	 * @return array slug => [ file, label, optional ].
+	 */
 	public static function recommended_plugins() {
-		return array(
-			'contact-form-7' => array(
-				'file'     => 'contact-form-7/wp-contact-form-7.php',
-				'label'    => 'Contact Form 7',
-				'optional' => false,
-			),
-			'woocommerce'    => array(
-				'file'     => 'woocommerce/woocommerce.php',
-				'label'    => 'WooCommerce',
-				'optional' => true,
-			),
+		// Detection metadata for the plugins the engine knows (slug => file + default label).
+		$known = array(
+			'contact-form-7' => array( 'file' => 'contact-form-7/wp-contact-form-7.php', 'label' => 'Contact Form 7' ),
+			'woocommerce'    => array( 'file' => 'woocommerce/woocommerce.php', 'label' => 'WooCommerce' ),
 		);
+
+		$declared = self::manifest()['plugins'] ?? array();
+		$out      = array();
+		foreach ( (array) $declared as $slug => $info ) {
+			$slug = sanitize_key( (string) $slug );
+			$info = is_array( $info ) ? $info : array();
+			$base = isset( $known[ $slug ] ) ? $known[ $slug ] : array();
+			$file = ! empty( $info['file'] ) ? $info['file'] : ( $base['file'] ?? '' );
+			if ( '' === $slug || ! $file ) {
+				continue; // can't detect/install without a known slug + plugin file path
+			}
+			$out[ $slug ] = array(
+				'file'     => $file,
+				'label'    => ! empty( $info['label'] ) ? $info['label'] : ( $base['label'] ?? $slug ),
+				'optional' => isset( $info['optional'] ) ? (bool) $info['optional'] : true,
+			);
+		}
+		return $out;
 	}
 
 	/**
@@ -812,7 +839,7 @@ class Tunet_Core_Demo {
 					<div class="tunet-wizard__main">
 						<section class="tunet-step" data-panel="plugins">
 							<h2 class="tunet-step__title"><?php esc_html_e( 'Recommended plugins', 'tunet' ); ?></h2>
-							<p class="tunet-step__lead"><?php esc_html_e( 'These power the demo. Required ones are pre-selected; pick any optional extras, then install & activate.', 'tunet' ); ?></p>
+							<p class="tunet-step__lead"><?php esc_html_e( 'These add optional parts of the demo (forms, shop…). Pick any you want and install & activate them, or just continue without them.', 'tunet' ); ?></p>
 							<ul class="tunet-plugins" id="tunet-plugins-list"></ul>
 							<p class="tunet-plugins__msg" aria-live="polite"></p>
 							<div class="tunet-step__actions">

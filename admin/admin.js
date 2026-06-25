@@ -174,6 +174,10 @@
 			if ( ! res || ! res.success ) { goStep( 'import' ); return; }
 			plugins = res.data.plugins || [];
 			renderPlugins();
+			// Theme declares no third-party plugins → nothing to do here.
+			if ( ! plugins.length && msgEl ) {
+				msgEl.textContent = i18n.noPlugins || 'No extra plugins needed for this demo — continue to the import.';
+			}
 		} );
 	}
 

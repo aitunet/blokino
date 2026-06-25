@@ -355,6 +355,7 @@ class Tunet_Core_Admin {
 					'continue'     => __( 'Continue', 'tunet' ),
 					'optional'     => __( 'Optional', 'tunet' ),
 					'pluginsReady' => __( 'All set — continue to the import.', 'tunet' ),
+					'noPlugins'    => __( 'No extra plugins needed for this demo — continue to the import.', 'tunet' ),
 					'viewSite'     => __( 'View site', 'tunet' ),
 					'installManually' => __( 'Install manually', 'tunet' ),
 				),
