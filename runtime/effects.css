@@ -334,6 +334,18 @@
 [data-tf-blend="luminosity"] { mix-blend-mode: luminosity; }
 
 /* ---------------------------------------------------------------------------
+ * tfDisplay: tipografía de contorno para wordmarks gigantes (estático).
+ * El relleno se vuelve transparente y el glifo se traza con el color actual.
+ * ------------------------------------------------------------------------ */
+[data-tf-display="outline"] {
+	-webkit-text-stroke: var( --tf-stroke-w, 1px ) currentColor;
+	color: transparent;
+}
+@supports not ( ( -webkit-text-stroke: 1px ) ) {
+	[data-tf-display="outline"] { color: currentColor; } /* fallback: sólido */
+}
+
+/* ---------------------------------------------------------------------------
  * 7) BORDER-FX: borde de gradiente, con o sin rotación (anillo con
  *    mask-composite). Colores de tokens. linear en loop continuo (OK).
  * ------------------------------------------------------------------------ */

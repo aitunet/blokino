@@ -260,7 +260,8 @@ class Tunet_Core_Runtime {
 			&& false === strpos( $content, '"tfHover"' )
 			&& false === strpos( $content, '"tfScroll"' )
 			&& false === strpos( $content, '"tfBlend"' )
-			&& false === strpos( $content, '"tfBorderFx"' ) ) {
+			&& false === strpos( $content, '"tfBorderFx"' )
+			&& false === strpos( $content, '"tfDisplay"' ) ) {
 			return false;
 		}
 
@@ -306,7 +307,7 @@ class Tunet_Core_Runtime {
 	}
 
 	private static function attrs_have_effect( $attrs ) {
-		$keys = array( 'tfAnimation', 'tfHover', 'tfScroll', 'tfBlend', 'tfBorderFx' );
+		$keys = array( 'tfAnimation', 'tfHover', 'tfScroll', 'tfBlend', 'tfBorderFx', 'tfDisplay' );
 		foreach ( $keys as $key ) {
 			if ( ! empty( $attrs[ $key ] ) && 'none' !== $attrs[ $key ] ) {
 				return true;
@@ -381,6 +382,11 @@ class Tunet_Core_Runtime {
 		$border = isset( $attrs['tfBorderFx'] ) ? (string) $attrs['tfBorderFx'] : '';
 		if ( in_array( $border, self::BORDER_FX, true ) ) {
 			$data_atts['data-tf-border-fx'] = $border;
+		}
+
+		$display = isset( $attrs['tfDisplay'] ) ? (string) $attrs['tfDisplay'] : '';
+		if ( in_array( $display, array( 'outline', 'outline-solid' ), true ) ) {
+			$data_atts['data-tf-display'] = $display;
 		}
 
 		if ( empty( $data_atts ) ) {

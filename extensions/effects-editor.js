@@ -89,7 +89,8 @@
 			tfBorderColor1:  { type: 'string', default: '' },
 			tfBorderColor2:  { type: 'string', default: '' },
 			// Text-fill (firma editorial): índices (1-based) de palabras a cobalto.
-			tfFillAccent:    { type: 'string', default: '' }
+			tfFillAccent:    { type: 'string', default: '' },
+			tfDisplay:       { type: 'string', default: '' }
 		} );
 
 		return settings;
@@ -128,6 +129,19 @@
 				],
 				onChange: function ( value ) {
 					set( { tfAnimation: value } );
+				},
+				__nextHasNoMarginBottom: true
+			} );
+
+			var displayControl = el( SelectControl, {
+				label: __( 'Display style', 'tunet' ),
+				value: a.tfDisplay || '',
+				options: [
+					{ label: __( 'Solid (default)', 'tunet' ), value: '' },
+					{ label: __( 'Outline', 'tunet' ), value: 'outline' }
+				],
+				onChange: function ( value ) {
+					set( { tfDisplay: value } );
 				},
 				__nextHasNoMarginBottom: true
 			} );
@@ -368,6 +382,7 @@
 						PanelBody,
 						{ title: __( 'Tunet Effects', 'tunet' ), initialOpen: false },
 						animationControl,
+						displayControl,
 						detailControls,
 						hr(),
 						hoverControl,
