@@ -816,7 +816,7 @@ class Tunet_Core_Demo {
 							<ul class="tunet-plugins" id="tunet-plugins-list"></ul>
 							<p class="tunet-plugins__msg" aria-live="polite"></p>
 							<div class="tunet-step__actions">
-								<a class="button button-link tunet-cancel" href="<?php echo esc_url( $cancel ); ?>"><?php esc_html_e( 'Cancel', 'tunet' ); ?></a>
+								<a class="tunet-cancel" href="<?php echo esc_url( $cancel ); ?>"><?php esc_html_e( 'Cancel', 'tunet' ); ?></a>
 								<span class="tunet-step__spacer"></span>
 								<button type="button" class="button" id="tunet-plugins-install"><?php esc_html_e( 'Install & activate', 'tunet' ); ?></button>
 								<button type="button" class="button button-primary" id="tunet-plugins-continue" disabled><?php esc_html_e( 'Continue', 'tunet' ); ?></button>

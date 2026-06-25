@@ -190,6 +190,11 @@
 .tunet-step__lead { margin: 0 0 18px; color: #50575e; max-width: 60ch; }
 .tunet-step__actions { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
 .tunet-step__spacer { flex: 1 1 auto; }
+/* "Cancel" como acción secundaria discreta (enlace), alineada con los botones
+   de la fila. No usar las clases .button .button-link de WP: combinadas dan
+   métricas inconsistentes y descuadran la fila flex. */
+.tunet-cancel { color: #50575e; text-decoration: none; font-size: 13px; line-height: 1; padding: 6px 2px; }
+.tunet-cancel:hover, .tunet-cancel:focus { color: #1d2327; text-decoration: underline; }
 
 /* Plugin rows */
 .tunet-plugins { list-style: none; margin: 0 0 12px; padding: 0; }

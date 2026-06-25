@@ -163,6 +163,48 @@ function tunet_core_logo( $variant = 'main' ) {
 }
 
 /* -------------------------------------------------------------------------
+ * Updates de themes Tunet (premium → se actualizan por EDD, no por wp.org).
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Evita el falso aviso de "actualización disponible" para los themes Tunet.
+ *
+ * WordPress compara cada theme instalado con el directorio de wp.org POR SLUG;
+ * como existen themes públicos llamados "aurora", "ember", etc., wp.org ofrece
+ * "su" versión como update. Los themes Tunet son premium (fuera de wp.org) y se
+ * actualizan por EDD Software Licensing (CLAUDE.md §12); quitamos del transient
+ * de updates cualquier theme marcado como nuestro.
+ *
+ * Vive en el motor (no en cada theme) a propósito: el motor SIEMPRE está activo,
+ * así cubre también los themes Tunet INACTIVOS —cuyo functions.php no se carga—
+ * y cualquier theme Tunet futuro sin código nuevo. "Lo nuestro" se identifica por
+ * el header Update URI o Author URI = tunetdesign.com.
+ *
+ * Degrada con dignidad (§12): sin themes Tunet instalados no toca nada; no
+ * desactiva funciones ni muestra avisos → cumple las guidelines de wp.org.
+ *
+ * @param mixed $value Transient `site_transient_update_themes`.
+ * @return mixed
+ */
+function tunet_core_suppress_theme_updates( $value ) {
+	if ( ! isset( $value->response ) || ! is_array( $value->response ) ) {
+		return $value;
+	}
+	foreach ( array_keys( $value->response ) as $slug ) {
+		$theme = wp_get_theme( $slug );
+		if ( ! $theme->exists() ) {
+			continue;
+		}
+		$signals = (string) $theme->get( 'UpdateURI' ) . ' ' . (string) $theme->get( 'AuthorURI' );
+		if ( false !== stripos( $signals, 'tunetdesign.com' ) ) {
+			unset( $value->response[ $slug ] );
+		}
+	}
+	return $value;
+}
+add_filter( 'site_transient_update_themes', 'tunet_core_suppress_theme_updates' );
+
+/* -------------------------------------------------------------------------
  * Activación / desactivación seguras.
  * ---------------------------------------------------------------------- */
 
