@@ -210,6 +210,22 @@
 .tunet-err { color: #b32d2e; font-size: 12px; }
 .tunet-plugins__msg { min-height: 1.2em; margin: 0; color: #1e7e34; font-size: 13px; }
 
+/* Spinner de carga: en la fila del plugin mientras instala/activa y dentro del
+   botón "Install & activate". Más agradable que un "…". */
+.tunet-spin {
+	display: inline-block;
+	inline-size: 14px;
+	block-size: 14px;
+	border: 2px solid rgba( 0, 0, 0, 0.18 );
+	border-top-color: #2271b1;
+	border-radius: 50%;
+	vertical-align: middle;
+	animation: tunet-spin 0.7s linear infinite;
+}
+.button .tunet-spin { inline-size: 13px; block-size: 13px; border-top-color: currentColor; vertical-align: -1px; margin-inline-end: 2px; }
+@keyframes tunet-spin { to { transform: rotate( 360deg ); } }
+@media ( prefers-reduced-motion: reduce ) { .tunet-spin { animation-duration: 2.2s; } }
+
 /* Toggle switch (styled checkbox) */
 .tunet-switch { position: relative; display: inline-flex; flex: 0 0 auto; cursor: pointer; }
 .tunet-switch input,

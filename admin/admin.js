@@ -185,17 +185,23 @@
 		var queue = plugins.filter( function ( p ) { return p._on && p.state !== 'active'; } );
 		if ( ! queue.length ) { return; }
 		installBtn.disabled = true;
+		installBtn.setAttribute( 'aria-busy', 'true' );
+		var installLabel = installBtn.innerHTML;
+		installBtn.innerHTML = '<span class="tunet-spin" aria-hidden="true"></span> ' + ( i18n.installing || 'Installing…' );
 		msgEl.textContent = '';
 		var i = 0;
 		function next() {
 			if ( i >= queue.length ) {
+				installBtn.innerHTML = installLabel;
+				installBtn.removeAttribute( 'aria-busy' );
 				renderPlugins();
 				if ( requiredSatisfied() ) { msgEl.textContent = i18n.pluginsReady || ''; }
 				return;
 			}
 			var p = queue[ i++ ];
 			var stateEl = $( '.tunet-plugin__state[data-i="' + plugins.indexOf( p ) + '"]' );
-			if ( stateEl ) { stateEl.textContent = '…'; }
+			// Spinner de carga mientras instala/activa (más agradable que "…").
+			if ( stateEl ) { stateEl.innerHTML = '<span class="tunet-spin" aria-hidden="true"></span>'; }
 			post( 'tunet_demo_install', { slug: p.slug } ).then( function ( res ) {
 				if ( res && res.success ) {
 					p.state = 'active';

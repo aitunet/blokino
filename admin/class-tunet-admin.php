@@ -349,6 +349,7 @@ class Tunet_Core_Admin {
 					'useLogo'      => __( 'Use this logo', 'tunet' ),
 					'pluginsTitle' => __( 'Recommended plugins', 'tunet' ),
 					'installAct'   => __( 'Install & activate', 'tunet' ),
+					'installing'   => __( 'Installing…', 'tunet' ),
 					'activate'     => __( 'Activate', 'tunet' ),
 					'active'       => __( 'Active', 'tunet' ),
 					'required'     => __( 'Required', 'tunet' ),
