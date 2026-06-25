@@ -408,6 +408,18 @@ class Tunet_Core_Admin {
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $this->notice_text( $notice ) ); ?></p></div>
 			<?php endif; ?>
 
+			<?php if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) : ?>
+				<div class="card tunet-section-card">
+					<h2><?php esc_html_e( 'Appearance & styles', 'tunet' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them.', 'tunet' ); ?></p>
+					<p>
+						<a class="button button-secondary" href="<?php echo esc_url( admin_url( 'site-editor.php?path=%2Fwp_global_styles' ) ); ?>">
+							<?php esc_html_e( 'Open Styles in the Site Editor', 'tunet' ); ?>
+						</a>
+					</p>
+				</div>
+			<?php endif; ?>
+
 			<form method="post" action="<?php echo esc_url( $post_url ); ?>">
 				<input type="hidden" name="action" value="tunet_save_settings" />
 				<?php wp_nonce_field( 'tunet_save_settings' ); ?>
@@ -480,18 +492,6 @@ class Tunet_Core_Admin {
 
 				<?php submit_button( __( 'Save settings', 'tunet' ) ); ?>
 			</form>
-
-			<?php if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) : ?>
-				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'Appearance & styles', 'tunet' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them.', 'tunet' ); ?></p>
-					<p>
-						<a class="button button-secondary" href="<?php echo esc_url( admin_url( 'site-editor.php?path=%2Fwp_global_styles' ) ); ?>">
-							<?php esc_html_e( 'Open Styles in the Site Editor', 'tunet' ); ?>
-						</a>
-					</p>
-				</div>
-			<?php endif; ?>
 		</div>
 		<?php
 	}
