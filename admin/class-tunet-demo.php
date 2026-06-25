@@ -240,7 +240,7 @@ class Tunet_Core_Demo {
 	 *
 	 * @return string[] Theme-relative paths, e.g. 'assets/img/dish-steak.webp'.
 	 */
-	private function demo_image_files() {
+	private static function demo_image_files() {
 		$base = get_theme_file_path( 'assets/img' );
 		if ( ! is_dir( $base ) ) {
 			return array();
@@ -276,7 +276,7 @@ class Tunet_Core_Demo {
 
 		// All demo images: the manifest ones + everything under assets/img.
 		$relpaths = array_values( $manifest_images );
-		foreach ( $this->demo_image_files() as $rel ) {
+		foreach ( self::demo_image_files() as $rel ) {
 			if ( ! in_array( $rel, $relpaths, true ) ) {
 				$relpaths[] = $rel;
 			}
@@ -464,6 +464,19 @@ class Tunet_Core_Demo {
 				$att                          = $map[ $block['attrs']['bgImageUrl'] ];
 				$block['attrs']['bgImageId']  = (int) $att['id'];
 				$block['attrs']['bgImageUrl'] = $att['url'];
+			} elseif ( 'tunet/before-after' === $name ) {
+				// Comparison block: wire both the before and after images.
+				foreach ( array( 'before', 'after' ) as $side ) {
+					$url_key = $side . 'Url';
+					$id_key  = $side . 'Id';
+					if ( ! empty( $block['attrs'][ $url_key ] )
+						&& empty( $block['attrs'][ $id_key ] )
+						&& isset( $map[ $block['attrs'][ $url_key ] ] ) ) {
+						$att                       = $map[ $block['attrs'][ $url_key ] ];
+						$block['attrs'][ $id_key ]  = (int) $att['id'];
+						$block['attrs'][ $url_key ] = $att['url'];
+					}
+				}
 			}
 
 			if ( ! empty( $block['innerBlocks'] ) ) {
@@ -937,7 +950,15 @@ class Tunet_Core_Demo {
 			$rows[] = array( 'n' => $products, 'label' => _n( 'Product', 'Products', $products, 'tunet' ), 'icon' => 'cart' );
 		}
 
-		$images = isset( $manifest['images'] ) && is_array( $manifest['images'] ) ? count( $manifest['images'] ) : 0;
+		// Real image count = manifest-keyed images + every image under assets/img
+		// (what step_media actually imports), deduped — so the preview matches.
+		$image_rel = isset( $manifest['images'] ) && is_array( $manifest['images'] ) ? array_values( $manifest['images'] ) : array();
+		foreach ( self::demo_image_files() as $rel ) {
+			if ( ! in_array( $rel, $image_rel, true ) ) {
+				$image_rel[] = $rel;
+			}
+		}
+		$images = count( $image_rel );
 		if ( $images ) {
 			$rows[] = array( 'n' => $images, 'label' => _n( 'Image', 'Images', $images, 'tunet' ), 'icon' => 'format-image' );
 		}
