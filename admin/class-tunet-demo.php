@@ -786,7 +786,11 @@ class Tunet_Core_Demo {
 		$step  = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 0;
 
 		if ( $step < $total && is_callable( $steps[ $step ]['cb'] ) ) {
+			// Buffer (and discard) any stray output a step might trigger (plugin
+			// notices, sideload warnings…) so it can't corrupt the JSON response.
+			ob_start();
 			call_user_func( $steps[ $step ]['cb'] );
+			ob_end_clean();
 		}
 
 		$next = $step + 1;
@@ -893,8 +897,14 @@ class Tunet_Core_Demo {
 			}
 		}
 
-		// Activate.
+		// Activate. Buffer (and discard) any output emitted during activation: some
+		// plugins boot during WP's sandbox scrape and print PHP notices / DB warnings
+		// before their own tables exist — e.g. WooCommerce on a fresh install, plus
+		// WP 6.7's "_load_textdomain_just_in_time" notice. If that output reaches the
+		// response it corrupts the JSON, so the import "fails" until a retry.
+		ob_start();
 		$activate = activate_plugin( $info['file'] );
+		ob_end_clean();
 		if ( is_wp_error( $activate ) ) {
 			wp_send_json_error( array( 'message' => $activate->get_error_message(), 'install_url' => $install_url ) );
 		}
