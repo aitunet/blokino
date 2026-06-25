@@ -359,6 +359,10 @@ class Tunet_Core_Runtime {
 			}
 		}
 
+		if ( 'text-fill' === $animation && ! empty( $attrs['tfFillAccent'] ) ) {
+			$data_atts['data-tf-fill-accent'] = preg_replace( '/[^0-9,\s]/', '', (string) $attrs['tfFillAccent'] );
+		}
+
 		$hover = isset( $attrs['tfHover'] ) ? (string) $attrs['tfHover'] : '';
 		if ( in_array( $hover, self::HOVERS, true ) ) {
 			$data_atts['data-tf-hover'] = $hover;

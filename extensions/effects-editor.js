@@ -37,6 +37,7 @@
 	var SelectControl = components.SelectControl;
 	var RangeControl = components.RangeControl;
 	var BaseControl = components.BaseControl;
+	var TextControl = components.TextControl;
 
 	// Blocks nativos a los que se aplica la extensión (allowlist, FASE A).
 	var ALLOWED = [
@@ -86,7 +87,9 @@
 			tfBorderWidth:   { type: 'number', default: 0 },
 			tfBorderSpeed:   { type: 'number', default: 0 },
 			tfBorderColor1:  { type: 'string', default: '' },
-			tfBorderColor2:  { type: 'string', default: '' }
+			tfBorderColor2:  { type: 'string', default: '' },
+			// Text-fill (firma editorial): índices (1-based) de palabras a cobalto.
+			tfFillAccent:    { type: 'string', default: '' }
 		} );
 
 		return settings;
@@ -120,7 +123,8 @@
 					{ label: 'Scale in', value: 'scale-in' },
 					{ label: 'Slide left', value: 'slide-left' },
 					{ label: 'Slide right', value: 'slide-right' },
-					{ label: 'Text stagger', value: 'text-stagger' }
+					{ label: 'Text stagger', value: 'text-stagger' },
+					{ label: 'Text fill', value: 'text-fill' }
 				],
 				onChange: function ( value ) {
 					set( { tfAnimation: value } );
@@ -191,7 +195,18 @@
 						'p',
 						{ style: { fontStyle: 'italic', opacity: 0.7, marginTop: '8px' } },
 						__( 'It will animate once published (the animation runs on the front-end).', 'tunet' )
-					)
+					),
+					( a.tfAnimation === 'text-fill' )
+						? el( TextControl, {
+							label: __( 'Accent words (indices, e.g. "2,5")', 'tunet' ),
+							value: a.tfFillAccent || '',
+							help: __( 'These words fill to the brand accent instead of ink. 1-based.', 'tunet' ),
+							onChange: function ( value ) {
+								set( { tfFillAccent: value.replace( /[^0-9,\s]/g, '' ) } );
+							},
+							__nextHasNoMarginBottom: true
+						} )
+						: null
 				);
 			}
 

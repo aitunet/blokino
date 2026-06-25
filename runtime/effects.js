@@ -113,12 +113,31 @@
 	function prepare( nodes ) {
 		for ( var i = 0; i < nodes.length; i++ ) {
 			var el = nodes[ i ];
-			if ( el.getAttribute( 'data-tf-animation' ) === 'text-stagger' ) {
+			var anim = el.getAttribute( 'data-tf-animation' );
+			if ( anim === 'text-stagger' || anim === 'text-fill' ) {
 				splitWords( el );
+				if ( anim === 'text-fill' ) {
+					markAccentWords( el );
+				}
 			}
 			if ( el.hasAttribute( 'data-tf-stagger' ) ) {
 				indexChildren( el );
 			}
+		}
+	}
+
+	// text-fill: marca las palabras (1-based) listadas en data-tf-fill-accent.
+	function markAccentWords( el ) {
+		var raw = el.getAttribute( 'data-tf-fill-accent' );
+		if ( ! raw ) { return; }
+		var want = {};
+		raw.split( /[\s,]+/ ).forEach( function ( n ) {
+			var i = parseInt( n, 10 );
+			if ( i > 0 ) { want[ i - 1 ] = true; }
+		} );
+		var words = el.querySelectorAll( '.tf-word' );
+		for ( var k = 0; k < words.length; k++ ) {
+			if ( want[ k ] ) { words[ k ].classList.add( 'tf-word--accent' ); }
 		}
 	}
 

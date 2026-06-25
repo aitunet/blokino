@@ -48,7 +48,7 @@
  *    `transform` NO se transiciona; se transicionan las variables (cada una
  *    con su curva). --tf-parallax-y queda fuera → instantáneo (sigue el scroll).
  * ------------------------------------------------------------------------ */
-.tunet-tf-ready [data-tf-animation]:not( [data-tf-stagger] ):not( [data-tf-animation="text-stagger"] ),
+.tunet-tf-ready [data-tf-animation]:not( [data-tf-stagger] ):not( [data-tf-animation="text-stagger"] ):not( [data-tf-animation="text-fill"] ),
 .tunet-tf-ready [data-tf-stagger] > .tf-stagger-item,
 .tunet-tf-ready [data-tf-animation="text-stagger"] .tf-word,
 .tunet-tf-ready [data-tf-scroll="reveal-on-scroll"],
@@ -72,7 +72,7 @@
 
 /* Transiciones: variables de entrada (con delay), hover, rotación y opacidad/
    filtro/clip/sombra. box-shadow se incluye para lift/glow. */
-.tunet-tf-ready [data-tf-animation]:not( [data-tf-stagger] ):not( [data-tf-animation="text-stagger"] ),
+.tunet-tf-ready [data-tf-animation]:not( [data-tf-stagger] ):not( [data-tf-animation="text-stagger"] ):not( [data-tf-animation="text-fill"] ),
 .tunet-tf-ready [data-tf-stagger] > .tf-stagger-item,
 .tunet-tf-ready [data-tf-animation="text-stagger"] .tf-word,
 .tunet-tf-ready [data-tf-scroll="reveal-on-scroll"],
@@ -173,6 +173,20 @@
 	opacity: 0;
 }
 
+/* text-fill: relleno gris→tinta palabra a palabra (firma editorial). Solo color;
+   sin transform. Las palabras acento se rellenan al primary del theme. */
+.tunet-tf-ready [data-tf-animation="text-fill"] .tf-word {
+	display: inline-block;
+	color: var( --tnt-color-text-muted );
+	transition: color var( --tf-duration, var( --tnt-dur-base ) ) var( --tf-ease, var( --tnt-ease-expo ) );
+}
+.tunet-tf-ready [data-tf-animation="text-fill"].is-tf-in .tf-word {
+	color: var( --tnt-color-text );
+}
+.tunet-tf-ready [data-tf-animation="text-fill"].is-tf-in .tf-word--accent {
+	color: var( --tnt-color-primary );
+}
+
 /* reveal-on-scroll: reveal sencillo en la categoría scroll. */
 .tunet-tf-ready [data-tf-scroll="reveal-on-scroll"] {
 	--tf-enter-y: var( --tf-distance, var( --tnt-space-5 ) );
@@ -182,7 +196,8 @@
 /* Escalonado: el retardo crece con el índice y la cadencia (sobre-escribe el
    delay del shorthand de transición, manteniendo duraciones/curvas). */
 .tunet-tf-ready [data-tf-stagger] > .tf-stagger-item,
-.tunet-tf-ready [data-tf-animation="text-stagger"] .tf-word {
+.tunet-tf-ready [data-tf-animation="text-stagger"] .tf-word,
+.tunet-tf-ready [data-tf-animation="text-fill"] .tf-word {
 	transition-delay: calc( var( --tf-i, 0 ) * var( --tf-stagger, 60ms ) + var( --tf-delay, 0ms ) );
 }
 
@@ -404,5 +419,12 @@
 	[data-tf-border-fx="gradient"]::before,
 	[data-tf-border-fx="conic-rotate"]::before {
 		animation: none !important;
+	}
+	.tunet-tf-ready [data-tf-animation="text-fill"] .tf-word {
+		transition: none !important;
+		color: var( --tnt-color-text ) !important;
+	}
+	.tunet-tf-ready [data-tf-animation="text-fill"] .tf-word--accent {
+		color: var( --tnt-color-primary ) !important;
 	}
 }
