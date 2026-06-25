@@ -3,528 +3,527 @@ msgstr ""
 "Project-Id-Version: Tunet Core\n"
 "Report-Msgid-Bugs-To: https://tunetdesign.com\n"
 "Language-Team: TUNET <ai@tunetdesign.com>\n"
-"Language: \n"
+"Language: es_CO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: tunet\n"
-"PO-Revision-Date: \n"
 
 #: tunet-core.php:223
 msgid "Tunet Core requiere WordPress %1$s o superior y PHP %2$s o superior."
-msgstr ""
+msgstr "Tunet Core requiere WordPress %1$s o superior y PHP %2$s o superior."
 
 #: tunet-core.php:228
 msgid "Activación de Tunet Core"
-msgstr ""
+msgstr "Activación de Tunet Core"
 
 #: admin/class-tunet-demo.php:166
 msgid "Preparing…"
-msgstr ""
+msgstr "Preparando…"
 
 #: admin/class-tunet-demo.php:167
 msgid "Importing media…"
-msgstr ""
+msgstr "Importando archivos multimedia…"
 
 #: admin/class-tunet-demo.php:169
 msgid "Creating contact form…"
-msgstr ""
+msgstr "Creando formulario de contacto…"
 
 #: admin/class-tunet-demo.php:171
 msgid "Creating projects…"
-msgstr ""
+msgstr "Creando proyectos…"
 
 #: admin/class-tunet-demo.php:172
 msgid "Creating journal posts…"
-msgstr ""
+msgstr "Creando entradas del diario…"
 
 #: admin/class-tunet-demo.php:173
 msgid "Creating pages…"
-msgstr ""
+msgstr "Creando páginas…"
 
 #: admin/class-tunet-demo.php:175
 msgid "Creating products…"
-msgstr ""
+msgstr "Creando productos…"
 
 #: admin/class-tunet-demo.php:177
 msgid "Finishing…"
-msgstr ""
+msgstr "Finalizando…"
 
 #: admin/class-tunet-demo.php:336
 msgid "Your name"
-msgstr ""
+msgstr "Tu nombre"
 
 #: admin/class-tunet-demo.php:337
 msgid "Your email"
-msgstr ""
+msgstr "Tu correo electrónico"
 
 #: admin/class-tunet-demo.php:338
 msgid "Subject"
-msgstr ""
+msgstr "Asunto"
 
 #: admin/class-tunet-demo.php:339
 msgid "Your message (optional)"
-msgstr ""
+msgstr "Tu mensaje (opcional)"
 
 #: admin/class-tunet-demo.php:340
 msgid "Submit"
-msgstr ""
+msgstr "Enviar"
 
 #: admin/class-tunet-demo.php:781 admin/class-tunet-demo.php:809
 #: admin/class-tunet-demo.php:864 admin/class-tunet-admin.php:725
 msgid "Permission denied."
-msgstr ""
+msgstr "Permiso denegado."
 
 #: admin/class-tunet-demo.php:813 admin/class-tunet-admin.php:346
 msgid "Import undone."
-msgstr ""
+msgstr "Importación deshecha."
 
 #: admin/class-tunet-demo.php:870
 msgid "Unknown plugin."
-msgstr ""
+msgstr "Plugin desconocido."
 
 #: admin/class-tunet-demo.php:886
 msgid "Could not reach the plugin directory."
-msgstr ""
+msgstr "No se pudo acceder al directorio de plugins."
 
 #: admin/class-tunet-demo.php:892
 msgid "Install failed — install it manually."
-msgstr ""
+msgstr "La instalación falló — instálalo manualmente."
 
 #: admin/class-tunet-demo.php:913
 msgid "Demo"
-msgstr ""
+msgstr "Demo"
 
 #: admin/class-tunet-demo.php:997
 msgid "No demo to import for the active theme."
-msgstr ""
+msgstr "No hay ninguna demo para importar en el theme activo."
 
 #. translators: %s: active theme name.
 #: admin/class-tunet-demo.php:1002
 msgid "%s does not ship a demo manifest. Activate a Tunet theme to unlock its designed demo."
-msgstr ""
+msgstr "%s no incluye un manifiesto de demo. Activa un theme de Tunet para desbloquear su demo diseñada."
 
 #: admin/class-tunet-demo.php:1012
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: admin/class-tunet-demo.php:1013
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 #. translators: %s: theme name.
 #: admin/class-tunet-demo.php:1021
 msgid "%s preview"
-msgstr ""
+msgstr "Vista previa de %s"
 
 #. translators: %s: active theme name.
 #: admin/class-tunet-demo.php:1028
 msgid "Demo for %s"
-msgstr ""
+msgstr "Demo de %s"
 
 #: admin/class-tunet-demo.php:1048 admin/class-tunet-admin.php:350
 msgid "Recommended plugins"
-msgstr ""
+msgstr "Plugins recomendados"
 
 #: admin/class-tunet-demo.php:1049
 msgid "These add optional parts of the demo (forms, shop…). Pick any you want and install & activate them, or just continue without them."
-msgstr ""
+msgstr "Estos añaden partes opcionales de la demo (formularios, tienda…). Elige los que quieras e instálalos y actívalos, o simplemente continúa sin ellos."
 
 #: admin/class-tunet-demo.php:1053
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: admin/class-tunet-demo.php:1055 admin/class-tunet-admin.php:351
 msgid "Install & activate"
-msgstr ""
+msgstr "Instalar y activar"
 
 #: admin/class-tunet-demo.php:1056 admin/class-tunet-admin.php:356
 msgid "Continue"
-msgstr ""
+msgstr "Continuar"
 
 #: admin/class-tunet-demo.php:1061
 msgid "Import the demo"
-msgstr ""
+msgstr "Importar la demo"
 
 #: admin/class-tunet-demo.php:1062
 msgid "Creates the demo as native, editable blocks — pages, content and settings. You can undo it with one click."
-msgstr ""
+msgstr "Crea la demo como bloques nativos y editables — páginas, contenido y ajustes. Puedes deshacerla con un solo clic."
 
 #: admin/class-tunet-demo.php:1064
 msgid "A demo is already imported. Re-importing replaces it; Undo removes it."
-msgstr ""
+msgstr "Ya hay una demo importada. Volver a importar la reemplaza; Deshacer la elimina."
 
 #: admin/class-tunet-demo.php:1068 admin/class-tunet-admin.php:360
 msgid "View site"
-msgstr ""
+msgstr "Ver el sitio"
 
 #: admin/class-tunet-demo.php:1070
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
 #: admin/class-tunet-demo.php:1072
 msgid "Import demo"
-msgstr ""
+msgstr "Importar demo"
 
 #: admin/class-tunet-demo.php:1073
 msgid "Undo import"
-msgstr ""
+msgstr "Deshacer importación"
 
 #: admin/class-tunet-admin.php:278
 msgid "Tunet Core"
-msgstr ""
+msgstr "Tunet Core"
 
 #: admin/class-tunet-admin.php:289
 msgid "Settings"
-msgstr ""
+msgstr "Ajustes"
 
 #: admin/class-tunet-admin.php:298
 msgid "Tools"
-msgstr ""
+msgstr "Herramientas"
 
 #: admin/class-tunet-admin.php:344
 msgid "Importing…"
-msgstr ""
+msgstr "Importando…"
 
 #: admin/class-tunet-admin.php:345
 msgid "Demo imported."
-msgstr ""
+msgstr "Demo importada."
 
 #: admin/class-tunet-admin.php:347
 msgid "An error occurred."
-msgstr ""
+msgstr "Ocurrió un error."
 
 #: admin/class-tunet-admin.php:348
 msgid "Select logo"
-msgstr ""
+msgstr "Seleccionar logo"
 
 #: admin/class-tunet-admin.php:349
 msgid "Use this logo"
-msgstr ""
+msgstr "Usar este logo"
 
 #: admin/class-tunet-admin.php:352
 msgid "Installing…"
-msgstr ""
+msgstr "Instalando…"
 
 #: admin/class-tunet-admin.php:353
 msgid "Activate"
-msgstr ""
+msgstr "Activar"
 
 #: admin/class-tunet-admin.php:354
 msgid "Active"
-msgstr ""
+msgstr "Activo"
 
 #: admin/class-tunet-admin.php:355
 msgid "Required"
-msgstr ""
+msgstr "Obligatorio"
 
 #: admin/class-tunet-admin.php:357
 msgid "Optional"
-msgstr ""
+msgstr "Opcional"
 
 #: admin/class-tunet-admin.php:358
 msgid "All set — continue to the import."
-msgstr ""
+msgstr "Todo listo — continúa con la importación."
 
 #: admin/class-tunet-admin.php:359
 msgid "No extra plugins needed for this demo — continue to the import."
-msgstr ""
+msgstr "No se necesitan plugins adicionales para esta demo — continúa con la importación."
 
 #: admin/class-tunet-admin.php:361
 msgid "Install manually"
-msgstr ""
+msgstr "Instalar manualmente"
 
 #: admin/class-tunet-admin.php:405
 msgid "The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens)."
-msgstr ""
+msgstr "El theme proporciona los valores por defecto. Lo que dejes vacío usa el theme; lo que definas lo sobrescribe globalmente (tokens --tnt-*)."
 
 #: admin/class-tunet-admin.php:416
 msgid "Brand logos"
-msgstr ""
+msgstr "Logos de marca"
 
 #: admin/class-tunet-admin.php:417
 msgid "Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic)."
-msgstr ""
+msgstr "Recursos de marca que se mantienen entre themes. El logo principal se sincroniza con el Logo del sitio nativo. Sube alta resolución (retina es automático)."
 
 #: admin/class-tunet-admin.php:420
 msgid "Main logo"
-msgstr ""
+msgstr "Logo principal"
 
 #: admin/class-tunet-admin.php:421
 msgid "Alternative logo (dark backgrounds)"
-msgstr ""
+msgstr "Logo alternativo (fondos oscuros)"
 
 #: admin/class-tunet-admin.php:427
 msgid "Branding"
-msgstr ""
+msgstr "Identidad de marca"
 
 #: admin/class-tunet-admin.php:429
 msgid "Typography (Google Fonts)"
-msgstr ""
+msgstr "Tipografía (Google Fonts)"
 
 #: admin/class-tunet-admin.php:432
 msgid "Display"
-msgstr ""
+msgstr "Display"
 
 #: admin/class-tunet-admin.php:433
 msgid "Body"
-msgstr ""
+msgstr "Cuerpo"
 
 #: admin/class-tunet-admin.php:434
 msgid "Monospace"
-msgstr ""
+msgstr "Monoespaciada"
 
 #: admin/class-tunet-admin.php:435
 msgid "Base size"
-msgstr ""
+msgstr "Tamaño base"
 
 #: admin/class-tunet-admin.php:435 admin/class-tunet-admin.php:467
 #: admin/class-tunet-admin.php:545
 msgid "Theme default"
-msgstr ""
+msgstr "Valor del theme"
 
 #: admin/class-tunet-admin.php:435
 msgid "Compact"
-msgstr ""
+msgstr "Compacto"
 
 #: admin/class-tunet-admin.php:435
 msgid "Large"
-msgstr ""
+msgstr "Grande"
 
 #: admin/class-tunet-admin.php:439
 msgid "Brand colors"
-msgstr ""
+msgstr "Colores de marca"
 
 #: admin/class-tunet-admin.php:442
 msgid "Primary"
-msgstr ""
+msgstr "Primario"
 
 #: admin/class-tunet-admin.php:443
 msgid "Accent"
-msgstr ""
+msgstr "Acento"
 
 #: admin/class-tunet-admin.php:444
 msgid "Accent 2"
-msgstr ""
+msgstr "Acento 2"
 
 #: admin/class-tunet-admin.php:445
 msgid "Background"
-msgstr ""
+msgstr "Fondo"
 
 #: admin/class-tunet-admin.php:446
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #: admin/class-tunet-admin.php:450
 msgid "Shape"
-msgstr ""
+msgstr "Forma"
 
 #: admin/class-tunet-admin.php:454
 msgid "Corner radius (px)"
-msgstr ""
+msgstr "Radio de las esquinas (px)"
 
 #: admin/class-tunet-admin.php:457
 msgid "Empty = theme. Rounding for Tunet blocks/components that use the radius tokens. 0 = sharp."
-msgstr ""
+msgstr "Vacío = theme. Redondeo para los bloques/componentes de Tunet que usan los tokens de radio. 0 = recto."
 
 #: admin/class-tunet-admin.php:463
 msgid "Motion"
-msgstr ""
+msgstr "Movimiento"
 
 #: admin/class-tunet-admin.php:464
 msgid "Speed of all Tunet effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic."
-msgstr ""
+msgstr "Velocidad de todos los efectos de Tunet (entrada, hover, scroll). Sutil = más rápido y ajustado; Intenso = más lento y dramático."
 
 #: admin/class-tunet-admin.php:467
 msgid "Motion intensity"
-msgstr ""
+msgstr "Intensidad del movimiento"
 
 #: admin/class-tunet-admin.php:467
 msgid "Subtle (fast)"
-msgstr ""
+msgstr "Sutil (rápido)"
 
 #: admin/class-tunet-admin.php:467
 msgid "Bold (slow)"
-msgstr ""
+msgstr "Intenso (lento)"
 
 #: admin/class-tunet-admin.php:473
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: admin/class-tunet-admin.php:476
 msgid "Enable the effects engine (tf*) on the front-end"
-msgstr ""
+msgstr "Activar el motor de efectos (tf*) en el front-end"
 
 #: admin/class-tunet-admin.php:478
 msgid "When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging)."
-msgstr ""
+msgstr "Cuando está desactivado, el runtime no se carga y los bloques se muestran limpios (útil para depurar el rendimiento)."
 
 #: admin/class-tunet-admin.php:481
 msgid "Save settings"
-msgstr ""
+msgstr "Guardar ajustes"
 
 #: admin/class-tunet-admin.php:498
 msgid "Tunet Core · Tools"
-msgstr ""
+msgstr "Tunet Core · Herramientas"
 
 #: admin/class-tunet-admin.php:506
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
 #: admin/class-tunet-admin.php:507
 msgid "Download the current settings as a JSON file."
-msgstr ""
+msgstr "Descarga los ajustes actuales como archivo JSON."
 
 #: admin/class-tunet-admin.php:511
 msgid "Export settings (.json)"
-msgstr ""
+msgstr "Exportar ajustes (.json)"
 
 #: admin/class-tunet-admin.php:518
 msgid "Restore settings from a previously exported JSON file."
-msgstr ""
+msgstr "Restaura los ajustes desde un archivo JSON exportado previamente."
 
 #: admin/class-tunet-admin.php:523
 msgid "Import settings"
-msgstr ""
+msgstr "Importar ajustes"
 
 #: admin/class-tunet-admin.php:615
 msgid "Reset to theme color"
-msgstr ""
+msgstr "Restablecer al color del theme"
 
 #: admin/class-tunet-admin.php:645
 msgid "Choose / change"
-msgstr ""
+msgstr "Elegir / cambiar"
 
 #: admin/class-tunet-admin.php:646
 msgid "Remove logo"
-msgstr ""
+msgstr "Quitar logo"
 
 #: admin/class-tunet-admin.php:665
 msgid "Settings saved."
-msgstr ""
+msgstr "Ajustes guardados."
 
 #: admin/class-tunet-admin.php:667
 msgid "Settings imported successfully."
-msgstr ""
+msgstr "Ajustes importados correctamente."
 
 #: admin/class-tunet-admin.php:669
 msgid "The file is not a valid settings JSON."
-msgstr ""
+msgstr "El archivo no es un JSON de ajustes válido."
 
 #: content/class-tunet-content.php:48
 msgid "Add New"
-msgstr ""
+msgstr "Añadir nuevo"
 
 #: content/class-tunet-content.php:49
 msgid "Add New Project"
-msgstr ""
+msgstr "Añadir nuevo proyecto"
 
 #: content/class-tunet-content.php:50
 msgid "Edit Project"
-msgstr ""
+msgstr "Editar proyecto"
 
 #: content/class-tunet-content.php:51
 msgid "New Project"
-msgstr ""
+msgstr "Nuevo proyecto"
 
 #: content/class-tunet-content.php:52
 msgid "View Project"
-msgstr ""
+msgstr "Ver proyecto"
 
 #: content/class-tunet-content.php:53
 msgid "Search Projects"
-msgstr ""
+msgstr "Buscar proyectos"
 
 #: content/class-tunet-content.php:54
 msgid "No projects found"
-msgstr ""
+msgstr "No se encontraron proyectos"
 
 #: content/class-tunet-content.php:55
 msgid "All Projects"
-msgstr ""
+msgstr "Todos los proyectos"
 
 #: content/class-tunet-content.php:85
 msgid "Types"
-msgstr ""
+msgstr "Tipos"
 
 #: content/class-tunet-content.php:101
 msgid "Client"
-msgstr ""
+msgstr "Cliente"
 
 #: content/class-tunet-content.php:102
 msgid "Year"
-msgstr ""
+msgstr "Año"
 
 #: content/class-tunet-content.php:103
 msgid "Role"
-msgstr ""
+msgstr "Rol"
 
 #: content/class-tunet-content.php:104
 msgid "Website"
-msgstr ""
+msgstr "Sitio web"
 
 #: admin/class-tunet-demo.php:991
 msgid "Tunet Core · Demo"
-msgstr ""
+msgstr "Tunet Core · Demo"
 
 #: blocks/before-after/render.php:56
 msgid "Comparar antes y después"
-msgstr ""
+msgstr "Comparar antes y después"
 
 #. _x() with context
 #: content/class-tunet-content.php:45
 msgctxt "post type general name"
 msgid "Projects"
-msgstr ""
+msgstr "Proyectos"
 
 #: content/class-tunet-content.php:46
 msgctxt "post type singular name"
 msgid "Project"
-msgstr ""
+msgstr "Proyecto"
 
 #: content/class-tunet-content.php:47
 msgctxt "admin menu"
 msgid "Work"
-msgstr ""
+msgstr "Trabajo"
 
 #: content/class-tunet-content.php:83
 msgctxt "taxonomy general name"
 msgid "Project Types"
-msgstr ""
+msgstr "Tipos de proyecto"
 
 #: content/class-tunet-content.php:84
 msgctxt "taxonomy singular name"
 msgid "Project Type"
-msgstr ""
+msgstr "Tipo de proyecto"
 
 #. _n() plural forms
 #: admin/class-tunet-demo.php:935
 msgid "Page"
 msgid_plural "Pages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Página"
+msgstr[1] "Páginas"
 
 #: admin/class-tunet-demo.php:940
 msgid "Project"
 msgid_plural "Projects"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Proyecto"
+msgstr[1] "Proyectos"
 
 #: admin/class-tunet-demo.php:945
 msgid "Journal post"
 msgid_plural "Journal posts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Entrada del diario"
+msgstr[1] "Entradas del diario"
 
 #: admin/class-tunet-demo.php:950
 msgid "Product"
 msgid_plural "Products"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Producto"
+msgstr[1] "Productos"
 
 #: admin/class-tunet-demo.php:963
 msgid "Image"
 msgid_plural "Images"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Imagen"
+msgstr[1] "Imágenes"
