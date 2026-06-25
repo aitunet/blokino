@@ -114,6 +114,7 @@ class Tunet_Core_Demo {
 				'project_types'=> array(),
 				'cf7'          => 0,
 				'images_map'   => array(),
+				'url_map'      => array(),
 			)
 		);
 	}
@@ -134,9 +135,9 @@ class Tunet_Core_Demo {
 	}
 
 	/**
-	 * Store the cf7 form id or the images map.
+	 * Store a scalar/array value on the record (e.g. 'cf7', 'images_map', 'url_map').
 	 *
-	 * @param string $key   'cf7' | 'images_map'.
+	 * @param string $key   Record key.
 	 * @param mixed  $value Value.
 	 */
 	public function set_record( $key, $value ) {
@@ -231,19 +232,84 @@ class Tunet_Core_Demo {
 	}
 
 	/**
-	 * Sideload all manifest images; store key→id map; track attachments.
+	 * Every demo image bundled in the theme (assets/img, recursive).
+	 *
+	 * Lets the importer pull ALL of them into the Media Library so the buyer can
+	 * manage/replace them, without having to list each one in the manifest. Skips
+	 * non-photographic assets (svg icons, etc.).
+	 *
+	 * @return string[] Theme-relative paths, e.g. 'assets/img/dish-steak.webp'.
+	 */
+	private function demo_image_files() {
+		$base = get_theme_file_path( 'assets/img' );
+		if ( ! is_dir( $base ) ) {
+			return array();
+		}
+		$out = array();
+		$it  = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator( $base, FilesystemIterator::SKIP_DOTS )
+		);
+		foreach ( $it as $file ) {
+			if ( ! $file->isFile() || ! preg_match( '/\.(webp|jpe?g|png|gif)$/i', $file->getFilename() ) ) {
+				continue;
+			}
+			$rel   = str_replace( '\\', '/', substr( $file->getPathname(), strlen( $base ) + 1 ) );
+			$out[] = 'assets/img/' . $rel;
+		}
+		sort( $out );
+		return $out;
+	}
+
+	/**
+	 * Import every demo image into the Media Library and build the maps the rest
+	 * of the importer needs.
+	 *
+	 * - `images_map` (key→id): manifest images referenced by key (featured images,
+	 *   Woo products) — keeps `image_id()` working.
+	 * - `url_map` (theme-file URL → [id,url]): used by `wire_media()` to point the
+	 *   patterns' inline images at the imported attachments (editable by the buyer).
+	 *
+	 * Every file is imported once (dedup) and tracked so rollback removes it.
 	 */
 	public function step_media() {
-		$images = self::manifest()['images'] ?? array();
-		$map    = array();
-		foreach ( $images as $key => $relpath ) {
-			$id = $this->sideload_image( $relpath );
-			if ( $id ) {
-				$map[ $key ] = $id;
-				$this->track( 'attachments', $id );
+		$manifest_images = self::manifest()['images'] ?? array(); // key => relpath.
+
+		// All demo images: the manifest ones + everything under assets/img.
+		$relpaths = array_values( $manifest_images );
+		foreach ( $this->demo_image_files() as $rel ) {
+			if ( ! in_array( $rel, $relpaths, true ) ) {
+				$relpaths[] = $rel;
 			}
 		}
-		$this->set_record( 'images_map', $map );
+
+		$by_rel  = array(); // relpath => id (import each file once).
+		$url_map = array(); // theme-file URL => [ id, url ].
+		foreach ( $relpaths as $rel ) {
+			if ( isset( $by_rel[ $rel ] ) ) {
+				continue;
+			}
+			$id = $this->sideload_image( $rel );
+			if ( ! $id ) {
+				continue;
+			}
+			$by_rel[ $rel ] = $id;
+			$this->track( 'attachments', $id );
+			$url_map[ get_theme_file_uri( $rel ) ] = array(
+				'id'  => $id,
+				'url' => wp_get_attachment_url( $id ),
+			);
+		}
+
+		// key => id, for images referenced by key (featured images / products).
+		$images_map = array();
+		foreach ( $manifest_images as $key => $rel ) {
+			if ( isset( $by_rel[ $rel ] ) ) {
+				$images_map[ $key ] = $by_rel[ $rel ];
+			}
+		}
+
+		$this->set_record( 'images_map', $images_map );
+		$this->set_record( 'url_map', $url_map );
 	}
 
 	/**
@@ -294,23 +360,143 @@ class Tunet_Core_Demo {
 	}
 
 	/**
-	 * Freshly execute a theme pattern's PHP and return its markup.
+	 * Expand a theme pattern into self-contained, Media-Library-wired markup.
 	 *
-	 * Re-includes the file (rather than the cached registered content) so the
-	 * contact patterns' CF7 conditional resolves against the just-created form.
+	 * Inlines any nested `wp:pattern` references into real blocks and points the
+	 * images at the attachments imported in step_media, so the saved page is fully
+	 * editable by the buyer (not a thin reference rendered from theme files).
 	 *
-	 * @param string $slug e.g. 'aurora/studio'.
+	 * @param string $slug e.g. 'ember/menu'.
 	 * @return string
 	 */
 	public function expand_pattern( $slug ) {
-		$name = preg_replace( '#^[^/]+/#', '', $slug ); // strip 'aurora/'
+		return $this->wire_media( $this->expand_pattern_raw( $slug, array() ) );
+	}
+
+	/**
+	 * Run a pattern's PHP and recursively inline its nested `wp:pattern`
+	 * references into real block markup.
+	 *
+	 * Re-includes the file each call (rather than the cached registered content)
+	 * so the contact patterns' CF7 conditional resolves against the just-created
+	 * form. `$seen` guards against reference loops.
+	 *
+	 * @param string   $slug e.g. 'ember/menu'.
+	 * @param string[] $seen Slugs already expanded in this branch.
+	 * @return string
+	 */
+	public function expand_pattern_raw( $slug, $seen = array() ) {
+		$name = preg_replace( '#^[^/]+/#', '', $slug ); // strip 'ember/'
 		$file = get_theme_file_path( 'patterns/' . $name . '.php' );
 		if ( ! file_exists( $file ) ) {
 			return '';
 		}
 		ob_start();
 		include $file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
-		return (string) ob_get_clean();
+		$content = (string) ob_get_clean();
+
+		$seen[] = $slug;
+		return (string) preg_replace_callback(
+			'#<!--\s*wp:pattern\s+(\{.*?\})\s*/-->#s',
+			function ( $m ) use ( $seen ) {
+				$attrs = json_decode( $m[1], true );
+				$ref   = ( is_array( $attrs ) && isset( $attrs['slug'] ) ) ? (string) $attrs['slug'] : '';
+				if ( '' === $ref || in_array( $ref, $seen, true ) ) {
+					return ''; // unknown ref or loop guard → drop.
+				}
+				return $this->expand_pattern_raw( $ref, $seen );
+			},
+			$content
+		);
+	}
+
+	/**
+	 * Point a pattern's images at the Media Library copies imported in step_media,
+	 * so the buyer can edit/replace them from the editor. Rewrites core/image
+	 * blocks (adds the attachment id + wp-image-{id} class + library URL) and
+	 * tunet/section image backgrounds (sets bgImageId/bgImageUrl). No-op outside an
+	 * import (empty url_map) → patterns keep their theme-file URLs.
+	 *
+	 * @param string $content Expanded (inlined) pattern markup.
+	 * @return string
+	 */
+	private function wire_media( $content ) {
+		$map = self::get_record()['url_map'] ?? array();
+		if ( empty( $map ) || '' === $content ) {
+			return $content;
+		}
+		return serialize_blocks( $this->wire_media_blocks( parse_blocks( $content ), $map ) );
+	}
+
+	/**
+	 * Recursive worker for wire_media().
+	 *
+	 * @param array $blocks parse_blocks() output.
+	 * @param array $map    theme-file URL => [ id, url ].
+	 * @return array
+	 */
+	private function wire_media_blocks( $blocks, $map ) {
+		foreach ( $blocks as &$block ) {
+			$name = isset( $block['blockName'] ) ? $block['blockName'] : '';
+
+			if ( 'core/image' === $name && empty( $block['attrs']['id'] ) ) {
+				$html = isset( $block['innerHTML'] ) ? $block['innerHTML'] : '';
+				foreach ( $map as $theme_url => $att ) {
+					if ( '' === $theme_url || false === strpos( $html, $theme_url ) ) {
+						continue;
+					}
+					$id                         = (int) $att['id'];
+					$block['attrs']['id']       = $id;
+					$block['attrs']['sizeSlug'] = empty( $block['attrs']['sizeSlug'] ) ? 'large' : $block['attrs']['sizeSlug'];
+					$block['innerHTML']         = $this->add_img_class( str_replace( $theme_url, $att['url'], $block['innerHTML'] ), 'wp-image-' . $id );
+					foreach ( (array) $block['innerContent'] as $i => $chunk ) {
+						if ( is_string( $chunk ) ) {
+							$block['innerContent'][ $i ] = $this->add_img_class( str_replace( $theme_url, $att['url'], $chunk ), 'wp-image-' . $id );
+						}
+					}
+					break;
+				}
+			} elseif ( 'tunet/section' === $name
+				&& isset( $block['attrs']['bgType'], $block['attrs']['bgImageUrl'] )
+				&& 'image' === $block['attrs']['bgType']
+				&& empty( $block['attrs']['bgImageId'] )
+				&& isset( $map[ $block['attrs']['bgImageUrl'] ] ) ) {
+				$att                          = $map[ $block['attrs']['bgImageUrl'] ];
+				$block['attrs']['bgImageId']  = (int) $att['id'];
+				$block['attrs']['bgImageUrl'] = $att['url'];
+			}
+
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$block['innerBlocks'] = $this->wire_media_blocks( $block['innerBlocks'], $map );
+			}
+		}
+		unset( $block );
+		return $blocks;
+	}
+
+	/**
+	 * Add a class to the first <img> in a markup chunk (append to an existing
+	 * class attribute, or add one). Used to attach wp-image-{id}.
+	 *
+	 * @param string $html  Markup.
+	 * @param string $class Class to add.
+	 * @return string
+	 */
+	private function add_img_class( $html, $class ) {
+		return (string) preg_replace_callback(
+			'/<img\b([^>]*?)(\s*\/?)>/i',
+			function ( $m ) use ( $class ) {
+				$attrs = $m[1];
+				if ( preg_match( '/\sclass\s*=\s*("|\').*?\1/i', $attrs ) ) {
+					$attrs = preg_replace( '/(\sclass\s*=\s*("|\'))(.*?)(\2)/i', '${1}${3} ' . $class . '${4}', $attrs, 1 );
+				} else {
+					$attrs .= ' class="' . $class . '"';
+				}
+				return '<img' . $attrs . $m[2] . '>';
+			},
+			$html,
+			1
+		);
 	}
 	/**
 	 * Create the `project` CPT entries from the manifest.
