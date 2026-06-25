@@ -527,3 +527,15 @@ msgid "Image"
 msgid_plural "Images"
 msgstr[0] "Imagen"
 msgstr[1] "Imágenes"
+
+#: admin/class-tunet-admin.php
+msgid "Appearance & styles"
+msgstr "Apariencia y estilos"
+
+#: admin/class-tunet-admin.php
+msgid "Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them."
+msgstr "Cambia el aspecto del theme activo —sus variaciones de estilo de color (p. ej. claro / oscuro)— en el editor del sitio. Las variaciones vienen con el theme; el editor es donde las previsualizas y aplicas."
+
+#: admin/class-tunet-admin.php
+msgid "Open Styles in the Site Editor"
+msgstr "Abrir Estilos en el editor del sitio"

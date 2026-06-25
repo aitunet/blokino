@@ -9,7 +9,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: tunet\n"
-"PO-Revision-Date: \n"
 
 #: tunet-core.php:223
 msgid "Tunet Core requiere WordPress %1$s o superior y PHP %2$s o superior."
@@ -528,3 +527,15 @@ msgid "Image"
 msgid_plural "Images"
 msgstr[0] ""
 msgstr[1] ""
+
+#: admin/class-tunet-admin.php
+msgid "Appearance & styles"
+msgstr ""
+
+#: admin/class-tunet-admin.php
+msgid "Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them."
+msgstr ""
+
+#: admin/class-tunet-admin.php
+msgid "Open Styles in the Site Editor"
+msgstr ""
