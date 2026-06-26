@@ -38,4 +38,5 @@
 @keyframes tunet-badge-spin { to { transform: rotate( 360deg ); } }
 @media ( prefers-reduced-motion: reduce ) {
 	.tunet-badge__ring { animation: none !important; }
+	.tunet-badge:hover .tunet-badge__arrow { transform: none; }
 }
