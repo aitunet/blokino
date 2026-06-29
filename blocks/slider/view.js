@@ -50,13 +50,18 @@
 	function buildOptions( el ) {
 		var d = el.dataset;
 		var effect = d.effect || 'slide';
+		var spv = effect === 'fade' || effect === 'cards' ? 1 : num( d.spv, 1 );
+		var slideCount = el.querySelectorAll( '.swiper-slide' ).length;
 
 		var opts = {
 			effect: effect,
 			speed: num( d.speed, 600 ),
-			loop: d.loop === '1',
+			// Loop only when there are genuinely more slides than fit in view.
+			// With too few, Swiper warns + disables loop anyway, so we pre-empt it:
+			// the base degrades gracefully no matter how a theme configures it.
+			loop: d.loop === '1' && slideCount > Math.ceil( spv ),
 			spaceBetween: num( d.space, 0 ),
-			slidesPerView: effect === 'fade' || effect === 'cards' ? 1 : num( d.spv, 1 ),
+			slidesPerView: spv,
 			a11y: { enabled: true }
 		};
 

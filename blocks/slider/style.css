@@ -39,6 +39,15 @@
 	transform: translateY( -50% );
 }
 
+/* Equal-height slides by default: stretch each slide to the tallest so card
+   sliders (quotes, team, pricing…) read even out of the box — a base-quality
+   default, not something every theme has to re-patch. Image-only slides keep
+   their natural height (the <img> is the slide's child, not a flex item of the
+   wrapper). A card that should fill its slide just sets `height: 100%`. */
+.tunet-slider .swiper-wrapper {
+	align-items: stretch;
+}
+
 .tunet-slider .swiper-slide {
 	box-sizing: border-box;
 	height: auto;
