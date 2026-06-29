@@ -36,9 +36,13 @@ $tnt_autoplay  = ! empty( $attributes['autoplay'] );
 $tnt_pag       = ! empty( $attributes['pagination'] );
 $tnt_nav       = ! empty( $attributes['navigation'] );
 
+// Per-view count for the pre-init fallback layout (fade/cards stack at 1).
+$tnt_preview_spv = in_array( $tnt_effect, array( 'fade', 'cards' ), true ) ? 1 : max( 1, $tnt_spv );
+
 $tnt_wrapper = get_block_wrapper_attributes(
 	array(
 		'class'                 => 'tunet-slider swiper',
+		'style'                 => '--tnt-slider-spv:' . $tnt_preview_spv . ';',
 		'data-swiper-base'      => esc_url( TUNET_CORE_URL . 'blocks/slider/vendor/' ),
 		'data-effect'           => $tnt_effect,
 		'data-spv'              => (string) $tnt_spv,

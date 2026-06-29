@@ -61,12 +61,21 @@
 	height: auto;
 }
 
-/* Antes de inicializar (o sin JS): mostrar solo la primera slide. */
+/* Antes de inicializar (o sin JS): los slides se muestran en una fila clipada a
+   ~1/slidesPerView del ancho. Así un slider multi-por-vista NO parpadea una sola
+   slide gigante a todo el ancho antes de que el JS inicialice; al iniciar, Swiper
+   toma el control del layout. --tnt-slider-spv lo setea el render.php. */
 .tunet-slider:not( .swiper-initialized ) {
 	overflow: hidden;
 }
-.tunet-slider:not( .swiper-initialized ) .swiper-slide + .swiper-slide {
-	display: none;
+.tunet-slider:not( .swiper-initialized ) .swiper-wrapper {
+	display: flex;
+	flex-wrap: nowrap;
+}
+.tunet-slider:not( .swiper-initialized ) .swiper-slide {
+	flex: 0 0 calc( 100% / var( --tnt-slider-spv, 1 ) );
+	max-inline-size: calc( 100% / var( --tnt-slider-spv, 1 ) );
+	box-sizing: border-box;
 }
 .tunet-slider:not( .swiper-initialized ) .swiper-button-prev,
 .tunet-slider:not( .swiper-initialized ) .swiper-button-next,
