@@ -94,6 +94,8 @@ class Tunet_Core_Admin {
 			'motion'          => '',
 			'logo_main_id'    => 0,
 			'logo_alt_id'     => 0,
+			'layout_post_single' => '',
+			'layout_archive'     => '',
 		);
 	}
 
@@ -482,6 +484,22 @@ class Tunet_Core_Admin {
 				</div>
 
 				<div class="card tunet-section-card">
+					<h2><?php esc_html_e( 'Content layout', 'tunet' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor.', 'tunet' ); ?></p>
+					<table class="form-table" role="presentation">
+						<?php
+						$layout_opts = array(
+							''        => __( 'Full width (no sidebar)', 'tunet' ),
+							'sidebar' => __( 'With sidebar', 'tunet' ),
+						);
+						$this->row_select( __( 'Single posts', 'tunet' ), 'layout_post_single', $s['layout_post_single'], $layout_opts );
+						$this->row_select( __( 'Blog & archives', 'tunet' ), 'layout_archive', $s['layout_archive'], $layout_opts );
+						?>
+					</table>
+					<p class="description"><?php esc_html_e( 'Themes that ship a sidebar area react automatically. A theme without one simply stays full width.', 'tunet' ); ?></p>
+				</div>
+
+				<div class="card tunet-section-card">
 					<h2><?php esc_html_e( 'General', 'tunet' ); ?></h2>
 					<p><label>
 						<input type="checkbox" name="effects_enabled" value="1" <?php checked( ! empty( $s['effects_enabled'] ) ); ?> />
@@ -726,6 +744,8 @@ class Tunet_Core_Admin {
 			'motion'          => $enum( $src['motion'] ?? '', array( 'subtle', 'bold' ) ),
 			'logo_main_id'    => isset( $src['logo_main_id'] ) ? absint( $src['logo_main_id'] ) : 0,
 			'logo_alt_id'     => isset( $src['logo_alt_id'] ) ? absint( $src['logo_alt_id'] ) : 0,
+			'layout_post_single' => $enum( $src['layout_post_single'] ?? '', array( 'sidebar' ) ),
+			'layout_archive'     => $enum( $src['layout_archive'] ?? '', array( 'sidebar' ) ),
 		);
 	}
 

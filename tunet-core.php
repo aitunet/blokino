@@ -3,7 +3,7 @@
  * Plugin Name:       Tunet Core
  * Plugin URI:        https://tunetdesign.com/tunet-core
  * Description:       Engine of the Tunet ecosystem. Provides the shared infrastructure (native block extensions with tf* effects, custom blocks, the effects runtime and an options panel). Presentation lives in each theme; this plugin never hardcodes styles. Not sold separately.
- * Version:           0.1.2
+ * Version:           0.1.3
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            TUNET Digital Agency
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * Constantes del plugin
  * ---------------------------------------------------------------------- */
-define( 'TUNET_CORE_VERSION', '0.1.2' );
+define( 'TUNET_CORE_VERSION', '0.1.3' );
 define( 'TUNET_CORE_FILE', __FILE__ );
 define( 'TUNET_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'TUNET_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -161,6 +161,54 @@ function tunet_core_logo( $variant = 'main' ) {
 		)
 	);
 }
+
+/* -------------------------------------------------------------------------
+ * Layout de contenido (sidebar / full-width) — gobernado por el motor.
+ *
+ * Una sola opción del motor decide si las ENTRADAS y los ARCHIVOS llevan
+ * sidebar o van a ancho completo; las PÁGINAS quedan fuera (usan sus propias
+ * plantillas de página). Vive en el motor (no en cada theme) para que TODOS los
+ * themes Tunet reaccionen al mismo ajuste sin duplicar lógica (CLAUDE.md §13).
+ * El motor solo emite clases en el <body>; el theme decide cómo dibujar el
+ * sidebar (parte `sidebar` + CSS). Un theme sin sidebar degrada con dignidad:
+ * queda a ancho completo (§12).
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Layout de contenido para la petición actual.
+ *
+ * @return string 'sidebar' | 'full'.
+ */
+function tunet_core_content_layout() {
+	if ( is_admin() || ! class_exists( 'Tunet_Core_Admin' ) ) {
+		return 'full';
+	}
+
+	// Entradas de blog (no páginas, no portada estática, no CPTs con layout propio).
+	if ( is_singular( 'post' ) ) {
+		return 'sidebar' === Tunet_Core_Admin::get( 'layout_post_single' ) ? 'sidebar' : 'full';
+	}
+
+	// Índice de blog + archivos de taxonomía/fecha/autor de entradas + búsqueda.
+	if ( is_home() || is_category() || is_tag() || is_date() || is_author() || is_search() ) {
+		return 'sidebar' === Tunet_Core_Admin::get( 'layout_archive' ) ? 'sidebar' : 'full';
+	}
+
+	return 'full';
+}
+
+/**
+ * Añade las clases de layout al <body> para que el CSS del theme conmute
+ * entre rejilla-con-sidebar y ancho completo.
+ *
+ * @param string[] $classes Clases del body.
+ * @return string[]
+ */
+function tunet_core_body_layout_class( $classes ) {
+	$classes[] = ( 'sidebar' === tunet_core_content_layout() ) ? 'tunet-has-sidebar' : 'tunet-no-sidebar';
+	return $classes;
+}
+add_filter( 'body_class', 'tunet_core_body_layout_class' );
 
 /* -------------------------------------------------------------------------
  * Updates de themes Tunet (premium → se actualizan por EDD, no por wp.org).
