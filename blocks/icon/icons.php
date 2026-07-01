@@ -43,3 +43,44 @@ function tunet_core_icon_set() {
 		'award'          => array( 'label' => 'Award',          'svg' => '<circle cx="12" cy="8" r="6"/><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.12"/>' ),
 	);
 }
+
+/**
+ * Arma un <svg> inline desde el set curado. Fuente ÚNICA del markup del icono:
+ * la usan icon/render.php (front del bloque) y el separador-icono de tunet/marquee.
+ *
+ * @param string $slug Nombre del icono en tunet_core_icon_set().
+ * @param array  $args size(int,24; 0=sin dims) · stroke(float,2) · class(string) · label(string,''=decorativo).
+ * @return string <svg>…</svg> o '' si el slug no existe.
+ */
+function tunet_core_icon_svg( $slug, $args = array() ) {
+	$set  = tunet_core_icon_set();
+	$slug = sanitize_key( (string) $slug );
+	if ( ! isset( $set[ $slug ] ) ) {
+		return '';
+	}
+	$args = array_merge(
+		array(
+			'size'   => 24,
+			'stroke' => 2,
+			'class'  => '',
+			'label'  => '',
+		),
+		is_array( $args ) ? $args : array()
+	);
+
+	$size   = (int) $args['size'];
+	$stroke = (float) $args['stroke'];
+	$class  = trim( (string) $args['class'] );
+	$label  = trim( (string) $args['label'] );
+
+	$dims = $size > 0 ? sprintf( ' width="%1$d" height="%1$d"', $size ) : '';
+	$cls  = '' !== $class ? ' class="' . esc_attr( $class ) . '"' : '';
+	$a11y = '' !== $label
+		? ' role="img" aria-label="' . esc_attr( $label ) . '"'
+		: ' aria-hidden="true" focusable="false"';
+
+	return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"' . $cls . $dims .
+		' fill="none" stroke="currentColor" stroke-width="' . esc_attr( (string) $stroke ) .
+		'" stroke-linecap="round" stroke-linejoin="round"' . $a11y . '>' .
+		$set[ $slug ]['svg'] . '</svg>';
+}
