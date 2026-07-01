@@ -71,7 +71,7 @@ $tnt_style = sprintf(
 // inyectar otras declaraciones). Vacío ⇒ el CSS resuelve var(--tnt-color-primary).
 $tnt_sep_color = isset( $attributes['separatorColor'] ) ? (string) $attributes['separatorColor'] : '';
 $tnt_sep_color = preg_replace( '/[^a-zA-Z0-9#(),.%\s\-]/', '', $tnt_sep_color );
-if ( '' !== trim( (string) $tnt_sep_color ) ) {
+if ( 'none' !== $tnt_sep_type && '' !== trim( (string) $tnt_sep_color ) ) {
 	$tnt_style .= '--tnt-marquee-sep-color:' . $tnt_sep_color . ';';
 }
 

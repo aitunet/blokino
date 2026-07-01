@@ -41,7 +41,10 @@
 			var setQuery = qState[ 1 ];
 
 			var wrapStyle = {};
-			if ( a.separatorColor ) {
+			if ( a.gap !== undefined && a.gap !== null ) {
+				wrapStyle[ '--tnt-marquee-gap' ] = a.gap + 'rem';
+			}
+			if ( a.separatorColor && 'none' !== a.separator ) {
 				wrapStyle[ '--tnt-marquee-sep-color' ] = a.separatorColor;
 			}
 			var blockProps = useBlockProps( {

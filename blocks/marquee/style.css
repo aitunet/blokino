@@ -99,4 +99,8 @@
 	.tunet-marquee__group[aria-hidden="true"] {
 		display: none;
 	}
+	/* Sin loop no hay costura: el separador final queda colgando → ocultarlo. */
+	.tunet-marquee__group .tunet-marquee__sep:last-child {
+		display: none;
+	}
 }
