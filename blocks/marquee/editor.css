@@ -1,0 +1,55 @@
+/* ==========================================================================
+ * Tunet Core · Block tunet/marquee — editor
+ * Preview aproximado de separadores + picker de icono con scroll vertical.
+ * El render fiel (incl. icono exacto) es el del front (render.php + style.css).
+ * ========================================================================== */
+.tunet-marquee-editor .block-editor-block-list__layout {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var( --tnt-marquee-gap, 3rem );
+}
+.tunet-marquee-editor[class*="is-sep-"]:not( .is-sep-none ) .block-editor-block-list__layout > *:not( :last-child )::after {
+	content: "";
+	display: inline-flex;
+	align-items: center;
+	color: var( --tnt-marquee-sep-color, var( --tnt-color-primary, currentColor ) );
+}
+.tunet-marquee-editor.is-sep-dot .block-editor-block-list__layout > *:not( :last-child )::after,
+.tunet-marquee-editor.is-sep-icon .block-editor-block-list__layout > *:not( :last-child )::after {
+	inline-size: 7px;
+	block-size: 7px;
+	border-radius: 50%;
+	background: currentColor;
+}
+.tunet-marquee-editor.is-sep-icon .block-editor-block-list__layout > *:not( :last-child )::after { opacity: 0.6; }
+.tunet-marquee-editor.is-sep-dash .block-editor-block-list__layout > *:not( :last-child )::after { content: "\2014"; }
+.tunet-marquee-editor.is-sep-slash .block-editor-block-list__layout > *:not( :last-child )::after { content: "/"; }
+.tunet-marquee-editor.is-sep-pipe .block-editor-block-list__layout > *:not( :last-child )::after { content: "|"; }
+
+/* Picker de icono del separador — grilla con SCROLL VERTICAL (no ocupa de más). */
+.tunet-marquee-editor__sep-picker {
+	display: grid;
+	grid-template-columns: repeat( 6, 1fr );
+	gap: 4px;
+	max-block-size: 220px;
+	overflow-y: auto;
+	margin-block-start: 8px;
+	padding: 2px;
+}
+.tunet-marquee-editor__sep-picker button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	aspect-ratio: 1;
+	padding: 6px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background: #fff;
+	cursor: pointer;
+}
+.tunet-marquee-editor__sep-picker button.is-active {
+	outline: 2px solid var( --wp-admin-theme-color, #007cba );
+	outline-offset: -1px;
+}
+.tunet-marquee-editor__sep-picker svg { inline-size: 20px; block-size: 20px; }
