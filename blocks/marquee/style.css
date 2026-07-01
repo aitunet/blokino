@@ -52,14 +52,42 @@
 	}
 }
 
-/* Accesibilidad: sin movimiento, la banda se vuelve desplazable y se elimina
-   el duplicado decorativo (§10). */
+/* Separador entre ítems (opt-in; color default = primario, recoloreable). */
+.tunet-marquee__sep {
+	color: var( --tnt-marquee-sep-color, var( --tnt-color-primary ) );
+	display: inline-flex;
+	align-items: center;
+	flex: 0 0 auto;
+}
+.tunet-marquee__sep--dot::before {
+	content: "";
+	inline-size: 7px;
+	block-size: 7px;
+	border-radius: 50%;
+	background: currentColor;
+}
+.tunet-marquee__sep--dash::before  { content: "\2014"; }
+.tunet-marquee__sep--slash::before { content: "/"; }
+.tunet-marquee__sep--pipe::before  { content: "|"; }
+.tunet-marquee__sep--icon .tunet-marquee__sep-icon {
+	inline-size: 1em;
+	block-size: 1em;
+}
+
+/* Accesibilidad: sin movimiento, la banda se ACOMODA en varias líneas (wrap),
+   todos los ítems visibles, sin scrollbar. Se elimina el duplicado decorativo. */
 @media ( prefers-reduced-motion: reduce ) {
 	.tunet-marquee {
-		overflow-x: auto;
+		-webkit-mask-image: none;
+		        mask-image: none;
 	}
 	.tunet-marquee__track {
 		animation: none;
+	}
+	.tunet-marquee__group {
+		flex-wrap: wrap;
+		justify-content: center;
+		row-gap: var( --tnt-marquee-gap, 3rem );
 	}
 	.tunet-marquee__group[aria-hidden="true"] {
 		display: none;
