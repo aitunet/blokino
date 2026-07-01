@@ -83,10 +83,17 @@
 	}
 	.tunet-marquee__track {
 		animation: none;
+		/* El track base es width:max-content (para el loop). En wrap hay que
+		   liberarlo a 100% o el grupo recibe el ancho completo y NO baja de línea. */
+		width: 100%;
 	}
 	.tunet-marquee__group {
 		flex-wrap: wrap;
 		justify-content: center;
+		/* Constreñir el grupo al contenedor para que los ítems wrappeen; sin la
+		   separación de costura del loop (aquí no hay costura). */
+		width: 100%;
+		padding-inline: 0;
 		row-gap: var( --tnt-marquee-gap, 3rem );
 	}
 	.tunet-marquee__group[aria-hidden="true"] {
