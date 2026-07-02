@@ -16,6 +16,13 @@
 	var InspectorControls = wp.blockEditor.InspectorControls;
 	var c = wp.components;
 
+	var CATS = [
+		{ key: 'general', label: __( 'General', 'tunet' ) },
+		{ key: 'nav',     label: __( 'Nav / UI', 'tunet' ) },
+		{ key: 'contact', label: __( 'Contact', 'tunet' ) },
+		{ key: 'brand',   label: __( 'Brand / Social', 'tunet' ) }
+	];
+
 	registerBlockType( 'tunet/icon', {
 		edit: function ( props ) {
 			var a = props.attributes;
@@ -25,34 +32,42 @@
 			var setQuery = state[ 1 ];
 			var blockProps = useBlockProps( { className: 'tunet-icon' } );
 			var ICONS = window.tunetIcons || {};
+			var selMode = ( ( window.tunetIcons || {} )[ a.icon ] || {} ).mode || 'stroke';
 
-			var names = Object.keys( ICONS ).filter( function ( n ) {
-				if ( ! query ) {
-					return true;
-				}
-				var q = query.toLowerCase();
+			var q = query ? query.toLowerCase() : '';
+			var matches = function ( n ) {
+				if ( ! q ) { return true; }
 				return n.indexOf( q ) !== -1 || ( ICONS[ n ].label || '' ).toLowerCase().indexOf( q ) !== -1;
-			} );
-
-			var picker = el(
-				'div',
-				{ className: 'tunet-icon-picker' },
-				names.length
-					? names.map( function ( n ) {
-						return el( 'button', {
-							key: n,
-							type: 'button',
-							className: 'tunet-icon-picker__item' + ( n === a.icon ? ' is-active' : '' ),
-							'aria-label': ICONS[ n ].label || n,
-							title: ICONS[ n ].label || n,
-							onClick: function () {
-								set( { icon: n } );
-							},
-							dangerouslySetInnerHTML: { __html: window.tunetIconSvg( n, { stroke: 2, size: 24 } ) }
-						} );
-					} )
-					: el( 'p', { className: 'tunet-icon-picker__empty' }, __( 'No icons match.', 'tunet' ) )
-			);
+			};
+			var iconButton = function ( n ) {
+				return el( 'button', {
+					key: n,
+					type: 'button',
+					className: 'tunet-icon-picker__item' + ( n === a.icon ? ' is-active' : '' ),
+					'aria-label': ICONS[ n ].label || n,
+					title: ICONS[ n ].label || n,
+					onClick: function () { set( { icon: n } ); },
+					dangerouslySetInnerHTML: { __html: window.tunetIconSvg( n, { stroke: 2, size: 24 } ) }
+				} );
+			};
+			var allNames = Object.keys( ICONS );
+			var pickerChildren;
+			if ( q ) {
+				var flat = allNames.filter( matches );
+				pickerChildren = flat.length
+					? [ el( 'div', { className: 'tunet-icon-picker__grid', key: 'flat' }, flat.map( iconButton ) ) ]
+					: [ el( 'p', { className: 'tunet-icon-picker__empty', key: 'empty' }, __( 'No icons match.', 'tunet' ) ) ];
+			} else {
+				pickerChildren = CATS.map( function ( cat ) {
+					var inCat = allNames.filter( function ( n ) { return ( ICONS[ n ].category || 'general' ) === cat.key; } );
+					if ( ! inCat.length ) { return null; }
+					return el( Fragment, { key: cat.key },
+						el( 'p', { className: 'tunet-icon-picker__cat' }, cat.label ),
+						el( 'div', { className: 'tunet-icon-picker__grid' }, inCat.map( iconButton ) )
+					);
+				} ).filter( Boolean );
+			}
+			var picker = el( 'div', { className: 'tunet-icon-picker' }, pickerChildren );
 
 			return el(
 				Fragment,
@@ -86,7 +101,7 @@
 							},
 							__nextHasNoMarginBottom: true
 						} ),
-						el( c.RangeControl, {
+						'fill' !== selMode ? el( c.RangeControl, {
 							label: __( 'Stroke width', 'tunet' ),
 							value: a.strokeWidth || 2,
 							min: 1,
@@ -96,7 +111,7 @@
 								set( { strokeWidth: v || 2 } );
 							},
 							__nextHasNoMarginBottom: true
-						} ),
+						} ) : null,
 						el( c.TextControl, {
 							label: __( 'Accessibility label', 'tunet' ),
 							help: __( 'Leave empty if the icon is purely decorative.', 'tunet' ),
