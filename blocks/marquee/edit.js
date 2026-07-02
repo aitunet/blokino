@@ -17,19 +17,9 @@
 	var useBlockProps = blockEditor.useBlockProps;
 	var InnerBlocks = blockEditor.InnerBlocks;
 	var InspectorControls = blockEditor.InspectorControls;
+	var useSettings = blockEditor.useSettings;
 	var useSetting = blockEditor.useSetting || function () { return undefined; };
 	var c = wp.components;
-
-	function svgMarkup( name ) {
-		var ICONS = window.tunetIcons || {};
-		var ic = ICONS[ name ];
-		if ( ! ic ) {
-			return '';
-		}
-		return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"' +
-			' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"' +
-			' stroke-linejoin="round" aria-hidden="true">' + ic.svg + '</svg>';
-	}
 
 	registerBlockType( 'tunet/marquee', {
 		edit: function ( props ) {
@@ -52,7 +42,7 @@
 				style: wrapStyle
 			} );
 
-			var palette = useSetting( 'color.palette' ) || [];
+			var palette = ( useSettings ? useSettings( 'color.palette' )[ 0 ] : useSetting( 'color.palette' ) ) || [];
 
 			// Picker de icono (solo cuando separator === 'icon').
 			var iconPicker = null;
@@ -87,7 +77,7 @@
 									'aria-label': ICONS[ n ].label || n,
 									title: ICONS[ n ].label || n,
 									onClick: function () { set( { separatorIcon: n } ); },
-									dangerouslySetInnerHTML: { __html: svgMarkup( n ) }
+									dangerouslySetInnerHTML: { __html: window.tunetIconSvg( n, { size: 24 } ) }
 								} );
 							} )
 							: el( 'p', {}, __( 'No icons match.', 'tunet' ) )
