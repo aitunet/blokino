@@ -48,40 +48,50 @@
 			var iconPicker = null;
 			if ( 'icon' === a.separator ) {
 				var ICONS = window.tunetIcons || {};
-				var names = Object.keys( ICONS ).filter( function ( n ) {
-					if ( ! query ) {
-						return true;
-					}
-					var q = query.toLowerCase();
+				var q = query ? query.toLowerCase() : '';
+				var matches = function ( n ) {
+					if ( ! q ) { return true; }
 					return n.indexOf( q ) !== -1 || ( ICONS[ n ].label || '' ).toLowerCase().indexOf( q ) !== -1;
-				} );
-				iconPicker = el(
-					Fragment,
-					{},
+				};
+				var sepBtn = function ( n ) {
+					return el( 'button', {
+						key: n, type: 'button',
+						className: n === a.separatorIcon ? 'is-active' : '',
+						'aria-label': ICONS[ n ].label || n,
+						title: ICONS[ n ].label || n,
+						onClick: function () { set( { separatorIcon: n } ); },
+						dangerouslySetInnerHTML: { __html: window.tunetIconSvg( n, { size: 24 } ) }
+					} );
+				};
+				var allNames = Object.keys( ICONS );
+				var gridChildren;
+				if ( q ) {
+					var flat = allNames.filter( matches );
+					gridChildren = flat.length
+						? [ el( 'div', { className: 'tunet-marquee-editor__sep-grid', key: 'flat' }, flat.map( sepBtn ) ) ]
+						: [ el( 'p', { key: 'empty' }, __( 'No icons match.', 'tunet' ) ) ];
+				} else {
+					gridChildren = [
+						{ key: 'general', label: __( 'General', 'tunet' ) },
+						{ key: 'nav', label: __( 'Nav / UI', 'tunet' ) },
+						{ key: 'contact', label: __( 'Contact', 'tunet' ) },
+						{ key: 'brand', label: __( 'Brand / Social', 'tunet' ) }
+					].map( function ( cat ) {
+						var inCat = allNames.filter( function ( n ) { return ( ICONS[ n ].category || 'general' ) === cat.key; } );
+						if ( ! inCat.length ) { return null; }
+						return el( Fragment, { key: cat.key },
+							el( 'p', { className: 'tunet-marquee-editor__sep-cat' }, cat.label ),
+							el( 'div', { className: 'tunet-marquee-editor__sep-grid' }, inCat.map( sepBtn ) )
+						);
+					} ).filter( Boolean );
+				}
+				iconPicker = el( Fragment, {},
 					el( c.SearchControl, {
-						value: query,
-						onChange: setQuery,
-						label: __( 'Search icons', 'tunet' ),
-						placeholder: __( 'Search…', 'tunet' ),
+						value: query, onChange: setQuery,
+						label: __( 'Search icons', 'tunet' ), placeholder: __( 'Search…', 'tunet' ),
 						__nextHasNoMarginBottom: true
 					} ),
-					el(
-						'div',
-						{ className: 'tunet-marquee-editor__sep-picker' },
-						names.length
-							? names.map( function ( n ) {
-								return el( 'button', {
-									key: n,
-									type: 'button',
-									className: n === a.separatorIcon ? 'is-active' : '',
-									'aria-label': ICONS[ n ].label || n,
-									title: ICONS[ n ].label || n,
-									onClick: function () { set( { separatorIcon: n } ); },
-									dangerouslySetInnerHTML: { __html: window.tunetIconSvg( n, { size: 24 } ) }
-								} );
-							} )
-							: el( 'p', {}, __( 'No icons match.', 'tunet' ) )
-					)
+					el( 'div', { className: 'tunet-marquee-editor__sep-picker' }, gridChildren )
 				);
 			}
 

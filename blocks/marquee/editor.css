@@ -27,16 +27,27 @@
 .tunet-marquee-editor.is-sep-slash .block-editor-block-list__layout > *:not( :last-child )::after { content: "/"; }
 .tunet-marquee-editor.is-sep-pipe .block-editor-block-list__layout > *:not( :last-child )::after { content: "|"; }
 
-/* Picker de icono del separador — grilla con SCROLL VERTICAL (no ocupa de más). */
+/* Picker de icono del separador — categorías + SCROLL VERTICAL. */
 .tunet-marquee-editor__sep-picker {
-	display: grid;
-	grid-template-columns: repeat( 6, 1fr );
-	gap: 4px;
 	max-block-size: 220px;
 	overflow-y: auto;
 	margin-block-start: 8px;
 	padding: 2px;
 }
+.tunet-marquee-editor__sep-grid {
+	display: grid;
+	grid-template-columns: repeat( 6, 1fr );
+	gap: 4px;
+}
+.tunet-marquee-editor__sep-cat {
+	margin: 10px 0 4px;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: #757575;
+}
+.tunet-marquee-editor__sep-cat:first-child { margin-top: 0; }
 .tunet-marquee-editor__sep-picker button {
 	display: flex;
 	align-items: center;
