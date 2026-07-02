@@ -12,6 +12,7 @@ return array(
 		'wp-block-editor',
 		'wp-components',
 		'wp-i18n',
+		'tunet-icon-svg',
 	),
-	'version'      => '0.1.1',
+	'version'      => '0.2.0',
 );

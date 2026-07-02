@@ -79,6 +79,15 @@ class Tunet_Core_Blocks {
 		wp_register_script( 'tunet-icons-data', false, array(), TUNET_CORE_VERSION, false );
 		wp_enqueue_script( 'tunet-icons-data' );
 		wp_add_inline_script( 'tunet-icons-data', 'window.tunetIcons = ' . wp_json_encode( tunet_core_icon_set() ) . ';', 'before' );
+
+		// Helper JS compartido (espejo de tunet_core_icon_svg) para los pickers.
+		wp_enqueue_script(
+			'tunet-icon-svg',
+			TUNET_CORE_URL . 'blocks/icon/icon-svg.js',
+			array( 'tunet-icons-data' ),
+			TUNET_CORE_VERSION,
+			false
+		);
 	}
 
 	/**

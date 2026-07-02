@@ -16,18 +16,6 @@
 	var InspectorControls = wp.blockEditor.InspectorControls;
 	var c = wp.components;
 
-	function svgMarkup( name, stroke, size ) {
-		var ICONS = window.tunetIcons || {};
-		var ic = ICONS[ name ];
-		if ( ! ic ) {
-			return '';
-		}
-		var s = size && size > 0 ? size : 24;
-		return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="' + s + '" height="' + s +
-			'" fill="none" stroke="currentColor" stroke-width="' + ( stroke || 2 ) +
-			'" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ic.svg + '</svg>';
-	}
-
 	registerBlockType( 'tunet/icon', {
 		edit: function ( props ) {
 			var a = props.attributes;
@@ -60,7 +48,7 @@
 							onClick: function () {
 								set( { icon: n } );
 							},
-							dangerouslySetInnerHTML: { __html: svgMarkup( n, 2, 24 ) }
+							dangerouslySetInnerHTML: { __html: window.tunetIconSvg( n, { stroke: 2, size: 24 } ) }
 						} );
 					} )
 					: el( 'p', { className: 'tunet-icon-picker__empty' }, __( 'No icons match.', 'tunet' ) )
@@ -121,7 +109,7 @@
 					)
 				),
 				el( 'span', Object.assign( {}, blockProps, {
-					dangerouslySetInnerHTML: { __html: svgMarkup( a.icon, a.strokeWidth, a.size ) }
+					dangerouslySetInnerHTML: { __html: window.tunetIconSvg( a.icon, { stroke: a.strokeWidth, size: a.size } ) }
 				} ) )
 			);
 		},
