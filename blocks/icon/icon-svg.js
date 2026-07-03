@@ -14,6 +14,8 @@
 			return '';
 		}
 		opts = opts || {};
+		// A diferencia del PHP (size:0 ⇒ SVG sin width/height, dimensionado por CSS),
+		// el editor SIEMPRE pide un tamaño explícito → no replicamos el caso size:0.
 		var size = opts.size && opts.size > 0 ? opts.size : 24;
 		var paint = 'fill' === ic.mode
 			? 'fill="currentColor"'

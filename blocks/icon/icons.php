@@ -13,6 +13,10 @@
  *   - Iconos de trazo (mode:stroke): Lucide (ISC) / Feather (MIT).
  *   - Iconos de marca (mode:fill):   Simple Icons (CC0).
  *
+ * Nota de marcas: el arte de Simple Icons es CC0, pero los nombres y logos de
+ * marca son marcas registradas de sus respectivos dueños; se incluyen solo con
+ * fines de identificación/enlace, sin afiliación ni respaldo implícito.
+ *
  * @package Tunet\Core
  */
 
