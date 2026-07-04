@@ -1,0 +1,22 @@
+/* ==========================================================================
+ * Tunet Core · Block tunet/brand
+ * Piso agnóstico: sin estética de theme (los themes visten con --tnt-*).
+ * ========================================================================== */
+
+.tunet-brand {
+	display: inline-flex;
+	align-items: center;
+	text-decoration: none;
+	color: inherit;
+}
+
+.tunet-brand__img {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+
+.tunet-brand__title {
+	font: inherit;
+	color: inherit;
+}
