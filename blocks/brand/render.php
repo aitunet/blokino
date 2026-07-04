@@ -35,12 +35,15 @@ if ( $tnt_logo_id ) {
 		)
 	);
 }
-if ( '' === $tnt_inner ) {
+$tnt_has_logo = ( '' !== $tnt_inner ); // false si el id quedó huérfano (imagen borrada) → fallback a título.
+if ( ! $tnt_has_logo ) {
 	$tnt_inner = '<span class="tunet-brand__title">' . esc_html( get_bloginfo( 'name' ) ) . '</span>';
 }
 
 // 3) Wrapper: <a> a Home (rel="home"), o <span> si linkToHome = false.
-$tnt_style   = $tnt_max ? 'max-width:' . $tnt_max . 'px' : '';
+// El cap de ancho solo aplica al LOGO; el título de texto (fallback) va a su ancho
+// natural — un sitio sin logo con nombre largo no se estrecha ni wrapea (degradación §12).
+$tnt_style   = ( $tnt_has_logo && $tnt_max ) ? 'max-width:' . $tnt_max . 'px' : '';
 $tnt_wrapper = get_block_wrapper_attributes(
 	array(
 		'class' => 'tunet-brand',
