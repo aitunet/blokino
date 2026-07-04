@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * Constantes del plugin
  * ---------------------------------------------------------------------- */
-define( 'TUNET_CORE_VERSION', '0.1.3' );
+define( 'TUNET_CORE_VERSION', '0.1.4' );
 define( 'TUNET_CORE_FILE', __FILE__ );
 define( 'TUNET_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'TUNET_CORE_URL', plugin_dir_url( __FILE__ ) );

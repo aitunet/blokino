@@ -59,7 +59,7 @@ tunet-core/
 │  ├─ before-after/                tunet/before-after: comparador arrastrable.
 │  ├─ slider/                      tunet/slider: Swiper.js vendorizado + lazy.
 │  ├─ section/                     tunet/section: fondos avanzados + dividers.
-│  └─ logo/                        tunet/logo: logo de marca (principal/alt).
+│  └─ brand/                       tunet/brand: marca del sitio (logo→título, a Home).
 ├─ runtime/                        Runtime de efectos + carga condicional.
 │  ├─ class-tunet-runtime.php      Detecta efectos, encola on-demand, inyecta
 │  │                               data-tf-* en blocks dinámicos (render_block).

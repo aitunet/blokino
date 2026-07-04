@@ -7,7 +7,7 @@
  * --tnt-* tokens; this panel only stores overrides, which the runtime injects
  * as :root{--tnt-*}. Fonts load from Google Fonts (CDN). Logos are engine-level
  * brand assets (they persist across theme switches); the theme decides where to
- * place them (tunet/logo block or the native Site Logo block).
+ * place them (tunet/brand block or the native Site Logo block).
  *
  * Reads/builders are STATIC so the runtime can use them on the front-end.
  *

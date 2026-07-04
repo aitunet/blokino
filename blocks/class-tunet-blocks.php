@@ -33,7 +33,6 @@ class Tunet_Core_Blocks {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_blocks' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'localize_logos' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'localize_icons' ) );
 	}
 
@@ -48,28 +47,10 @@ class Tunet_Core_Blocks {
 		'before-after',
 		'slider',
 		'section',
-		'logo',
+		'brand',
 		'icon',
 		'badge',
 	);
-
-	/**
-	 * Expone las URLs de los logos al editor (para el preview de tunet/logo).
-	 */
-	public function localize_logos() {
-		if ( ! class_exists( 'Tunet_Core_Admin' ) ) {
-			return;
-		}
-		$main = Tunet_Core_Admin::logo_id( 'main' );
-		$alt  = Tunet_Core_Admin::logo_id( 'alt' );
-		$data = array(
-			'main' => $main ? wp_get_attachment_image_url( $main, 'full' ) : '',
-			'alt'  => $alt ? wp_get_attachment_image_url( $alt, 'full' ) : '',
-		);
-		wp_register_script( 'tunet-logos-data', false, array(), TUNET_CORE_VERSION, false );
-		wp_enqueue_script( 'tunet-logos-data' );
-		wp_add_inline_script( 'tunet-logos-data', 'window.tunetLogos = ' . wp_json_encode( $data ) . ';', 'before' );
-	}
 
 	/**
 	 * Expone el set curado de iconos al editor (para el picker de tunet/icon).
