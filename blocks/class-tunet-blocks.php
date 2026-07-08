@@ -52,6 +52,7 @@ class Tunet_Core_Blocks {
 		'icon',
 		'badge',
 		'testimonial',
+		'testimonials',
 	);
 
 	/**

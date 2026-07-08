@@ -1,0 +1,23 @@
+/* ==========================================================================
+ * Tunet Core · Block tunet/testimonials
+ * El chrome del carrusel es compartido (runtime/carousel.css). Aquí: el grid
+ * auto-suficiente (§9) y ajustes del wrapper. Todo por tokens --tnt-*.
+ * ========================================================================== */
+
+/* Grid auto-suficiente: prefijo :root para ganarle al flow de WP sin !important. */
+:root .tunet-testimonials--grid {
+	display: grid;
+	grid-template-columns: repeat( var( --tnt-tst-cols, 3 ), 1fr );
+	gap: var( --tnt-space-5 );
+	align-items: stretch;
+}
+:root .tunet-testimonials--grid > * {
+	margin-block-start: 0;
+}
+
+/* Móvil: una columna. */
+@media ( max-width: 781px ) {
+	:root .tunet-testimonials--grid {
+		grid-template-columns: 1fr;
+	}
+}
