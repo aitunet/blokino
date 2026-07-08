@@ -21,7 +21,11 @@
 			? 'fill="currentColor"'
 			: 'fill="none" stroke="currentColor" stroke-width="' + ( opts.stroke || 2 ) +
 			  '" stroke-linecap="round" stroke-linejoin="round"';
+		// Clase opcional en el <svg> (para que el CSS del bloque pueda pisar el
+		// paint por defecto, p.ej. estrellas de rating). Solo se emite si se pide
+		// → callers sin opts.class quedan byte-idénticos (retrocompat).
+		var cls = opts.class ? ' class="' + opts.class + '"' : '';
 		return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="' + size +
-			'" height="' + size + '" ' + paint + ' aria-hidden="true">' + ic.svg + '</svg>';
+			'" height="' + size + '"' + cls + ' ' + paint + ' aria-hidden="true">' + ic.svg + '</svg>';
 	};
 } )();

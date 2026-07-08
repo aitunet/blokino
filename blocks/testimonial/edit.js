@@ -21,7 +21,7 @@
 	var c = wp.components;
 
 	function stars( rating ) {
-		var svg = ( window.tunetIconSvg ? window.tunetIconSvg( 'star', { size: 16 } ) : '★' );
+		var svg = ( window.tunetIconSvg ? window.tunetIconSvg( 'star', { size: 16, class: 'tunet-rating__star' } ) : '★' );
 		var full = Math.round( ( rating / 5 ) * 100 );
 		return el(
 			'span',
