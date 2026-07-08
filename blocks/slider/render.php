@@ -15,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Construye las slides desde los bloques internos (WP_Block).
+// Tolerante: cada child se envuelve en .swiper-slide sea un tunet/slide
+// (renderiza su contenido interno) o un bloque legacy (sliders viejos con
+// inner blocks crudos) → el contenido publicado sigue funcionando sin migrar.
 $tnt_slides = '';
 if ( isset( $block ) && $block instanceof WP_Block && ! empty( $block->inner_blocks ) ) {
 	foreach ( $block->inner_blocks as $tnt_inner ) {

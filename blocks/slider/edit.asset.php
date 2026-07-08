@@ -11,7 +11,8 @@ return array(
 		'wp-element',
 		'wp-block-editor',
 		'wp-components',
+		'wp-data',
 		'wp-i18n',
 	),
-	'version'      => '0.1.0',
+	'version'      => '0.1.1',
 );

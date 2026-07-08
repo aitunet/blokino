@@ -112,7 +112,27 @@
 					'div',
 					blockProps,
 					el( InnerBlocks, {
-						renderAppender: InnerBlocks.ButtonBlockAppender
+						allowedBlocks: [ 'tunet/slide' ],
+						template: [ [ 'tunet/slide' ], [ 'tunet/slide' ] ],
+						renderAppender: function () {
+							return el(
+								'div',
+								{ className: 'tunet-slider__appender' },
+								el(
+									c.Button,
+									{
+										className: 'tunet-slider__add-slide',
+										variant: 'secondary',
+										icon: 'plus',
+										onClick: function () {
+											var slide = wp.blocks.createBlock( 'tunet/slide' );
+											wp.data.dispatch( 'core/block-editor' ).insertBlock( slide, undefined, props.clientId );
+										}
+									},
+									__( 'Add Slide', 'tunet' )
+								)
+							);
+						}
 					} )
 				)
 			);
