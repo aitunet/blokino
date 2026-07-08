@@ -1,12 +1,11 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/slider — runtime de frontend (Swiper lazy)
+ * Tunet Core · Runtime de carrusel COMPARTIDO (Swiper lazy)
  * --------------------------------------------------------------------------
- * Carga Swiper (vendorizado) de forma LAZY: solo cuando un slider se acerca al
- * viewport, inyectando el bundle una sola vez. Luego inicializa cada slider con
- * las opciones de sus data-attributes. Sin red en runtime (copia local).
- *
- * prefers-reduced-motion → desactiva el autoplay (sin movimiento automático).
- * Si Swiper no carga, queda la primera slide visible (fallback en el CSS).
+ * Escanea cualquier .tunet-carousel (tunet/slider, tunet/testimonials…),
+ * carga Swiper (vendorizado en runtime/vendor/swiper) de forma LAZY (solo cerca
+ * del viewport) e inicializa con las opciones de sus data-attributes. Sin red
+ * en runtime (copia local). prefers-reduced-motion → autoplay off. Si Swiper no
+ * carga, queda la 1ª slide visible (fallback en runtime/carousel.css).
  * ========================================================================== */
 ( function () {
 	'use strict';
@@ -56,9 +55,6 @@
 		var opts = {
 			effect: effect,
 			speed: num( d.speed, 600 ),
-			// Loop only when there are genuinely more slides than fit in view.
-			// With too few, Swiper warns + disables loop anyway, so we pre-empt it:
-			// the base degrades gracefully no matter how a theme configures it.
 			loop: d.loop === '1' && slideCount > Math.ceil( spv ),
 			spaceBetween: num( d.space, 0 ),
 			slidesPerView: spv,
@@ -74,7 +70,6 @@
 				prevEl: el.querySelector( '.swiper-button-prev' )
 			};
 		}
-		// Autoplay solo si se pidió Y el usuario no prefiere menos movimiento.
 		if ( d.autoplay === '1' && ! reduceMotion ) {
 			opts.autoplay = {
 				delay: num( d.autoplayDelay, 4000 ),
@@ -92,7 +87,7 @@
 		return opts;
 	}
 
-	function initSlider( el ) {
+	function initCarousel( el ) {
 		var base = el.getAttribute( 'data-swiper-base' ) || '';
 		loadSwiper( base ).then( function () {
 			if ( window.Swiper ) {
@@ -104,24 +99,23 @@
 	}
 
 	function init() {
-		var sliders = document.querySelectorAll( '.tunet-slider' );
-		if ( ! sliders.length ) {
+		var carousels = document.querySelectorAll( '.tunet-carousel' );
+		if ( ! carousels.length ) {
 			return;
 		}
 
 		if ( ! ( 'IntersectionObserver' in window ) ) {
-			for ( var i = 0; i < sliders.length; i++ ) {
-				initSlider( sliders[ i ] );
+			for ( var i = 0; i < carousels.length; i++ ) {
+				initCarousel( carousels[ i ] );
 			}
 			return;
 		}
 
-		// Carga ANTICIPADA (200px antes) para que esté listo al entrar.
 		var observer = new IntersectionObserver(
 			function ( entries ) {
 				entries.forEach( function ( entry ) {
 					if ( entry.isIntersecting ) {
-						initSlider( entry.target );
+						initCarousel( entry.target );
 						observer.unobserve( entry.target );
 					}
 				} );
@@ -129,8 +123,8 @@
 			{ rootMargin: '200px 0px' }
 		);
 
-		for ( var j = 0; j < sliders.length; j++ ) {
-			observer.observe( sliders[ j ] );
+		for ( var j = 0; j < carousels.length; j++ ) {
+			observer.observe( carousels[ j ] );
 		}
 	}
 

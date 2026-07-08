@@ -41,6 +41,9 @@ class Tunet_Core_Runtime {
 	const SCRIPT_HANDLE = 'tunet-core-runtime';
 	const TOKENS_HANDLE = 'tunet-core-tokens';
 
+	const CAROUSEL_STYLE  = 'tunet-core-carousel';
+	const CAROUSEL_SCRIPT = 'tunet-core-carousel';
+
 	/** Curvas de easing válidas (mapean a tokens --tnt-ease-*). */
 	const EASINGS = array( 'expo', 'power3', 'spring', 'circ' );
 
@@ -169,6 +172,20 @@ class Tunet_Core_Runtime {
 			)
 		);
 
+		wp_register_style(
+			self::CAROUSEL_STYLE,
+			TUNET_CORE_URL . 'runtime/carousel.css',
+			array(),
+			self::asset_version( 'runtime/carousel.css' )
+		);
+		wp_register_script(
+			self::CAROUSEL_SCRIPT,
+			TUNET_CORE_URL . 'runtime/carousel.js',
+			array(),
+			self::asset_version( 'runtime/carousel.js' ),
+			array( 'in_footer' => true )
+		);
+
 		// Base URL del GSAP vendorizado (carga bajo demanda desde el runtime,
 		// nunca CDN). El runtime la lee solo si una sección pide cinematic-zoom.
 		wp_add_inline_script(
@@ -237,6 +254,34 @@ class Tunet_Core_Runtime {
 		wp_enqueue_script( self::SCRIPT_HANDLE );
 
 		self::$enqueued = true;
+	}
+
+	/**
+	 * Encola el runtime de carrusel COMPARTIDO (Swiper). Lo llaman en su render
+	 * los blocks de carrusel (tunet/slider, tunet/testimonials) → carga
+	 * condicional: solo si un carrusel aparece en la página. Registro perezoso
+	 * por si un render corre antes de register_assets().
+	 */
+	public static function enqueue_carousel() {
+		if ( ! wp_style_is( self::CAROUSEL_STYLE, 'registered' ) ) {
+			wp_register_style(
+				self::CAROUSEL_STYLE,
+				TUNET_CORE_URL . 'runtime/carousel.css',
+				array(),
+				self::asset_version( 'runtime/carousel.css' )
+			);
+		}
+		if ( ! wp_script_is( self::CAROUSEL_SCRIPT, 'registered' ) ) {
+			wp_register_script(
+				self::CAROUSEL_SCRIPT,
+				TUNET_CORE_URL . 'runtime/carousel.js',
+				array(),
+				self::asset_version( 'runtime/carousel.js' ),
+				array( 'in_footer' => true )
+			);
+		}
+		wp_enqueue_style( self::CAROUSEL_STYLE );
+		wp_enqueue_script( self::CAROUSEL_SCRIPT );
 	}
 
 	/* ---------------------------------------------------------------------

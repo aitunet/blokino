@@ -3,9 +3,10 @@
  * Render del block tunet/slider (dinámico).
  *
  * Envuelve cada bloque interno en una .swiper-slide e imprime la estructura que
- * espera Swiper. Las opciones van en data-attributes; el runtime (view.js) carga
- * Swiper de forma LAZY (solo cerca del viewport) e inicializa. data-swiper-base
- * apunta a la copia vendorizada (sin CDN en runtime).
+ * espera Swiper. Las opciones van en data-attributes; el runtime COMPARTIDO
+ * (runtime/carousel.js, hook .tunet-carousel) carga Swiper de forma LAZY (solo
+ * cerca del viewport) e inicializa. data-swiper-base apunta a la copia
+ * vendorizada en runtime/vendor/swiper/ (sin CDN en runtime).
  *
  * @package Tunet\Core
  */
@@ -42,11 +43,15 @@ $tnt_nav       = ! empty( $attributes['navigation'] );
 // Per-view count for the pre-init fallback layout (fade/cards stack at 1).
 $tnt_preview_spv = in_array( $tnt_effect, array( 'fade', 'cards' ), true ) ? 1 : max( 1, $tnt_spv );
 
+if ( class_exists( 'Tunet_Core_Runtime' ) ) {
+	Tunet_Core_Runtime::enqueue_carousel();
+}
+
 $tnt_wrapper = get_block_wrapper_attributes(
 	array(
-		'class'                 => 'tunet-slider swiper',
-		'style'                 => '--tnt-slider-spv:' . $tnt_preview_spv . ';',
-		'data-swiper-base'      => esc_url( TUNET_CORE_URL . 'blocks/slider/vendor/' ),
+		'class'                 => 'tunet-slider tunet-carousel swiper',
+		'style'                 => '--tnt-carousel-spv:' . $tnt_preview_spv . ';',
+		'data-swiper-base'      => esc_url( TUNET_CORE_URL . 'runtime/vendor/swiper/' ),
 		'data-effect'           => $tnt_effect,
 		'data-spv'              => (string) $tnt_spv,
 		'data-space'            => (string) $tnt_space,
