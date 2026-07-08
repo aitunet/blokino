@@ -46,6 +46,7 @@ class Tunet_Core_Blocks {
 		'counter',
 		'before-after',
 		'slider',
+		'slide',
 		'section',
 		'brand',
 		'icon',
