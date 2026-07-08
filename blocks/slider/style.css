@@ -83,19 +83,53 @@
 	display: none;
 }
 
-/* Flechas como botones redondos sobre superficie del theme. */
+/* Flechas como botones redondos sobre superficie del theme.
+   Contraste sólido en imágenes claras Y oscuras (superficie + hairline + sombra),
+   área táctil >=44px, micro-interacción en hover con easing del theme. */
 .tunet-slider .swiper-button-prev,
 .tunet-slider .swiper-button-next {
 	width: var( --tnt-space-7 );
 	height: var( --tnt-space-7 );
+	min-width: 44px;
+	min-height: 44px;
 	border-radius: var( --tnt-radius-pill );
-	background: color-mix( in srgb, var( --tnt-color-surface ) 88%, transparent );
+	background: color-mix( in srgb, var( --tnt-color-surface ) 92%, transparent );
+	border: 1px solid color-mix( in srgb, var( --tnt-color-border ) 60%, transparent );
 	box-shadow: var( --tnt-shadow-2 );
 	backdrop-filter: blur( 6px );
 	color: var( --tnt-color-text );
+	transition:
+		transform var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
+		background-color var( --tnt-dur-fast ) var( --tnt-ease-power3 );
 }
 .tunet-slider .swiper-button-prev::after,
 .tunet-slider .swiper-button-next::after {
 	font-size: var( --tnt-text-sm );
 	font-weight: 700;
+}
+
+/* Hover: leve realce; preserva el translateY(-50%) del centrado vertical. */
+.tunet-slider .swiper-button-prev:hover,
+.tunet-slider .swiper-button-next:hover {
+	transform: translateY( -50% ) scale( 1.08 );
+	background: var( --tnt-color-surface );
+}
+
+/* Foco de teclado visible. */
+.tunet-slider .swiper-button-prev:focus-visible,
+.tunet-slider .swiper-button-next:focus-visible {
+	outline: 2px solid var( --tnt-color-accent );
+	outline-offset: 2px;
+}
+
+/* Sin movimiento si el usuario lo pide. */
+@media ( prefers-reduced-motion: reduce ) {
+	.tunet-slider .swiper-button-prev,
+	.tunet-slider .swiper-button-next {
+		transition: none;
+	}
+	.tunet-slider .swiper-button-prev:hover,
+	.tunet-slider .swiper-button-next:hover {
+		transform: translateY( -50% );
+	}
 }
