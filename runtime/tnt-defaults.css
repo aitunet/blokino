@@ -32,6 +32,7 @@
 		--tnt-color-accent:     #0EA5A4; /* teal — highlights/glow */
 		--tnt-color-accent-2:   #DB2777; /* rose — pop, uso mínimo */
 		--tnt-color-border:     #E7E7EE;
+		--tnt-color-star:       #F5B301; /* dorado — rating; un theme puede sobreescribirlo */
 
 		/* ---- TIPOGRAFÍA (system stacks; el theme impone las webfonts) ---- */
 		--tnt-font-display: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
