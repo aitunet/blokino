@@ -29,9 +29,9 @@ if ( ! function_exists( 'tunet_core_testimonial_card' ) ) {
 		$avatar_url = isset( $item['avatarUrl'] ) ? esc_url( $item['avatarUrl'] ) : '';
 		$rating     = isset( $item['rating'] ) ? (float) $item['rating'] : 0;
 		$rating     = max( 0, min( 5, $rating ) );
-		$quote      = isset( $item['quote'] ) ? wp_kses_post( $item['quote'] ) : '';
-		$name       = isset( $item['name'] ) ? wp_kses_post( $item['name'] ) : '';
-		$role       = isset( $item['role'] ) ? wp_kses_post( $item['role'] ) : '';
+		$quote      = ( isset( $item['quote'] ) && is_string( $item['quote'] ) ) ? wp_kses_post( $item['quote'] ) : '';
+		$name       = ( isset( $item['name'] ) && is_string( $item['name'] ) ) ? wp_kses_post( $item['name'] ) : '';
+		$role       = ( isset( $item['role'] ) && is_string( $item['role'] ) ) ? wp_kses_post( $item['role'] ) : '';
 
 		$avatar = '';
 		if ( $avatar_id ) {

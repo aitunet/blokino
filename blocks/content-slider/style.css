@@ -61,6 +61,7 @@
 	font-size: var( --tnt-text-base );
 	line-height: var( --tnt-leading-body );
 	color: var( --tnt-color-text-muted );
+	white-space: pre-line;
 }
 
 .tunet-cslide__ctas {

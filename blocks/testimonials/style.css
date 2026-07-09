@@ -23,7 +23,7 @@
 }
 
 /* ==========================================================================
- * Tunet Core · Block tunet/testimonial
+ * Tunet Core · testimonial card (item) styles — tunet/testimonials repeater
  * Piso agnóstico por tokens --tnt-*. Los themes matizan.
  * ========================================================================== */
 
@@ -84,6 +84,7 @@
 	font-size: var( --tnt-text-md );
 	line-height: var( --tnt-leading-body );
 	color: var( --tnt-color-text );
+	white-space: pre-line;
 }
 
 .tunet-testimonial__byline {

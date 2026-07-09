@@ -38,9 +38,9 @@ $tnt_render_ctas = function ( $ctas ) {
 	}
 	$html = '';
 	foreach ( $ctas as $cta ) {
-		$text = isset( $cta['text'] ) ? trim( wp_strip_all_tags( $cta['text'] ) ) : '';
+		$text = ( isset( $cta['text'] ) && is_string( $cta['text'] ) ) ? trim( wp_strip_all_tags( $cta['text'] ) ) : '';
 		$url  = isset( $cta['url'] ) ? esc_url( $cta['url'] ) : '';
-		if ( '' === $text ) {
+		if ( '' === $text || '' === $url ) {
 			continue;
 		}
 		$style = isset( $cta['style'] ) && in_array( $cta['style'], array( 'filled', 'outline', 'text' ), true ) ? $cta['style'] : 'filled';
@@ -65,9 +65,9 @@ foreach ( $tnt_items as $tnt_item ) {
 	$tnt_media = '' !== $tnt_media ? '<div class="tunet-cslide__media">' . $tnt_media . '</div>' : '';
 
 	// Textos.
-	$tnt_title = isset( $tnt_item['title'] ) ? trim( wp_strip_all_tags( $tnt_item['title'] ) ) : '';
-	$tnt_sub   = isset( $tnt_item['subtitle'] ) ? trim( wp_strip_all_tags( $tnt_item['subtitle'] ) ) : '';
-	$tnt_desc  = isset( $tnt_item['description'] ) ? wp_kses_post( $tnt_item['description'] ) : '';
+	$tnt_title = ( isset( $tnt_item['title'] ) && is_string( $tnt_item['title'] ) ) ? trim( wp_strip_all_tags( $tnt_item['title'] ) ) : '';
+	$tnt_sub   = ( isset( $tnt_item['subtitle'] ) && is_string( $tnt_item['subtitle'] ) ) ? trim( wp_strip_all_tags( $tnt_item['subtitle'] ) ) : '';
+	$tnt_desc  = ( isset( $tnt_item['description'] ) && is_string( $tnt_item['description'] ) ) ? wp_kses_post( $tnt_item['description'] ) : '';
 
 	$tnt_title_html = '' !== $tnt_title ? '<h3 class="tunet-cslide__title' . $tnt_align_class( isset( $tnt_item['titleAlign'] ) ? $tnt_item['titleAlign'] : '' ) . '">' . esc_html( $tnt_title ) . '</h3>' : '';
 	$tnt_sub_html   = '' !== $tnt_sub ? '<p class="tunet-cslide__subtitle' . $tnt_align_class( isset( $tnt_item['subtitleAlign'] ) ? $tnt_item['subtitleAlign'] : '' ) . '">' . esc_html( $tnt_sub ) . '</p>' : '';
