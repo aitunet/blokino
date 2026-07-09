@@ -1,3 +1,112 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/content-slider — estilos (Task 4)
+ * Tunet Core · Block tunet/content-slider
+ * Piso agnóstico por tokens --tnt-*. Los themes matizan. El chrome del carrusel
+ * (flechas/paginación) es del runtime compartido (runtime/carousel.css).
  * ========================================================================== */
+
+.tunet-cslide {
+	box-sizing: border-box;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var( --tnt-space-5 );
+	align-items: center;
+}
+@media ( min-width: 782px ) {
+	.tunet-cslide {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.tunet-cslide__media {
+	overflow: hidden;
+	border-radius: var( --tnt-radius-lg );
+}
+.tunet-cslide__img {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+	aspect-ratio: 4 / 3;
+}
+
+.tunet-cslide__content {
+	display: flex;
+	flex-direction: column;
+	gap: var( --tnt-space-3 );
+}
+.tunet-cslide__content--left   { align-items: flex-start; text-align: start; }
+.tunet-cslide__content--center { align-items: center;     text-align: center; }
+.tunet-cslide__content--right  { align-items: flex-end;   text-align: end; }
+
+.tunet-cslide__text--left   { text-align: left; }
+.tunet-cslide__text--center { text-align: center; }
+.tunet-cslide__text--right  { text-align: right; }
+
+.tunet-cslide__title {
+	margin: 0;
+	font-family: var( --tnt-font-display );
+	font-size: var( --tnt-text-lg );
+	line-height: var( --tnt-leading-tight );
+	color: var( --tnt-color-text );
+}
+.tunet-cslide__subtitle {
+	margin: 0;
+	font-size: var( --tnt-text-sm );
+	letter-spacing: var( --tnt-tracking-wide );
+	text-transform: uppercase;
+	color: var( --tnt-color-text-muted );
+}
+.tunet-cslide__desc {
+	margin: 0;
+	font-size: var( --tnt-text-base );
+	line-height: var( --tnt-leading-body );
+	color: var( --tnt-color-text-muted );
+}
+
+.tunet-cslide__ctas {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var( --tnt-space-3 );
+	margin-block-start: var( --tnt-space-2 );
+}
+.tunet-cslide__cta {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	padding: 0.7em 1.4em;
+	border-radius: var( --tnt-radius-pill );
+	font-size: var( --tnt-text-sm );
+	font-weight: 600;
+	text-decoration: none;
+	border: 1px solid transparent;
+	transition: transform var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
+		background-color var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
+		color var( --tnt-dur-fast ) var( --tnt-ease-power3 );
+}
+.tunet-cslide__cta--filled {
+	background: var( --tnt-color-primary );
+	color: var( --tnt-color-on-ink, #fff );
+}
+.tunet-cslide__cta--outline {
+	background: transparent;
+	color: var( --tnt-color-text );
+	border-color: var( --tnt-color-border );
+}
+.tunet-cslide__cta--text {
+	padding-inline: 0;
+	background: transparent;
+	color: var( --tnt-color-primary );
+	border-radius: 0;
+}
+.tunet-cslide__cta:hover { transform: translateY( -2px ); }
+.tunet-cslide__cta--outline:hover { border-color: var( --tnt-color-primary ); color: var( --tnt-color-primary ); }
+.tunet-cslide__cta--text:hover { text-decoration: underline; }
+.tunet-cslide__cta:focus-visible {
+	outline: 2px solid var( --tnt-color-primary );
+	outline-offset: 2px;
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.tunet-cslide__cta { transition: none; }
+	.tunet-cslide__cta:hover { transform: none; }
+}
