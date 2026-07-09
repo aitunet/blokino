@@ -57,7 +57,7 @@
 
 .tunet-testimonial__quote {
 	margin: 0;
-	font-size: var( --tnt-text-lg );
+	font-size: var( --tnt-text-md );
 	line-height: var( --tnt-leading-body );
 	color: var( --tnt-color-text );
 }
