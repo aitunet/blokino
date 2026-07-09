@@ -81,7 +81,8 @@
 	border: 1px solid transparent;
 	transition: transform var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
 		background-color var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
-		color var( --tnt-dur-fast ) var( --tnt-ease-power3 );
+		color var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
+		border-color var( --tnt-dur-fast ) var( --tnt-ease-power3 );
 }
 .tunet-cslide__cta--filled {
 	background: var( --tnt-color-primary );
