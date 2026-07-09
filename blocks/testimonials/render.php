@@ -1,10 +1,10 @@
 <?php
 /**
- * Render del block tunet/testimonials (dinámico).
+ * Render del block tunet/testimonials (dinámico, modelo REPEATER).
  *
- * layout=carousel → estructura Swiper reusando el runtime COMPARTIDO del motor
- * (.tunet-carousel + Tunet_Core_Runtime::enqueue_carousel()). layout=grid →
- * rejilla CSS auto-suficiente (§9), sin JS. Cada hijo es un tunet/testimonial.
+ * Itera $attributes['items'] (no InnerBlocks). layout=carousel → runtime Swiper
+ * compartido (.tunet-carousel); layout=grid → rejilla auto-suficiente (§9). Cada
+ * item se pinta con tunet_core_testimonial_card(). Todo por tokens; escape estricto.
  *
  * @package Tunet\Core
  */
@@ -13,18 +13,73 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$tnt_has_items = ( isset( $block ) && $block instanceof WP_Block && ! empty( $block->inner_blocks ) );
-if ( ! $tnt_has_items ) {
-	return; // Sin testimonios: no renderizar nada.
+// El helper de iconos solo se carga globalmente en el editor; en el front hay
+// que requerirlo aquí para las estrellas (idempotente, function_exists guards).
+require_once __DIR__ . '/../icon/icons.php';
+
+if ( ! function_exists( 'tunet_core_testimonial_card' ) ) {
+	/**
+	 * Renderiza una tarjeta de testimonio desde un item del repeater.
+	 *
+	 * @param array $item Item { avatarId, avatarUrl, rating, name, role, quote }.
+	 * @return string
+	 */
+	function tunet_core_testimonial_card( $item ) {
+		$avatar_id  = isset( $item['avatarId'] ) ? absint( $item['avatarId'] ) : 0;
+		$avatar_url = isset( $item['avatarUrl'] ) ? esc_url( $item['avatarUrl'] ) : '';
+		$rating     = isset( $item['rating'] ) ? (float) $item['rating'] : 0;
+		$rating     = max( 0, min( 5, $rating ) );
+		$quote      = isset( $item['quote'] ) ? wp_kses_post( $item['quote'] ) : '';
+		$name       = isset( $item['name'] ) ? wp_kses_post( $item['name'] ) : '';
+		$role       = isset( $item['role'] ) ? wp_kses_post( $item['role'] ) : '';
+
+		$avatar = '';
+		if ( $avatar_id ) {
+			$avatar = wp_get_attachment_image( $avatar_id, 'thumbnail', false, array( 'class' => 'tunet-testimonial__avatar', 'alt' => $name ? wp_strip_all_tags( $name ) : '' ) );
+		} elseif ( '' !== $avatar_url ) {
+			$avatar = '<img class="tunet-testimonial__avatar" src="' . $avatar_url . '" alt="' . esc_attr( $name ? wp_strip_all_tags( $name ) : '' ) . '" />';
+		}
+
+		$rating_html = '';
+		if ( $rating > 0 && function_exists( 'tunet_core_icon_svg' ) ) {
+			$star  = tunet_core_icon_svg( 'star', array( 'size' => 0, 'class' => 'tunet-rating__star' ) );
+			$five  = str_repeat( $star, 5 );
+			$label = sprintf( /* translators: %s: rating value out of 5. */ __( 'Rated %s out of 5', 'tunet' ), $rating );
+			$rating_html  = '<span class="tunet-rating" role="img" aria-label="' . esc_attr( $label ) . '" style="--tnt-rating:' . esc_attr( $rating ) . ';">';
+			$rating_html .= '<span class="tunet-rating__layer tunet-rating__layer--empty" aria-hidden="true">' . $five . '</span>';
+			$rating_html .= '<span class="tunet-rating__layer tunet-rating__layer--full" aria-hidden="true">' . $five . '</span>';
+			$rating_html .= '</span>';
+		}
+
+		$html  = '<div class="tunet-testimonial">';
+		$html .= $rating_html;
+		if ( '' !== $quote ) {
+			$html .= '<blockquote class="tunet-testimonial__quote">' . $quote . '</blockquote>';
+		}
+		$html .= '<div class="tunet-testimonial__byline">' . $avatar . '<span class="tunet-testimonial__meta">';
+		if ( '' !== $name ) {
+			$html .= '<span class="tunet-testimonial__name">' . $name . '</span>';
+		}
+		if ( '' !== $role ) {
+			$html .= '<span class="tunet-testimonial__role">' . $role . '</span>';
+		}
+		$html .= '</span></div></div>';
+		return $html;
+	}
+}
+
+$tnt_items = ( isset( $attributes['items'] ) && is_array( $attributes['items'] ) ) ? $attributes['items'] : array();
+if ( empty( $tnt_items ) ) {
+	return;
 }
 
 $tnt_layout = ( isset( $attributes['layout'] ) && 'grid' === $attributes['layout'] ) ? 'grid' : 'carousel';
 
 if ( 'grid' === $tnt_layout ) {
-	$tnt_cols = isset( $attributes['columns'] ) ? max( 1, min( 4, (int) $attributes['columns'] ) ) : 3;
-	$tnt_items = '';
-	foreach ( $block->inner_blocks as $tnt_inner ) {
-		$tnt_items .= $tnt_inner->render();
+	$tnt_cols  = isset( $attributes['columns'] ) ? max( 1, min( 4, (int) $attributes['columns'] ) ) : 3;
+	$tnt_cards = '';
+	foreach ( $tnt_items as $tnt_item ) {
+		$tnt_cards .= tunet_core_testimonial_card( $tnt_item );
 	}
 	$tnt_wrapper = get_block_wrapper_attributes(
 		array(
@@ -32,12 +87,10 @@ if ( 'grid' === $tnt_layout ) {
 			'style' => '--tnt-tst-cols:' . $tnt_cols . ';',
 		)
 	);
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $tnt_wrapper (WP), $tnt_items (bloques ya renderizados).
-	echo '<div ' . $tnt_wrapper . '>' . $tnt_items . '</div>';
+	echo '<div ' . $tnt_wrapper . '>' . $tnt_cards . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup escapado en el card.
 	return;
 }
 
-// Carousel: reusa el runtime compartido.
 if ( class_exists( 'Tunet_Core_Runtime' ) ) {
 	Tunet_Core_Runtime::enqueue_carousel();
 }
@@ -53,8 +106,8 @@ $tnt_nav   = ! isset( $attributes['navigation'] ) || ! empty( $attributes['navig
 $tnt_pspv  = max( 1, $tnt_spv );
 
 $tnt_slides = '';
-foreach ( $block->inner_blocks as $tnt_inner ) {
-	$tnt_slides .= '<div class="swiper-slide">' . $tnt_inner->render() . '</div>';
+foreach ( $tnt_items as $tnt_item ) {
+	$tnt_slides .= '<div class="swiper-slide">' . tunet_core_testimonial_card( $tnt_item ) . '</div>';
 }
 
 $tnt_wrapper = get_block_wrapper_attributes(
@@ -76,7 +129,7 @@ $tnt_wrapper = get_block_wrapper_attributes(
 ?>
 <div <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
 	<div class="swiper-wrapper">
-		<?php echo $tnt_slides; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- bloques ya renderizados. ?>
+		<?php echo $tnt_slides; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup escapado en el card. ?>
 	</div>
 	<?php if ( $tnt_pag ) : ?><div class="swiper-pagination"></div><?php endif; ?>
 	<?php if ( $tnt_nav ) : ?><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><?php endif; ?>

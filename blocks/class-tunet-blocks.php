@@ -52,7 +52,6 @@ class Tunet_Core_Blocks {
 		'brand',
 		'icon',
 		'badge',
-		'testimonial',
 		'testimonials',
 		'content-slider',
 	);

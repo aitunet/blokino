@@ -21,3 +21,92 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+/* ==========================================================================
+ * Tunet Core · Block tunet/testimonial
+ * Piso agnóstico por tokens --tnt-*. Los themes matizan.
+ * ========================================================================== */
+
+.tunet-testimonial {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: var( --tnt-space-3 );
+	height: 100%;
+	padding: var( --tnt-space-5 );
+	background: var( --tnt-color-surface );
+	border: 1px solid var( --tnt-color-border );
+	border-radius: var( --tnt-radius-lg );
+}
+
+/* Rating: dos capas de 5 estrellas; la llena recortada a rating/5. */
+.tunet-rating {
+	position: relative;
+	display: inline-flex;
+	/* La tarjeta es un flex column (align-items:stretch): sin esto el inline-flex
+	 * se estira a ancho completo y el clip de media estrella (width:rating/5*100%)
+	 * se calcula contra ese ancho → todas se ven llenas. Abrazar el contenido. */
+	align-self: start;
+	inline-size: fit-content;
+	line-height: 0;
+}
+.tunet-rating__layer {
+	display: inline-flex;
+	gap: 2px;
+}
+.tunet-rating__star {
+	width: 1.05rem;
+	height: 1.05rem;
+}
+.tunet-rating__layer--empty {
+	color: var( --tnt-color-border );
+}
+.tunet-rating__layer--empty .tunet-rating__star {
+	fill: none;
+	stroke: currentColor;
+}
+.tunet-rating__layer--full {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-start: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	width: calc( var( --tnt-rating, 0 ) / 5 * 100% );
+	color: var( --tnt-color-star, var( --tnt-color-accent ) );
+}
+.tunet-rating__layer--full .tunet-rating__star {
+	fill: currentColor;
+	stroke: none;
+}
+
+.tunet-testimonial__quote {
+	margin: 0;
+	font-size: var( --tnt-text-md );
+	line-height: var( --tnt-leading-body );
+	color: var( --tnt-color-text );
+}
+
+.tunet-testimonial__byline {
+	display: flex;
+	align-items: center;
+	gap: var( --tnt-space-3 );
+	margin-block-start: auto;
+}
+.tunet-testimonial__avatar {
+	inline-size: var( --tnt-space-7 );
+	block-size: var( --tnt-space-7 );
+	border-radius: var( --tnt-radius-pill );
+	object-fit: cover;
+}
+.tunet-testimonial__meta {
+	display: flex;
+	flex-direction: column;
+}
+.tunet-testimonial__name {
+	font-weight: 600;
+	color: var( --tnt-color-text );
+}
+.tunet-testimonial__role {
+	font-size: var( --tnt-text-sm );
+	color: var( --tnt-color-text-muted );
+}

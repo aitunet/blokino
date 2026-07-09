@@ -16,6 +16,7 @@
     "spacing": { "margin": true, "padding": true }
   },
   "attributes": {
+    "items": { "type": "array", "default": [] },
     "layout": { "type": "string", "default": "carousel" },
     "slidesPerView": { "type": "number", "default": 3 },
     "spaceBetween": { "type": "number", "default": 24 },
