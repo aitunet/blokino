@@ -1,110 +1,58 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/testimonials — editor
- * --------------------------------------------------------------------------
- * Wrapper standalone. InnerBlocks bloqueado a tunet/testimonial + botón
- * "+ Add Testimonial". layout carousel|grid (front); en el editor las tarjetas
- * se muestran apiladas. Sin JSX. save = InnerBlocks.Content (render.php arma
- * el carrusel o el grid).
+ * Tunet Core · Block tunet/testimonials — editor (modelo REPEATER)
+ * Repeater en el sidebar (RepeaterControl) + preview ServerSideRender.
  * ========================================================================== */
 ( function ( wp ) {
 	'use strict';
 
 	var registerBlockType = wp.blocks.registerBlockType;
-	var __ = wp.i18n.__;
 	var el = wp.element.createElement;
 	var Fragment = wp.element.Fragment;
+	var __ = wp.i18n.__;
 	var be = wp.blockEditor;
-	var useBlockProps = be.useBlockProps;
-	var InnerBlocks = be.InnerBlocks;
+	var C = wp.components;
+	var ServerSideRender = wp.serverSideRender;
 	var InspectorControls = be.InspectorControls;
-	var c = wp.components;
+	var useBlockProps = be.useBlockProps;
+	var MediaUpload = be.MediaUpload;
+	var MediaUploadCheck = be.MediaUploadCheck;
 
-	var TEMPLATE = [ [ 'tunet/testimonial' ], [ 'tunet/testimonial' ], [ 'tunet/testimonial' ] ];
+	var LAYOUTS = [
+		{ label: __( 'Carousel', 'tunet' ), value: 'carousel' },
+		{ label: __( 'Grid', 'tunet' ), value: 'grid' }
+	];
+
+	function newTestimonial() {
+		return { avatarId: 0, avatarUrl: '', rating: 5, name: '', role: '', quote: '' };
+	}
+
+	function renderItem( item, index, update ) {
+		return el(
+			Fragment,
+			{},
+			el( MediaUploadCheck, {},
+				el( MediaUpload, {
+					allowedTypes: [ 'image' ],
+					value: item.avatarId,
+					onSelect: function ( media ) { update( { avatarId: media.id, avatarUrl: media.url } ); },
+					render: function ( o ) {
+						return el( C.Button, { variant: 'secondary', onClick: o.open }, item.avatarId ? __( 'Replace avatar', 'tunet' ) : __( 'Set avatar', 'tunet' ) );
+					}
+				} )
+			),
+			el( C.RangeControl, { label: __( 'Rating (0–5)', 'tunet' ), min: 0, max: 5, step: 0.5, value: item.rating, onChange: function ( v ) { update( { rating: v } ); } } ),
+			el( C.TextControl, { label: __( 'Name', 'tunet' ), value: item.name, onChange: function ( v ) { update( { name: v } ); } } ),
+			el( C.TextControl, { label: __( 'Role · Company', 'tunet' ), value: item.role, onChange: function ( v ) { update( { role: v } ); } } ),
+			el( C.TextareaControl, { label: __( 'Quote', 'tunet' ), value: item.quote, onChange: function ( v ) { update( { quote: v } ); } } )
+		);
+	}
 
 	registerBlockType( 'tunet/testimonials', {
 		edit: function ( props ) {
-			var a = props.attributes;
-			var set = props.setAttributes;
-			var blockProps = useBlockProps( { className: 'tunet-testimonials-editor' } );
-			var isGrid = 'grid' === a.layout;
-
-			var controls = [
-				el( c.SelectControl, {
-					key: 'layout',
-					label: __( 'Layout', 'tunet' ),
-					value: a.layout,
-					options: [
-						{ label: __( 'Carousel', 'tunet' ), value: 'carousel' },
-						{ label: __( 'Grid', 'tunet' ), value: 'grid' }
-					],
-					onChange: function ( v ) { set( { layout: 'grid' === v ? 'grid' : 'carousel' } ); },
-					__nextHasNoMarginBottom: true
-				} )
-			];
-
-			if ( isGrid ) {
-				controls.push( el( c.RangeControl, {
-					key: 'columns',
-					label: __( 'Columns', 'tunet' ),
-					value: a.columns,
-					min: 1,
-					max: 4,
-					step: 1,
-					onChange: function ( v ) { set( { columns: v || 3 } ); },
-					__nextHasNoMarginBottom: true
-				} ) );
-			} else {
-				controls.push(
-					el( c.RangeControl, {
-						key: 'spv',
-						label: __( 'Slides per view', 'tunet' ),
-						value: a.slidesPerView,
-						min: 1,
-						max: 4,
-						step: 0.5,
-						onChange: function ( v ) { set( { slidesPerView: v || 1 } ); },
-						__nextHasNoMarginBottom: true
-					} ),
-					el( c.RangeControl, {
-						key: 'space',
-						label: __( 'Space between (px)', 'tunet' ),
-						value: a.spaceBetween,
-						min: 0,
-						max: 96,
-						step: 2,
-						onChange: function ( v ) { set( { spaceBetween: ( v === undefined || v === null ) ? 0 : v } ); },
-						__nextHasNoMarginBottom: true
-					} ),
-					el( c.ToggleControl, {
-						key: 'loop',
-						label: __( 'Infinite loop', 'tunet' ),
-						checked: !! a.loop,
-						onChange: function ( v ) { set( { loop: v } ); },
-						__nextHasNoMarginBottom: true
-					} ),
-					el( c.ToggleControl, {
-						key: 'autoplay',
-						label: __( 'Autoplay', 'tunet' ),
-						checked: !! a.autoplay,
-						onChange: function ( v ) { set( { autoplay: v } ); },
-						__nextHasNoMarginBottom: true
-					} ),
-					el( c.ToggleControl, {
-						key: 'pag',
-						label: __( 'Pagination', 'tunet' ),
-						checked: !! a.pagination,
-						onChange: function ( v ) { set( { pagination: v } ); },
-						__nextHasNoMarginBottom: true
-					} ),
-					el( c.ToggleControl, {
-						key: 'nav',
-						label: __( 'Navigation arrows', 'tunet' ),
-						checked: !! a.navigation,
-						onChange: function ( v ) { set( { navigation: v } ); },
-						__nextHasNoMarginBottom: true
-					} )
-				);
-			}
+			var attrs = props.attributes;
+			var setAttributes = props.setAttributes;
+			var blockProps = useBlockProps();
+			var isGrid = attrs.layout === 'grid';
 
 			return el(
 				Fragment,
@@ -112,40 +60,41 @@
 				el(
 					InspectorControls,
 					{},
-					el( c.PanelBody, { title: __( 'Testimonials', 'tunet' ), initialOpen: true }, controls )
+					el(
+						C.PanelBody,
+						{ title: __( 'Testimonials', 'tunet' ), initialOpen: true },
+						el( C.SelectControl, { label: __( 'Layout', 'tunet' ), value: attrs.layout, options: LAYOUTS, onChange: function ( v ) { setAttributes( { layout: v } ); } } ),
+						isGrid
+							? el( C.RangeControl, { label: __( 'Columns', 'tunet' ), min: 1, max: 4, value: attrs.columns, onChange: function ( v ) { setAttributes( { columns: v } ); } } )
+							: el( Fragment, {},
+								el( C.RangeControl, { label: __( 'Slides per view', 'tunet' ), min: 1, max: 4, value: attrs.slidesPerView, onChange: function ( v ) { setAttributes( { slidesPerView: v } ); } } ),
+								el( C.RangeControl, { label: __( 'Space between (px)', 'tunet' ), min: 0, max: 80, value: attrs.spaceBetween, onChange: function ( v ) { setAttributes( { spaceBetween: v } ); } } ),
+								el( C.ToggleControl, { label: __( 'Infinite loop', 'tunet' ), checked: attrs.loop, onChange: function ( v ) { setAttributes( { loop: v } ); } } ),
+								el( C.ToggleControl, { label: __( 'Autoplay', 'tunet' ), checked: attrs.autoplay, onChange: function ( v ) { setAttributes( { autoplay: v } ); } } ),
+								el( C.ToggleControl, { label: __( 'Pagination', 'tunet' ), checked: attrs.pagination, onChange: function ( v ) { setAttributes( { pagination: v } ); } } ),
+								el( C.ToggleControl, { label: __( 'Navigation arrows', 'tunet' ), checked: attrs.navigation, onChange: function ( v ) { setAttributes( { navigation: v } ); } } )
+							)
+					),
+					el(
+						C.PanelBody,
+						{ title: __( 'Items', 'tunet' ), initialOpen: true },
+						el( window.tunet.RepeaterControl, {
+							items: attrs.items,
+							onChange: function ( items ) { setAttributes( { items: items } ); },
+							renderItem: renderItem,
+							newItem: newTestimonial,
+							addLabel: __( 'Add testimonial', 'tunet' ),
+							itemLabel: function ( it, i ) { return it.name || ( __( 'Testimonial', 'tunet' ) + ' ' + ( i + 1 ) ); }
+						} )
+					)
 				),
 				el(
 					'div',
 					blockProps,
-					el( InnerBlocks, {
-						allowedBlocks: [ 'tunet/testimonial' ],
-						template: TEMPLATE,
-						renderAppender: function () {
-							return el(
-								'div',
-								{ className: 'tunet-testimonials__appender' },
-								el(
-									c.Button,
-									{
-										className: 'tunet-testimonials__add',
-										variant: 'secondary',
-										icon: 'plus',
-										onClick: function () {
-											var item = wp.blocks.createBlock( 'tunet/testimonial' );
-											wp.data.dispatch( 'core/block-editor' ).insertBlock( item, undefined, props.clientId );
-										}
-									},
-									__( 'Add Testimonial', 'tunet' )
-								)
-							);
-						}
-					} )
+					el( ServerSideRender, { block: 'tunet/testimonials', attributes: attrs } )
 				)
 			);
 		},
-
-		save: function () {
-			return el( InnerBlocks.Content );
-		}
+		save: function () { return null; }
 	} );
 } )( window.wp );

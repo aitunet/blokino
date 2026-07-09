@@ -1,18 +1,13 @@
 <?php
-/**
- * Dependencias y versión del editorScript del block tunet/testimonials.
- *
- * @package Tunet\Core
- */
-
 return array(
 	'dependencies' => array(
 		'wp-blocks',
 		'wp-element',
 		'wp-block-editor',
 		'wp-components',
-		'wp-data',
 		'wp-i18n',
+		'wp-server-side-render',
+		'tunet-repeater-control',
 	),
-	'version'      => '0.1.0',
+	'version' => '0.2.0',
 );
