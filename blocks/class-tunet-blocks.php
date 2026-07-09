@@ -34,6 +34,7 @@ class Tunet_Core_Blocks {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_blocks' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'localize_icons' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_repeater_control' ) );
 	}
 
 	/**
@@ -69,6 +70,20 @@ class Tunet_Core_Blocks {
 			'tunet-icon-svg',
 			TUNET_CORE_URL . 'blocks/icon/icon-svg.js',
 			array( 'tunet-icons-data' ),
+			TUNET_CORE_VERSION,
+			false
+		);
+	}
+
+	/**
+	 * Encola el componente RepeaterControl compartido (editor). Los edit.js de los
+	 * bloques que lo usan lo declaran como dependencia en su edit.asset.php.
+	 */
+	public function enqueue_repeater_control() {
+		wp_enqueue_script(
+			'tunet-repeater-control',
+			TUNET_CORE_URL . 'blocks/shared/repeater-control.js',
+			array( 'wp-element', 'wp-components', 'wp-i18n' ),
 			TUNET_CORE_VERSION,
 			false
 		);
