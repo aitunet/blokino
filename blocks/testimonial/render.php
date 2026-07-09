@@ -13,6 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// El helper de iconos solo se carga globalmente en el editor
+// (enqueue_block_editor_assets). En el front hay que requerirlo aquí, igual que
+// icon/render.php y marquee/render.php, o el rating de estrellas se omite en una
+// página con testimonials pero sin un block icon/marquee. Idempotente
+// (function_exists guards en icons.php).
+require_once __DIR__ . '/../icon/icons.php';
+
 $tnt_avatar_id  = isset( $attributes['avatarId'] ) ? absint( $attributes['avatarId'] ) : 0;
 $tnt_avatar_url = isset( $attributes['avatarUrl'] ) ? esc_url( $attributes['avatarUrl'] ) : '';
 $tnt_rating     = isset( $attributes['rating'] ) ? (float) $attributes['rating'] : 0;

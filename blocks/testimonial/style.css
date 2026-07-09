@@ -19,6 +19,11 @@
 .tunet-rating {
 	position: relative;
 	display: inline-flex;
+	/* La tarjeta es un flex column (align-items:stretch): sin esto el inline-flex
+	 * se estira a ancho completo y el clip de media estrella (width:rating/5*100%)
+	 * se calcula contra ese ancho → todas se ven llenas. Abrazar el contenido. */
+	align-self: start;
+	inline-size: fit-content;
 	line-height: 0;
 }
 .tunet-rating__layer {
