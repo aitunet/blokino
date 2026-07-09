@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "tunet/content-slider",
+  "version": "0.1.0",
+  "title": "Tunet Content Slider",
+  "category": "design",
+  "icon": "images-alt",
+  "description": "A structured slider: each slide has an image, title, subtitle, description and CTAs — edited in the sidebar.",
+  "keywords": ["slider", "carousel", "hero", "content"],
+  "textdomain": "tunet",
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "align": ["wide", "full"],
+    "spacing": { "margin": true, "padding": true }
+  },
+  "attributes": {
+    "items": { "type": "array", "default": [] },
+    "effect": { "type": "string", "default": "slide" },
+    "slidesPerView": { "type": "number", "default": 1 },
+    "spaceBetween": { "type": "number", "default": 24 },
+    "loop": { "type": "boolean", "default": false },
+    "autoplay": { "type": "boolean", "default": false },
+    "autoplayDelay": { "type": "number", "default": 5000 },
+    "pagination": { "type": "boolean", "default": true },
+    "navigation": { "type": "boolean", "default": true },
+    "speed": { "type": "number", "default": 600 }
+  },
+  "editorScript": "file:./edit.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}

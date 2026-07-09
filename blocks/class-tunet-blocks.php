@@ -54,6 +54,7 @@ class Tunet_Core_Blocks {
 		'badge',
 		'testimonial',
 		'testimonials',
+		'content-slider',
 	);
 
 	/**
