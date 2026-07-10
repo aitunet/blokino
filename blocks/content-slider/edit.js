@@ -55,11 +55,11 @@
 		}
 		return el(
 			C.BaseControl,
-			{ key: 'cta' + ctaIndex, label: __( 'CTA', 'tunet' ) + ' ' + ( ctaIndex + 1 ) },
-			el( C.TextControl, { label: __( 'Text', 'tunet' ), value: cta.text, onChange: function ( v ) { setCta( { text: v } ); } } ),
-			el( C.TextControl, { label: __( 'Link (URL)', 'tunet' ), value: cta.url, onChange: function ( v ) { setCta( { url: v } ); } } ),
-			el( C.SelectControl, { label: __( 'Style', 'tunet' ), value: cta.style, options: CTA_STYLES, onChange: function ( v ) { setCta( { style: v } ); } } ),
-			el( C.ToggleControl, { label: __( 'Open in new tab', 'tunet' ), checked: !! cta.newTab, onChange: function ( v ) { setCta( { newTab: v } ); } } )
+			{ key: 'cta' + ctaIndex, label: __( 'CTA', 'tunet' ) + ' ' + ( ctaIndex + 1 ), __nextHasNoMarginBottom: true },
+			el( C.TextControl, { label: __( 'Text', 'tunet' ), value: cta.text, onChange: function ( v ) { setCta( { text: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.TextControl, { label: __( 'Link (URL)', 'tunet' ), value: cta.url, onChange: function ( v ) { setCta( { url: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Style', 'tunet' ), value: cta.style, options: CTA_STYLES, onChange: function ( v ) { setCta( { style: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.ToggleControl, { label: __( 'Open in new tab', 'tunet' ), checked: !! cta.newTab, onChange: function ( v ) { setCta( { newTab: v } ); }, __nextHasNoMarginBottom: true } )
 		);
 	}
 
@@ -77,14 +77,14 @@
 					}
 				} )
 			),
-			el( C.TextControl, { label: __( 'Title', 'tunet' ), value: item.title, onChange: function ( v ) { update( { title: v } ); } } ),
-			el( C.SelectControl, { label: __( 'Title alignment', 'tunet' ), value: item.titleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { titleAlign: v } ); } } ),
-			el( C.ToggleControl, { label: __( 'Subtitle before title', 'tunet' ), checked: !! item.subtitleFirst, onChange: function ( v ) { update( { subtitleFirst: v } ); } } ),
-			el( C.TextControl, { label: __( 'Subtitle', 'tunet' ), value: item.subtitle, onChange: function ( v ) { update( { subtitle: v } ); } } ),
-			el( C.SelectControl, { label: __( 'Subtitle alignment', 'tunet' ), value: item.subtitleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { subtitleAlign: v } ); } } ),
-			el( C.TextareaControl, { label: __( 'Description', 'tunet' ), value: item.description, onChange: function ( v ) { update( { description: v } ); } } ),
-			el( C.SelectControl, { label: __( 'Description alignment', 'tunet' ), value: item.descAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { descAlign: v } ); } } ),
-			el( C.SelectControl, { label: __( 'Content alignment (slide)', 'tunet' ), value: item.contentAlign, options: ALIGN_CONTENT, onChange: function ( v ) { update( { contentAlign: v } ); } } ),
+			el( C.TextControl, { label: __( 'Title', 'tunet' ), value: item.title, onChange: function ( v ) { update( { title: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Title alignment', 'tunet' ), value: item.titleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { titleAlign: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.ToggleControl, { label: __( 'Subtitle before title', 'tunet' ), checked: !! item.subtitleFirst, onChange: function ( v ) { update( { subtitleFirst: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.TextControl, { label: __( 'Subtitle', 'tunet' ), value: item.subtitle, onChange: function ( v ) { update( { subtitle: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Subtitle alignment', 'tunet' ), value: item.subtitleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { subtitleAlign: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.TextareaControl, { label: __( 'Description', 'tunet' ), value: item.description, onChange: function ( v ) { update( { description: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Description alignment', 'tunet' ), value: item.descAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { descAlign: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Content alignment (slide)', 'tunet' ), value: item.contentAlign, options: ALIGN_CONTENT, onChange: function ( v ) { update( { contentAlign: v } ); }, __nextHasNoMarginBottom: true } ),
 			ctaField( item, 0, update ),
 			ctaField( item, 1, update )
 		);
@@ -117,12 +117,12 @@
 					el(
 						C.PanelBody,
 						{ title: __( 'Carousel', 'tunet' ), initialOpen: false },
-						el( C.RangeControl, { label: __( 'Slides per view', 'tunet' ), min: 1, max: 4, value: attrs.slidesPerView, onChange: function ( v ) { setAttributes( { slidesPerView: v } ); } } ),
-						el( C.RangeControl, { label: __( 'Space between (px)', 'tunet' ), min: 0, max: 80, value: attrs.spaceBetween, onChange: function ( v ) { setAttributes( { spaceBetween: v } ); } } ),
-						el( C.ToggleControl, { label: __( 'Infinite loop', 'tunet' ), checked: attrs.loop, onChange: function ( v ) { setAttributes( { loop: v } ); } } ),
-						el( C.ToggleControl, { label: __( 'Autoplay', 'tunet' ), checked: attrs.autoplay, onChange: function ( v ) { setAttributes( { autoplay: v } ); } } ),
-						el( C.ToggleControl, { label: __( 'Pagination', 'tunet' ), checked: attrs.pagination, onChange: function ( v ) { setAttributes( { pagination: v } ); } } ),
-						el( C.ToggleControl, { label: __( 'Navigation arrows', 'tunet' ), checked: attrs.navigation, onChange: function ( v ) { setAttributes( { navigation: v } ); } } )
+						el( C.RangeControl, { label: __( 'Slides per view', 'tunet' ), min: 1, max: 4, value: attrs.slidesPerView, onChange: function ( v ) { setAttributes( { slidesPerView: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( C.RangeControl, { label: __( 'Space between (px)', 'tunet' ), min: 0, max: 80, value: attrs.spaceBetween, onChange: function ( v ) { setAttributes( { spaceBetween: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( C.ToggleControl, { label: __( 'Infinite loop', 'tunet' ), checked: attrs.loop, onChange: function ( v ) { setAttributes( { loop: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( C.ToggleControl, { label: __( 'Autoplay', 'tunet' ), checked: attrs.autoplay, onChange: function ( v ) { setAttributes( { autoplay: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( C.ToggleControl, { label: __( 'Pagination', 'tunet' ), checked: attrs.pagination, onChange: function ( v ) { setAttributes( { pagination: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( C.ToggleControl, { label: __( 'Navigation arrows', 'tunet' ), checked: attrs.navigation, onChange: function ( v ) { setAttributes( { navigation: v } ); }, __nextHasNoMarginBottom: true } )
 					)
 				),
 				el(
