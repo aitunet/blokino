@@ -84,7 +84,10 @@ foreach ( $tnt_items as $tnt_item ) {
 		. $tnt_render_ctas( isset( $tnt_item['ctas'] ) ? $tnt_item['ctas'] : array() )
 		. '</div>';
 
-	$tnt_slides .= '<div class="swiper-slide"><div class="tunet-cslide">' . $tnt_media . $tnt_content . '</div></div>';
+	// Modificador según haya imagen: con media = 2 columnas; solo texto = 1 columna
+	// a ancho completo (si no, el grid dejaría el contenido en media pantalla).
+	$tnt_cslide_class = 'tunet-cslide' . ( '' !== $tnt_media ? ' tunet-cslide--media' : ' tunet-cslide--text' );
+	$tnt_slides .= '<div class="swiper-slide"><div class="' . $tnt_cslide_class . '">' . $tnt_media . $tnt_content . '</div></div>';
 }
 
 if ( '' === $tnt_slides ) {
@@ -104,11 +107,12 @@ $tnt_loop   = ! empty( $attributes['loop'] );
 $tnt_auto   = ! empty( $attributes['autoplay'] );
 $tnt_pag    = ! isset( $attributes['pagination'] ) || ! empty( $attributes['pagination'] );
 $tnt_nav    = ! isset( $attributes['navigation'] ) || ! empty( $attributes['navigation'] );
+$tnt_arrows_out = $tnt_nav && ! empty( $attributes['arrowsOutside'] );
 $tnt_pspv   = in_array( $tnt_effect, array( 'fade', 'cards' ), true ) ? 1 : max( 1, $tnt_spv );
 
 $tnt_wrapper = get_block_wrapper_attributes(
 	array(
-		'class'               => 'tunet-content-slider tunet-carousel swiper',
+		'class'               => 'tunet-content-slider tunet-carousel swiper' . ( $tnt_arrows_out ? ' tunet-carousel--nav-outside' : '' ),
 		'style'               => '--tnt-carousel-spv:' . $tnt_pspv . ';',
 		'data-swiper-base'    => esc_url( TUNET_CORE_URL . 'runtime/vendor/swiper/' ),
 		'data-effect'         => $tnt_effect,

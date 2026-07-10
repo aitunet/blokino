@@ -122,7 +122,16 @@
 						el( C.ToggleControl, { label: __( 'Infinite loop', 'tunet' ), checked: attrs.loop, onChange: function ( v ) { setAttributes( { loop: v } ); }, __nextHasNoMarginBottom: true } ),
 						el( C.ToggleControl, { label: __( 'Autoplay', 'tunet' ), checked: attrs.autoplay, onChange: function ( v ) { setAttributes( { autoplay: v } ); }, __nextHasNoMarginBottom: true } ),
 						el( C.ToggleControl, { label: __( 'Pagination', 'tunet' ), checked: attrs.pagination, onChange: function ( v ) { setAttributes( { pagination: v } ); }, __nextHasNoMarginBottom: true } ),
-						el( C.ToggleControl, { label: __( 'Navigation arrows', 'tunet' ), checked: attrs.navigation, onChange: function ( v ) { setAttributes( { navigation: v } ); }, __nextHasNoMarginBottom: true } )
+						el( C.ToggleControl, { label: __( 'Navigation arrows', 'tunet' ), checked: attrs.navigation, onChange: function ( v ) { setAttributes( { navigation: v } ); }, __nextHasNoMarginBottom: true } ),
+						attrs.navigation
+							? el( C.ToggleControl, {
+								label: __( 'Arrows outside', 'tunet' ),
+								help: __( 'Place the arrows in the side margins instead of over the slides.', 'tunet' ),
+								checked: !! attrs.arrowsOutside,
+								onChange: function ( v ) { setAttributes( { arrowsOutside: v } ); },
+								__nextHasNoMarginBottom: true
+							} )
+							: null
 					)
 				),
 				el(

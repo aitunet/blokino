@@ -11,8 +11,11 @@
 	gap: var( --tnt-space-5 );
 	align-items: center;
 }
+/* Con imagen: 2 columnas (media | contenido). Solo texto: 1 columna a ancho
+ * completo (si no, el grid dejaba el contenido en media pantalla → "no abarca
+ * el 100%"). El posicionamiento del contenido lo da la alineación de contenido. */
 @media ( min-width: 782px ) {
-	.tunet-cslide {
+	.tunet-cslide--media {
 		grid-template-columns: 1fr 1fr;
 	}
 }
@@ -33,11 +36,27 @@
 	display: flex;
 	flex-direction: column;
 	gap: var( --tnt-space-3 );
+	/* Ancho FIJO acotado (no shrink-to-fit): es lo que permite que la ALINEACIÓN DE
+	 * CONTENIDO mueva el bloque dentro del slide y que el text-align por campo tenga
+	 * espacio real → INDEPENDIENTE de la posición (p. ej. contenido a la derecha con
+	 * los textos a la izquierda). Los hijos van a ancho completo del bloque. */
+	inline-size: min( 100%, 52ch );
 }
-.tunet-cslide__content--left   { align-items: flex-start; text-align: start; }
-.tunet-cslide__content--center { align-items: center;     text-align: center; }
-.tunet-cslide__content--right  { align-items: flex-end;   text-align: end; }
+.tunet-cslide__content > * {
+	align-self: stretch;
+}
 
+/* ALINEACIÓN DE CONTENIDO (izq/centro/der): posiciona el BLOQUE dentro del slide
+ * (justify-self, sin encoger) + fija el text-align por defecto + alinea las CTAs.
+ * Es independiente del text-align por campo. */
+.tunet-cslide__content--left   { justify-self: start;  text-align: left; }
+.tunet-cslide__content--center { justify-self: center; text-align: center; }
+.tunet-cslide__content--right  { justify-self: end;    text-align: right; }
+.tunet-cslide__content--left   .tunet-cslide__ctas { justify-content: flex-start; }
+.tunet-cslide__content--center .tunet-cslide__ctas { justify-content: center; }
+.tunet-cslide__content--right  .tunet-cslide__ctas { justify-content: flex-end; }
+
+/* ALINEACIÓN DE TEXTO (por campo): pisa el default del contenido en ese texto. */
 .tunet-cslide__text--left   { text-align: left; }
 .tunet-cslide__text--center { text-align: center; }
 .tunet-cslide__text--right  { text-align: right; }
@@ -116,4 +135,18 @@
 @media ( prefers-reduced-motion: reduce ) {
 	.tunet-cslide__cta { transition: none; }
 	.tunet-cslide__cta:hover { transform: none; }
+}
+
+/* Flechas por fuera del área de slides (opción "Arrows outside", solo con navegación).
+ * Reserva espacio lateral en el carrusel; Swiper achica los slides a ese hueco interior
+ * y las flechas quedan en los márgenes reservados. Nota: si el slider es full-bleed las
+ * flechas quedan cerca del borde del viewport (por eso conviene un slider con ancho). */
+.tunet-content-slider.tunet-carousel--nav-outside {
+	padding-inline: clamp( 2.75rem, 5vw, 4.5rem );
+}
+.tunet-content-slider.tunet-carousel--nav-outside .swiper-button-prev {
+	inset-inline-start: 0;
+}
+.tunet-content-slider.tunet-carousel--nav-outside .swiper-button-next {
+	inset-inline-end: 0;
 }
