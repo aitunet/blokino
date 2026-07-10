@@ -67,9 +67,9 @@ foreach ( $tnt_items as $tnt_item ) {
 
 	$tnt_bg = '';
 	if ( $tnt_bg_url ) {
-		$tnt_fx = isset( $tnt_item['bgFocalX'] ) ? max( 0, min( 1, (float) $tnt_item['bgFocalX'] ) ) : 0.5;
-		$tnt_fy = isset( $tnt_item['bgFocalY'] ) ? max( 0, min( 1, (float) $tnt_item['bgFocalY'] ) ) : 0.5;
-		$tnt_bg_pos  = round( $tnt_fx * 100, 2 ) . '% ' . round( $tnt_fy * 100, 2 ) . '%';
+		// Posición por palabra clave (lista blanca de background-position válidas).
+		$tnt_positions = array( 'left top', 'center top', 'right top', 'left center', 'center center', 'right center', 'left bottom', 'center bottom', 'right bottom' );
+		$tnt_bg_pos  = isset( $tnt_item['bgPosition'] ) && in_array( $tnt_item['bgPosition'], $tnt_positions, true ) ? $tnt_item['bgPosition'] : 'center center';
 		$tnt_bg_size = isset( $tnt_item['bgSize'] ) && in_array( $tnt_item['bgSize'], array( 'cover', 'contain', 'auto' ), true ) ? $tnt_item['bgSize'] : 'cover';
 		$tnt_bg_rep  = isset( $tnt_item['bgRepeat'] ) && in_array( $tnt_item['bgRepeat'], array( 'no-repeat', 'repeat', 'repeat-x', 'repeat-y' ), true ) ? $tnt_item['bgRepeat'] : 'no-repeat';
 		$tnt_bg_style = 'background-image:url(' . esc_url( $tnt_bg_url ) . ');'
@@ -78,10 +78,13 @@ foreach ( $tnt_items as $tnt_item ) {
 			. 'background-repeat:' . $tnt_bg_rep . ';';
 		$tnt_bg = '<div class="tunet-cslide__bg" style="' . esc_attr( $tnt_bg_style ) . '"></div>';
 
-		// Overlay para legibilidad del texto sobre la imagen (0–90).
+		// Overlay para legibilidad del texto sobre la imagen: color configurable (hex
+		// del control; por defecto la tinta del theme) + opacidad (0–90).
 		$tnt_ov = isset( $tnt_item['bgOverlay'] ) ? max( 0, min( 90, (int) $tnt_item['bgOverlay'] ) ) : 40;
 		if ( $tnt_ov > 0 ) {
-			$tnt_bg .= '<div class="tunet-cslide__overlay" style="opacity:' . ( $tnt_ov / 100 ) . ';"></div>';
+			$tnt_ov_color = isset( $tnt_item['bgOverlayColor'] ) && is_string( $tnt_item['bgOverlayColor'] ) ? sanitize_hex_color( $tnt_item['bgOverlayColor'] ) : '';
+			$tnt_ov_bg    = $tnt_ov_color ? $tnt_ov_color : 'var(--tnt-color-ink,#0b0b0f)';
+			$tnt_bg .= '<div class="tunet-cslide__overlay" style="opacity:' . ( $tnt_ov / 100 ) . ';background:' . esc_attr( $tnt_ov_bg ) . ';"></div>';
 		}
 	}
 

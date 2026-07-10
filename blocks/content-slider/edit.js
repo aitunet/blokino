@@ -42,11 +42,24 @@
 		{ label: __( 'Repeat X', 'tunet' ), value: 'repeat-x' },
 		{ label: __( 'Repeat Y', 'tunet' ), value: 'repeat-y' }
 	];
+	// Posiciones de fondo por palabra clave (CSS background-position). El valor es
+	// una cadena CSS válida; render.php la valida contra esta misma lista blanca.
+	var BG_POSITION = [
+		{ label: __( 'Top left', 'tunet' ), value: 'left top' },
+		{ label: __( 'Top center', 'tunet' ), value: 'center top' },
+		{ label: __( 'Top right', 'tunet' ), value: 'right top' },
+		{ label: __( 'Center left', 'tunet' ), value: 'left center' },
+		{ label: __( 'Center', 'tunet' ), value: 'center center' },
+		{ label: __( 'Center right', 'tunet' ), value: 'right center' },
+		{ label: __( 'Bottom left', 'tunet' ), value: 'left bottom' },
+		{ label: __( 'Bottom center', 'tunet' ), value: 'center bottom' },
+		{ label: __( 'Bottom right', 'tunet' ), value: 'right bottom' }
+	];
 
 	function newSlide() {
 		return {
 			imageId: 0, imageUrl: '',
-			bgFocalX: 0.5, bgFocalY: 0.5, bgSize: 'cover', bgRepeat: 'no-repeat', bgOverlay: 40,
+			bgPosition: 'center center', bgSize: 'cover', bgRepeat: 'no-repeat', bgOverlay: 40, bgOverlayColor: '',
 			title: '', titleAlign: 'inherit',
 			subtitle: '', subtitleAlign: 'inherit', subtitleFirst: false,
 			description: '', descAlign: 'inherit',
@@ -73,29 +86,34 @@
 		);
 	}
 
-	// Controles de la imagen de FONDO (posición por foco, tamaño, repetición, overlay).
-	// Solo se muestran cuando el slide tiene imagen; el fondo es opt-in por slide.
-	function bgFields( item, update ) {
+	// Controles de la imagen de FONDO (posición por palabra clave, tamaño, repetición,
+	// overlay + color). Solo se muestran cuando el slide tiene imagen; el fondo es
+	// opt-in por slide. `palette` = colores del theme (para el color del overlay).
+	function bgFields( item, update, palette ) {
 		if ( ! item.imageId && ! item.imageUrl ) {
 			return null;
 		}
 		return el(
 			C.BaseControl,
 			{ key: 'bg', label: __( 'Background image', 'tunet' ), __nextHasNoMarginBottom: true },
-			el( C.FocalPointPicker, {
-				label: __( 'Position', 'tunet' ),
-				url: item.imageUrl,
-				value: { x: ( item.bgFocalX == null ? 0.5 : item.bgFocalX ), y: ( item.bgFocalY == null ? 0.5 : item.bgFocalY ) },
-				onChange: function ( v ) { update( { bgFocalX: v.x, bgFocalY: v.y } ); },
-				__nextHasNoMarginBottom: true
-			} ),
+			el( C.SelectControl, { label: __( 'Position', 'tunet' ), value: item.bgPosition || 'center center', options: BG_POSITION, onChange: function ( v ) { update( { bgPosition: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.SelectControl, { label: __( 'Size', 'tunet' ), value: item.bgSize || 'cover', options: BG_SIZE, onChange: function ( v ) { update( { bgSize: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.SelectControl, { label: __( 'Repeat', 'tunet' ), value: item.bgRepeat || 'no-repeat', options: BG_REPEAT, onChange: function ( v ) { update( { bgRepeat: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.RangeControl, { label: __( 'Overlay (%)', 'tunet' ), help: __( 'Darkens the image so the text stays readable.', 'tunet' ), min: 0, max: 90, value: ( item.bgOverlay == null ? 40 : item.bgOverlay ), onChange: function ( v ) { update( { bgOverlay: v } ); }, __nextHasNoMarginBottom: true } )
+			el( C.RangeControl, { label: __( 'Overlay (%)', 'tunet' ), help: __( 'Darkens the image so the text stays readable.', 'tunet' ), min: 0, max: 90, value: ( item.bgOverlay == null ? 40 : item.bgOverlay ), onChange: function ( v ) { update( { bgOverlay: v } ); }, __nextHasNoMarginBottom: true } ),
+			el(
+				C.BaseControl,
+				{ label: __( 'Overlay color', 'tunet' ), help: __( 'Defaults to the theme ink color.', 'tunet' ), __nextHasNoMarginBottom: true },
+				el( C.ColorPalette, {
+					colors: palette || [],
+					value: item.bgOverlayColor || '',
+					clearable: true,
+					onChange: function ( v ) { update( { bgOverlayColor: v || '' } ); }
+				} )
+			)
 		);
 	}
 
-	function renderItem( item, index, update ) {
+	function renderItem( item, index, update, palette ) {
 		return el(
 			Fragment,
 			{},
@@ -107,7 +125,7 @@
 				setLabel: __( 'Set image', 'tunet' ),
 				replaceLabel: __( 'Replace image', 'tunet' )
 			} ),
-			bgFields( item, update ),
+			bgFields( item, update, palette ),
 			el( C.TextControl, { label: __( 'Title', 'tunet' ), value: item.title, onChange: function ( v ) { update( { title: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.SelectControl, { label: __( 'Title alignment', 'tunet' ), value: item.titleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { titleAlign: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.ToggleControl, { label: __( 'Subtitle before title', 'tunet' ), checked: !! item.subtitleFirst, onChange: function ( v ) { update( { subtitleFirst: v } ); }, __nextHasNoMarginBottom: true } ),
@@ -130,6 +148,13 @@
 			var activeSlide = activeState[ 0 ];
 			var setActiveSlide = activeState[ 1 ];
 
+			// Paleta del theme (editor settings) para el color del overlay: array plano
+			// de colores del editor, vía useSelect para reaccionar si cambia.
+			var palette = wp.data.useSelect( function ( select ) {
+				var s = select( 'core/block-editor' ).getSettings();
+				return ( s && s.colors ) || [];
+			}, [] );
+
 			return el(
 				Fragment,
 				{},
@@ -142,7 +167,7 @@
 						el( window.tunet.RepeaterControl, {
 							items: attrs.items,
 							onChange: function ( items ) { setAttributes( { items: items } ); },
-							renderItem: renderItem,
+							renderItem: function ( item, i, update ) { return renderItem( item, i, update, palette ); },
 							newItem: newSlide,
 							onActivate: setActiveSlide,
 							addLabel: __( 'Add slide', 'tunet' ),

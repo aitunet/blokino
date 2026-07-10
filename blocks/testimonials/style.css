@@ -59,15 +59,15 @@
 	height: 1.05rem;
 }
 .tunet-rating__layer--empty {
-	/* Track de estrellas vacías en el color de estrella ATENUADO (no el borde
-	 * oscuro): sobre tarjetas oscuras el borde se leía como un "fantasma". Así el
-	 * medio-rating se ve como una estrella dorada tenue intencional, no un artefacto. */
+	/* Estrellas vacías = dorado ATENUADO y SÓLIDO (no contorno). El contorno se leía
+	 * como un "fantasma" alrededor/detrás de las llenas; una estrella SÓLIDA tenue es
+	 * el patrón de rating clásico (llena sólida + vacía tenue) y no deja halo/contorno. */
 	color: var( --tnt-color-star, var( --tnt-color-accent ) );
-	opacity: 0.28;
+	opacity: 0.3;
 }
 .tunet-rating__layer--empty .tunet-rating__star {
-	fill: none;
-	stroke: currentColor;
+	fill: currentColor;
+	stroke: none;
 }
 .tunet-rating__layer--full {
 	position: absolute;
@@ -79,11 +79,10 @@
 	color: var( --tnt-color-star, var( --tnt-color-accent ) );
 }
 .tunet-rating__layer--full .tunet-rating__star {
-	/* Stroke igual al fill: la estrella llena ocupa el MISMO contorno que la vacía
-	 * de abajo y la tapa por completo. Sin esto (solo fill), el trazo de la capa
-	 * vacía asoma alrededor de cada estrella llena (halo/contorno fantasma). */
+	/* Estrella llena SÓLIDA, misma geometría que la vacía sólida de abajo → la tapa
+	 * exactamente en la porción ganada, sin stroke que ensanche el contorno. */
 	fill: currentColor;
-	stroke: currentColor;
+	stroke: none;
 }
 
 .tunet-testimonial__quote {
