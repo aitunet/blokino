@@ -81,12 +81,23 @@ class Tunet_Core_Blocks {
 	 * bloques que lo usan lo declaran como dependencia en su edit.asset.php.
 	 */
 	public function enqueue_repeater_control() {
+		$abs = TUNET_CORE_PATH . 'blocks/shared/repeater-control.js';
+		$ver = file_exists( $abs ) ? (string) filemtime( $abs ) : TUNET_CORE_VERSION;
 		wp_enqueue_script(
 			'tunet-repeater-control',
 			TUNET_CORE_URL . 'blocks/shared/repeater-control.js',
-			array( 'wp-element', 'wp-components', 'wp-i18n' ),
-			TUNET_CORE_VERSION,
+			array( 'wp-element', 'wp-components', 'wp-block-editor', 'wp-i18n' ),
+			$ver,
 			false
+		);
+
+		$css_abs = TUNET_CORE_PATH . 'blocks/shared/repeater.css';
+		$css_ver = file_exists( $css_abs ) ? (string) filemtime( $css_abs ) : TUNET_CORE_VERSION;
+		wp_enqueue_style(
+			'tunet-repeater-control',
+			TUNET_CORE_URL . 'blocks/shared/repeater.css',
+			array(),
+			$css_ver
 		);
 	}
 

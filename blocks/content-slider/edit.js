@@ -8,14 +8,12 @@
 	var registerBlockType = wp.blocks.registerBlockType;
 	var el = wp.element.createElement;
 	var Fragment = wp.element.Fragment;
+	var useState = wp.element.useState;
 	var __ = wp.i18n.__;
 	var be = wp.blockEditor;
 	var C = wp.components;
-	var ServerSideRender = wp.serverSideRender;
 	var InspectorControls = be.InspectorControls;
 	var useBlockProps = be.useBlockProps;
-	var MediaUpload = be.MediaUpload;
-	var MediaUploadCheck = be.MediaUploadCheck;
 
 	var ALIGN_FIELD = [
 		{ label: __( 'Inherit', 'tunet' ), value: 'inherit' },
@@ -67,16 +65,14 @@
 		return el(
 			Fragment,
 			{},
-			el( MediaUploadCheck, {},
-				el( MediaUpload, {
-					allowedTypes: [ 'image' ],
-					value: item.imageId,
-					onSelect: function ( media ) { update( { imageId: media.id, imageUrl: media.url } ); },
-					render: function ( o ) {
-						return el( C.Button, { variant: 'secondary', onClick: o.open }, item.imageId ? __( 'Replace image', 'tunet' ) : __( 'Set image', 'tunet' ) );
-					}
-				} )
-			),
+			el( window.tunet.MediaField, {
+				id: item.imageId,
+				url: item.imageUrl,
+				onSelect: function ( media ) { update( { imageId: media.id, imageUrl: media.url } ); },
+				onRemove: function () { update( { imageId: 0, imageUrl: '' } ); },
+				setLabel: __( 'Set image', 'tunet' ),
+				replaceLabel: __( 'Replace image', 'tunet' )
+			} ),
 			el( C.TextControl, { label: __( 'Title', 'tunet' ), value: item.title, onChange: function ( v ) { update( { title: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.SelectControl, { label: __( 'Title alignment', 'tunet' ), value: item.titleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { titleAlign: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.ToggleControl, { label: __( 'Subtitle before title', 'tunet' ), checked: !! item.subtitleFirst, onChange: function ( v ) { update( { subtitleFirst: v } ); }, __nextHasNoMarginBottom: true } ),
@@ -95,6 +91,9 @@
 			var attrs = props.attributes;
 			var setAttributes = props.setAttributes;
 			var blockProps = useBlockProps();
+			var activeState = useState( 0 );
+			var activeSlide = activeState[ 0 ];
+			var setActiveSlide = activeState[ 1 ];
 
 			return el(
 				Fragment,
@@ -110,6 +109,7 @@
 							onChange: function ( items ) { setAttributes( { items: items } ); },
 							renderItem: renderItem,
 							newItem: newSlide,
+							onActivate: setActiveSlide,
 							addLabel: __( 'Add slide', 'tunet' ),
 							itemLabel: function ( it, i ) { return it.title || ( __( 'Slide', 'tunet' ) + ' ' + ( i + 1 ) ); }
 						} )
@@ -129,7 +129,7 @@
 					'div',
 					blockProps,
 					( attrs.items && attrs.items.length )
-						? el( window.tunet.CarouselPreview, { block: 'tunet/content-slider', attributes: attrs } )
+						? el( window.tunet.CarouselPreview, { block: 'tunet/content-slider', attributes: attrs, activeIndex: activeSlide } )
 						: el( C.Placeholder, {
 							icon: 'images-alt',
 							label: __( 'Content Slider', 'tunet' ),

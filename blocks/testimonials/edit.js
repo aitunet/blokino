@@ -8,14 +8,12 @@
 	var registerBlockType = wp.blocks.registerBlockType;
 	var el = wp.element.createElement;
 	var Fragment = wp.element.Fragment;
+	var useState = wp.element.useState;
 	var __ = wp.i18n.__;
 	var be = wp.blockEditor;
 	var C = wp.components;
-	var ServerSideRender = wp.serverSideRender;
 	var InspectorControls = be.InspectorControls;
 	var useBlockProps = be.useBlockProps;
-	var MediaUpload = be.MediaUpload;
-	var MediaUploadCheck = be.MediaUploadCheck;
 
 	var LAYOUTS = [
 		{ label: __( 'Carousel', 'tunet' ), value: 'carousel' },
@@ -30,16 +28,15 @@
 		return el(
 			Fragment,
 			{},
-			el( MediaUploadCheck, {},
-				el( MediaUpload, {
-					allowedTypes: [ 'image' ],
-					value: item.avatarId,
-					onSelect: function ( media ) { update( { avatarId: media.id, avatarUrl: media.url } ); },
-					render: function ( o ) {
-						return el( C.Button, { variant: 'secondary', onClick: o.open }, item.avatarId ? __( 'Replace avatar', 'tunet' ) : __( 'Set avatar', 'tunet' ) );
-					}
-				} )
-			),
+			el( window.tunet.MediaField, {
+				id: item.avatarId,
+				url: item.avatarUrl,
+				round: true,
+				onSelect: function ( media ) { update( { avatarId: media.id, avatarUrl: media.url } ); },
+				onRemove: function () { update( { avatarId: 0, avatarUrl: '' } ); },
+				setLabel: __( 'Set avatar', 'tunet' ),
+				replaceLabel: __( 'Replace avatar', 'tunet' )
+			} ),
 			el( C.RangeControl, { label: __( 'Rating (0–5)', 'tunet' ), min: 0, max: 5, step: 0.5, value: item.rating, onChange: function ( v ) { update( { rating: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.TextControl, { label: __( 'Name', 'tunet' ), value: item.name, onChange: function ( v ) { update( { name: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.TextControl, { label: __( 'Role · Company', 'tunet' ), value: item.role, onChange: function ( v ) { update( { role: v } ); }, __nextHasNoMarginBottom: true } ),
@@ -53,6 +50,9 @@
 			var setAttributes = props.setAttributes;
 			var blockProps = useBlockProps();
 			var isGrid = attrs.layout === 'grid';
+			var activeState = useState( 0 );
+			var activeSlide = activeState[ 0 ];
+			var setActiveSlide = activeState[ 1 ];
 
 			return el(
 				Fragment,
@@ -83,6 +83,7 @@
 							onChange: function ( items ) { setAttributes( { items: items } ); },
 							renderItem: renderItem,
 							newItem: newTestimonial,
+							onActivate: setActiveSlide,
 							addLabel: __( 'Add testimonial', 'tunet' ),
 							itemLabel: function ( it, i ) { return it.name || ( __( 'Testimonial', 'tunet' ) + ' ' + ( i + 1 ) ); }
 						} )
@@ -92,7 +93,7 @@
 					'div',
 					blockProps,
 					( attrs.items && attrs.items.length )
-						? el( window.tunet.CarouselPreview, { block: 'tunet/testimonials', attributes: attrs } )
+						? el( window.tunet.CarouselPreview, { block: 'tunet/testimonials', attributes: attrs, activeIndex: activeSlide } )
 						: el( C.Placeholder, {
 							icon: 'format-quote',
 							label: __( 'Testimonials', 'tunet' ),

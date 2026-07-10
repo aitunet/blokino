@@ -1,9 +1,15 @@
 /* ==========================================================================
- * Tunet Core · RepeaterControl — editor UI COMPARTIDO
+ * Tunet Core · UI de repeater COMPARTIDA (editor)
  * --------------------------------------------------------------------------
- * Acordeón de items en el InspectorControls: agregar / borrar / reordenar.
- * Cada bloque define sus campos vía la render-prop `renderItem`. Guarda todo
- * en un atributo `items` (array) del bloque. Sin InnerBlocks, sin build step.
+ * `window.tunet.RepeaterControl` — acordeón de items en el InspectorControls:
+ * agregar / borrar / reordenar. Cada bloque define sus campos vía la render-prop
+ * `renderItem`. Guarda todo en un atributo `items` (array). Sin InnerBlocks, sin
+ * build step. Prop opcional `onActivate(index)`: se dispara al EXPANDIR un item
+ * (para, p. ej., mover el preview del carrusel a ese slide).
+ *
+ * `window.tunet.MediaField` — campo de imagen/avatar NATIVO (MediaUpload de WP)
+ * con **miniatura de preview** + Reemplazar/Quitar. Compartido por los repeaters
+ * de content-slider (imagen) y testimonials (avatar, variante redonda).
  * ========================================================================== */
 ( function ( wp ) {
 	'use strict';
@@ -12,14 +18,73 @@
 	var Fragment = wp.element.Fragment;
 	var __ = wp.i18n.__;
 	var C = wp.components;
+	var be = wp.blockEditor || {};
+	var MediaUpload = be.MediaUpload;
+	var MediaUploadCheck = be.MediaUploadCheck;
 
 	window.tunet = window.tunet || {};
 
+	/* ----------------------------------------------------------------------
+	 * MediaField — selector de imagen nativo con miniatura de preview.
+	 * props: { id, url, onSelect(media), onRemove(), allowedTypes, round,
+	 *          setLabel, replaceLabel }
+	 * ------------------------------------------------------------------- */
+	window.tunet.MediaField = function ( props ) {
+		var id = props.id || 0;
+		var url = props.url || '';
+		var setLabel = props.setLabel || __( 'Set image', 'tunet' );
+		var replaceLabel = props.replaceLabel || __( 'Replace image', 'tunet' );
+		var cls = 'tunet-media-field' + ( props.round ? ' is-round' : '' );
+
+		if ( ! MediaUpload || ! MediaUploadCheck ) {
+			return null;
+		}
+
+		return el(
+			MediaUploadCheck,
+			{},
+			el( MediaUpload, {
+				allowedTypes: props.allowedTypes || [ 'image' ],
+				value: id,
+				onSelect: props.onSelect,
+				render: function ( o ) {
+					return el(
+						'div',
+						{ className: cls },
+						url
+							? el(
+								'button',
+								{ type: 'button', className: 'tunet-media-field__preview', onClick: o.open, 'aria-label': replaceLabel },
+								el( 'img', { src: url, alt: '' } )
+							)
+							: el(
+								'button',
+								{ type: 'button', className: 'tunet-media-field__placeholder', onClick: o.open },
+								setLabel
+							),
+						el(
+							'div',
+							{ className: 'tunet-media-field__actions' },
+							el( C.Button, { variant: 'secondary', size: 'small', onClick: o.open }, url ? replaceLabel : setLabel ),
+							( id || url )
+								? el( C.Button, { variant: 'tertiary', size: 'small', isDestructive: true, onClick: props.onRemove }, __( 'Remove', 'tunet' ) )
+								: null
+						)
+					);
+				}
+			} )
+		);
+	};
+
+	/* ----------------------------------------------------------------------
+	 * RepeaterControl — acordeón de items.
+	 * ------------------------------------------------------------------- */
 	window.tunet.RepeaterControl = function ( props ) {
 		var items = props.items || [];
 		var onChange = props.onChange;
 		var renderItem = props.renderItem;
 		var newItem = props.newItem;
+		var onActivate = props.onActivate;
 		var max = props.max || 0;
 		var addLabel = props.addLabel || __( 'Add item', 'tunet' );
 		var itemLabel = props.itemLabel || function ( it, i ) {
@@ -53,7 +118,14 @@
 		var panels = items.map( function ( item, index ) {
 			return el(
 				C.PanelBody,
-				{ key: index, title: itemLabel( item, index ), initialOpen: false },
+				{
+					key: index,
+					title: itemLabel( item, index ),
+					initialOpen: false,
+					onToggle: function ( isOpen ) {
+						if ( isOpen && onActivate ) { onActivate( index ); }
+					}
+				},
 				renderItem( item, index, function ( patch ) { update( index, patch ); } ),
 				el(
 					'div',

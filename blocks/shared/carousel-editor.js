@@ -125,6 +125,7 @@
 	function CarouselPreview( props ) {
 		var ref = useRef( null );
 		var indexRef = useRef( 0 );
+		var swiperRef = useRef( null );
 
 		useEffect( function () {
 			var container = ref.current;
@@ -144,6 +145,7 @@
 						swiper.destroy( true, true );
 					} catch ( e ) { /* noop */ }
 					swiper = null;
+					swiperRef.current = null;
 				}
 				initializedEl = null;
 			}
@@ -169,6 +171,7 @@
 					var count = elc.querySelectorAll( '.swiper-slide' ).length;
 					var start = Math.max( 0, Math.min( indexRef.current, count - 1 ) );
 					swiper = new win.Swiper( elc, buildOptions( elc, start ) );
+					swiperRef.current = swiper;
 				} ).catch( function () {
 					/* Sin Swiper: carousel.css deja visible la primera slide. */
 				} );
@@ -201,6 +204,27 @@
 				destroy();
 			};
 		}, [] );
+
+		// Sincroniza el slide activo con el item expandido en el sidebar: al abrir
+		// un item, `activeIndex` cambia y el carrusel se desliza a ese slide. No es
+		// un atributo → el SSR no se re-renderiza, solo se hace slideTo (suave).
+		useEffect( function () {
+			var idx = props.activeIndex;
+			if ( typeof idx !== 'number' || idx < 0 ) {
+				return;
+			}
+			indexRef.current = idx;
+			var sw = swiperRef.current;
+			if ( sw && ! sw.destroyed ) {
+				try {
+					if ( sw.params && sw.params.loop && sw.slideToLoop ) {
+						sw.slideToLoop( idx );
+					} else {
+						sw.slideTo( idx );
+					}
+				} catch ( e ) { /* noop */ }
+			}
+		}, [ props.activeIndex ] );
 
 		return el(
 			'div',
