@@ -96,6 +96,10 @@
 			slidesPerView: spv,
 			initialSlide: initialSlide || 0,
 			autoplay: false,
+			// Sin drag en el editor: el arrastre de Swiper se traga el clic y no deja
+			// seleccionar el bloque. Se navega por flechas + clic en los items del
+			// sidebar. El front sí conserva el swipe (runtime/carousel.js).
+			allowTouchMove: false,
 			a11y: { enabled: false }
 		};
 
