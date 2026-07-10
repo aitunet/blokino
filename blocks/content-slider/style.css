@@ -85,23 +85,28 @@
 		color var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
 		border-color var( --tnt-dur-fast ) var( --tnt-ease-power3 );
 }
-.tunet-cslide__cta--filled {
+/* :root sube la especificidad a (0,2,0) para ganarle a la regla de color de link
+ * del theme (`:root :where(a…)` = 0,1,0 en WP), que si no pinta el texto del CTA
+ * con --tnt-color-primary y lo vuelve invisible sobre el relleno. Sin !important (§9/§13.7). */
+:root .tunet-cslide__cta--filled {
 	background: var( --tnt-color-primary );
-	color: var( --tnt-color-on-ink, #fff );
+	/* Texto sobre el primary: se sigue la convención de botón de los themes
+	 * (Ember `button.text` = --tnt-color-bg) → contraste alto en claro y oscuro. */
+	color: var( --tnt-color-bg, #111 );
 }
-.tunet-cslide__cta--outline {
+:root .tunet-cslide__cta--outline {
 	background: transparent;
 	color: var( --tnt-color-text );
 	border-color: var( --tnt-color-border );
 }
-.tunet-cslide__cta--text {
+:root .tunet-cslide__cta--text {
 	padding-inline: 0;
 	background: transparent;
 	color: var( --tnt-color-primary );
 	border-radius: 0;
 }
 .tunet-cslide__cta:hover { transform: translateY( -2px ); }
-.tunet-cslide__cta--outline:hover { border-color: var( --tnt-color-primary ); color: var( --tnt-color-primary ); }
+:root .tunet-cslide__cta--outline:hover { border-color: var( --tnt-color-primary ); color: var( --tnt-color-primary ); }
 .tunet-cslide__cta--text:hover { text-decoration: underline; }
 .tunet-cslide__cta:focus-visible {
 	outline: 2px solid var( --tnt-color-primary );
