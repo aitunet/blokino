@@ -8,6 +8,7 @@ return array(
 		'wp-i18n',
 		'wp-server-side-render',
 		'tunet-repeater-control',
+		'tunet-carousel-editor',
 	),
-	'version' => '0.2.2',
+	'version' => '0.2.3',
 );

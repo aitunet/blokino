@@ -35,6 +35,7 @@ class Tunet_Core_Blocks {
 		add_action( 'init', array( $this, 'register_blocks' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'localize_icons' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_repeater_control' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_carousel_editor' ) );
 	}
 
 	/**
@@ -86,6 +87,36 @@ class Tunet_Core_Blocks {
 			array( 'wp-element', 'wp-components', 'wp-i18n' ),
 			TUNET_CORE_VERSION,
 			false
+		);
+	}
+
+	/**
+	 * Encola el preview de carrusel del EDITOR (Swiper real sobre el SSR). Lo usan
+	 * los edit.js de los bloques de carrusel (content-slider, testimonials), que lo
+	 * declaran como dependencia en su edit.asset.php. Expone la URL de carousel.css
+	 * para que el helper la inyecte en el iframe del canvas (donde vive el SSR). No
+	 * toca el front: es solo un asset de editor.
+	 */
+	public function enqueue_carousel_editor() {
+		$editor_abs = TUNET_CORE_PATH . 'blocks/shared/carousel-editor.js';
+		$editor_ver = file_exists( $editor_abs ) ? (string) filemtime( $editor_abs ) : TUNET_CORE_VERSION;
+		wp_enqueue_script(
+			'tunet-carousel-editor',
+			TUNET_CORE_URL . 'blocks/shared/carousel-editor.js',
+			array( 'wp-element', 'wp-server-side-render' ),
+			$editor_ver,
+			false
+		);
+
+		$carousel_css = TUNET_CORE_URL . 'runtime/carousel.css';
+		$carousel_abs = TUNET_CORE_PATH . 'runtime/carousel.css';
+		if ( file_exists( $carousel_abs ) ) {
+			$carousel_css = add_query_arg( 'ver', filemtime( $carousel_abs ), $carousel_css );
+		}
+		wp_add_inline_script(
+			'tunet-carousel-editor',
+			'window.tunet = window.tunet || {}; window.tunet.carouselCssUrl = ' . wp_json_encode( $carousel_css ) . ';',
+			'before'
 		);
 	}
 

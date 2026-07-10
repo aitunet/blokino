@@ -92,7 +92,7 @@
 					'div',
 					blockProps,
 					( attrs.items && attrs.items.length )
-						? el( ServerSideRender, { block: 'tunet/testimonials', attributes: attrs } )
+						? el( window.tunet.CarouselPreview, { block: 'tunet/testimonials', attributes: attrs } )
 						: el( C.Placeholder, {
 							icon: 'format-quote',
 							label: __( 'Testimonials', 'tunet' ),

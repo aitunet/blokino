@@ -129,7 +129,7 @@
 					'div',
 					blockProps,
 					( attrs.items && attrs.items.length )
-						? el( ServerSideRender, { block: 'tunet/content-slider', attributes: attrs } )
+						? el( window.tunet.CarouselPreview, { block: 'tunet/content-slider', attributes: attrs } )
 						: el( C.Placeholder, {
 							icon: 'images-alt',
 							label: __( 'Content Slider', 'tunet' ),
