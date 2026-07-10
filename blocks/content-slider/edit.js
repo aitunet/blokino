@@ -31,10 +31,22 @@
 		{ label: __( 'Outline', 'tunet' ), value: 'outline' },
 		{ label: __( 'Text', 'tunet' ), value: 'text' }
 	];
+	var BG_SIZE = [
+		{ label: __( 'Cover (fill)', 'tunet' ), value: 'cover' },
+		{ label: __( 'Contain (fit)', 'tunet' ), value: 'contain' },
+		{ label: __( 'Auto (original)', 'tunet' ), value: 'auto' }
+	];
+	var BG_REPEAT = [
+		{ label: __( 'No repeat', 'tunet' ), value: 'no-repeat' },
+		{ label: __( 'Repeat', 'tunet' ), value: 'repeat' },
+		{ label: __( 'Repeat X', 'tunet' ), value: 'repeat-x' },
+		{ label: __( 'Repeat Y', 'tunet' ), value: 'repeat-y' }
+	];
 
 	function newSlide() {
 		return {
 			imageId: 0, imageUrl: '',
+			bgFocalX: 0.5, bgFocalY: 0.5, bgSize: 'cover', bgRepeat: 'no-repeat', bgOverlay: 40,
 			title: '', titleAlign: 'inherit',
 			subtitle: '', subtitleAlign: 'inherit', subtitleFirst: false,
 			description: '', descAlign: 'inherit',
@@ -61,6 +73,28 @@
 		);
 	}
 
+	// Controles de la imagen de FONDO (posición por foco, tamaño, repetición, overlay).
+	// Solo se muestran cuando el slide tiene imagen; el fondo es opt-in por slide.
+	function bgFields( item, update ) {
+		if ( ! item.imageId && ! item.imageUrl ) {
+			return null;
+		}
+		return el(
+			C.BaseControl,
+			{ key: 'bg', label: __( 'Background image', 'tunet' ), __nextHasNoMarginBottom: true },
+			el( C.FocalPointPicker, {
+				label: __( 'Position', 'tunet' ),
+				url: item.imageUrl,
+				value: { x: ( item.bgFocalX == null ? 0.5 : item.bgFocalX ), y: ( item.bgFocalY == null ? 0.5 : item.bgFocalY ) },
+				onChange: function ( v ) { update( { bgFocalX: v.x, bgFocalY: v.y } ); },
+				__nextHasNoMarginBottom: true
+			} ),
+			el( C.SelectControl, { label: __( 'Size', 'tunet' ), value: item.bgSize || 'cover', options: BG_SIZE, onChange: function ( v ) { update( { bgSize: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Repeat', 'tunet' ), value: item.bgRepeat || 'no-repeat', options: BG_REPEAT, onChange: function ( v ) { update( { bgRepeat: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.RangeControl, { label: __( 'Overlay (%)', 'tunet' ), help: __( 'Darkens the image so the text stays readable.', 'tunet' ), min: 0, max: 90, value: ( item.bgOverlay == null ? 40 : item.bgOverlay ), onChange: function ( v ) { update( { bgOverlay: v } ); }, __nextHasNoMarginBottom: true } )
+		);
+	}
+
 	function renderItem( item, index, update ) {
 		return el(
 			Fragment,
@@ -73,6 +107,7 @@
 				setLabel: __( 'Set image', 'tunet' ),
 				replaceLabel: __( 'Replace image', 'tunet' )
 			} ),
+			bgFields( item, update ),
 			el( C.TextControl, { label: __( 'Title', 'tunet' ), value: item.title, onChange: function ( v ) { update( { title: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.SelectControl, { label: __( 'Title alignment', 'tunet' ), value: item.titleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { titleAlign: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.ToggleControl, { label: __( 'Subtitle before title', 'tunet' ), checked: !! item.subtitleFirst, onChange: function ( v ) { update( { subtitleFirst: v } ); }, __nextHasNoMarginBottom: true } ),

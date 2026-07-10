@@ -53,16 +53,37 @@ $tnt_render_ctas = function ( $ctas ) {
 
 $tnt_slides = '';
 foreach ( $tnt_items as $tnt_item ) {
-	// Imagen.
-	$tnt_media = '';
+	// Imagen de FONDO del slide (background + overlay) con controles de posición
+	// (foco), tamaño (cover/contain/auto) y repetición. El contenido va encima.
 	$tnt_img_id  = isset( $tnt_item['imageId'] ) ? absint( $tnt_item['imageId'] ) : 0;
-	$tnt_img_url = isset( $tnt_item['imageUrl'] ) ? esc_url( $tnt_item['imageUrl'] ) : '';
+	$tnt_img_url = isset( $tnt_item['imageUrl'] ) ? esc_url_raw( $tnt_item['imageUrl'] ) : '';
+	$tnt_bg_url  = '';
 	if ( $tnt_img_id ) {
-		$tnt_media = wp_get_attachment_image( $tnt_img_id, 'large', false, array( 'class' => 'tunet-cslide__img' ) );
-	} elseif ( '' !== $tnt_img_url ) {
-		$tnt_media = '<img class="tunet-cslide__img" src="' . $tnt_img_url . '" alt="" />';
+		$tnt_bg_url = wp_get_attachment_image_url( $tnt_img_id, 'full' );
 	}
-	$tnt_media = '' !== $tnt_media ? '<div class="tunet-cslide__media">' . $tnt_media . '</div>' : '';
+	if ( ! $tnt_bg_url && '' !== $tnt_img_url ) {
+		$tnt_bg_url = $tnt_img_url;
+	}
+
+	$tnt_bg = '';
+	if ( $tnt_bg_url ) {
+		$tnt_fx = isset( $tnt_item['bgFocalX'] ) ? max( 0, min( 1, (float) $tnt_item['bgFocalX'] ) ) : 0.5;
+		$tnt_fy = isset( $tnt_item['bgFocalY'] ) ? max( 0, min( 1, (float) $tnt_item['bgFocalY'] ) ) : 0.5;
+		$tnt_bg_pos  = round( $tnt_fx * 100, 2 ) . '% ' . round( $tnt_fy * 100, 2 ) . '%';
+		$tnt_bg_size = isset( $tnt_item['bgSize'] ) && in_array( $tnt_item['bgSize'], array( 'cover', 'contain', 'auto' ), true ) ? $tnt_item['bgSize'] : 'cover';
+		$tnt_bg_rep  = isset( $tnt_item['bgRepeat'] ) && in_array( $tnt_item['bgRepeat'], array( 'no-repeat', 'repeat', 'repeat-x', 'repeat-y' ), true ) ? $tnt_item['bgRepeat'] : 'no-repeat';
+		$tnt_bg_style = 'background-image:url(' . esc_url( $tnt_bg_url ) . ');'
+			. 'background-position:' . $tnt_bg_pos . ';'
+			. 'background-size:' . $tnt_bg_size . ';'
+			. 'background-repeat:' . $tnt_bg_rep . ';';
+		$tnt_bg = '<div class="tunet-cslide__bg" style="' . esc_attr( $tnt_bg_style ) . '"></div>';
+
+		// Overlay para legibilidad del texto sobre la imagen (0–90).
+		$tnt_ov = isset( $tnt_item['bgOverlay'] ) ? max( 0, min( 90, (int) $tnt_item['bgOverlay'] ) ) : 40;
+		if ( $tnt_ov > 0 ) {
+			$tnt_bg .= '<div class="tunet-cslide__overlay" style="opacity:' . ( $tnt_ov / 100 ) . ';"></div>';
+		}
+	}
 
 	// Textos.
 	$tnt_title = ( isset( $tnt_item['title'] ) && is_string( $tnt_item['title'] ) ) ? trim( wp_strip_all_tags( $tnt_item['title'] ) ) : '';
@@ -84,10 +105,10 @@ foreach ( $tnt_items as $tnt_item ) {
 		. $tnt_render_ctas( isset( $tnt_item['ctas'] ) ? $tnt_item['ctas'] : array() )
 		. '</div>';
 
-	// Modificador según haya imagen: con media = 2 columnas; solo texto = 1 columna
-	// a ancho completo (si no, el grid dejaría el contenido en media pantalla).
-	$tnt_cslide_class = 'tunet-cslide' . ( '' !== $tnt_media ? ' tunet-cslide--media' : ' tunet-cslide--text' );
-	$tnt_slides .= '<div class="swiper-slide"><div class="' . $tnt_cslide_class . '">' . $tnt_media . $tnt_content . '</div></div>';
+	// Modificador según haya imagen de fondo: con media = slide con capa de imagen +
+	// overlay y contenido superpuesto; solo texto = slide plano por tokens del theme.
+	$tnt_cslide_class = 'tunet-cslide' . ( '' !== $tnt_bg ? ' tunet-cslide--media' : ' tunet-cslide--text' );
+	$tnt_slides .= '<div class="swiper-slide"><div class="' . $tnt_cslide_class . '">' . $tnt_bg . $tnt_content . '</div></div>';
 }
 
 if ( '' === $tnt_slides ) {

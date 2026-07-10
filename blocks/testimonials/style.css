@@ -59,7 +59,11 @@
 	height: 1.05rem;
 }
 .tunet-rating__layer--empty {
-	color: var( --tnt-color-border );
+	/* Track de estrellas vacías en el color de estrella ATENUADO (no el borde
+	 * oscuro): sobre tarjetas oscuras el borde se leía como un "fantasma". Así el
+	 * medio-rating se ve como una estrella dorada tenue intencional, no un artefacto. */
+	color: var( --tnt-color-star, var( --tnt-color-accent ) );
+	opacity: 0.28;
 }
 .tunet-rating__layer--empty .tunet-rating__star {
 	fill: none;

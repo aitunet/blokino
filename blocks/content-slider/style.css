@@ -6,40 +6,47 @@
 
 .tunet-cslide {
 	box-sizing: border-box;
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: var( --tnt-space-5 );
+	position: relative;
+	display: flex;
 	align-items: center;
+	padding: var( --tnt-space-6 );
+	border-radius: var( --tnt-radius-lg );
+	overflow: hidden;
 }
-/* Con imagen: 2 columnas (media | contenido). Solo texto: 1 columna a ancho
- * completo (si no, el grid dejaba el contenido en media pantalla → "no abarca
- * el 100%"). El posicionamiento del contenido lo da la alineación de contenido. */
-@media ( min-width: 782px ) {
-	.tunet-cslide--media {
-		grid-template-columns: 1fr 1fr;
-	}
+/* Con imagen de FONDO: altura mínima para que la imagen tenga lienzo real y el
+ * contenido se superponga centrado. Solo texto: sin altura forzada ni overlay,
+ * el slide es plano con los tokens del theme. */
+.tunet-cslide--media {
+	min-block-size: clamp( 22rem, 46vh, 34rem );
 }
 
-.tunet-cslide__media {
-	overflow: hidden;
-	border-radius: var( --tnt-radius-lg );
+/* Capa de imagen de fondo: cubre el slide. background-position (foco), -size
+ * (cover/contain/auto) y -repeat se inyectan inline desde render.php. */
+.tunet-cslide__bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
 }
-.tunet-cslide__img {
-	display: block;
-	inline-size: 100%;
-	block-size: 100%;
-	object-fit: cover;
-	aspect-ratio: 4 / 3;
+/* Overlay de legibilidad sobre la imagen: color = tinta fija del theme (no se
+ * invierte en variaciones dark), opacidad inyectada inline (control del block). */
+.tunet-cslide__overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background: var( --tnt-color-ink, #0b0b0f );
+	pointer-events: none;
 }
 
 .tunet-cslide__content {
+	position: relative;
+	z-index: 2;
 	display: flex;
 	flex-direction: column;
 	gap: var( --tnt-space-3 );
-	/* Ancho FIJO acotado (no shrink-to-fit): es lo que permite que la ALINEACIÓN DE
-	 * CONTENIDO mueva el bloque dentro del slide y que el text-align por campo tenga
-	 * espacio real → INDEPENDIENTE de la posición (p. ej. contenido a la derecha con
-	 * los textos a la izquierda). Los hijos van a ancho completo del bloque. */
+	/* Ancho FIJO acotado (no shrink-to-fit): permite que la ALINEACIÓN DE CONTENIDO
+	 * mueva el bloque dentro del slide (margin auto en el flex) y que el text-align
+	 * por campo tenga espacio real → INDEPENDIENTE de la posición (p. ej. contenido
+	 * a la derecha con los textos a la izquierda). Los hijos van a ancho completo. */
 	inline-size: min( 100%, 52ch );
 }
 .tunet-cslide__content > * {
@@ -47,11 +54,11 @@
 }
 
 /* ALINEACIÓN DE CONTENIDO (izq/centro/der): posiciona el BLOQUE dentro del slide
- * (justify-self, sin encoger) + fija el text-align por defecto + alinea las CTAs.
- * Es independiente del text-align por campo. */
-.tunet-cslide__content--left   { justify-self: start;  text-align: left; }
-.tunet-cslide__content--center { justify-self: center; text-align: center; }
-.tunet-cslide__content--right  { justify-self: end;    text-align: right; }
+ * (margin auto en el flex, sin encoger) + fija el text-align por defecto + alinea
+ * las CTAs. Es independiente del text-align por campo. */
+.tunet-cslide__content--left   { margin-inline-end: auto;   text-align: left; }
+.tunet-cslide__content--center { margin-inline: auto;       text-align: center; }
+.tunet-cslide__content--right  { margin-inline-start: auto; text-align: right; }
 .tunet-cslide__content--left   .tunet-cslide__ctas { justify-content: flex-start; }
 .tunet-cslide__content--center .tunet-cslide__ctas { justify-content: center; }
 .tunet-cslide__content--right  .tunet-cslide__ctas { justify-content: flex-end; }
@@ -60,6 +67,23 @@
 .tunet-cslide__text--left   { text-align: left; }
 .tunet-cslide__text--center { text-align: center; }
 .tunet-cslide__text--right  { text-align: right; }
+
+/* Texto claro y legible sobre la imagen de fondo (capa de tinta debajo). Se usa
+ * --tnt-color-on-ink (fijo, no se invierte en variaciones) + sombra sutil para
+ * cubrir imágenes claras si el comprador baja el overlay. */
+.tunet-cslide--media :is( .tunet-cslide__title, .tunet-cslide__subtitle, .tunet-cslide__desc ) {
+	color: var( --tnt-color-on-ink, #fff );
+	text-shadow: 0 1px 2px rgba( 0, 0, 0, 0.35 );
+}
+.tunet-cslide--media .tunet-cslide__subtitle { opacity: 0.92; }
+:root .tunet-cslide--media .tunet-cslide__cta--outline {
+	color: var( --tnt-color-on-ink, #fff );
+	border-color: color-mix( in srgb, var( --tnt-color-on-ink, #fff ) 55%, transparent );
+}
+:root .tunet-cslide--media .tunet-cslide__cta--outline:hover {
+	color: var( --tnt-color-on-ink, #fff );
+	border-color: var( --tnt-color-on-ink, #fff );
+}
 
 .tunet-cslide__title {
 	margin: 0;
