@@ -91,7 +91,13 @@
 				el(
 					'div',
 					blockProps,
-					el( ServerSideRender, { block: 'tunet/testimonials', attributes: attrs } )
+					( attrs.items && attrs.items.length )
+						? el( ServerSideRender, { block: 'tunet/testimonials', attributes: attrs } )
+						: el( C.Placeholder, {
+							icon: 'format-quote',
+							label: __( 'Testimonials', 'tunet' ),
+							instructions: __( 'Add testimonials from the “Items” panel in the block sidebar.', 'tunet' )
+						} )
 				)
 			);
 		},

@@ -9,5 +9,5 @@ return array(
 		'wp-server-side-render',
 		'tunet-repeater-control',
 	),
-	'version' => '0.1.0',
+	'version' => '0.1.1',
 );

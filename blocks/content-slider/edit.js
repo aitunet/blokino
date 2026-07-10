@@ -128,7 +128,13 @@
 				el(
 					'div',
 					blockProps,
-					el( ServerSideRender, { block: 'tunet/content-slider', attributes: attrs } )
+					( attrs.items && attrs.items.length )
+						? el( ServerSideRender, { block: 'tunet/content-slider', attributes: attrs } )
+						: el( C.Placeholder, {
+							icon: 'images-alt',
+							label: __( 'Content Slider', 'tunet' ),
+							instructions: __( 'Add slides from the “Slides” panel in the block sidebar.', 'tunet' )
+						} )
 				)
 			);
 		},
