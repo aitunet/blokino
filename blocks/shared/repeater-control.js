@@ -116,23 +116,33 @@
 		}
 
 		var panels = items.map( function ( item, index ) {
+			function activate() {
+				if ( onActivate ) { onActivate( index ); }
+			}
 			return el(
 				C.PanelBody,
 				{
 					key: index,
 					title: itemLabel( item, index ),
 					initialOpen: false,
+					// Al EXPANDIR el item.
 					onToggle: function ( isOpen ) {
-						if ( isOpen && onActivate ) { onActivate( index ); }
+						if ( isOpen ) { activate(); }
 					}
 				},
-				renderItem( item, index, function ( patch ) { update( index, patch ); } ),
+				// Cualquier clic o foco DENTRO del item también activa (aunque ya esté
+				// abierto): así "hacer clic en un item" siempre mueve el preview a él.
 				el(
 					'div',
-					{ className: 'tunet-repeater__actions', style: { display: 'flex', gap: '4px', marginTop: '12px' } },
-					el( C.Button, { variant: 'secondary', size: 'small', disabled: index === 0, onClick: function () { move( index, -1 ); }, label: __( 'Move up', 'tunet' ) }, '↑' ),
-					el( C.Button, { variant: 'secondary', size: 'small', disabled: index === items.length - 1, onClick: function () { move( index, 1 ); }, label: __( 'Move down', 'tunet' ) }, '↓' ),
-					el( C.Button, { variant: 'secondary', isDestructive: true, size: 'small', onClick: function () { remove( index ); } }, __( 'Remove', 'tunet' ) )
+					{ className: 'tunet-repeater__item', onMouseDownCapture: activate, onFocusCapture: activate },
+					renderItem( item, index, function ( patch ) { update( index, patch ); } ),
+					el(
+						'div',
+						{ className: 'tunet-repeater__actions', style: { display: 'flex', gap: '4px', marginTop: '12px' } },
+						el( C.Button, { variant: 'secondary', size: 'small', disabled: index === 0, onClick: function () { move( index, -1 ); }, label: __( 'Move up', 'tunet' ) }, '↑' ),
+						el( C.Button, { variant: 'secondary', size: 'small', disabled: index === items.length - 1, onClick: function () { move( index, 1 ); }, label: __( 'Move down', 'tunet' ) }, '↓' ),
+						el( C.Button, { variant: 'secondary', isDestructive: true, size: 'small', onClick: function () { remove( index ); } }, __( 'Remove', 'tunet' ) )
+					)
 				)
 			);
 		} );

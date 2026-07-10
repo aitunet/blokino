@@ -75,8 +75,11 @@
 	color: var( --tnt-color-star, var( --tnt-color-accent ) );
 }
 .tunet-rating__layer--full .tunet-rating__star {
+	/* Stroke igual al fill: la estrella llena ocupa el MISMO contorno que la vacía
+	 * de abajo y la tapa por completo. Sin esto (solo fill), el trazo de la capa
+	 * vacía asoma alrededor de cada estrella llena (halo/contorno fantasma). */
 	fill: currentColor;
-	stroke: none;
+	stroke: currentColor;
 }
 
 .tunet-testimonial__quote {
