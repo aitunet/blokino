@@ -2,7 +2,7 @@
  * Tunet Core · Chrome de carrusel COMPARTIDO (Swiper UI)
  * --------------------------------------------------------------------------
  * Flechas + paginación + fallback pre-init, agnóstico por tokens --tnt-*.
- * Lo encola cualquier bloque de carrusel (tunet/slider, tunet/testimonials)
+ * Lo encola cualquier bloque de carrusel (tunet/testimonials, tunet/content-slider)
  * vía Tunet_Core_Runtime::enqueue_carousel(). El CSS de Swiper lo inyecta
  * runtime/carousel.js de forma lazy junto al bundle; subimos especificidad con
  * .tunet-carousel.swiper para ganarle a su CSS inyectado tarde.

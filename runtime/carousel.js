@@ -1,7 +1,7 @@
 /* ==========================================================================
  * Tunet Core · Runtime de carrusel COMPARTIDO (Swiper lazy)
  * --------------------------------------------------------------------------
- * Escanea cualquier .tunet-carousel (tunet/slider, tunet/testimonials…),
+ * Escanea cualquier .tunet-carousel (tunet/testimonials, tunet/content-slider…),
  * carga Swiper (vendorizado en runtime/vendor/swiper) de forma LAZY (solo cerca
  * del viewport) e inicializa con las opciones de sus data-attributes. Sin red
  * en runtime (copia local). prefers-reduced-motion → autoplay off. Si Swiper no

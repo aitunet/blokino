@@ -53,8 +53,7 @@
 		'tunet/section',
 		'tunet/marquee',
 		'tunet/counter',
-		'tunet/before-after',
-		'tunet/slider'
+		'tunet/before-after'
 	];
 
 	function isAllowed( name ) {

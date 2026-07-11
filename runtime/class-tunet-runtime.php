@@ -258,7 +258,7 @@ class Tunet_Core_Runtime {
 
 	/**
 	 * Encola el runtime de carrusel COMPARTIDO (Swiper). Lo llaman en su render
-	 * los blocks de carrusel (tunet/slider, tunet/testimonials) → carga
+	 * los blocks de carrusel (tunet/testimonials, tunet/content-slider) → carga
 	 * condicional: solo si un carrusel aparece en la página. Registro perezoso
 	 * por si un render corre antes de register_assets().
 	 */

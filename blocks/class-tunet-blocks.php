@@ -7,7 +7,6 @@
  *
  * Blocks previstos (cada uno con su block.json y carga de assets condicional
  * vía should_load_separate_core_block_assets, ya activado en el orquestador):
- *   - tunet/slider        (wrapper de Swiper.js)
  *   - tunet/section       (backgrounds avanzados, overlay, shape divider)
  *   - tunet/marquee       (banda infinita)
  *   - tunet/counter       (número animado on-scroll)
@@ -47,8 +46,6 @@ class Tunet_Core_Blocks {
 		'marquee',
 		'counter',
 		'before-after',
-		'slider',
-		'slide',
 		'section',
 		'brand',
 		'icon',

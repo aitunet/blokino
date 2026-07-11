@@ -57,7 +57,6 @@ tunet-core/
 │  ├─ marquee/                     tunet/marquee: banda infinita (InnerBlocks).
 │  ├─ counter/                     tunet/counter: número animado on-scroll.
 │  ├─ before-after/                tunet/before-after: comparador arrastrable.
-│  ├─ slider/                      tunet/slider: Swiper.js vendorizado + lazy.
 │  ├─ section/                     tunet/section: fondos avanzados + dividers.
 │  └─ brand/                       tunet/brand: marca del sitio (logo→título, a Home).
 ├─ runtime/                        Runtime de efectos + carga condicional.
@@ -77,7 +76,7 @@ tunet-core/
 Nativos: `core/group`, `core/columns`, `core/cover`, `core/image`,
 `core/heading`, `core/paragraph`, `core/buttons`, `core/button`.
 Propios: `tunet/section`, `tunet/marquee`, `tunet/counter`,
-`tunet/before-after`, `tunet/slider` (también pueden tener entrada/hover/scroll).
+`tunet/before-after` (también pueden tener entrada/hover/scroll).
 
 ### Contrato de markup que produce un efecto
 - `data-tf-animation="<tipo>"` (trigger de la animación de entrada).
