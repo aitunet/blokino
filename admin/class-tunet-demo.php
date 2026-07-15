@@ -526,8 +526,8 @@ class Tunet_Core_Demo {
 					'post_status'  => 'publish',
 					'post_title'   => $p['title'],
 					'post_name'    => $p['slug'],
-					'post_excerpt' => $p['excerpt'] ?? '',
-					'post_content' => $p['content'] ?? '',
+					'post_excerpt' => wp_slash( $p['excerpt'] ?? '' ),
+					'post_content' => wp_slash( $p['content'] ?? '' ),
 				),
 				true
 			);
@@ -564,7 +564,7 @@ class Tunet_Core_Demo {
 					'post_status'  => 'publish',
 					'post_title'   => $p['title'],
 					'post_name'    => $p['slug'],
-					'post_content' => $p['content'] ?? '',
+					'post_content' => wp_slash( $p['content'] ?? '' ),
 				),
 				true
 			);
@@ -620,13 +620,17 @@ class Tunet_Core_Demo {
 			if ( '' === $content ) {
 				continue; // pattern missing — skip, don't abort
 			}
+			// wp_insert_post() expects slashed data and unslashes it; without
+			// wp_slash the lone backslash in serialized block attrs (the hex
+			// escapes serialize_block_attributes emits for & < > ' ") gets
+			// stripped, corrupting slider/section JSON. Slash every insert below.
 			$id = wp_insert_post(
 				array(
 					'post_type'    => 'page',
 					'post_status'  => 'publish',
 					'post_title'   => $page['title'],
 					'post_name'    => $page['slug'],
-					'post_content' => $content,
+					'post_content' => wp_slash( $content ),
 				),
 				true
 			);
