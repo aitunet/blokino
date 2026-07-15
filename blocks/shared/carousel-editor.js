@@ -138,6 +138,19 @@
 			}
 			var doc = container.ownerDocument;
 			var win = doc.defaultView || window;
+
+			// Editor-only guard: the SSR preview renders the real render.php markup,
+			// including live <a href> links (slide CTAs, author links). In the canvas
+			// those anchors would navigate away on click. Neutralize anchors only so a
+			// click selects the block instead — Swiper drag (on the container) still
+			// works, and the front-end links are untouched. Injected once per iframe.
+			if ( ! doc.getElementById( 'tnt-carousel-editor-guard' ) ) {
+				var guardStyle = doc.createElement( 'style' );
+				guardStyle.id = 'tnt-carousel-editor-guard';
+				guardStyle.textContent = '.tunet-carousel-editor a{pointer-events:none;cursor:default}';
+				( doc.head || doc.documentElement ).appendChild( guardStyle );
+			}
+
 			var swiper = null;
 			var initializedEl = null;
 			var timer = 0;

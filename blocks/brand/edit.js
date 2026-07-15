@@ -72,10 +72,18 @@
 				el(
 					'div',
 					blockProps,
-					el( ServerSideRender, {
-						block: 'tunet/brand',
-						attributes: a
-					} )
+					// The preview renders render.php via ServerSideRender, which emits a
+					// live <a href="/"> when linkToHome is on. pointer-events:none keeps
+					// the canvas preview inert so a click selects the block instead of
+					// navigating; the front-end anchor is unaffected.
+					el(
+						'div',
+						{ className: 'tunet-brand__ssr', style: { pointerEvents: 'none' } },
+						el( ServerSideRender, {
+							block: 'tunet/brand',
+							attributes: a
+						} )
+					)
 				)
 			);
 		},
