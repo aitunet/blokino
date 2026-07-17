@@ -44,9 +44,17 @@
 			group.innerHTML = base;
 			// Repetir el contenido propio del grupo hasta cubrir el contenedor.
 			// Guard alto pero finito por si el contenido fuese diminuto.
+			// Las copias de relleno son DECORATIVAS: van en un envoltorio inert +
+			// aria-hidden con display:contents (no altera el layout de la banda) para
+			// no duplicar tab-stops / IDs ni exponerlas al lector de pantalla.
 			var guard = 0;
 			while ( group.scrollWidth < container && guard < 40 ) {
-				group.insertAdjacentHTML( 'beforeend', base );
+				var filler = document.createElement( 'span' );
+				filler.setAttribute( 'inert', '' );
+				filler.setAttribute( 'aria-hidden', 'true' );
+				filler.style.display = 'contents';
+				filler.innerHTML = base;
+				group.appendChild( filler );
 				guard++;
 			}
 		}

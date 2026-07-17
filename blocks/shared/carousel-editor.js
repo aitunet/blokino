@@ -119,6 +119,14 @@
 			opts.centeredSlides = true;
 			opts.slidesPerView = num( d.spv, 1 ) > 1 ? num( d.spv, 1 ) : 'auto';
 		}
+		// Mirror the front-end responsive breakpoints (runtime/carousel.js).
+		if ( effect === 'slide' && spv > 1 ) {
+			opts.slidesPerView = 1;
+			opts.breakpoints = {
+				600: { slidesPerView: Math.min( 2, spv ) },
+				1024: { slidesPerView: spv }
+			};
+		}
 		return opts;
 	}
 

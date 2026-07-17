@@ -85,6 +85,6 @@ $tnt_wrapper = get_block_wrapper_attributes(
 <div <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
 	<div class="tunet-marquee__track">
 		<div class="tunet-marquee__group"><?php echo $tnt_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML de bloques internos ya renderizado + separador del motor. ?></div>
-		<div class="tunet-marquee__group" aria-hidden="true"><?php echo $tnt_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- duplicado decorativo. ?></div>
+		<div class="tunet-marquee__group" aria-hidden="true" inert><?php echo $tnt_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- duplicado decorativo. ?></div>
 	</div>
 </div>

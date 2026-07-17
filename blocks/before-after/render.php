@@ -29,6 +29,14 @@ $tnt_pos        = isset( $attributes['startPosition'] ) ? max( 0, min( 100, (int
 // Dimensiones intrínsecas (reservan espacio → evitan CLS). Solo se emiten si ambas existen.
 $tnt_w          = isset( $attributes['width'] ) ? (int) $attributes['width'] : 0;
 $tnt_h          = isset( $attributes['height'] ) ? (int) $attributes['height'] : 0;
+// Fallback: derive intrinsic dims from the before attachment when not stored on the block.
+if ( ( $tnt_w <= 0 || $tnt_h <= 0 ) && ! empty( $attributes['beforeId'] ) ) {
+	$tnt_meta = wp_get_attachment_metadata( (int) $attributes['beforeId'] );
+	if ( is_array( $tnt_meta ) && ! empty( $tnt_meta['width'] ) && ! empty( $tnt_meta['height'] ) ) {
+		$tnt_w = (int) $tnt_meta['width'];
+		$tnt_h = (int) $tnt_meta['height'];
+	}
+}
 $tnt_dim        = ( $tnt_w > 0 && $tnt_h > 0 ) ? ' width="' . esc_attr( $tnt_w ) . '" height="' . esc_attr( $tnt_h ) . '"' : '';
 
 $tnt_wrapper = get_block_wrapper_attributes(
@@ -53,7 +61,7 @@ $tnt_wrapper = get_block_wrapper_attributes(
 	<?php endif; ?>
 
 	<div class="tunet-ba__handle" role="slider" tabindex="0"
-		aria-label="<?php esc_attr_e( 'Comparar antes y después', 'tunet' ); ?>"
+		aria-label="<?php esc_attr_e( 'Compare before and after', 'tunet' ); ?>"
 		aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?php echo esc_attr( $tnt_pos ); ?>">
 		<span class="tunet-ba__grip" aria-hidden="true"></span>
 	</div>

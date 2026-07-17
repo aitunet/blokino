@@ -102,8 +102,9 @@ $tnt_wrapper = get_block_wrapper_attributes(
 	<?php if ( 'image' === $tnt_bg_type && ! empty( $attributes['bgImageUrl'] ) ) : ?>
 		<div class="tunet-section__bg" style="background-image:url('<?php echo esc_url( $attributes['bgImageUrl'] ); ?>')"></div>
 	<?php elseif ( 'video' === $tnt_bg_type && ! empty( $attributes['bgVideoUrl'] ) ) : ?>
-		<video class="tunet-section__bg" autoplay muted loop playsinline preload="metadata">
-			<source src="<?php echo esc_url( $attributes['bgVideoUrl'] ); ?>" type="video/mp4" />
+		<?php $tnt_vmime = ! empty( $attributes['bgVideoId'] ) ? get_post_mime_type( (int) $attributes['bgVideoId'] ) : ''; ?>
+		<video class="tunet-section__bg" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+			<source src="<?php echo esc_url( $attributes['bgVideoUrl'] ); ?>"<?php echo $tnt_vmime ? ' type="' . esc_attr( $tnt_vmime ) . '"' : ''; ?> />
 		</video>
 	<?php elseif ( in_array( $tnt_bg_type, array( 'color', 'gradient', 'mesh' ), true ) ) : ?>
 		<div class="tunet-section__bg"></div>

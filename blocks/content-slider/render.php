@@ -59,7 +59,12 @@ foreach ( $tnt_items as $tnt_item ) {
 	$tnt_img_url = isset( $tnt_item['imageUrl'] ) ? esc_url_raw( $tnt_item['imageUrl'] ) : '';
 	$tnt_bg_url  = '';
 	if ( $tnt_img_id ) {
-		$tnt_bg_url = wp_get_attachment_image_url( $tnt_img_id, 'full' );
+		// A CSS background gets no srcset; request a bounded size (not 'full') so
+		// mobiles don't download an oversized hero image. Falls back to full.
+		$tnt_bg_url = wp_get_attachment_image_url( $tnt_img_id, '2048x2048' );
+		if ( ! $tnt_bg_url ) {
+			$tnt_bg_url = wp_get_attachment_image_url( $tnt_img_id, 'full' );
+		}
 	}
 	if ( ! $tnt_bg_url && '' !== $tnt_img_url ) {
 		$tnt_bg_url = $tnt_img_url;

@@ -47,9 +47,17 @@
 	flex-wrap: nowrap;
 }
 .tunet-carousel:not( .swiper-initialized ) .swiper-slide {
-	flex: 0 0 calc( 100% / var( --tnt-carousel-spv, 1 ) );
-	max-inline-size: calc( 100% / var( --tnt-carousel-spv, 1 ) );
+	/* max() enforces a per-breakpoint minimum width so an un-hydrated multi-up
+	   carousel isn't cramped on small screens; a 1-up carousel (spv=1) stays 100%. */
+	flex: 0 0 max( calc( 100% / var( --tnt-carousel-spv, 1 ) ), var( --tnt-carousel-fallback-min, 0% ) );
+	max-inline-size: 100%;
 	box-sizing: border-box;
+}
+@media ( max-width: 1023px ) {
+	.tunet-carousel:not( .swiper-initialized ) { --tnt-carousel-fallback-min: 46%; }
+}
+@media ( max-width: 599px ) {
+	.tunet-carousel:not( .swiper-initialized ) { --tnt-carousel-fallback-min: 88%; }
 }
 .tunet-carousel:not( .swiper-initialized ) .swiper-button-prev,
 .tunet-carousel:not( .swiper-initialized ) .swiper-button-next,

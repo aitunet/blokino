@@ -84,6 +84,15 @@
 			opts.centeredSlides = true;
 			opts.slidesPerView = num( d.spv, 1 ) > 1 ? num( d.spv, 1 ) : 'auto';
 		}
+		// Responsive: start 1-up on phones, step up to the configured slidesPerView.
+		// Only for the multi-up 'slide' effect (fade/cards are 1-up; coverflow uses 'auto').
+		if ( effect === 'slide' && spv > 1 ) {
+			opts.slidesPerView = 1;
+			opts.breakpoints = {
+				600: { slidesPerView: Math.min( 2, spv ) },
+				1024: { slidesPerView: spv }
+			};
+		}
 		return opts;
 	}
 

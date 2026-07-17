@@ -19,7 +19,16 @@
 	var MediaUploadCheck = be.MediaUploadCheck;
 	var c = wp.components;
 
-	function picker( label, valueId, hasUrl, onSelect ) {
+	// Complete msgids (no sentence assembly from a translated 'before'/'after' word:
+	// gender agreement can't be resolved when fragments are translated in isolation).
+	function pickerLabel( kind, hasUrl ) {
+		if ( 'before' === kind ) {
+			return hasUrl ? __( 'Change before image', 'tunet' ) : __( 'Choose before image', 'tunet' );
+		}
+		return hasUrl ? __( 'Change after image', 'tunet' ) : __( 'Choose after image', 'tunet' );
+	}
+
+	function picker( kind, valueId, hasUrl, onSelect ) {
 		return el(
 			MediaUploadCheck,
 			{},
@@ -31,19 +40,11 @@
 					return el(
 						c.Button,
 						{ variant: 'secondary', onClick: o.open, style: { marginBottom: '8px' } },
-						hasUrl
-							? // translators: %s: before/after label.
-							  sprintf( __( 'Change %s image', 'tunet' ), label )
-							: sprintf( __( 'Choose %s image', 'tunet' ), label )
+						pickerLabel( kind, hasUrl )
 					);
 				}
 			} )
 		);
-	}
-
-	// pequeño sprintf local (wp.i18n.sprintf no siempre está expuesto).
-	function sprintf( str, val ) {
-		return str.replace( '%s', val );
 	}
 
 	registerBlockType( 'tunet/before-after', {
@@ -63,11 +64,11 @@
 				el(
 					c.PanelBody,
 					{ title: __( 'Images', 'tunet' ), initialOpen: true },
-					picker( __( 'before', 'tunet' ), a.beforeId, !! a.beforeUrl, function ( m ) {
-						set( { beforeId: m.id, beforeUrl: m.url, beforeAlt: m.alt || '' } );
+					picker( 'before', a.beforeId, !! a.beforeUrl, function ( m ) {
+						set( { beforeId: m.id, beforeUrl: m.url, beforeAlt: m.alt || '', width: m.width, height: m.height } );
 					} ),
 					el( 'br' ),
-					picker( __( 'after', 'tunet' ), a.afterId, !! a.afterUrl, function ( m ) {
+					picker( 'after', a.afterId, !! a.afterUrl, function ( m ) {
 						set( { afterId: m.id, afterUrl: m.url, afterAlt: m.alt || '' } );
 					} )
 				),
@@ -126,10 +127,10 @@
 							label: __( 'Tunet Before / After', 'tunet' ),
 							instructions: __( 'Choose the before and after images to compare.', 'tunet' )
 						},
-						picker( __( 'before', 'tunet' ), a.beforeId, !! a.beforeUrl, function ( m ) {
-							set( { beforeId: m.id, beforeUrl: m.url, beforeAlt: m.alt || '' } );
+						picker( 'before', a.beforeId, !! a.beforeUrl, function ( m ) {
+							set( { beforeId: m.id, beforeUrl: m.url, beforeAlt: m.alt || '', width: m.width, height: m.height } );
 						} ),
-						picker( __( 'after', 'tunet' ), a.afterId, !! a.afterUrl, function ( m ) {
+						picker( 'after', a.afterId, !! a.afterUrl, function ( m ) {
 							set( { afterId: m.id, afterUrl: m.url, afterAlt: m.alt || '' } );
 						} )
 					)
