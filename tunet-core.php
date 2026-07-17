@@ -268,12 +268,12 @@ function tunet_core_activate() {
 			esc_html(
 				sprintf(
 					/* translators: 1: required WordPress version, 2: required PHP version. */
-					__( 'Tunet Core requiere WordPress %1$s o superior y PHP %2$s o superior.', 'tunet' ),
+					__( 'Tunet Core requires WordPress %1$s or newer and PHP %2$s or newer.', 'tunet' ),
 					TUNET_CORE_MIN_WP,
 					TUNET_CORE_MIN_PHP
 				)
 			),
-			esc_html__( 'Activación de Tunet Core', 'tunet' ),
+			esc_html__( 'Tunet Core activation', 'tunet' ),
 			array( 'back_link' => true )
 		);
 	}

@@ -640,8 +640,8 @@ class Tunet_Core_Admin {
 		<tr>
 			<th scope="row"><label for="tunet-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
 			<td class="tunet-color-row">
-				<input type="color" value="<?php echo esc_attr( $current ? $current : $placeholder ); ?>" data-target="tunet-<?php echo esc_attr( $name ); ?>" class="tunet-color-swatch" aria-hidden="true" />
-				<input type="text" id="tunet-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" placeholder="<?php echo esc_attr( $placeholder . ' (theme)' ); ?>" class="tunet-color-text regular-text" pattern="#?[0-9a-fA-F]{3,8}" />
+				<input type="color" value="<?php echo esc_attr( $current ? $current : $placeholder ); ?>" data-target="tunet-<?php echo esc_attr( $name ); ?>" class="tunet-color-swatch" aria-hidden="true" tabindex="-1" />
+				<input type="text" id="tunet-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" placeholder="<?php echo esc_attr( $placeholder . ' (theme)' ); ?>" class="tunet-color-text regular-text" pattern="#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})" />
 				<button type="button" class="button tunet-icon-btn tunet-color-clear" data-target="tunet-<?php echo esc_attr( $name ); ?>" title="<?php esc_attr_e( 'Reset to theme color', 'tunet' ); ?>" aria-label="<?php esc_attr_e( 'Reset to theme color', 'tunet' ); ?>">
 					<span class="dashicons dashicons-image-rotate" aria-hidden="true"></span>
 				</button>
@@ -726,7 +726,14 @@ class Tunet_Core_Admin {
 			return ( is_string( $v ) && in_array( $v, $allowed, true ) ) ? $v : '';
 		};
 		$color = function ( $v ) {
-			return is_string( $v ) ? (string) sanitize_hex_color( $v ) : '';
+			if ( ! is_string( $v ) ) {
+				return '';
+			}
+			$v = trim( $v );
+			if ( '' !== $v && '#' !== $v[0] ) {
+				$v = '#' . $v;
+			}
+			return (string) sanitize_hex_color( $v );
 		};
 
 		return array(

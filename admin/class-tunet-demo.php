@@ -115,7 +115,8 @@ class Tunet_Core_Demo {
 				'cf7'          => 0,
 				'images_map'   => array(),
 				'url_map'      => array(),
-			)
+			),
+			false // Import scratch data (incl. url_map) — never autoload it.
 		);
 	}
 
@@ -131,7 +132,7 @@ class Tunet_Core_Demo {
 			$r[ $bucket ] = array();
 		}
 		$r[ $bucket ][] = (int) $id;
-		update_option( self::RECORD, $r );
+		update_option( self::RECORD, $r, false );
 	}
 
 	/**
@@ -143,7 +144,7 @@ class Tunet_Core_Demo {
 	public function set_record( $key, $value ) {
 		$r         = self::get_record();
 		$r[ $key ] = $value;
-		update_option( self::RECORD, $r );
+		update_option( self::RECORD, $r, false );
 	}
 
 	/**
@@ -339,7 +340,7 @@ class Tunet_Core_Demo {
 			. "<label>" . __( 'Your message (optional)', 'tunet' ) . "\n    [textarea your-message]</label>\n\n"
 			. "[submit \"" . __( 'Submit', 'tunet' ) . "\"]";
 
-		$form = WPCF7_ContactForm::get_template( array( 'title' => $title ) );
+		$form = WPCF7_ContactForm::get_template( array( 'title' => wp_slash( $title ) ) );
 		$form->set_properties(
 			array(
 				'form' => $form_markup,
@@ -524,8 +525,8 @@ class Tunet_Core_Demo {
 				array(
 					'post_type'    => 'project',
 					'post_status'  => 'publish',
-					'post_title'   => $p['title'],
-					'post_name'    => $p['slug'],
+					'post_title'   => wp_slash( $p['title'] ),
+					'post_name'    => wp_slash( $p['slug'] ),
 					'post_excerpt' => wp_slash( $p['excerpt'] ?? '' ),
 					'post_content' => wp_slash( $p['content'] ?? '' ),
 				),
@@ -562,8 +563,8 @@ class Tunet_Core_Demo {
 				array(
 					'post_type'    => 'post',
 					'post_status'  => 'publish',
-					'post_title'   => $p['title'],
-					'post_name'    => $p['slug'],
+					'post_title'   => wp_slash( $p['title'] ),
+					'post_name'    => wp_slash( $p['slug'] ),
 					'post_content' => wp_slash( $p['content'] ?? '' ),
 				),
 				true
@@ -628,8 +629,8 @@ class Tunet_Core_Demo {
 				array(
 					'post_type'    => 'page',
 					'post_status'  => 'publish',
-					'post_title'   => $page['title'],
-					'post_name'    => $page['slug'],
+					'post_title'   => wp_slash( $page['title'] ),
+					'post_name'    => wp_slash( $page['slug'] ),
 					'post_content' => wp_slash( $content ),
 				),
 				true
@@ -816,8 +817,7 @@ class Tunet_Core_Demo {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
 			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet' ) ) );
 		}
-		$this->replace();
-		$this->clear_record();
+		$this->replace(); // replace() clears the record on its normal path.
 		wp_send_json_success( array( 'message' => __( 'Import undone.', 'tunet' ) ) );
 	}
 

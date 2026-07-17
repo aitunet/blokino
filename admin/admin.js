@@ -6,19 +6,6 @@
 
 	var cfg = window.tunetCoreAdmin || {};
 
-	/* --- Tabs (Ajustes) --- */
-	var tabs = document.querySelectorAll( '.tunet-tabs .nav-tab' );
-	var panels = document.querySelectorAll( '.tunet-tab-panel' );
-	if ( tabs.length ) {
-		Array.prototype.forEach.call( tabs, function ( tab ) {
-			tab.addEventListener( 'click', function () {
-				var name = tab.getAttribute( 'data-tab' );
-				Array.prototype.forEach.call( tabs, function ( t ) { t.classList.toggle( 'nav-tab-active', t === tab ); } );
-				Array.prototype.forEach.call( panels, function ( p ) { p.hidden = ( p.getAttribute( 'data-tab' ) !== name ); } );
-			} );
-		} );
-	}
-
 	/* --- Selector de logos (wp.media) --- */
 	function previewFor( targetId ) {
 		return document.querySelector( '.tunet-logo-preview[data-for="' + targetId + '"]' );
@@ -74,7 +61,7 @@
 	Array.prototype.forEach.call( document.querySelectorAll( '.tunet-color-text' ), function ( txt ) {
 		txt.addEventListener( 'input', function () {
 			var sw = swatchFor( txt.id );
-			if ( sw && /^#?[0-9a-fA-F]{6}$/.test( txt.value ) ) {
+			if ( sw && /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test( txt.value ) ) {
 				sw.value = txt.value.charAt( 0 ) === '#' ? txt.value : '#' + txt.value;
 			}
 		} );
