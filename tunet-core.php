@@ -211,6 +211,56 @@ function tunet_core_body_layout_class( $classes ) {
 add_filter( 'body_class', 'tunet_core_body_layout_class' );
 
 /* -------------------------------------------------------------------------
+ * Helpers de front-end site-wide (theme-agnósticos; §0.1: el mecanismo vive en
+ * el motor, no duplicado en cada theme).
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Procesa shortcodes dentro de los bloques core/shortcode renderizados desde
+ * plantillas FSE. Las plantillas de bloques NO ejecutan the_content, así que
+ * [contact-form-7] (y cualquier shortcode) se imprimiría en crudo. Corre por
+ * request → nonce de CF7 fresco. Mecanismo puro e idéntico en todo theme → vive
+ * en el motor (antes duplicado en los cinco functions.php).
+ *
+ * @param string $content HTML renderizado del bloque.
+ * @param array  $block   Bloque parseado.
+ * @return string
+ */
+function tunet_core_render_shortcode_blocks( $content, $block ) {
+	if ( isset( $block['blockName'] ) && 'core/shortcode' === $block['blockName'] && false !== strpos( $content, '[' ) ) {
+		return do_shortcode( $content );
+	}
+	return $content;
+}
+add_filter( 'render_block', 'tunet_core_render_shortcode_blocks', 10, 2 );
+
+/**
+ * Meta description de fallback en <head> cuando ningún plugin SEO la gestiona:
+ * el excerpt en vistas singulares, si no el tagline del sitio. Theme-agnóstico →
+ * vive en el motor (antes duplicado en cada theme). Degrada con dignidad (§12):
+ * si hay un plugin SEO activo, no hace nada.
+ */
+function tunet_core_meta_description() {
+	if ( defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'SEOPRESS_VERSION' ) || defined( 'AIOSEO_VERSION' ) ) {
+		return; // Un plugin SEO dedicado es dueño de la descripción.
+	}
+
+	if ( is_singular() && ! is_front_page() && has_excerpt() ) {
+		$desc = get_the_excerpt();
+	} else {
+		$desc = get_bloginfo( 'description', 'display' );
+	}
+
+	$desc = trim( wp_strip_all_tags( (string) $desc ) );
+	if ( '' === $desc ) {
+		return;
+	}
+
+	printf( "<meta name=\"description\" content=\"%s\">\n", esc_attr( wp_trim_words( $desc, 30, '' ) ) );
+}
+add_action( 'wp_head', 'tunet_core_meta_description', 1 );
+
+/* -------------------------------------------------------------------------
  * Updates de themes Tunet (premium → se actualizan por EDD, no por wp.org).
  * ---------------------------------------------------------------------- */
 
