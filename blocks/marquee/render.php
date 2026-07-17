@@ -82,9 +82,12 @@ $tnt_wrapper = get_block_wrapper_attributes(
 	)
 );
 ?>
-<div <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
-	<div class="tunet-marquee__track">
-		<div class="tunet-marquee__group"><?php echo $tnt_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML de bloques internos ya renderizado + separador del motor. ?></div>
-		<div class="tunet-marquee__group" aria-hidden="true" inert><?php echo $tnt_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- duplicado decorativo. ?></div>
+<div <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?> data-pause-label="<?php echo esc_attr__( 'Pause', 'tunet' ); ?>" data-play-label="<?php echo esc_attr__( 'Play', 'tunet' ); ?>">
+	<div class="tunet-marquee__viewport">
+		<div class="tunet-marquee__track">
+			<div class="tunet-marquee__group"><?php echo $tnt_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML de bloques internos ya renderizado + separador del motor. ?></div>
+			<div class="tunet-marquee__group" aria-hidden="true" inert><?php echo $tnt_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- duplicado decorativo. ?></div>
+		</div>
 	</div>
+	<?php /* El control de pausa/play (WCAG 2.2.2) lo inyecta view.js (progressive enhancement); sin JS no hay animación problemática que pausar en la mayoría de casos, y con reduced-motion la banda es estática. */ ?>
 </div>

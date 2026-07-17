@@ -60,6 +60,29 @@
 		}
 	}
 
+	// Inserta un control de pausa/play accesible (WCAG 2.2.2). Progressive
+	// enhancement: sin JS no aparece; con reduced-motion la banda es estática y
+	// no se llama. Idempotente.
+	function addPauseControl( marquee ) {
+		if ( marquee.querySelector( '.tunet-marquee__toggle' ) ) {
+			return;
+		}
+		var pauseLabel = marquee.getAttribute( 'data-pause-label' ) || 'Pause';
+		var playLabel = marquee.getAttribute( 'data-play-label' ) || 'Play';
+		var btn = document.createElement( 'button' );
+		btn.type = 'button';
+		btn.className = 'tunet-marquee__toggle';
+		btn.setAttribute( 'aria-pressed', 'false' );
+		btn.setAttribute( 'aria-label', pauseLabel );
+		btn.innerHTML = '<span class="tunet-marquee__toggle-icon" aria-hidden="true"></span>';
+		btn.addEventListener( 'click', function () {
+			var paused = marquee.classList.toggle( 'is-paused' );
+			btn.setAttribute( 'aria-pressed', paused ? 'true' : 'false' );
+			btn.setAttribute( 'aria-label', paused ? playLabel : pauseLabel );
+		} );
+		marquee.appendChild( btn );
+	}
+
 	function init() {
 		if ( reduceMotion ) {
 			return;
@@ -67,6 +90,7 @@
 		var marquees = document.querySelectorAll( '.tunet-marquee' );
 		for ( var i = 0; i < marquees.length; i++ ) {
 			fill( marquees[ i ] );
+			addPauseControl( marquees[ i ] );
 		}
 	}
 

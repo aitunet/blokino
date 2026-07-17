@@ -92,7 +92,7 @@ $tnt_wrapper = get_block_wrapper_attributes(
 	)
 );
 ?>
-<section <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
+<section <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?><?php if ( 'video' === $tnt_bg_type ) : ?> data-pause-label="<?php echo esc_attr__( 'Pause background video', 'tunet' ); ?>" data-play-label="<?php echo esc_attr__( 'Play background video', 'tunet' ); ?>"<?php endif; ?>>
 	<?php if ( 'none' !== $tnt_div_top ) : ?>
 		<div class="tunet-section__divider tunet-section__divider--top">
 			<?php echo tunet_section_divider_svg( $tnt_div_top ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG con path escapado. ?>

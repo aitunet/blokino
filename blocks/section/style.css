@@ -131,6 +131,48 @@
 	fill: currentColor;
 }
 
+/* --- Control de pausa/play del vídeo de fondo (WCAG 2.2.2) — discreto, esquina. --- */
+.tunet-section__video-toggle {
+	position: absolute;
+	inset-block-end: var( --tnt-space-3, 0.75rem );
+	inset-inline-end: var( --tnt-space-3, 0.75rem );
+	z-index: 4;
+	inline-size: 2rem;
+	block-size: 2rem;
+	display: inline-grid;
+	place-items: center;
+	padding: 0;
+	border: 1px solid color-mix( in srgb, #fff 45%, transparent );
+	border-radius: 50%;
+	background: color-mix( in srgb, #000 40%, transparent );
+	color: #fff;
+	cursor: pointer;
+	opacity: 0.6;
+	backdrop-filter: blur( 4px );
+	transition: opacity var( --tnt-dur-fast, 250ms ) var( --tnt-ease-expo, ease ),
+		transform var( --tnt-dur-fast, 250ms ) var( --tnt-ease-expo, ease );
+}
+.tunet-section:hover .tunet-section__video-toggle,
+.tunet-section__video-toggle:focus-visible { opacity: 1; }
+.tunet-section__video-toggle:focus-visible {
+	outline: 2px solid #fff;
+	outline-offset: 2px;
+}
+.tunet-section__video-toggle:hover { transform: scale( 1.08 ); }
+/* Icono: dos barras (pausa) → triángulo (play) cuando el vídeo está pausado. */
+.tunet-section__video-toggle-icon {
+	inline-size: 0.55rem;
+	block-size: 0.65rem;
+	border-inline: 0.18rem solid currentColor;
+}
+.tunet-section.is-video-paused .tunet-section__video-toggle-icon {
+	inline-size: 0;
+	block-size: 0;
+	border: 0.34rem solid transparent;
+	border-inline-start: 0.55rem solid currentColor;
+	border-inline-end: 0;
+}
+
 /* --- Animaciones (loop continuo) --- */
 @keyframes tunet-section-pan {
 	to { background-position: 100% 50%; }

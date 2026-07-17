@@ -11,6 +11,11 @@
  * ========================================================================== */
 
 .tunet-marquee {
+	position: relative; /* ancla del control de pausa */
+}
+/* El viewport lleva el clip + el desvanecido de bordes; así el control de pausa
+   (hijo de .tunet-marquee, hermano del viewport) NO queda atenuado por el mask. */
+.tunet-marquee__viewport {
 	overflow: hidden;
 	/* Desvanecido sutil en los bordes (detalle premium). */
 	-webkit-mask-image: linear-gradient( 90deg, transparent, #000 6%, #000 94%, transparent );
@@ -45,6 +50,55 @@
 .tunet-marquee.is-pausable:hover .tunet-marquee__track {
 	animation-play-state: paused;
 }
+/* Pausa explícita por el control (WCAG 2.2.2 Pause, Stop, Hide). */
+.tunet-marquee.is-paused .tunet-marquee__track {
+	animation-play-state: paused;
+}
+
+/* Control de pausa/play — discreto, en la esquina, fuera del desvanecido. */
+.tunet-marquee__toggle {
+	position: absolute;
+	inset-block-end: var( --tnt-space-2, 0.5rem );
+	inset-inline-end: var( --tnt-space-2, 0.5rem );
+	z-index: 2;
+	inline-size: 1.75rem;
+	block-size: 1.75rem;
+	display: inline-grid;
+	place-items: center;
+	padding: 0;
+	border: 1px solid var( --tnt-color-border, rgba( 0, 0, 0, 0.14 ) );
+	border-radius: 50%;
+	background: color-mix( in srgb, var( --tnt-color-surface, #fff ) 78%, transparent );
+	color: var( --tnt-color-text, #111 );
+	cursor: pointer;
+	opacity: 0.45;
+	backdrop-filter: blur( 4px );
+	transition:
+		opacity var( --tnt-dur-fast, 250ms ) var( --tnt-ease-expo, ease ),
+		transform var( --tnt-dur-fast, 250ms ) var( --tnt-ease-expo, ease );
+}
+.tunet-marquee:hover .tunet-marquee__toggle,
+.tunet-marquee__toggle:focus-visible {
+	opacity: 1;
+}
+.tunet-marquee__toggle:focus-visible {
+	outline: 2px solid var( --tnt-color-primary, #06c );
+	outline-offset: 2px;
+}
+.tunet-marquee__toggle:hover { transform: scale( 1.08 ); }
+/* Icono: dos barras (pausa) por defecto → triángulo (play) cuando está pausado. */
+.tunet-marquee__toggle-icon {
+	inline-size: 0.5rem;
+	block-size: 0.6rem;
+	border-inline: 0.16rem solid currentColor;
+}
+.tunet-marquee.is-paused .tunet-marquee__toggle-icon {
+	inline-size: 0;
+	block-size: 0;
+	border: 0.32rem solid transparent;
+	border-inline-start: 0.5rem solid currentColor;
+	border-inline-end: 0;
+}
 
 @keyframes tunet-marquee-scroll {
 	to {
@@ -77,10 +131,12 @@
 /* Accesibilidad: sin movimiento, la banda se ACOMODA en varias líneas (wrap),
    todos los ítems visibles, sin scrollbar. Se elimina el duplicado decorativo. */
 @media ( prefers-reduced-motion: reduce ) {
-	.tunet-marquee {
+	.tunet-marquee__viewport {
 		-webkit-mask-image: none;
 		        mask-image: none;
 	}
+	/* Sin animación no hay nada que pausar → el control no aplica. */
+	.tunet-marquee__toggle { display: none; }
 	.tunet-marquee__track {
 		animation: none;
 		/* El track base es width:max-content (para el loop). En wrap hay que
