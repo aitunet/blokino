@@ -84,7 +84,7 @@ foreach ( $tnt_items as $tnt_item ) {
 		if ( $tnt_ov > 0 ) {
 			$tnt_ov_color = isset( $tnt_item['bgOverlayColor'] ) && is_string( $tnt_item['bgOverlayColor'] ) ? sanitize_hex_color( $tnt_item['bgOverlayColor'] ) : '';
 			$tnt_ov_bg    = $tnt_ov_color ? $tnt_ov_color : 'var(--tnt-color-ink,#0b0b0f)';
-			$tnt_bg .= '<div class="tunet-cslide__overlay" style="opacity:' . ( $tnt_ov / 100 ) . ';background:' . esc_attr( $tnt_ov_bg ) . ';"></div>';
+			$tnt_bg .= '<div class="tunet-cslide__overlay" style="opacity:' . number_format( $tnt_ov / 100, 2, '.', '' ) . ';background:' . esc_attr( $tnt_ov_bg ) . ';"></div>';
 		}
 	}
 

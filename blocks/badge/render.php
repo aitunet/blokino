@@ -34,8 +34,11 @@ $tnt_wrapper = get_block_wrapper_attributes(
 $tnt_tag  = $tnt_url ? 'a' : 'div';
 $tnt_href = $tnt_url ? ' href="' . $tnt_url . '"' : '';
 $tnt_uid  = 'tnt-badge-' . wp_unique_id();
+$tnt_sr   = $tnt_text ? trim( $tnt_text, ' ·' ) : '';
+// A link must always have an accessible name: fall back when the caption is cleared.
+$tnt_aria = ( $tnt_url && '' === $tnt_sr ) ? ' aria-label="' . esc_attr__( 'Learn more', 'tunet' ) . '"' : '';
 ?>
-<<?php echo esc_attr( $tnt_tag ) . $tnt_href; ?> <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<<?php echo esc_attr( $tnt_tag ) . $tnt_href . $tnt_aria; ?> <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<span class="tunet-badge__ring" aria-hidden="true">
 		<svg viewBox="0 0 100 100" width="100%" height="100%">
 			<defs>
@@ -47,5 +50,5 @@ $tnt_uid  = 'tnt-badge-' . wp_unique_id();
 	<span class="tunet-badge__arrow" aria-hidden="true">
 		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/></svg>
 	</span>
-	<?php if ( $tnt_text ) : ?><span class="screen-reader-text"><?php echo esc_html( trim( $tnt_text, ' ·' ) ); ?></span><?php endif; ?>
+	<?php if ( '' !== $tnt_sr ) : ?><span class="tunet-sr-only"><?php echo esc_html( $tnt_sr ); ?></span><?php endif; ?>
 </<?php echo esc_attr( $tnt_tag ); ?>>

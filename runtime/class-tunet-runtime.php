@@ -47,6 +47,9 @@ class Tunet_Core_Runtime {
 	/** Curvas de easing válidas (mapean a tokens --tnt-ease-*). */
 	const EASINGS = array( 'expo', 'power3', 'spring', 'circ' );
 
+	/** Animaciones de entrada válidas (tfAnimation). Espeja el SelectControl del editor. */
+	const ANIMATIONS = array( 'fade-up', 'clip-reveal', 'mask-up', 'blur-in', 'scale-in', 'slide-left', 'slide-right', 'text-stagger', 'text-fill' );
+
 	/** Efectos hover válidos (LOTE 2). */
 	const HOVERS = array( 'lift', 'glow', 'tilt', 'magnetic', 'underline-grow', 'image-zoom' );
 
@@ -79,8 +82,9 @@ class Tunet_Core_Runtime {
 		// Snippet inline mínimo en <head>: gate anti-FOUC, sin red.
 		add_action( 'wp_head', array( $this, 'print_bootstrap' ), 1 );
 
-		// Inyección para blocks (estáticos ya la traen del save; este filtro
-		// cubre blocks dinámicos) + red de seguridad de carga (§4.1, paso 4).
+		// render_block es la ÚNICA vía de inyección de data-tf-* (estáticos y
+		// dinámicos): el save() produce markup limpio y el markup guardado nunca
+		// se toca; este filtro también es la red de seguridad de carga (§4.1, paso 4).
 		add_filter( 'render_block', array( $this, 'render_block_effects' ), 10, 2 );
 
 		// Baseline de tokens --tnt-*: fallback neutral en cascade layer para que
@@ -332,14 +336,6 @@ class Tunet_Core_Runtime {
 	}
 
 	/**
-	 * ¿Los atributos de un block activan algún efecto tf*?
-	 *
-	 * Punto único de extensión a medida que crece el catálogo (scroll, blend…).
-	 *
-	 * @param array $attrs Atributos del block.
-	 * @return bool
-	 */
-	/**
 	 * ¿Está activado el motor de efectos? (ajuste global del admin).
 	 *
 	 * @return bool
@@ -351,6 +347,14 @@ class Tunet_Core_Runtime {
 		return true;
 	}
 
+	/**
+	 * ¿Los atributos de un block activan algún efecto tf*?
+	 *
+	 * Punto único de extensión a medida que crece el catálogo (scroll, blend…).
+	 *
+	 * @param array $attrs Atributos del block.
+	 * @return bool
+	 */
 	private static function attrs_have_effect( $attrs ) {
 		$keys = array( 'tfAnimation', 'tfHover', 'tfScroll', 'tfBlend', 'tfBorderFx', 'tfDisplay' );
 		foreach ( $keys as $key ) {
@@ -398,7 +402,7 @@ class Tunet_Core_Runtime {
 		$data_atts = array();
 
 		$animation = isset( $attrs['tfAnimation'] ) ? (string) $attrs['tfAnimation'] : '';
-		if ( '' !== $animation && 'none' !== $animation ) {
+		if ( in_array( $animation, self::ANIMATIONS, true ) ) {
 			$data_atts['data-tf-animation'] = $animation;
 			if ( ! empty( $attrs['tfStagger'] ) && 'text-stagger' !== $animation ) {
 				$data_atts['data-tf-stagger'] = (string) absint( $attrs['tfStagger'] );
@@ -430,7 +434,7 @@ class Tunet_Core_Runtime {
 		}
 
 		$display = isset( $attrs['tfDisplay'] ) ? (string) $attrs['tfDisplay'] : '';
-		if ( in_array( $display, array( 'outline', 'outline-solid' ), true ) ) {
+		if ( 'outline' === $display ) {
 			$data_atts['data-tf-display'] = $display;
 		}
 

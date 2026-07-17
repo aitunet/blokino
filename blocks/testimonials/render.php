@@ -45,7 +45,7 @@ if ( ! function_exists( 'tunet_core_testimonial_card' ) ) {
 			$star  = tunet_core_icon_svg( 'star', array( 'size' => 0, 'class' => 'tunet-rating__star' ) );
 			$five  = str_repeat( $star, 5 );
 			$label = sprintf( /* translators: %s: rating value out of 5. */ __( 'Rated %s out of 5', 'tunet' ), $rating );
-			$rating_html  = '<span class="tunet-rating" role="img" aria-label="' . esc_attr( $label ) . '" style="--tnt-rating:' . esc_attr( $rating ) . ';">';
+			$rating_html  = '<span class="tunet-rating" role="img" aria-label="' . esc_attr( $label ) . '" style="--tnt-rating:' . esc_attr( number_format( (float) $rating, 1, '.', '' ) ) . ';">';
 			$rating_html .= '<span class="tunet-rating__layer tunet-rating__layer--empty" aria-hidden="true">' . $five . '</span>';
 			$rating_html .= '<span class="tunet-rating__layer tunet-rating__layer--full" aria-hidden="true">' . $five . '</span>';
 			$rating_html .= '</span>';

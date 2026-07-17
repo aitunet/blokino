@@ -117,7 +117,7 @@
 						{ label: __( 'None', 'tunet' ), value: 'none' },
 						{ label: __( 'Color', 'tunet' ), value: 'color' },
 						{ label: __( 'Gradient', 'tunet' ), value: 'gradient' },
-						{ label: 'Mesh', value: 'mesh' },
+						{ label: __( 'Mesh', 'tunet' ), value: 'mesh' },
 						{ label: __( 'Image', 'tunet' ), value: 'image' },
 						{ label: __( 'Video', 'tunet' ), value: 'video' }
 					],

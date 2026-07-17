@@ -31,6 +31,8 @@
 	var createHigherOrderComponent = wp.compose.createHigherOrderComponent;
 	var InspectorControls = wp.blockEditor.InspectorControls;
 	var ColorPalette = wp.blockEditor.ColorPalette;
+	// WP 6.5+ replaced useSetting with the variadic useSettings (returns an array); keep the old ones as fallbacks.
+	var useSettings = wp.blockEditor.useSettings;
 	var useSetting = wp.blockEditor.useSetting || wp.blockEditor.__experimentalUseSetting;
 	var components = wp.components;
 	var PanelBody = components.PanelBody;
@@ -109,22 +111,24 @@
 
 			var a = props.attributes;
 			var set = props.setAttributes;
-			var themePalette = useSetting ? ( useSetting( 'color.palette' ) || [] ) : [];
+			var themePalette = useSettings
+				? ( useSettings( 'color.palette' )[0] || [] )
+				: ( useSetting ? ( useSetting( 'color.palette' ) || [] ) : [] );
 
 			var animationControl = el( SelectControl, {
 				label: __( 'Entrance animation', 'tunet' ),
 				value: a.tfAnimation || '',
 				options: [
 					{ label: __( 'None (clean block)', 'tunet' ), value: '' },
-					{ label: 'Fade up', value: 'fade-up' },
-					{ label: 'Clip reveal', value: 'clip-reveal' },
-					{ label: 'Mask up', value: 'mask-up' },
-					{ label: 'Blur in', value: 'blur-in' },
-					{ label: 'Scale in', value: 'scale-in' },
-					{ label: 'Slide left', value: 'slide-left' },
-					{ label: 'Slide right', value: 'slide-right' },
-					{ label: 'Text stagger', value: 'text-stagger' },
-					{ label: 'Text fill', value: 'text-fill' }
+					{ label: __( 'Fade up', 'tunet' ), value: 'fade-up' },
+					{ label: __( 'Clip reveal', 'tunet' ), value: 'clip-reveal' },
+					{ label: __( 'Mask up', 'tunet' ), value: 'mask-up' },
+					{ label: __( 'Blur in', 'tunet' ), value: 'blur-in' },
+					{ label: __( 'Scale in', 'tunet' ), value: 'scale-in' },
+					{ label: __( 'Slide left', 'tunet' ), value: 'slide-left' },
+					{ label: __( 'Slide right', 'tunet' ), value: 'slide-right' },
+					{ label: __( 'Text stagger', 'tunet' ), value: 'text-stagger' },
+					{ label: __( 'Text fill', 'tunet' ), value: 'text-fill' }
 				],
 				onChange: function ( value ) {
 					set( { tfAnimation: value } );
@@ -180,7 +184,7 @@
 						value: a.tfAnimEasing || '',
 						options: [
 							{ label: __( 'Theme default (expo)', 'tunet' ), value: '' },
-							{ label: 'Expo', value: 'expo' },
+							{ label: 'Expo', value: 'expo' }, // Easing curve names are technical keywords, left raw (untranslated) on purpose.
 							{ label: 'Power3', value: 'power3' },
 							{ label: 'Spring', value: 'spring' },
 							{ label: 'Circ', value: 'circ' }
@@ -230,8 +234,8 @@
 				options: [
 					{ label: __( 'None', 'tunet' ), value: '' },
 					{ label: __( 'Lift', 'tunet' ), value: 'lift' },
-					{ label: 'Glow', value: 'glow' },
-					{ label: 'Tilt 3D', value: 'tilt' },
+					{ label: __( 'Glow', 'tunet' ), value: 'glow' },
+					{ label: __( 'Tilt 3D', 'tunet' ), value: 'tilt' },
 					{ label: __( 'Magnetic', 'tunet' ), value: 'magnetic' },
 					{ label: __( 'Underline grow', 'tunet' ), value: 'underline-grow' },
 					{ label: __( 'Image zoom', 'tunet' ), value: 'image-zoom' }
@@ -248,7 +252,7 @@
 				value: a.tfScroll || '',
 				options: [
 					{ label: __( 'None', 'tunet' ), value: '' },
-					{ label: 'Parallax', value: 'parallax' },
+					{ label: __( 'Parallax', 'tunet' ), value: 'parallax' },
 					{ label: __( 'Sticky pin', 'tunet' ), value: 'sticky-pin' },
 					{ label: __( 'Reveal on scroll', 'tunet' ), value: 'reveal-on-scroll' },
 					{ label: __( 'Progress bar', 'tunet' ), value: 'progress' },
@@ -281,7 +285,7 @@
 				value: a.tfBlend || '',
 				options: [
 					{ label: __( 'None', 'tunet' ), value: '' },
-					{ label: 'Multiply', value: 'multiply' },
+					{ label: 'Multiply', value: 'multiply' }, // mix-blend-mode CSS keywords are technical proper-nouns, left raw on purpose.
 					{ label: 'Screen', value: 'screen' },
 					{ label: 'Overlay', value: 'overlay' },
 					{ label: 'Difference', value: 'difference' },
