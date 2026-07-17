@@ -767,15 +767,27 @@ class Tunet_Core_Admin {
 
 		$clean = $this->sanitize_settings( wp_unslash( $_POST ) );
 		update_option( self::OPTION, $clean );
-
-		if ( $clean['logo_main_id'] ) {
-			set_theme_mod( 'custom_logo', $clean['logo_main_id'] );
-		} else {
-			remove_theme_mod( 'custom_logo' );
-		}
+		$this->sync_custom_logo( $clean );
 
 		wp_safe_redirect( add_query_arg( 'tunet_notice', 'saved', admin_url( 'admin.php?page=' . self::MENU_SLUG ) ) );
 		exit;
+	}
+
+	/**
+	 * Keep the native custom_logo (Site Logo block) in sync with the engine's main
+	 * logo setting. Called from both Save and Import so an imported logo ID also
+	 * propagates. Guards for a missing/invalid attachment (an imported ID may not
+	 * exist on the target site).
+	 *
+	 * @param array $settings Sanitized settings array.
+	 */
+	private function sync_custom_logo( $settings ) {
+		$id = isset( $settings['logo_main_id'] ) ? (int) $settings['logo_main_id'] : 0;
+		if ( $id && wp_attachment_is_image( $id ) ) {
+			set_theme_mod( 'custom_logo', $id );
+		} else {
+			remove_theme_mod( 'custom_logo' );
+		}
 	}
 
 	/**
@@ -814,7 +826,9 @@ class Tunet_Core_Admin {
 			$raw  = file_get_contents( $_FILES['tunet_import_file']['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 			$data = json_decode( $raw, true );
 			if ( is_array( $data ) && isset( $data['settings'] ) && is_array( $data['settings'] ) ) {
-				update_option( self::OPTION, $this->sanitize_settings( $data['settings'] ) );
+				$clean = $this->sanitize_settings( $data['settings'] );
+				update_option( self::OPTION, $clean );
+				$this->sync_custom_logo( $clean );
 				$notice = 'imported';
 			}
 		}

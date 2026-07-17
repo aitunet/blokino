@@ -112,6 +112,7 @@ class Tunet_Core_Demo {
 				'products'     => array(),
 				'product_cats' => array(),
 				'project_types'=> array(),
+				'categories'   => array(),
 				'cf7'          => 0,
 				'images_map'   => array(),
 				'url_map'      => array(),
@@ -518,6 +519,9 @@ class Tunet_Core_Demo {
 	public function step_projects() {
 		$projects = self::manifest()['projects'] ?? array();
 		foreach ( $projects as $p ) {
+			if ( empty( $p['slug'] ) || empty( $p['title'] ) ) {
+				continue; // Skip incomplete manifest entries (no warnings).
+			}
 			if ( get_page_by_path( $p['slug'], OBJECT, 'project' ) ) {
 				continue; // idempotent guard within a single build
 			}
@@ -597,8 +601,12 @@ class Tunet_Core_Demo {
 			$term = term_exists( $name, $taxonomy );
 			if ( ! $term ) {
 				$term = wp_insert_term( $name, $taxonomy );
-				if ( ! is_wp_error( $term ) && 'project_type' === $taxonomy ) {
-					$this->track( 'project_types', (int) $term['term_id'] );
+				if ( ! is_wp_error( $term ) ) {
+					if ( 'project_type' === $taxonomy ) {
+						$this->track( 'project_types', (int) $term['term_id'] );
+					} elseif ( 'category' === $taxonomy ) {
+						$this->track( 'categories', (int) $term['term_id'] );
+					}
 				}
 			}
 			if ( ! is_wp_error( $term ) && isset( $term['term_id'] ) ) {
@@ -614,6 +622,9 @@ class Tunet_Core_Demo {
 	public function step_pages() {
 		$pages = self::manifest()['pages'] ?? array();
 		foreach ( $pages as $page ) {
+			if ( empty( $page['slug'] ) || empty( $page['pattern'] ) || empty( $page['title'] ) ) {
+				continue; // Skip incomplete manifest entries (no warnings).
+			}
 			if ( get_page_by_path( $page['slug'] ) ) {
 				continue;
 			}
@@ -690,6 +701,9 @@ class Tunet_Core_Demo {
 		}
 
 		foreach ( (array) ( $woo['products'] ?? array() ) as $pr ) {
+			if ( empty( $pr['slug'] ) || empty( $pr['title'] ) ) {
+				continue; // Skip incomplete manifest entries (no warnings).
+			}
 			if ( get_page_by_path( $pr['slug'], OBJECT, 'product' ) ) {
 				continue;
 			}
@@ -698,7 +712,7 @@ class Tunet_Core_Demo {
 			$product->set_slug( $pr['slug'] );
 			$product->set_status( 'publish' );
 			$product->set_catalog_visibility( 'visible' );
-			$product->set_regular_price( (string) $pr['price'] );
+			$product->set_regular_price( isset( $pr['price'] ) ? (string) $pr['price'] : '' );
 			$product->set_short_description( $pr['short'] ?? '' );
 			$product->set_description( $pr['desc'] ?? '' );
 
@@ -764,6 +778,9 @@ class Tunet_Core_Demo {
 		}
 		foreach ( (array) ( $r['product_cats'] ?? array() ) as $tid ) {
 			wp_delete_term( (int) $tid, 'product_cat' );
+		}
+		foreach ( (array) ( $r['categories'] ?? array() ) as $tid ) {
+			wp_delete_term( (int) $tid, 'category' );
 		}
 
 		// Restore the previous front-page settings if the import changed them.

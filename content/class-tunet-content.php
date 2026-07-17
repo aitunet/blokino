@@ -113,7 +113,8 @@ class Tunet_Core_Content {
 					'single'       => true,
 					'default'      => '',
 					'show_in_rest' => true,
-					'sanitize_callback' => 'sanitize_text_field',
+					// The website field is a URL → sanitize as one (esc_url_raw); the rest as text.
+					'sanitize_callback' => ( 'tunet_project_website' === $key ) ? 'sanitize_url' : 'sanitize_text_field',
 					'auth_callback'     => function () {
 						return current_user_can( 'edit_posts' );
 					},
