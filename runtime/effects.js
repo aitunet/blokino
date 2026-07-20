@@ -252,6 +252,10 @@
 		var parallax = ( reduceMotion || supportsViewTimeline )
 			? []
 			: Array.prototype.slice.call( document.querySelectorAll( '[data-tf-scroll="parallax"]' ) );
+		// `progress` NO se gatea con reduceMotion a propósito (parallax y zoom sí):
+		// es un INDICADOR DE ESTADO —cuánto llevas leído—, no movimiento decorativo.
+		// Desactivarlo bajo prefers-reduced-motion dejaría la barra clavada en 0%,
+		// que es un indicador roto, no una mejora de accesibilidad.
 		var progress = supportsScrollTimeline
 			? []
 			: Array.prototype.slice.call( document.querySelectorAll( '[data-tf-scroll="progress"]' ) );

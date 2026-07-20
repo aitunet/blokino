@@ -96,13 +96,23 @@
 		--tf-rotate var( --tnt-dur-fast ) var( --tnt-ease-power3 );
 }
 
-/* will-change SOLO en efectos continuos (parallax/hover interactivo), no en
+/* will-change SOLO en efectos continuos (los que se mueven con el scroll), no en
    reveals de una sola vez ni en cada palabra → no infla memoria. */
 [data-tf-scroll="parallax"],
-[data-tf-scroll="zoom"],
-[data-tf-hover="lift"],
-[data-tf-hover="tilt"],
-[data-tf-hover="magnetic"] {
+[data-tf-scroll="zoom"] {
+	will-change: transform;
+}
+
+/* Los efectos de hover NO llevan will-change permanente: una rejilla de tarjetas
+   mantendría una capa de composición viva por tarjeta durante toda la vida de la
+   página, aunque el usuario no pase nunca el puntero. Se promociona al entrar el
+   puntero/foco y se libera al salir. */
+[data-tf-hover="lift"]:hover,
+[data-tf-hover="lift"]:focus-within,
+[data-tf-hover="tilt"]:hover,
+[data-tf-hover="tilt"]:focus-within,
+[data-tf-hover="magnetic"]:hover,
+[data-tf-hover="magnetic"]:focus-within {
 	will-change: transform;
 }
 
@@ -250,6 +260,10 @@
 }
 [data-tf-hover="image-zoom"] img {
 	transition: transform var( --tnt-dur-slow ) var( --tnt-ease-expo );
+}
+/* Igual que el resto de hovers: se promociona al hover, no de forma permanente. */
+[data-tf-hover="image-zoom"]:hover img,
+[data-tf-hover="image-zoom"]:focus-within img {
 	will-change: transform;
 }
 [data-tf-hover="image-zoom"]:hover img {

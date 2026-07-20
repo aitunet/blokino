@@ -2,7 +2,7 @@
 Contributors: tunetdesign
 Tags: blocks, effects, animation, gutenberg, carousel
 Requires at least: 6.6
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 0.1.15
 License: GPLv2 or later
