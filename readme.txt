@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, gutenberg, carousel
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.1.14
+Stable tag: 0.1.15
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,14 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 
 == Changelog ==
 
+= 0.1.15 =
+* Accessibility: marquees and background videos now ship a pause/play control (WCAG 2.2.2). It is injected progressively, keyboard focusable, and hidden when the visitor prefers reduced motion.
+* Carousels: responsive breakpoints, so slideshows show one slide on phones and expand on larger screens instead of cramming every slide in.
+* Effects: styles and the runtime are now also detected in block templates and template parts, removing a flash of unstyled content on themes that place effects outside the post content.
+* Importer: newly created categories are tracked and removed on rollback; manifest entries are guarded so an incomplete manifest no longer stops the import.
+* Blocks: before/after keeps image dimensions, background video derives its MIME type from the attachment, and duplicated marquee content is hidden from assistive technology.
+* Internal: shortcode rendering and meta description logic centralized in the engine.
+
 = 0.1.14 =
 * Editor: block previews for Brand and the shared carousel are inert (no accidental navigation while editing).
 * Importer: content is inserted slashed so serialized block attributes survive the round-trip.
@@ -64,6 +72,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 * Initial engine: tf* effect attributes on native blocks, custom blocks (Section, Marquee, Counter, Before/After, Slider, Testimonials, Brand, Icon, Badge), conditional effects runtime, options panel, and per-theme demo importer with rollback.
 
 == Upgrade Notice ==
+
+= 0.1.15 =
+Accessibility improvements (pause/play for motion), responsive carousel breakpoints and importer robustness. Recommended for all sites.
 
 = 0.1.14 =
 Editor-safety and importer robustness fixes. Recommended for all sites.
