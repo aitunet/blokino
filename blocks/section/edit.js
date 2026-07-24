@@ -84,7 +84,8 @@
 				if ( a.meshColor3 ) { style[ '--tf-mesh-3' ] = a.meshColor3; }
 			}
 			if ( a.overlay ) {
-				if ( a.overlayColor ) { style[ '--tf-sec-overlay' ] = a.overlayColor; }
+				var ovVal = ( a.overlayType === 'gradient' ) ? a.overlayGradient : a.overlayColor;
+				if ( ovVal ) { style[ '--tf-sec-overlay' ] = ovVal; }
 				style[ '--tf-sec-overlay-op' ] = ( a.overlayOpacity || 0 ) / 100;
 			}
 			if ( a.dividerTop !== 'none' || a.dividerBottom !== 'none' ) {
@@ -150,7 +151,20 @@
 					el( c.PanelBody, { title: __( 'Background', 'tunet' ), initialOpen: true }, bgControls ),
 					el( c.PanelBody, { title: __( 'Overlay', 'tunet' ), initialOpen: false },
 						el( c.ToggleControl, { label: __( 'Enable overlay', 'tunet' ), checked: !! a.overlay, onChange: function ( v ) { set( { overlay: v } ); }, __nextHasNoMarginBottom: true } ),
-						a.overlay ? colorRow( __( 'Overlay color', 'tunet' ), a.overlayColor, palette, function ( v ) { set( { overlayColor: v } ); } ) : null,
+						a.overlay ? el( c.SelectControl, {
+							key: 'ovtype',
+							label: __( 'Overlay type', 'tunet' ),
+							value: a.overlayType || 'color',
+							options: [
+								{ label: __( 'Color', 'tunet' ), value: 'color' },
+								{ label: __( 'Gradient', 'tunet' ), value: 'gradient' }
+							],
+							onChange: function ( v ) { set( { overlayType: v } ); },
+							__nextHasNoMarginBottom: true
+						} ) : null,
+						( a.overlay && ( a.overlayType || 'color' ) === 'color' ) ? colorRow( __( 'Overlay color', 'tunet' ), a.overlayColor, palette, function ( v ) { set( { overlayColor: v } ); } ) : null,
+						( a.overlay && a.overlayType === 'gradient' ) ? el( c.BaseControl, { key: 'ovgrad', label: __( 'Overlay gradient', 'tunet' ), __nextHasNoMarginBottom: true },
+							el( c.GradientPicker, { value: a.overlayGradient || null, gradients: gradients, onChange: function ( v ) { set( { overlayGradient: v || '' } ); } } ) ) : null,
 						a.overlay ? el( c.RangeControl, { label: __( 'Opacity (%)', 'tunet' ), value: a.overlayOpacity, min: 0, max: 100, onChange: function ( v ) { set( { overlayOpacity: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ) : null
 					),
 					el( c.PanelBody, { title: __( 'Layout', 'tunet' ), initialOpen: false },

@@ -71,7 +71,15 @@ if ( 'mesh' === $tnt_bg_type ) {
 	}
 }
 if ( $tnt_overlay ) {
-	if ( ! empty( $attributes['overlayColor'] ) ) {
+	$tnt_ov_type = isset( $attributes['overlayType'] ) ? sanitize_key( $attributes['overlayType'] ) : 'color';
+	if ( 'gradient' === $tnt_ov_type && ! empty( $attributes['overlayGradient'] ) ) {
+		// Overlay en gradiente: --tf-sec-overlay acepta un valor de background
+		// (color o gradiente) — el CSS ya hace background:var(--tf-sec-overlay).
+		// OJO: WP filtra el inline-style (safecss_filter_attr) → los stops del
+		// gradiente deben ser rgba()/hex; var() y color-mix() dentro del gradiente
+		// se descartan (el GradientPicker produce rgba, así que el sidebar va bien).
+		$tnt_vars[] = '--tf-sec-overlay:' . $attributes['overlayGradient'];
+	} elseif ( ! empty( $attributes['overlayColor'] ) ) {
 		$tnt_vars[] = '--tf-sec-overlay:' . $attributes['overlayColor'];
 	}
 	$tnt_op = isset( $attributes['overlayOpacity'] ) ? max( 0, min( 100, (int) $attributes['overlayOpacity'] ) ) : 40;
