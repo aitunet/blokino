@@ -16,3 +16,39 @@
 	position: relative;
 	z-index: 2;
 }
+
+/* --------------------------------------------------------------------------
+ * Campo de medio del sidebar (fondo imagen/vídeo) — miniatura de lo elegido.
+ * Sin esto el panel solo mostraba un botón y no se sabía qué archivo estaba
+ * puesto. Vive en el motor para que TODOS los themes lo hereden.
+ * -------------------------------------------------------------------------- */
+.tunet-media-field__frame {
+	position: relative;
+	margin-block-end: 8px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	overflow: hidden;
+	background-color: #f0f0f0;
+	/* Tablero de ajedrez: delata PNG/WebP con transparencia. */
+	background-image:
+		linear-gradient( 45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75% ),
+		linear-gradient( 45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75% );
+	background-size: 16px 16px;
+	background-position: 0 0, 8px 8px;
+	line-height: 0;
+}
+
+.tunet-media-field__media {
+	display: block;
+	inline-size: 100%;
+	block-size: auto;
+	max-block-size: 160px;
+	object-fit: cover;
+}
+
+.tunet-media-field__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}

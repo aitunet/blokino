@@ -47,16 +47,33 @@
 			} ) );
 	}
 
-	function mediaButton( label, valueId, hasUrl, allowed, onSelect ) {
-		return el( MediaUploadCheck, {},
-			el( MediaUpload, {
-				allowedTypes: allowed,
-				value: valueId,
-				onSelect: onSelect,
-				render: function ( o ) {
-					return el( c.Button, { variant: 'secondary', onClick: o.open }, hasUrl ? __( 'Change', 'tunet' ) : label );
-				}
-			} ) );
+	/* Campo de medio CON PREVIEW. Antes esto era solo un botón: el sidebar nunca
+	   decía QUÉ imagen estaba puesta (había que fiarse del lienzo, que además va
+	   atenuado por el overlay). Ahora: miniatura + Replace + Remove. */
+	function mediaField( label, type, valueId, valueUrl, onSelect, onClear ) {
+		var hasUrl = !! valueUrl;
+		return el( c.BaseControl, { label: label, __nextHasNoMarginBottom: true },
+			el( 'div', { className: 'tunet-media-field' },
+				hasUrl
+					? el( 'div', { className: 'tunet-media-field__frame' },
+						'video' === type
+							? el( 'video', { className: 'tunet-media-field__media', src: valueUrl, muted: true, playsInline: true, preload: 'metadata' } )
+							: el( 'img', { className: 'tunet-media-field__media', src: valueUrl, alt: '' } ) )
+					: null,
+				el( MediaUploadCheck, {},
+					el( MediaUpload, {
+						allowedTypes: [ type ],
+						value: valueId,
+						onSelect: onSelect,
+						render: function ( o ) {
+							return el( 'div', { className: 'tunet-media-field__actions' },
+								el( c.Button, { variant: hasUrl ? 'secondary' : 'primary', onClick: o.open },
+									hasUrl ? __( 'Replace', 'tunet' ) : label ),
+								hasUrl
+									? el( c.Button, { variant: 'tertiary', isDestructive: true, onClick: onClear }, __( 'Remove', 'tunet' ) )
+									: null );
+						}
+					} ) ) ) );
 	}
 
 	var DIVIDER_OPTS = [
@@ -137,9 +154,15 @@
 				bgControls.push( colorRow( __( 'Mesh — color 2', 'tunet' ), a.meshColor2, palette, function ( v ) { set( { meshColor2: v } ); } ) );
 				bgControls.push( colorRow( __( 'Mesh — color 3', 'tunet' ), a.meshColor3, palette, function ( v ) { set( { meshColor3: v } ); } ) );
 			} else if ( a.bgType === 'image' ) {
-				bgControls.push( el( 'div', { key: 'img', style: { marginBottom: '12px' } }, mediaButton( __( 'Choose image', 'tunet' ), a.bgImageId, !! a.bgImageUrl, [ 'image' ], function ( m ) { set( { bgImageId: m.id, bgImageUrl: m.url } ); } ) ) );
+				bgControls.push( el( 'div', { key: 'img', style: { marginBottom: '12px' } },
+					mediaField( __( 'Choose image', 'tunet' ), 'image', a.bgImageId, a.bgImageUrl,
+						function ( m ) { set( { bgImageId: m.id, bgImageUrl: m.url } ); },
+						function () { set( { bgImageId: undefined, bgImageUrl: '' } ); } ) ) );
 			} else if ( a.bgType === 'video' ) {
-				bgControls.push( el( 'div', { key: 'vid', style: { marginBottom: '12px' } }, mediaButton( __( 'Choose video', 'tunet' ), a.bgVideoId, !! a.bgVideoUrl, [ 'video' ], function ( m ) { set( { bgVideoId: m.id, bgVideoUrl: m.url } ); } ) ) );
+				bgControls.push( el( 'div', { key: 'vid', style: { marginBottom: '12px' } },
+					mediaField( __( 'Choose video', 'tunet' ), 'video', a.bgVideoId, a.bgVideoUrl,
+						function ( m ) { set( { bgVideoId: m.id, bgVideoUrl: m.url } ); },
+						function () { set( { bgVideoId: undefined, bgVideoUrl: '' } ); } ) ) );
 			}
 
 			return el(
