@@ -451,7 +451,60 @@ class Tunet_Core_Admin {
 					</table>
 
 					<h3><?php esc_html_e( 'Brand colors', 'tunet' ); ?></h3>
-					<table class="form-table" role="presentation">
+					<p class="description">
+						<?php esc_html_e( 'Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation.', 'tunet' ); ?>
+					</p>
+					<?php
+					/*
+					 * Aviso cuando hay overrides activos. Estos colores se emiten como
+					 * --tnt-color-* en :root DESPUES del tokens.css del theme, asi que
+					 * GANAN a las style variations (que solo redefinen los presets de
+					 * WP). Un valor olvidado aqui deja la variacion "sin efecto" —y si
+					 * se pisa el fondo sin pisar el texto, el par puede quedar ilegible.
+					 * Se avisa en vez de prohibirlo: el override explicito es la funcion.
+					 */
+					$brand_keys   = array(
+						'brand_primary'  => __( 'Primary', 'tunet' ),
+						'brand_accent'   => __( 'Accent', 'tunet' ),
+						'brand_accent_2' => __( 'Accent 2', 'tunet' ),
+						'brand_bg'       => __( 'Background', 'tunet' ),
+						'brand_text'     => __( 'Text', 'tunet' ),
+					);
+					$brand_active = array();
+					foreach ( $brand_keys as $bk => $blabel ) {
+						if ( ! empty( $s[ $bk ] ) ) {
+							$brand_active[] = $blabel . ' (' . $s[ $bk ] . ')';
+						}
+					}
+					if ( $brand_active ) :
+						?>
+						<div class="notice notice-warning inline tunet-brand-warning">
+							<p>
+								<strong><?php esc_html_e( 'Brand colors are overriding this theme.', 'tunet' ); ?></strong>
+								<?php
+								printf(
+									/* translators: %s: comma-separated list of overridden color names with their hex value. */
+									esc_html__( 'Active: %s. While these are set, switching the style variation will not change them.', 'tunet' ),
+									esc_html( implode( ', ', $brand_active ) )
+								);
+								?>
+							</p>
+							<?php if ( ! empty( $s['brand_bg'] ) && empty( $s['brand_text'] ) ) : ?>
+								<p>
+									<?php esc_html_e( 'You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable.', 'tunet' ); ?>
+								</p>
+							<?php endif; ?>
+							<p>
+								<button type="button" class="button" id="tunet-brand-clear-all">
+									<?php esc_html_e( 'Clear all brand colors', 'tunet' ); ?>
+								</button>
+								<span class="description"><?php esc_html_e( 'Then press Save changes.', 'tunet' ); ?></span>
+							</p>
+						</div>
+						<?php
+					endif;
+					?>
+					<table class="form-table tunet-brand-colors" role="presentation">
 						<?php
 						$this->row_color( __( 'Primary', 'tunet' ), 'brand_primary', $s['brand_primary'], $palette['primary'] ?? '' );
 						$this->row_color( __( 'Accent', 'tunet' ), 'brand_accent', $s['brand_accent'], $palette['accent'] ?? '' );

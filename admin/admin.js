@@ -73,6 +73,20 @@
 		} );
 	} );
 
+	/* Vaciar TODOS los brand colors de golpe (aviso de override activo). No
+	   guarda: deja el formulario listo y el usuario pulsa "Save changes". */
+	var clearAll = document.getElementById( 'tunet-brand-clear-all' );
+	if ( clearAll ) {
+		clearAll.addEventListener( 'click', function () {
+			var table = document.querySelector( '.tunet-brand-colors' );
+			if ( ! table ) { return; }
+			Array.prototype.forEach.call( table.querySelectorAll( '.tunet-color-text' ), function ( t ) {
+				t.value = '';
+			} );
+			clearAll.disabled = true;
+		} );
+	}
+
 } )();
 
 /* ==========================================================================
