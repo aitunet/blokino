@@ -87,8 +87,18 @@ foreach ( $tnt_items as $tnt_item ) {
 		// del control; por defecto la tinta del theme) + opacidad (0–90).
 		$tnt_ov = isset( $tnt_item['bgOverlay'] ) ? max( 0, min( 90, (int) $tnt_item['bgOverlay'] ) ) : 40;
 		if ( $tnt_ov > 0 ) {
-			$tnt_ov_color = isset( $tnt_item['bgOverlayColor'] ) && is_string( $tnt_item['bgOverlayColor'] ) ? sanitize_hex_color( $tnt_item['bgOverlayColor'] ) : '';
-			$tnt_ov_bg    = $tnt_ov_color ? $tnt_ov_color : 'var(--tnt-color-ink,#0b0b0f)';
+			$tnt_ov_type  = isset( $tnt_item['bgOverlayType'] ) ? sanitize_key( $tnt_item['bgOverlayType'] ) : 'color';
+				// Overlay en gradiente (scrim direccional): style manual → NO pasa por safecss,
+				// admite gradiente completo; se quita ';' y se valida que sea un gradient().
+				$tnt_ov_grad  = '';
+				if ( 'gradient' === $tnt_ov_type && ! empty( $tnt_item['bgOverlayGradient'] ) && is_string( $tnt_item['bgOverlayGradient'] ) ) {
+					$tnt_grad_maybe = str_replace( ';', '', $tnt_item['bgOverlayGradient'] );
+					if ( false !== strpos( $tnt_grad_maybe, 'gradient(' ) ) {
+						$tnt_ov_grad = $tnt_grad_maybe;
+					}
+				}
+				$tnt_ov_color = isset( $tnt_item['bgOverlayColor'] ) && is_string( $tnt_item['bgOverlayColor'] ) ? sanitize_hex_color( $tnt_item['bgOverlayColor'] ) : '';
+			$tnt_ov_bg    = $tnt_ov_grad ? $tnt_ov_grad : ( $tnt_ov_color ? $tnt_ov_color : 'var(--tnt-color-ink,#0b0b0f)' );
 			$tnt_bg .= '<div class="tunet-cslide__overlay" style="opacity:' . number_format( $tnt_ov / 100, 2, '.', '' ) . ';background:' . esc_attr( $tnt_ov_bg ) . ';"></div>';
 		}
 	}

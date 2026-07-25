@@ -10,5 +10,5 @@ return array(
 		'tunet-repeater-control',
 		'tunet-carousel-editor',
 	),
-	'version' => '0.1.8',
+	'version' => '0.1.9',
 );

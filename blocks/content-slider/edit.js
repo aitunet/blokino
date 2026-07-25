@@ -89,7 +89,7 @@
 	// Controles de la imagen de FONDO (posición por palabra clave, tamaño, repetición,
 	// overlay + color). Solo se muestran cuando el slide tiene imagen; el fondo es
 	// opt-in por slide. `palette` = colores del theme (para el color del overlay).
-	function bgFields( item, update, palette ) {
+	function bgFields( item, update, palette, gradients ) {
 		if ( ! item.imageId && ! item.imageUrl ) {
 			return null;
 		}
@@ -100,20 +100,30 @@
 			el( C.SelectControl, { label: __( 'Size', 'tunet' ), value: item.bgSize || 'cover', options: BG_SIZE, onChange: function ( v ) { update( { bgSize: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.SelectControl, { label: __( 'Repeat', 'tunet' ), value: item.bgRepeat || 'no-repeat', options: BG_REPEAT, onChange: function ( v ) { update( { bgRepeat: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.RangeControl, { label: __( 'Overlay (%)', 'tunet' ), help: __( 'Darkens the image so the text stays readable.', 'tunet' ), min: 0, max: 90, value: ( item.bgOverlay == null ? 40 : item.bgOverlay ), onChange: function ( v ) { update( { bgOverlay: v } ); }, __nextHasNoMarginBottom: true } ),
-			el(
+			el( C.SelectControl, { key: 'ovtype', label: __( 'Overlay type', 'tunet' ), value: item.bgOverlayType || 'color', options: [ { label: __( 'Color', 'tunet' ), value: 'color' }, { label: __( 'Gradient', 'tunet' ), value: 'gradient' } ], onChange: function ( v ) { update( { bgOverlayType: v } ); }, __nextHasNoMarginBottom: true } ),
+			( ( item.bgOverlayType || 'color' ) === 'color' ) ? el(
 				C.BaseControl,
-				{ label: __( 'Overlay color', 'tunet' ), help: __( 'Defaults to the theme ink color.', 'tunet' ), __nextHasNoMarginBottom: true },
+				{ key: 'ovcolor', label: __( 'Overlay color', 'tunet' ), help: __( 'Defaults to the theme ink color.', 'tunet' ), __nextHasNoMarginBottom: true },
 				el( C.ColorPalette, {
 					colors: palette || [],
 					value: item.bgOverlayColor || '',
 					clearable: true,
 					onChange: function ( v ) { update( { bgOverlayColor: v || '' } ); }
 				} )
-			)
+			) : null,
+			( item.bgOverlayType === 'gradient' ) ? el(
+				C.BaseControl,
+				{ key: 'ovgrad', label: __( 'Overlay gradient', 'tunet' ), help: __( 'A CSS gradient over the image (for a directional scrim).', 'tunet' ), __nextHasNoMarginBottom: true },
+				el( C.GradientPicker, {
+					value: item.bgOverlayGradient || null,
+					gradients: gradients || [],
+					onChange: function ( v ) { update( { bgOverlayGradient: v || '' } ); }
+				} )
+			) : null
 		);
 	}
 
-	function renderItem( item, index, update, palette ) {
+	function renderItem( item, index, update, palette, gradients ) {
 		return el(
 			Fragment,
 			{},
@@ -125,7 +135,7 @@
 				setLabel: __( 'Set image', 'tunet' ),
 				replaceLabel: __( 'Replace image', 'tunet' )
 			} ),
-			bgFields( item, update, palette ),
+			bgFields( item, update, palette, gradients ),
 			el( C.TextControl, { label: __( 'Title', 'tunet' ), value: item.title, onChange: function ( v ) { update( { title: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.SelectControl, { label: __( 'Title alignment', 'tunet' ), value: item.titleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { titleAlign: v } ); }, __nextHasNoMarginBottom: true } ),
 			el( C.ToggleControl, { label: __( 'Subtitle before title', 'tunet' ), checked: !! item.subtitleFirst, onChange: function ( v ) { update( { subtitleFirst: v } ); }, __nextHasNoMarginBottom: true } ),
@@ -154,6 +164,10 @@
 				var s = select( 'core/block-editor' ).getSettings();
 				return ( s && s.colors ) || [];
 			}, [] );
+			var gradients = wp.data.useSelect( function ( select ) {
+				var s = select( 'core/block-editor' ).getSettings();
+				return ( s && s.gradients ) || [];
+			}, [] );
 
 			return el(
 				Fragment,
@@ -167,7 +181,7 @@
 						el( window.tunet.RepeaterControl, {
 							items: attrs.items,
 							onChange: function ( items ) { setAttributes( { items: items } ); },
-							renderItem: function ( item, i, update ) { return renderItem( item, i, update, palette ); },
+							renderItem: function ( item, i, update ) { return renderItem( item, i, update, palette, gradients ); },
 							newItem: newSlide,
 							onActivate: setActiveSlide,
 							addLabel: __( 'Add slide', 'tunet' ),
