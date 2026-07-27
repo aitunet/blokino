@@ -52,16 +52,26 @@ if ( 'alt' === $tnt_variant ) {
 	$tnt_render_alt = false;
 }
 
+// ¿Hay REALMENTE dos logos que conmutar? Solo entonces se emiten las clases de
+// variante. Si hay uno solo, va sin modificador y NINGUNA regla de display lo
+// puede ocultar: si no, una paleta oscura con --tnt-brand-main-display:none
+// borraría la marca de un sitio que únicamente subió el logo principal.
+$tnt_two = $tnt_render_main && $tnt_render_alt && $tnt_main_id && $tnt_alt_id;
+
 /**
- * <img> de un logo con su clase de variante.
+ * <img> de un logo, con su clase de variante solo si hay conmutación.
  *
  * @param int    $id      Attachment ID.
  * @param string $variant main|alt.
  * @return string
  */
-$tnt_img = static function ( $id, $variant ) {
+$tnt_img = static function ( $id, $variant ) use ( $tnt_two ) {
 	if ( ! $id ) {
 		return '';
+	}
+	$tnt_class = 'tunet-brand__img';
+	if ( $tnt_two ) {
+		$tnt_class .= ' tunet-brand__img--' . $variant;
 	}
 	return wp_get_attachment_image(
 		$id,
@@ -70,7 +80,7 @@ $tnt_img = static function ( $id, $variant ) {
 		array(
 			// Las dos van con el mismo alt: solo una está visible en cada momento y
 			// display:none la saca del árbol de accesibilidad, así que no se duplica.
-			'class' => 'tunet-brand__img tunet-brand__img--' . $variant,
+			'class' => $tnt_class,
 			'alt'   => get_bloginfo( 'name' ),
 		)
 	);
@@ -91,10 +101,13 @@ if ( ! $tnt_has_logo ) {
 // 3) Wrapper: <a> a Home (rel="home"), o <span> si linkToHome = false.
 // El cap de ancho solo aplica al LOGO; el título de texto (fallback) va a su ancho
 // natural — un sitio sin logo con nombre largo no se estrecha ni wrapea (degradación §12).
-$tnt_style   = ( $tnt_has_logo && $tnt_max ) ? 'max-width:' . $tnt_max . 'px' : '';
+$tnt_style = ( $tnt_has_logo && $tnt_max ) ? 'max-width:' . $tnt_max . 'px' : '';
+// has-alt = hay dos logos y por tanto conmutación real. Los themes lo usan para
+// forzar una variante en bandas que son oscuras SIEMPRE (footers sobre --tnt-color-ink)
+// sin arriesgarse a ocultar la marca de un sitio que solo subió un logo.
 $tnt_wrapper = get_block_wrapper_attributes(
 	array(
-		'class' => 'tunet-brand',
+		'class' => 'tunet-brand' . ( $tnt_two ? ' has-alt' : '' ),
 		'style' => $tnt_style,
 	)
 );
