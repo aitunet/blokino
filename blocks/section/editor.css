@@ -52,3 +52,13 @@
 	gap: 8px;
 	align-items: center;
 }
+
+/* Nota informativa del inspector (comportamiento que no se puede ver en el
+   editor: el scroll de la banda, el autoplay del vídeo, reduced-motion).
+   Sin esto el block parece roto y se buscan opciones que no existen. */
+.tunet-editor-note {
+	margin: 4px 0 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #757575;
+}

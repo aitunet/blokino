@@ -2,9 +2,12 @@
  * Tunet Core · Block tunet/section — runtime de frontend (mínimo)
  * --------------------------------------------------------------------------
  * Responsabilidades sobre el VÍDEO de fondo (no pausable por CSS):
- *  - prefers-reduced-motion → detener el autoplay.
- *  - Con movimiento normal → inyectar un control de pausa/play accesible
- *    (WCAG 2.2.2 Pause, Stop, Hide) para el vídeo que autoreproduce en loop.
+ *  - prefers-reduced-motion → detener el autoplay, PERO dejando el control para
+ *    que quien quiera pueda reproducirlo. Respetar la preferencia es no arrancar
+ *    solo; no es quitarle al visitante la posibilidad de ver el vídeo. Sin el
+ *    control, la sección se queda en el fotograma 0 y parece una imagen rota.
+ *  - Con movimiento normal → autoplay + el mismo control para pausar
+ *    (WCAG 2.2.2 Pause, Stop, Hide).
  * Los fondos CSS (gradiente/mesh) ya paran su animación vía media query.
  * Sin dependencias.
  * ========================================================================== */
@@ -32,7 +35,9 @@
 	}
 
 	// Control de pausa/play accesible (WCAG 2.2.2). Progressive enhancement.
-	function addPauseControl( v ) {
+	// startPaused = true cuando el vídeo NO arrancó (reduced-motion): el botón
+	// nace en estado "play" para que se pueda iniciar a mano.
+	function addPauseControl( v, startPaused ) {
 		var section = v.closest ? v.closest( '.tunet-section' ) : null;
 		if ( ! section || section.querySelector( '.tunet-section__video-toggle' ) ) {
 			return;
@@ -42,8 +47,11 @@
 		var btn = document.createElement( 'button' );
 		btn.type = 'button';
 		btn.className = 'tunet-section__video-toggle';
-		btn.setAttribute( 'aria-pressed', 'false' );
-		btn.setAttribute( 'aria-label', pauseLabel );
+		if ( startPaused ) {
+			section.classList.add( 'is-video-paused' );
+		}
+		btn.setAttribute( 'aria-pressed', startPaused ? 'true' : 'false' );
+		btn.setAttribute( 'aria-label', startPaused ? playLabel : pauseLabel );
 		btn.innerHTML = '<span class="tunet-section__video-toggle-icon" aria-hidden="true"></span>';
 		btn.addEventListener( 'click', function () {
 			var paused;
@@ -62,7 +70,12 @@
 	}
 
 	function init() {
-		eachVideo( reduceMotion ? stopForReducedMotion : addPauseControl );
+		eachVideo( function ( v ) {
+			if ( reduceMotion ) {
+				stopForReducedMotion( v );
+			}
+			addPauseControl( v, reduceMotion );
+		} );
 	}
 
 	if ( document.readyState === 'loading' ) {

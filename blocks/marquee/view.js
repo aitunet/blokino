@@ -11,8 +11,9 @@
  * contenido, sin que el theme tenga que duplicar ítems a mano. Es comportamiento
  * de la BASE: el marquee "simplemente funciona".
  *
- * prefers-reduced-motion → no hay animación (la banda es scrollable estática),
- * así que no hay hueco que rellenar: se omite.
+ * prefers-reduced-motion → la banda nace quieta (y recorrible a mano), pero el
+ * relleno se hace igual: si el visitante pulsa play, el loop tiene que ser
+ * seamless desde el primer ciclo, no a partir de la segunda vuelta.
  * ========================================================================== */
 ( function () {
 	'use strict';
@@ -61,9 +62,10 @@
 	}
 
 	// Inserta un control de pausa/play accesible (WCAG 2.2.2). Progressive
-	// enhancement: sin JS no aparece; con reduced-motion la banda es estática y
-	// no se llama. Idempotente.
-	function addPauseControl( marquee ) {
+	// enhancement: sin JS no aparece. Idempotente.
+	// startPaused = true con reduced-motion: la banda nace quieta y el botón en
+	// estado "play", de modo que el movimiento sea opt-in y no una imposición.
+	function addPauseControl( marquee, startPaused ) {
 		if ( marquee.querySelector( '.tunet-marquee__toggle' ) ) {
 			return;
 		}
@@ -72,11 +74,18 @@
 		var btn = document.createElement( 'button' );
 		btn.type = 'button';
 		btn.className = 'tunet-marquee__toggle';
-		btn.setAttribute( 'aria-pressed', 'false' );
-		btn.setAttribute( 'aria-label', pauseLabel );
+		if ( startPaused ) {
+			marquee.classList.add( 'is-paused' );
+		}
+		btn.setAttribute( 'aria-pressed', startPaused ? 'true' : 'false' );
+		btn.setAttribute( 'aria-label', startPaused ? playLabel : pauseLabel );
 		btn.innerHTML = '<span class="tunet-marquee__toggle-icon" aria-hidden="true"></span>';
 		btn.addEventListener( 'click', function () {
 			var paused = marquee.classList.toggle( 'is-paused' );
+			// is-playing marca "el visitante pidió movimiento": es lo que permite
+			// vencer al animation-play-state:paused que impone la media query de
+			// reduced-motion. Fuera de esa media query no hace nada.
+			marquee.classList.add( 'is-playing' );
 			btn.setAttribute( 'aria-pressed', paused ? 'true' : 'false' );
 			btn.setAttribute( 'aria-label', paused ? playLabel : pauseLabel );
 		} );
@@ -84,13 +93,12 @@
 	}
 
 	function init() {
-		if ( reduceMotion ) {
-			return;
-		}
 		var marquees = document.querySelectorAll( '.tunet-marquee' );
 		for ( var i = 0; i < marquees.length; i++ ) {
+			// El relleno hasta cubrir el contenedor hace falta igual: si el
+			// visitante pulsa play, el loop debe ser seamless desde el primer ciclo.
 			fill( marquees[ i ] );
-			addPauseControl( marquees[ i ] );
+			addPauseControl( marquees[ i ], reduceMotion );
 		}
 	}
 

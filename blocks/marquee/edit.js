@@ -137,7 +137,15 @@
 							checked: !! a.pauseOnHover,
 							onChange: function ( v ) { set( { pauseOnHover: v } ); },
 							__nextHasNoMarginBottom: true
-						} )
+						} ),
+						// El editor NO anima la banda: pinta los items en varias lineas para poder
+						// editarlos. Sin este aviso parece que el block esta roto — el tester externo
+						// lo reporto como fallo en los 3 themes que probo (2026-07-27).
+						el(
+							'p',
+							{ className: 'tunet-editor-note' },
+							__( 'The band only scrolls on the front end — here the items wrap so you can edit them. Visitors who ask for reduced motion see it still, with a play control.', 'tunet' )
+						)
 					),
 					el(
 						c.PanelBody,

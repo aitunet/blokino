@@ -18,5 +18,5 @@ return array(
 		'wp-i18n',
 		'tunet-icon-svg',
 	),
-	'version'      => '0.1.3',
+	'version'      => '0.1.4',
 );

@@ -163,6 +163,11 @@
 					mediaField( __( 'Choose video', 'tunet' ), 'video', a.bgVideoId, a.bgVideoUrl,
 						function ( m ) { set( { bgVideoId: m.id, bgVideoUrl: m.url } ); },
 						function () { set( { bgVideoId: undefined, bgVideoUrl: '' } ); } ) ) );
+				// El video de fondo va SIEMPRE muted+loop+playsinline (es un fondo, no un
+				// reproductor): por eso no hay toggles de autoplay. Lo que si hace falta es
+				// decirlo, porque quien lo prueba con reduced-motion cree que esta roto.
+				bgControls.push( el( 'p', { key: 'vidnote', className: 'tunet-editor-note' },
+					__( 'Plays muted and looped, with a pause control. Visitors who ask for reduced motion get it paused on the first frame, with a play control.', 'tunet' ) ) );
 			}
 
 			return el(

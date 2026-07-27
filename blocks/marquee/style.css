@@ -128,35 +128,24 @@
 	block-size: 1em;
 }
 
-/* Accesibilidad: sin movimiento, la banda se ACOMODA en varias líneas (wrap),
-   todos los ítems visibles, sin scrollbar. Se elimina el duplicado decorativo. */
+/* Accesibilidad (WCAG 2.2.2): con reduced-motion la banda NO arranca sola, pero
+   CONSERVA su diseño (una sola línea) y gana un control para reproducirla; además
+   se puede recorrer a mano mientras está quieta, así no queda contenido oculto.
+   Antes se sustituía por un wrap centrado de varias líneas: todo visible, sí, pero
+   era OTRO diseño y se leía como un fallo de maquetación (feedback externo
+   2026-07-27, los 3 themes probados). Respetar la preferencia es no arrancar solo,
+   no negarle al visitante la posibilidad de ver el movimiento. */
 @media ( prefers-reduced-motion: reduce ) {
-	.tunet-marquee__viewport {
-		-webkit-mask-image: none;
-		        mask-image: none;
-	}
-	/* Sin animación no hay nada que pausar → el control no aplica. */
-	.tunet-marquee__toggle { display: none; }
-	.tunet-marquee__track {
-		animation: none;
-		/* El track base es width:max-content (para el loop). En wrap hay que
-		   liberarlo a 100% o el grupo recibe el ancho completo y NO baja de línea. */
-		width: 100%;
-	}
-	.tunet-marquee__group {
-		flex-wrap: wrap;
-		justify-content: center;
-		/* Constreñir el grupo al contenedor para que los ítems wrappeen; sin la
-		   separación de costura del loop (aquí no hay costura). */
-		width: 100%;
-		padding-inline: 0;
-		row-gap: var( --tnt-marquee-gap, 3rem );
-	}
-	.tunet-marquee__group[aria-hidden="true"] {
-		display: none;
-	}
-	/* Sin loop no hay costura: el separador final queda colgando → ocultarlo. */
-	.tunet-marquee__group .tunet-marquee__sep:last-child {
-		display: none;
+	/* Sin JS: quieta, y punto. */
+	.tunet-marquee__track { animation-play-state: paused; }
+	/* Con JS, solo si el visitante lo pide explícitamente con el control. */
+	.tunet-marquee.is-playing .tunet-marquee__track { animation-play-state: running; }
+	/* ...y aun así se puede pausar por hover o volviendo a pulsar. */
+	.tunet-marquee.is-playing.is-pausable:hover .tunet-marquee__track,
+	.tunet-marquee.is-playing.is-paused .tunet-marquee__track { animation-play-state: paused; }
+	/* Quieta la banda queda cortada por el viewport → recorrible a mano. */
+	.tunet-marquee:not( .is-playing ) .tunet-marquee__viewport {
+		overflow-x: auto;
+		scrollbar-width: thin;
 	}
 }
