@@ -37,12 +37,20 @@
 							label: __( 'Variant', 'tunet' ),
 							value: a.variant,
 							options: [
+								{ label: __( 'Automatic (follows the palette)', 'tunet' ), value: 'auto' },
 								{ label: __( 'Main', 'tunet' ), value: 'main' },
 								{ label: __( 'Alternative', 'tunet' ), value: 'alt' }
 							],
 							onChange: function ( v ) { set( { variant: v } ); },
 							__nextHasNoMarginBottom: true
 						} ),
+						// El comprador sube el logo claro y espera que salga solo en la paleta
+						// oscura: hasta ahora no pasaba y parecia un fallo del theme.
+						el(
+							'p',
+							{ className: 'tunet-editor-note' },
+							__( 'Automatic shows the alternative logo on dark palettes and style variations, and the main one otherwise. Set both in Tunet Core → Logos.', 'tunet' )
+						),
 						el( c.RangeControl, {
 							label: __( 'Max width (px)', 'tunet' ),
 							value: a.maxWidth,

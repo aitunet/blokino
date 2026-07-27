@@ -2,11 +2,11 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "tunet/brand",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "title": "Tunet Brand",
   "category": "design",
   "icon": "admin-home",
-  "description": "Site brand: shows the logo if set (main or alt, managed in Tunet Core → Logos or the native Site Logo), otherwise the site title as text. Linked to Home. Replaces the site-logo + site-title pair in headers.",
+  "description": "Site brand: shows the logo if set (main or alt, managed in Tunet Core → Logos or the native Site Logo), otherwise the site title as text. In Automatic mode the alternative logo takes over on dark palettes. Linked to Home. Replaces the site-logo + site-title pair in headers.",
   "keywords": ["brand", "logo", "site title", "header"],
   "textdomain": "tunet",
   "supports": {
@@ -16,11 +16,12 @@
     "spacing": { "margin": true }
   },
   "attributes": {
-    "variant":    { "type": "string",  "default": "main" },
+    "variant":    { "type": "string",  "default": "auto" },
     "maxWidth":   { "type": "number",  "default": 140 },
     "linkToHome": { "type": "boolean", "default": true }
   },
   "editorScript": "file:./edit.js",
+  "editorStyle": "file:./editor.css",
   "style": "file:./style.css",
   "render": "file:./render.php"
 }

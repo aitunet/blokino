@@ -92,6 +92,13 @@
 		--tnt-dur-fast: 250ms;
 		--tnt-dur-base: 550ms;
 		--tnt-dur-slow: 900ms;
+
+		/* ---- MARCA: qué variante de logo se ve (block tunet/brand en 'auto') ----
+		   El baseline es el comportamiento histórico: solo el logo principal. Un theme
+		   Tunet las voltea desde tokens.css / su style variation para que las paletas
+		   oscuras usen el logo claro; un theme cualquiera de wp.org no nota nada. */
+		--tnt-brand-main-display: block;
+		--tnt-brand-alt-display:  none;
 	}
 
 	/* Accesibilidad: el motor respeta prefers-reduced-motion también en el

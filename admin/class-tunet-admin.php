@@ -429,6 +429,8 @@ class Tunet_Core_Admin {
 				<div class="card tunet-section-card">
 					<h2><?php esc_html_e( 'Brand logos', 'tunet' ); ?></h2>
 					<p class="description"><?php esc_html_e( 'Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic).', 'tunet' ); ?></p>
+					<?php /* El campo ya se llamaba "dark backgrounds" pero nada lo aplicaba solo: el logo alternativo se quedaba sin usar y el header oscuro mostraba el oscuro. Ahora sí conmuta, y conviene decirlo aquí. */ ?>
+					<p class="description"><?php esc_html_e( 'With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo.', 'tunet' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
 						$this->row_logo( __( 'Main logo', 'tunet' ), 'logo_main_id', (int) $s['logo_main_id'] );

@@ -1,0 +1,12 @@
+/* ==========================================================================
+ * Tunet Core · Block tunet/brand — editor
+ * Solo la nota informativa del inspector (la variante automática depende de la
+ * paleta activa y eso no se ve en el editor; sin explicarlo parece que el
+ * control no hace nada).
+ * ========================================================================== */
+.tunet-editor-note {
+	margin: 4px 0 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #757575;
+}

@@ -16,6 +16,20 @@
 	max-width: 100%;
 }
 
+/* Conmutación automática de variante (block en 'auto': se pintan las dos y aquí
+   se elige). El valor sale del theme por dos custom properties del contrato §6,
+   así que una style variation oscura saca el logo claro SOLA — sin JS, sin media
+   queries y sin que el theme toque el markup. Los fallbacks son el comportamiento
+   histórico (solo el principal), que es lo que aplica sin theme Tunet (§12.1).
+
+   Especificidad: el prefijo :root + el bloque padre (0,3,0) es DELIBERADO. Un theme
+   que estile su logo con `.x-header .tunet-brand__img { display:block }` (0,2,0) —lo
+   hacían 4 de los 7— le ganaba a una regla de una sola clase y forzaba las DOS
+   imágenes visibles a la vez. Como el motor va a wp.org y no controla el CSS del
+   theme que lo use, la conmutación tiene que sostenerse sola (patrón :root de §9). */
+:root .tunet-brand .tunet-brand__img--main { display: var( --tnt-brand-main-display, block ); }
+:root .tunet-brand .tunet-brand__img--alt  { display: var( --tnt-brand-alt-display, none ); }
+
 .tunet-brand__title {
 	font: inherit;
 	color: inherit;
