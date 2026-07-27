@@ -110,8 +110,29 @@ $tnt_wrapper = get_block_wrapper_attributes(
 	<?php if ( 'image' === $tnt_bg_type && ! empty( $attributes['bgImageUrl'] ) ) : ?>
 		<div class="tunet-section__bg" style="background-image:url('<?php echo esc_url( $attributes['bgImageUrl'] ); ?>')"></div>
 	<?php elseif ( 'video' === $tnt_bg_type && ! empty( $attributes['bgVideoUrl'] ) ) : ?>
-		<?php $tnt_vmime = ! empty( $attributes['bgVideoId'] ) ? get_post_mime_type( (int) $attributes['bgVideoId'] ) : ''; ?>
-		<video class="tunet-section__bg" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+		<?php
+		$tnt_vmime   = ! empty( $attributes['bgVideoId'] ) ? get_post_mime_type( (int) $attributes['bgVideoId'] ) : '';
+		$tnt_vposter = ! empty( $attributes['bgVideoPosterUrl'] ) ? (string) $attributes['bgVideoPosterUrl'] : '';
+		$tnt_vauto   = ! isset( $attributes['bgVideoAutoplay'] ) || (bool) $attributes['bgVideoAutoplay'];
+		$tnt_vloop   = ! isset( $attributes['bgVideoLoop'] ) || (bool) $attributes['bgVideoLoop'];
+		/*
+		 * Carga perezosa cuando HAY póster: el vídeo sale sin `autoplay` y con
+		 * preload="none", así que el navegador no descarga nada; lo arranca view.js
+		 * salvo que el visitante pida menos movimiento o el autoplay esté apagado.
+		 * Tiene que decidirse aquí porque al parsear el HTML el navegador no sabe
+		 * nada de prefers-reduced-motion, y con `autoplay` ya habría descargado.
+		 * SIN póster se mantiene el autoplay en el HTML: si no, quedaría un hueco
+		 * vacío hasta que despierte el JS.
+		 */
+		$tnt_vlazy = ( '' !== $tnt_vposter );
+		?>
+		<video class="tunet-section__bg" muted playsinline aria-hidden="true"<?php
+			echo $tnt_vloop ? ' loop' : '';
+			echo $tnt_vposter ? ' poster="' . esc_url( $tnt_vposter ) . '"' : '';
+			echo ( $tnt_vauto && ! $tnt_vlazy ) ? ' autoplay' : '';
+			echo ' preload="' . ( $tnt_vlazy ? 'none' : 'metadata' ) . '"';
+			echo ' data-tnt-autoplay="' . ( $tnt_vauto ? '1' : '0' ) . '"';
+		?>>
 			<source src="<?php echo esc_url( $attributes['bgVideoUrl'] ); ?>"<?php echo $tnt_vmime ? ' type="' . esc_attr( $tnt_vmime ) . '"' : ''; ?> />
 		</video>
 	<?php elseif ( in_array( $tnt_bg_type, array( 'color', 'gradient', 'mesh' ), true ) ) : ?>

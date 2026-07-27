@@ -120,7 +120,9 @@
 			if ( a.bgType === 'image' && a.bgImageUrl ) {
 				bgLayer = el( 'div', { className: 'tunet-section__bg', style: { backgroundImage: 'url(' + a.bgImageUrl + ')' } } );
 			} else if ( a.bgType === 'video' && a.bgVideoUrl ) {
-				bgLayer = el( 'video', { className: 'tunet-section__bg', src: a.bgVideoUrl, muted: true, loop: true, autoPlay: true, playsInline: true } );
+				// El preview del editor refleja lo configurado (poster, loop, autoplay) para
+				// que se vea aqui lo mismo que en el front.
+				bgLayer = el( 'video', { className: 'tunet-section__bg', src: a.bgVideoUrl, poster: a.bgVideoPosterUrl || undefined, muted: true, loop: a.bgVideoLoop !== false, autoPlay: a.bgVideoAutoplay !== false, playsInline: true } );
 			} else if ( a.bgType === 'color' || a.bgType === 'gradient' || a.bgType === 'mesh' ) {
 				bgLayer = el( 'div', { className: 'tunet-section__bg' } );
 			}
@@ -163,11 +165,33 @@
 					mediaField( __( 'Choose video', 'tunet' ), 'video', a.bgVideoId, a.bgVideoUrl,
 						function ( m ) { set( { bgVideoId: m.id, bgVideoUrl: m.url } ); },
 						function () { set( { bgVideoId: undefined, bgVideoUrl: '' } ); } ) ) );
-				// El video de fondo va SIEMPRE muted+loop+playsinline (es un fondo, no un
-				// reproductor): por eso no hay toggles de autoplay. Lo que si hace falta es
-				// decirlo, porque quien lo prueba con reduced-motion cree que esta roto.
+				// Poster: es el control que mas aporta. Se ve mientras el video carga, en
+				// conexiones lentas y —sobre todo— es lo que ve quien pide menos movimiento,
+				// que hasta ahora se comia el fotograma 0 (puede ser un fundido a negro).
+				// Ademas activa la carga perezosa: con poster el video no se descarga hasta
+				// que hace falta (ver render.php).
+				bgControls.push( el( 'div', { key: 'vidposter', style: { marginBottom: '12px' } },
+					mediaField( __( 'Poster image', 'tunet' ), 'image', a.bgVideoPosterId, a.bgVideoPosterUrl,
+						function ( m ) { set( { bgVideoPosterId: m.id, bgVideoPosterUrl: m.url } ); },
+						function () { set( { bgVideoPosterId: undefined, bgVideoPosterUrl: '' } ); } ) ) );
+				bgControls.push( el( c.ToggleControl, {
+					key: 'vidauto',
+					label: __( 'Play automatically', 'tunet' ),
+					checked: a.bgVideoAutoplay !== false,
+					onChange: function ( v ) { set( { bgVideoAutoplay: !! v } ); },
+					__nextHasNoMarginBottom: true
+				} ) );
+				bgControls.push( el( c.ToggleControl, {
+					key: 'vidloop',
+					label: __( 'Loop', 'tunet' ),
+					checked: a.bgVideoLoop !== false,
+					onChange: function ( v ) { set( { bgVideoLoop: !! v } ); },
+					__nextHasNoMarginBottom: true
+				} ) );
+				// Sin decir esto se buscan opciones que no existen (le paso al tester): el
+				// fondo va mudo SIEMPRE porque los navegadores bloquean el autoplay con audio.
 				bgControls.push( el( 'p', { key: 'vidnote', className: 'tunet-editor-note' },
-					__( 'Plays muted and looped, with a pause control. Visitors who ask for reduced motion get it paused on the first frame, with a play control.', 'tunet' ) ) );
+					__( 'Background video always plays muted, with a pause control. Visitors who ask for reduced motion see the poster instead, with a play control — and the video is not downloaded until they ask for it.', 'tunet' ) ) );
 			}
 
 			return el(

@@ -28,10 +28,24 @@
 		}
 	}
 
-	function stopForReducedMotion( v ) {
+	// Dejar el vídeo quieto: con reduced-motion o con el autoplay apagado por el
+	// comprador. Si el render eligió la rama perezosa (hay póster) aquí no hay nada
+	// descargado todavía, y con preload="none" sigue sin haberlo.
+	function holdPaused( v ) {
 		v.removeAttribute( 'autoplay' );
 		v.autoplay = false;
 		try { v.pause(); } catch ( e ) {}
+	}
+
+	// Arranque desde JS (rama perezosa: el HTML salió sin `autoplay` para no
+	// descargar nada). muted por propiedad además de por atributo: sin ello algunos
+	// navegadores rechazan el play() programático por su política de autoplay.
+	function start( v ) {
+		v.muted = true;
+		var p = v.play();
+		if ( p && typeof p.catch === 'function' ) {
+			p.catch( function () {} );
+		}
 	}
 
 	// Control de pausa/play accesible (WCAG 2.2.2). Progressive enhancement.
@@ -71,10 +85,32 @@
 
 	function init() {
 		eachVideo( function ( v ) {
-			if ( reduceMotion ) {
-				stopForReducedMotion( v );
+			// El comprador puede apagar el autoplay; reduced-motion siempre manda.
+			var quiere = v.getAttribute( 'data-tnt-autoplay' ) !== '0';
+			var suena  = quiere && ! reduceMotion;
+
+			if ( suena ) {
+				// Sin `autoplay` en el HTML = rama perezosa: lo arranca el JS.
+				if ( ! v.autoplay ) {
+					start( v );
+				}
+			} else {
+				holdPaused( v );
 			}
-			addPauseControl( v, reduceMotion );
+			addPauseControl( v, ! suena );
+
+			// Sin loop, al terminar el control tiene que volver a "play" o se queda
+			// en "pause" ofreciendo pausar algo que ya está parado.
+			v.addEventListener( 'ended', function () {
+				var section = v.closest ? v.closest( '.tunet-section' ) : null;
+				var btn = section && section.querySelector( '.tunet-section__video-toggle' );
+				if ( ! section || ! btn ) {
+					return;
+				}
+				section.classList.add( 'is-video-paused' );
+				btn.setAttribute( 'aria-pressed', 'true' );
+				btn.setAttribute( 'aria-label', section.getAttribute( 'data-play-label' ) || 'Play background video' );
+			} );
 		} );
 	}
 
