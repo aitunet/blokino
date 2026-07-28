@@ -58,7 +58,10 @@ if ( $tnt_min > 0 ) {
 }
 
 if ( 'color' === $tnt_bg_type && ! empty( $attributes['bgColor'] ) ) {
-	$tnt_vars[] = '--tf-sec-bg:' . $attributes['bgColor'];
+	$tnt_bg_color = tunet_core_safe_css_color( $attributes['bgColor'] );
+	if ( '' !== $tnt_bg_color ) {
+		$tnt_vars[] = '--tf-sec-bg:' . $tnt_bg_color;
+	}
 }
 if ( 'gradient' === $tnt_bg_type && ! empty( $attributes['gradient'] ) ) {
 	$tnt_vars[] = '--tf-sec-gradient:' . $attributes['gradient'];
@@ -66,7 +69,10 @@ if ( 'gradient' === $tnt_bg_type && ! empty( $attributes['gradient'] ) ) {
 if ( 'mesh' === $tnt_bg_type ) {
 	foreach ( array( 'meshColor1' => '--tf-mesh-1', 'meshColor2' => '--tf-mesh-2', 'meshColor3' => '--tf-mesh-3' ) as $attr => $var ) {
 		if ( ! empty( $attributes[ $attr ] ) ) {
-			$tnt_vars[] = $var . ':' . $attributes[ $attr ];
+			$tnt_mesh_color = tunet_core_safe_css_color( $attributes[ $attr ] );
+			if ( '' !== $tnt_mesh_color ) {
+				$tnt_vars[] = $var . ':' . $tnt_mesh_color;
+			}
 		}
 	}
 }
@@ -80,14 +86,22 @@ if ( $tnt_overlay ) {
 		// se descartan (el GradientPicker produce rgba, así que el sidebar va bien).
 		$tnt_vars[] = '--tf-sec-overlay:' . $attributes['overlayGradient'];
 	} elseif ( ! empty( $attributes['overlayColor'] ) ) {
-		$tnt_vars[] = '--tf-sec-overlay:' . $attributes['overlayColor'];
+		// Si el color es irrepresentable en un inline-style, se degrada a
+		// `transparent` A PROPÓSITO: sin esta línea el valor desaparecería y el CSS
+		// caería al color de fondo del theme a la opacidad pedida — un panel opaco
+		// que tapa la foto. Perder el scrim es malo; tapar la imagen entera es peor.
+		$tnt_ov_color = tunet_core_safe_css_color( $attributes['overlayColor'] );
+		$tnt_vars[]   = '--tf-sec-overlay:' . ( '' !== $tnt_ov_color ? $tnt_ov_color : 'transparent' );
 	}
 	$tnt_op = isset( $attributes['overlayOpacity'] ) ? max( 0, min( 100, (int) $attributes['overlayOpacity'] ) ) : 40;
 	$tnt_vars[] = '--tf-sec-overlay-op:' . ( $tnt_op / 100 );
 }
 if ( 'none' !== $tnt_div_top || 'none' !== $tnt_div_bot ) {
 	if ( ! empty( $attributes['dividerColor'] ) ) {
-		$tnt_vars[] = '--tf-sec-divider-color:' . $attributes['dividerColor'];
+		$tnt_div_color = tunet_core_safe_css_color( $attributes['dividerColor'] );
+		if ( '' !== $tnt_div_color ) {
+			$tnt_vars[] = '--tf-sec-divider-color:' . $tnt_div_color;
+		}
 	}
 	$tnt_dh = isset( $attributes['dividerHeight'] ) ? max( 0, (int) $attributes['dividerHeight'] ) : 60;
 	$tnt_vars[] = '--tf-sec-divider-h:' . $tnt_dh . 'px';

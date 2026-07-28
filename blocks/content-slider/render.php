@@ -97,7 +97,14 @@ foreach ( $tnt_items as $tnt_item ) {
 						$tnt_ov_grad = $tnt_grad_maybe;
 					}
 				}
-				$tnt_ov_color = isset( $tnt_item['bgOverlayColor'] ) && is_string( $tnt_item['bgOverlayColor'] ) ? sanitize_hex_color( $tnt_item['bgOverlayColor'] ) : '';
+					/*
+					 * `sanitize_hex_color()` devolvía '' con cualquier rgba(), y el color
+					 * elegido se cambiaba en silencio por la tinta del fallback — pero el
+					 * control del sidebar lleva enableAlpha, así que en cuanto el comprador
+					 * tocaba la transparencia perdía su color. Se normaliza a hex de 8
+					 * dígitos, que conserva el alpha (mismo helper que tunet/section).
+					 */
+					$tnt_ov_color = isset( $tnt_item['bgOverlayColor'] ) && is_string( $tnt_item['bgOverlayColor'] ) ? tunet_core_safe_css_color( $tnt_item['bgOverlayColor'] ) : '';
 			$tnt_ov_bg    = $tnt_ov_grad ? $tnt_ov_grad : ( $tnt_ov_color ? $tnt_ov_color : 'var(--tnt-color-ink,#0b0b0f)' );
 			$tnt_bg .= '<div class="tunet-cslide__overlay" style="opacity:' . number_format( $tnt_ov / 100, 2, '.', '' ) . ';background:' . esc_attr( $tnt_ov_bg ) . ';"></div>';
 		}

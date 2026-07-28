@@ -22,6 +22,110 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+if ( ! function_exists( 'tunet_core_safe_css_color' ) ) {
+	/**
+	 * Normaliza un color para que SOBREVIVA a safecss_filter_attr() en un
+	 * inline-style (y para no perderse en los saneadores de cada block).
+	 *
+	 * MEDIDO en WP 7.0.2: dentro de un `style` inline, WP DESCARTA `rgb()`,
+	 * `rgba()`, `hsl()` y `color-mix()`; solo pasan el hex, `var()` y los
+	 * gradientes de su allowlist (un gradiente sí admite `rgba()` en sus stops,
+	 * por eso los overlays en gradiente nunca fallaron).
+	 *
+	 * Importa porque el descarte NO deja "sin color", que sería inofensivo: deja
+	 * la variable sin definir y el CSS cae a su FALLBACK a la opacidad pedida. En
+	 * `tunet/section` eso era un panel opaco del color de fondo que TAPABA la foto
+	 * entera — así se envió `vector/contact-cta`. Y los controles del sidebar
+	 * llevan `enableAlpha`, así que el ColorPalette produce `rgba()` en cuanto el
+	 * comprador toca la transparencia: es un caso corriente, no una rareza.
+	 *
+	 * @param string $value Color tal cual viene del atributo.
+	 * @return string Hex (8 dígitos si hay alpha), el valor original si ya era
+	 *                seguro, o '' si es irrepresentable (decide el llamador).
+	 */
+	function tunet_core_safe_css_color( $value ) {
+		$value = trim( (string) $value );
+		if ( '' === $value ) {
+			return '';
+		}
+
+		/*
+		 * Ya seguro: hex, palabra clave (transparent, currentColor…) o var().
+		 * El var() se valida ENTERO a propósito: no todos los llamadores pasan por
+		 * safecss_filter_attr (el overlay del content-slider se emite a mano, solo
+		 * con esc_attr), y esc_attr no escapa el `;` — un valor tipo
+		 * `var(--x);background:url(…)` colaría una declaración extra en el style.
+		 */
+		if ( preg_match( '/^#[0-9a-f]{3,8}$/i', $value )
+			|| preg_match( '/^[a-z]+$/i', $value )
+			|| preg_match( '/^var\(\s*--[A-Za-z0-9_-]+\s*(?:,\s*[#A-Za-z0-9_\-.%\s]*)?\)$/', $value ) ) {
+			return $value;
+		}
+
+		$to_hex = static function ( $r, $g, $b, $a ) {
+			$hex = sprintf( '#%02x%02x%02x', max( 0, min( 255, (int) round( $r ) ) ), max( 0, min( 255, (int) round( $g ) ) ), max( 0, min( 255, (int) round( $b ) ) ) );
+			if ( $a < 1 ) {
+				$hex .= sprintf( '%02x', max( 0, min( 255, (int) round( $a * 255 ) ) ) );
+			}
+			return $hex;
+		};
+
+		// rgb() / rgba(), con comas o con la sintaxis moderna de espacios.
+		if ( preg_match( '/^rgba?\(\s*([\d.]+%?)[\s,]+([\d.]+%?)[\s,]+([\d.]+%?)(?:[\s,\/]+([\d.]+%?))?\s*\)$/i', $value, $m ) ) {
+			$chan  = static function ( $v ) {
+				return false !== strpos( $v, '%' ) ? ( (float) $v ) * 2.55 : (float) $v;
+			};
+			$alpha = isset( $m[4] ) && '' !== $m[4]
+				? ( false !== strpos( $m[4], '%' ) ? ( (float) $m[4] ) / 100 : (float) $m[4] )
+				: 1;
+			return $to_hex( $chan( $m[1] ), $chan( $m[2] ), $chan( $m[3] ), $alpha );
+		}
+
+		// hsl() / hsla().
+		if ( preg_match( '/^hsla?\(\s*([\d.]+)(?:deg)?[\s,]+([\d.]+)%[\s,]+([\d.]+)%(?:[\s,\/]+([\d.]+%?))?\s*\)$/i', $value, $m ) ) {
+			$h     = fmod( (float) $m[1], 360 ) / 360;
+			$s     = (float) $m[2] / 100;
+			$l     = (float) $m[3] / 100;
+			$alpha = isset( $m[4] ) && '' !== $m[4]
+				? ( false !== strpos( $m[4], '%' ) ? ( (float) $m[4] ) / 100 : (float) $m[4] )
+				: 1;
+			$hue   = static function ( $p, $q, $t ) {
+				if ( $t < 0 ) {
+					$t += 1;
+				}
+				if ( $t > 1 ) {
+					$t -= 1;
+				}
+				if ( $t < 1 / 6 ) {
+					return $p + ( $q - $p ) * 6 * $t;
+				}
+				if ( $t < 1 / 2 ) {
+					return $q;
+				}
+				if ( $t < 2 / 3 ) {
+					return $p + ( $q - $p ) * ( 2 / 3 - $t ) * 6;
+				}
+				return $p;
+			};
+			if ( 0.0 === $s ) {
+				$r = $l;
+				$g = $l;
+				$b = $l;
+			} else {
+				$q = $l < 0.5 ? $l * ( 1 + $s ) : $l + $s - $l * $s;
+				$p = 2 * $l - $q;
+				$r = $hue( $p, $q, $h + 1 / 3 );
+				$g = $hue( $p, $q, $h );
+				$b = $hue( $p, $q, $h - 1 / 3 );
+			}
+			return $to_hex( $r * 255, $g * 255, $b * 255, $alpha );
+		}
+
+		// Irrepresentable (color-mix(), oklch()…): que decida el llamador.
+		return '';
+	}
+}
+
 /**
  * Registra (en el futuro) los blocks propios del motor.
  */

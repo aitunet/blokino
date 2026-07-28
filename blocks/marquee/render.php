@@ -67,10 +67,14 @@ $tnt_style = sprintf(
 	(float) $tnt_gap
 );
 
-// Color del separador (opt-in). Sanea a un valor CSS seguro (sin ;{}: para no
-// inyectar otras declaraciones). Vacío ⇒ el CSS resuelve var(--tnt-color-primary).
+// Color del separador (opt-in). Se normaliza a un valor que sobreviva a
+// safecss_filter_attr: el saneador de abajo dejaba pasar rgba(), pero WP lo
+// DESCARTA después en el inline-style y el separador volvía en silencio al
+// primary del theme (el control lleva enableAlpha, así que pasaba de verdad).
+// Vacío ⇒ el CSS resuelve var(--tnt-color-primary), que es el degradado correcto.
 $tnt_sep_color = isset( $attributes['separatorColor'] ) ? (string) $attributes['separatorColor'] : '';
-$tnt_sep_color = preg_replace( '/[^a-zA-Z0-9#(),.%\s\-]/', '', $tnt_sep_color );
+$tnt_sep_color = tunet_core_safe_css_color( $tnt_sep_color );
+$tnt_sep_color = preg_replace( '/[^a-zA-Z0-9#(),.%\s\-]/', '', (string) $tnt_sep_color );
 if ( 'none' !== $tnt_sep_type && '' !== trim( (string) $tnt_sep_color ) ) {
 	$tnt_style .= '--tnt-marquee-sep-color:' . $tnt_sep_color . ';';
 }
