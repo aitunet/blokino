@@ -104,6 +104,24 @@
 	opacity: var( --tf-sec-overlay-op, 0.4 );
 }
 
+/* --- Refuerzo de scrim en pantallas pequeñas ---
+   Capa aparte del overlay (no lo pisa: el valor que eligió el comprador sigue
+   intacto y editable). Nace invisible y solo entra bajo el breakpoint móvil de
+   WP, así que una sección sin el ajuste activado no cambia en nada. */
+.tunet-section__scrim {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+	background: var( --tf-sec-scrim-m, #000 );
+	opacity: 0;
+}
+@media ( max-width: 781px ) {
+	.tunet-section.has-mobile-scrim .tunet-section__scrim {
+		opacity: var( --tf-sec-scrim-m-op, 0.55 );
+	}
+}
+
 /* --- Shape dividers --- */
 .tunet-section__divider {
 	position: absolute;

@@ -1,52 +1,155 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "tunet/section",
-  "version": "0.3.0",
-  "title": "Tunet Section",
-  "category": "design",
-  "icon": "cover-image",
-  "description": "Section with advanced backgrounds (animated gradient, mesh, image, video), overlay and shape dividers. The base for premium heroes.",
-  "keywords": ["section", "hero", "background", "mesh", "gradient", "divider"],
-  "textdomain": "tunet",
-  "supports": {
-    "html": false,
-    "anchor": true,
-    "align": ["wide", "full"],
-    "spacing": { "padding": true, "margin": true }
-  },
-  "attributes": {
-    "bgType": { "type": "string", "default": "none" },
-    "bgColor": { "type": "string", "default": "" },
-    "gradient": { "type": "string", "default": "" },
-    "gradientAnimate": { "type": "boolean", "default": false },
-    "meshColor1": { "type": "string", "default": "" },
-    "meshColor2": { "type": "string", "default": "" },
-    "meshColor3": { "type": "string", "default": "" },
-    "bgImageUrl": { "type": "string", "default": "" },
-    "bgImageId": { "type": "number" },
-    "bgVideoUrl": { "type": "string", "default": "" },
-    "bgVideoId": { "type": "number" },
-    "bgVideoPosterId": { "type": "number" },
-    "bgVideoPosterUrl": { "type": "string", "default": "" },
-    "bgVideoAutoplay": { "type": "boolean", "default": true },
-    "bgVideoLoop": { "type": "boolean", "default": true },
-    "overlay": { "type": "boolean", "default": false },
-    "overlayType": { "type": "string", "default": "color" },
-    "overlayColor": { "type": "string", "default": "" },
-    "overlayGradient": { "type": "string", "default": "" },
-    "overlayOpacity": { "type": "number", "default": 40 },
-    "minHeight": { "type": "number", "default": 0 },
-    "verticalAlignment": { "type": "string", "default": "center" },
-    "contentWidth": { "type": "string", "default": "constrained" },
-    "dividerTop": { "type": "string", "default": "none" },
-    "dividerBottom": { "type": "string", "default": "none" },
-    "dividerColor": { "type": "string", "default": "" },
-    "dividerHeight": { "type": "number", "default": 60 }
-  },
-  "editorScript": "file:./edit.js",
-  "editorStyle": "file:./editor.css",
-  "viewScript": "file:./view.js",
-  "style": "file:./style.css",
-  "render": "file:./render.php"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "tunet/section",
+	"version": "0.4.0",
+	"title": "Tunet Section",
+	"category": "design",
+	"icon": "cover-image",
+	"description": "Section with advanced backgrounds (animated gradient, mesh, image, video), overlay and shape dividers. The base for premium heroes.",
+	"keywords": [
+		"section",
+		"hero",
+		"background",
+		"mesh",
+		"gradient",
+		"divider"
+	],
+	"textdomain": "tunet",
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": [
+			"wide",
+			"full"
+		],
+		"spacing": {
+			"padding": true,
+			"margin": true
+		}
+	},
+	"attributes": {
+		"bgType": {
+			"type": "string",
+			"default": "none"
+		},
+		"bgColor": {
+			"type": "string",
+			"default": ""
+		},
+		"gradient": {
+			"type": "string",
+			"default": ""
+		},
+		"gradientAnimate": {
+			"type": "boolean",
+			"default": false
+		},
+		"meshColor1": {
+			"type": "string",
+			"default": ""
+		},
+		"meshColor2": {
+			"type": "string",
+			"default": ""
+		},
+		"meshColor3": {
+			"type": "string",
+			"default": ""
+		},
+		"bgImageUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"bgImageId": {
+			"type": "number"
+		},
+		"bgVideoUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"bgVideoId": {
+			"type": "number"
+		},
+		"bgVideoPosterId": {
+			"type": "number"
+		},
+		"bgVideoPosterUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"bgVideoAutoplay": {
+			"type": "boolean",
+			"default": true
+		},
+		"bgVideoLoop": {
+			"type": "boolean",
+			"default": true
+		},
+		"overlay": {
+			"type": "boolean",
+			"default": false
+		},
+		"overlayType": {
+			"type": "string",
+			"default": "color"
+		},
+		"overlayColor": {
+			"type": "string",
+			"default": ""
+		},
+		"overlayGradient": {
+			"type": "string",
+			"default": ""
+		},
+		"overlayOpacity": {
+			"type": "number",
+			"default": 40
+		},
+		"overlayMobile": {
+			"type": "boolean",
+			"default": false
+		},
+		"overlayMobileColor": {
+			"type": "string",
+			"default": ""
+		},
+		"overlayMobileOpacity": {
+			"type": "number",
+			"default": 55
+		},
+		"minHeight": {
+			"type": "number",
+			"default": 0
+		},
+		"verticalAlignment": {
+			"type": "string",
+			"default": "center"
+		},
+		"contentWidth": {
+			"type": "string",
+			"default": "constrained"
+		},
+		"dividerTop": {
+			"type": "string",
+			"default": "none"
+		},
+		"dividerBottom": {
+			"type": "string",
+			"default": "none"
+		},
+		"dividerColor": {
+			"type": "string",
+			"default": ""
+		},
+		"dividerHeight": {
+			"type": "number",
+			"default": 60
+		}
+	},
+	"editorScript": "file:./edit.js",
+	"editorStyle": "file:./editor.css",
+	"viewScript": "file:./view.js",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
 }

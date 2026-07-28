@@ -104,6 +104,11 @@
 				var ovVal = ( a.overlayType === 'gradient' ) ? a.overlayGradient : a.overlayColor;
 				if ( ovVal ) { style[ '--tf-sec-overlay' ] = ovVal; }
 				style[ '--tf-sec-overlay-op' ] = ( a.overlayOpacity || 0 ) / 100;
+				if ( a.overlayMobile ) {
+					var scrimVal = a.overlayMobileColor || ( a.overlayType !== 'gradient' ? a.overlayColor : '' );
+					style[ '--tf-sec-scrim-m' ] = scrimVal || '#000000';
+					style[ '--tf-sec-scrim-m-op' ] = ( a.overlayMobileOpacity === undefined ? 55 : a.overlayMobileOpacity ) / 100;
+				}
 			}
 			if ( a.dividerTop !== 'none' || a.dividerBottom !== 'none' ) {
 				if ( a.dividerColor ) { style[ '--tf-sec-divider-color' ] = a.dividerColor; }
@@ -112,6 +117,7 @@
 
 			var classes = 'tunet-section is-bg-' + a.bgType + ' is-valign-' + a.verticalAlignment + ' is-content-' + ( a.contentWidth || 'constrained' );
 			if ( a.gradientAnimate && a.bgType === 'gradient' ) { classes += ' is-animated'; }
+			if ( a.overlay && a.overlayMobile ) { classes += ' has-mobile-scrim'; }
 
 			var blockProps = useBlockProps( { className: classes, style: style } );
 
@@ -217,7 +223,21 @@
 						( a.overlay && ( a.overlayType || 'color' ) === 'color' ) ? colorRow( __( 'Overlay color', 'tunet' ), a.overlayColor, palette, function ( v ) { set( { overlayColor: v } ); } ) : null,
 						( a.overlay && a.overlayType === 'gradient' ) ? el( c.BaseControl, { key: 'ovgrad', label: __( 'Overlay gradient', 'tunet' ), __nextHasNoMarginBottom: true },
 							el( c.GradientPicker, { value: a.overlayGradient || null, gradients: gradients, onChange: function ( v ) { set( { overlayGradient: v || '' } ); } } ) ) : null,
-						a.overlay ? el( c.RangeControl, { label: __( 'Opacity (%)', 'tunet' ), value: a.overlayOpacity, min: 0, max: 100, onChange: function ( v ) { set( { overlayOpacity: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ) : null
+						a.overlay ? el( c.RangeControl, { label: __( 'Opacity (%)', 'tunet' ), value: a.overlayOpacity, min: 0, max: 100, onChange: function ( v ) { set( { overlayOpacity: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ) : null,
+						// Un overlay en gradiente lateral protege el texto en escritorio pero
+						// no en móvil, donde el texto ocupa todo el ancho: la dirección de un
+						// gradiente no depende de la forma de la caja. Este refuerzo uniforme
+						// es una capa aparte, así que el overlay elegido no se toca.
+						a.overlay ? el( c.ToggleControl, {
+							key: 'ovmob',
+							label: __( 'Reinforce on small screens', 'tunet' ),
+							help: __( 'Adds a flat scrim under 782px, on top of the overlay. Useful when a side gradient stops covering the text on mobile.', 'tunet' ),
+							checked: !! a.overlayMobile,
+							onChange: function ( v ) { set( { overlayMobile: v } ); },
+							__nextHasNoMarginBottom: true
+						} ) : null,
+						( a.overlay && a.overlayMobile ) ? colorRow( __( 'Small-screen scrim color', 'tunet' ), a.overlayMobileColor, palette, function ( v ) { set( { overlayMobileColor: v } ); } ) : null,
+						( a.overlay && a.overlayMobile ) ? el( c.RangeControl, { key: 'ovmobop', label: __( 'Small-screen opacity (%)', 'tunet' ), value: a.overlayMobileOpacity, min: 0, max: 100, onChange: function ( v ) { set( { overlayMobileOpacity: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ) : null
 					),
 					el( c.PanelBody, { title: __( 'Layout', 'tunet' ), initialOpen: false },
 						el( c.RangeControl, { label: __( 'Minimum height (vh)', 'tunet' ), value: a.minHeight, min: 0, max: 100, help: __( '0 = automatic.', 'tunet' ), onChange: function ( v ) { set( { minHeight: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ),
@@ -248,6 +268,7 @@
 					a.dividerTop !== 'none' ? el( 'div', { className: 'tunet-section__divider tunet-section__divider--top' }, dividerSvg( a.dividerTop ) ) : null,
 					bgLayer,
 					a.overlay ? el( 'div', { className: 'tunet-section__overlay' } ) : null,
+					( a.overlay && a.overlayMobile ) ? el( 'div', { className: 'tunet-section__scrim' } ) : null,
 					el( 'div', { className: 'tunet-section__inner' }, el( InnerBlocks, { renderAppender: InnerBlocks.ButtonBlockAppender } ) ),
 					a.dividerBottom !== 'none' ? el( 'div', { className: 'tunet-section__divider tunet-section__divider--bottom' }, dividerSvg( a.dividerBottom ) ) : null
 				)

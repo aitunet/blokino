@@ -95,6 +95,27 @@ if ( $tnt_overlay ) {
 	}
 	$tnt_op = isset( $attributes['overlayOpacity'] ) ? max( 0, min( 100, (int) $attributes['overlayOpacity'] ) ) : 40;
 	$tnt_vars[] = '--tf-sec-overlay-op:' . ( $tnt_op / 100 );
+
+	// Refuerzo en pantallas pequeñas. Un overlay en gradiente lateral protege el
+	// texto en escritorio (columna a la izquierda, foto limpia a la derecha), pero
+	// en móvil el texto ocupa todo el ancho y se sale de la zona protegida: el
+	// gradiente NO se puede adaptar solo porque su dirección no depende de la
+	// forma de la caja. Este scrim uniforme opcional cubre ese hueco sin tocar el
+	// overlay que eligió el comprador.
+	if ( ! empty( $attributes['overlayMobile'] ) ) {
+		$tnt_scrim = '';
+		if ( ! empty( $attributes['overlayMobileColor'] ) ) {
+			$tnt_scrim = tunet_core_safe_css_color( $attributes['overlayMobileColor'] );
+		} elseif ( 'gradient' !== $tnt_ov_type && ! empty( $attributes['overlayColor'] ) ) {
+			// Sin color propio hereda el del overlay: lo normal es querer "más de
+			// lo mismo" en móvil, no un color distinto.
+			$tnt_scrim = tunet_core_safe_css_color( $attributes['overlayColor'] );
+		}
+		$tnt_vars[]   = '--tf-sec-scrim-m:' . ( '' !== $tnt_scrim ? $tnt_scrim : '#000000' );
+		$tnt_scrim_op = isset( $attributes['overlayMobileOpacity'] ) ? max( 0, min( 100, (int) $attributes['overlayMobileOpacity'] ) ) : 55;
+		$tnt_vars[]   = '--tf-sec-scrim-m-op:' . ( $tnt_scrim_op / 100 );
+		$tnt_classes[] = 'has-mobile-scrim';
+	}
 }
 if ( 'none' !== $tnt_div_top || 'none' !== $tnt_div_bot ) {
 	if ( ! empty( $attributes['dividerColor'] ) ) {
@@ -155,6 +176,9 @@ $tnt_wrapper = get_block_wrapper_attributes(
 
 	<?php if ( $tnt_overlay ) : ?>
 		<div class="tunet-section__overlay"></div>
+		<?php if ( ! empty( $attributes['overlayMobile'] ) ) : ?>
+			<div class="tunet-section__scrim"></div>
+		<?php endif; ?>
 	<?php endif; ?>
 
 	<div class="tunet-section__inner">
