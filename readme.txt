@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, gutenberg, carousel
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.18
+Stable tag: 0.1.19
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,18 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 
 == Changelog ==
 
+= 0.1.19 =
+* Section: an overlay can now be reinforced on small screens. A directional gradient scrim protects the text column on a wide screen but stops covering it on a phone, where the text spans the full width — the reinforcement is a separate layer, so the overlay you picked stays exactly as you set it. Off by default.
+
+= 0.1.18 =
+* Section, carousel and marquee: colours written as `rgb()`, `rgba()` or `hsl()` were silently dropped from the inline style by WordPress, which left an overlay opaque and hid the background photo entirely. Colours are now normalized before output, so the transparency you set is the transparency you get.
+* Hardening: inline colour values are validated in full, closing a way to append extra CSS declarations through a colour field.
+
+= 0.1.17 =
+* Accessibility: with reduced motion the marquee and background video no longer just stop — they keep their design, start still, and offer a Play control, so a visitor who prefers less motion can still choose to see it. The marquee also stays on one line and can be scrolled by hand.
+* Brand: the block gains an automatic variant that picks the main or the alternative logo from the active palette, so a dark style variation no longer shows a dark logo on a dark header.
+* Section: background video gains poster, autoplay and loop controls. With a poster set, the video is not downloaded until it is actually going to play.
+
 = 0.1.16 =
 * Section: overlays can now be a **gradient**, not just a flat colour — so a photo background can carry a directional scrim and still be edited from the sidebar.
 * Carousel: the same Colour | Gradient overlay is available per slide.
@@ -78,6 +90,15 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 * Initial engine: tf* effect attributes on native blocks, custom blocks (Section, Marquee, Counter, Before/After, Slider, Testimonials, Brand, Icon, Badge), conditional effects runtime, options panel, and per-theme demo importer with rollback.
 
 == Upgrade Notice ==
+
+= 0.1.19 =
+Overlays can be reinforced on small screens, so a hero built around a side gradient stays readable on a phone. Optional, nothing changes unless you turn it on.
+
+= 0.1.18 =
+Fixes overlays turning opaque and hiding the background image when the colour was set with transparency. Recommended for all sites.
+
+= 0.1.17 =
+Reduced-motion visitors get a Play control instead of frozen media, the Brand block picks the right logo for the active palette, and background video gains poster/autoplay/loop controls. Recommended for all sites.
 
 = 0.1.16 =
 Gradient overlays for sections and carousels, media previews in the block sidebar, and clearer brand-colour overrides. Recommended for all sites.

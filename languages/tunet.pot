@@ -344,11 +344,11 @@ msgid_plural "Pages"
 msgstr[0] ""
 msgstr[1] ""
 
-#: blocks/marquee/render.php:85
+#: blocks/marquee/render.php:89
 msgid "Pause"
 msgstr ""
 
-#: blocks/section/render.php:103
+#: blocks/section/render.php:138
 msgid "Pause background video"
 msgstr ""
 
@@ -356,11 +356,11 @@ msgstr ""
 msgid "Permission denied."
 msgstr ""
 
-#: blocks/marquee/render.php:85
+#: blocks/marquee/render.php:89
 msgid "Play"
 msgstr ""
 
-#: blocks/section/render.php:103
+#: blocks/section/render.php:138
 msgid "Play background video"
 msgstr ""
 
