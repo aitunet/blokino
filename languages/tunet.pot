@@ -22,11 +22,11 @@ msgstr ""
 msgid "A demo is already imported. Re-importing replaces it; Undo removes it."
 msgstr ""
 
-#: admin/class-tunet-admin.php:457
+#: admin/class-tunet-admin.php:470 admin/class-tunet-admin.php:512
 msgid "Accent"
 msgstr ""
 
-#: admin/class-tunet-admin.php:458
+#: admin/class-tunet-admin.php:471 admin/class-tunet-admin.php:513
 msgid "Accent 2"
 msgstr ""
 
@@ -36,6 +36,10 @@ msgstr ""
 
 #: admin/class-tunet-admin.php:356
 msgid "Active"
+msgstr ""
+
+#: admin/class-tunet-admin.php:489
+msgid "Active: %s. While these are set, switching the style variation will not change them."
 msgstr ""
 
 #: content/class-tunet-content.php:48
@@ -54,7 +58,7 @@ msgstr ""
 msgid "All set — continue to the import."
 msgstr ""
 
-#: admin/class-tunet-admin.php:435
+#: admin/class-tunet-admin.php:437
 msgid "Alternative logo (dark backgrounds)"
 msgstr ""
 
@@ -70,23 +74,23 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: admin/class-tunet-admin.php:459
+#: admin/class-tunet-admin.php:472 admin/class-tunet-admin.php:514
 msgid "Background"
 msgstr ""
 
-#: admin/class-tunet-admin.php:449
+#: admin/class-tunet-admin.php:451
 msgid "Base size"
 msgstr ""
 
-#: admin/class-tunet-admin.php:496
+#: admin/class-tunet-admin.php:551
 msgid "Blog & archives"
 msgstr ""
 
-#: admin/class-tunet-admin.php:447
+#: admin/class-tunet-admin.php:449
 msgid "Body"
 msgstr ""
 
-#: admin/class-tunet-admin.php:481
+#: admin/class-tunet-admin.php:536
 msgid "Bold (slow)"
 msgstr ""
 
@@ -94,15 +98,19 @@ msgstr ""
 msgid "Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic)."
 msgstr ""
 
-#: admin/class-tunet-admin.php:453
+#: admin/class-tunet-admin.php:455
 msgid "Brand colors"
+msgstr ""
+
+#: admin/class-tunet-admin.php:485
+msgid "Brand colors are overriding this theme."
 msgstr ""
 
 #: admin/class-tunet-admin.php:430
 msgid "Brand logos"
 msgstr ""
 
-#: admin/class-tunet-admin.php:441
+#: admin/class-tunet-admin.php:443
 msgid "Branding"
 msgstr ""
 
@@ -110,15 +118,19 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: admin/class-tunet-admin.php:675
+#: admin/class-tunet-admin.php:730
 msgid "Choose / change"
+msgstr ""
+
+#: admin/class-tunet-admin.php:501
+msgid "Clear all brand colors"
 msgstr ""
 
 #: content/class-tunet-content.php:101
 msgid "Client"
 msgstr ""
 
-#: admin/class-tunet-admin.php:449
+#: admin/class-tunet-admin.php:451
 msgid "Compact"
 msgstr ""
 
@@ -126,7 +138,7 @@ msgstr ""
 msgid "Compare before and after"
 msgstr ""
 
-#: admin/class-tunet-admin.php:487
+#: admin/class-tunet-admin.php:542
 msgid "Content layout"
 msgstr ""
 
@@ -134,7 +146,7 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-#: admin/class-tunet-admin.php:468
+#: admin/class-tunet-admin.php:523
 msgid "Corner radius (px)"
 msgstr ""
 
@@ -178,11 +190,11 @@ msgstr ""
 msgid "Demo imported."
 msgstr ""
 
-#: admin/class-tunet-admin.php:446
+#: admin/class-tunet-admin.php:448
 msgid "Display"
 msgstr ""
 
-#: admin/class-tunet-admin.php:537
+#: admin/class-tunet-admin.php:592
 msgid "Download the current settings as a JSON file."
 msgstr ""
 
@@ -190,19 +202,23 @@ msgstr ""
 msgid "Edit Project"
 msgstr ""
 
-#: admin/class-tunet-admin.php:471
+#: admin/class-tunet-admin.php:457
+msgid "Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation."
+msgstr ""
+
+#: admin/class-tunet-admin.php:526
 msgid "Empty = theme. Rounding for Tunet blocks/components that use the radius tokens. 0 = sharp."
 msgstr ""
 
-#: admin/class-tunet-admin.php:506
+#: admin/class-tunet-admin.php:561
 msgid "Enable the effects engine (tf*) on the front-end"
 msgstr ""
 
-#: admin/class-tunet-admin.php:536
+#: admin/class-tunet-admin.php:591
 msgid "Export"
 msgstr ""
 
-#: admin/class-tunet-admin.php:541
+#: admin/class-tunet-admin.php:596
 msgid "Export settings (.json)"
 msgstr ""
 
@@ -210,11 +226,11 @@ msgstr ""
 msgid "Finishing…"
 msgstr ""
 
-#: admin/class-tunet-admin.php:492
+#: admin/class-tunet-admin.php:547
 msgid "Full width (no sidebar)"
 msgstr ""
 
-#: admin/class-tunet-admin.php:503
+#: admin/class-tunet-admin.php:558
 msgid "General"
 msgstr ""
 
@@ -224,7 +240,7 @@ msgid_plural "Images"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/class-tunet-admin.php:547 admin/class-tunet-demo.php:1044
+#: admin/class-tunet-admin.php:602 admin/class-tunet-demo.php:1044
 msgid "Import"
 msgstr ""
 
@@ -232,7 +248,7 @@ msgstr ""
 msgid "Import demo"
 msgstr ""
 
-#: admin/class-tunet-admin.php:553
+#: admin/class-tunet-admin.php:608
 msgid "Import settings"
 msgstr ""
 
@@ -274,7 +290,7 @@ msgid_plural "Journal posts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/class-tunet-admin.php:449
+#: admin/class-tunet-admin.php:451
 msgid "Large"
 msgstr ""
 
@@ -282,19 +298,19 @@ msgstr ""
 msgid "Learn more"
 msgstr ""
 
-#: admin/class-tunet-admin.php:434
+#: admin/class-tunet-admin.php:436
 msgid "Main logo"
 msgstr ""
 
-#: admin/class-tunet-admin.php:448
+#: admin/class-tunet-admin.php:450
 msgid "Monospace"
 msgstr ""
 
-#: admin/class-tunet-admin.php:477
+#: admin/class-tunet-admin.php:532
 msgid "Motion"
 msgstr ""
 
-#: admin/class-tunet-admin.php:481
+#: admin/class-tunet-admin.php:536
 msgid "Motion intensity"
 msgstr ""
 
@@ -332,11 +348,11 @@ msgstr[1] ""
 msgid "Pause"
 msgstr ""
 
-#: blocks/section/render.php:95
+#: blocks/section/render.php:103
 msgid "Pause background video"
 msgstr ""
 
-#: admin/class-tunet-admin.php:764 admin/class-tunet-admin.php:798 admin/class-tunet-admin.php:820 admin/class-tunet-demo.php:803 admin/class-tunet-demo.php:835 admin/class-tunet-demo.php:889
+#: admin/class-tunet-admin.php:819 admin/class-tunet-admin.php:853 admin/class-tunet-admin.php:875 admin/class-tunet-demo.php:803 admin/class-tunet-demo.php:835 admin/class-tunet-demo.php:889
 msgid "Permission denied."
 msgstr ""
 
@@ -344,7 +360,7 @@ msgstr ""
 msgid "Play"
 msgstr ""
 
-#: blocks/section/render.php:95
+#: blocks/section/render.php:103
 msgid "Play background video"
 msgstr ""
 
@@ -356,7 +372,7 @@ msgstr ""
 msgid "Preparing…"
 msgstr ""
 
-#: admin/class-tunet-admin.php:456
+#: admin/class-tunet-admin.php:469 admin/class-tunet-admin.php:511
 msgid "Primary"
 msgstr ""
 
@@ -380,7 +396,7 @@ msgstr ""
 msgid "Recommended plugins"
 msgstr ""
 
-#: admin/class-tunet-admin.php:676
+#: admin/class-tunet-admin.php:731
 msgid "Remove logo"
 msgstr ""
 
@@ -388,11 +404,11 @@ msgstr ""
 msgid "Required"
 msgstr ""
 
-#: admin/class-tunet-admin.php:645
+#: admin/class-tunet-admin.php:700
 msgid "Reset to theme color"
 msgstr ""
 
-#: admin/class-tunet-admin.php:548
+#: admin/class-tunet-admin.php:603
 msgid "Restore settings from a previously exported JSON file."
 msgstr ""
 
@@ -400,7 +416,7 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
-#: admin/class-tunet-admin.php:511
+#: admin/class-tunet-admin.php:566
 msgid "Save settings"
 msgstr ""
 
@@ -416,27 +432,27 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: admin/class-tunet-admin.php:697
+#: admin/class-tunet-admin.php:752
 msgid "Settings imported successfully."
 msgstr ""
 
-#: admin/class-tunet-admin.php:695
+#: admin/class-tunet-admin.php:750
 msgid "Settings saved."
 msgstr ""
 
-#: admin/class-tunet-admin.php:464
+#: admin/class-tunet-admin.php:519
 msgid "Shape"
 msgstr ""
 
-#: admin/class-tunet-admin.php:488
+#: admin/class-tunet-admin.php:543
 msgid "Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor."
 msgstr ""
 
-#: admin/class-tunet-admin.php:495
+#: admin/class-tunet-admin.php:550
 msgid "Single posts"
 msgstr ""
 
-#: admin/class-tunet-admin.php:478
+#: admin/class-tunet-admin.php:533
 msgid "Speed of all Tunet effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic."
 msgstr ""
 
@@ -448,7 +464,7 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: admin/class-tunet-admin.php:481
+#: admin/class-tunet-admin.php:536
 msgid "Subtle (fast)"
 msgstr ""
 
@@ -456,11 +472,11 @@ msgstr ""
 msgid "Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them."
 msgstr ""
 
-#: admin/class-tunet-admin.php:460
+#: admin/class-tunet-admin.php:473 admin/class-tunet-admin.php:515
 msgid "Text"
 msgstr ""
 
-#: admin/class-tunet-admin.php:699
+#: admin/class-tunet-admin.php:754
 msgid "The file is not a valid settings JSON."
 msgstr ""
 
@@ -468,12 +484,16 @@ msgstr ""
 msgid "The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens)."
 msgstr ""
 
-#: admin/class-tunet-admin.php:449 admin/class-tunet-admin.php:481 admin/class-tunet-admin.php:575
+#: admin/class-tunet-admin.php:451 admin/class-tunet-admin.php:536 admin/class-tunet-admin.php:630
 msgid "Theme default"
 msgstr ""
 
-#: admin/class-tunet-admin.php:499
+#: admin/class-tunet-admin.php:554
 msgid "Themes that ship a sidebar area react automatically. A theme without one simply stays full width."
+msgstr ""
+
+#: admin/class-tunet-admin.php:503
+msgid "Then press Save changes."
 msgstr ""
 
 #: admin/class-tunet-demo.php:1069
@@ -500,7 +520,7 @@ msgstr ""
 msgid "Tunet Core · Demo"
 msgstr ""
 
-#: admin/class-tunet-admin.php:528
+#: admin/class-tunet-admin.php:583
 msgid "Tunet Core · Tools"
 msgstr ""
 
@@ -508,7 +528,7 @@ msgstr ""
 msgid "Types"
 msgstr ""
 
-#: admin/class-tunet-admin.php:443
+#: admin/class-tunet-admin.php:445
 msgid "Typography (Google Fonts)"
 msgstr ""
 
@@ -536,16 +556,24 @@ msgstr ""
 msgid "Website"
 msgstr ""
 
-#: admin/class-tunet-admin.php:508
+#: admin/class-tunet-admin.php:563
 msgid "When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging)."
 msgstr ""
 
-#: admin/class-tunet-admin.php:493
+#: admin/class-tunet-admin.php:548
 msgid "With sidebar"
+msgstr ""
+
+#: admin/class-tunet-admin.php:433
+msgid "With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo."
 msgstr ""
 
 #: content/class-tunet-content.php:102
 msgid "Year"
+msgstr ""
+
+#: admin/class-tunet-admin.php:496
+msgid "You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable."
 msgstr ""
 
 #: admin/class-tunet-demo.php:339
