@@ -27,11 +27,43 @@
 	white-space: nowrap; /* el número nunca se parte (p. ej. 24,000). */
 }
 
-/* Prefijo/sufijo más discretos que el número. */
+/*
+ * Prefijo/sufijo más discretos que el número.
+ *
+ * ★ El color va por un token propio con default SEGURO, no clavado al acento.
+ *
+ * Antes esto era `color: var( --tnt-color-accent )`, y era una mina: el afijo es
+ * parte de la cifra ("60+"), no un adorno, así que tiene que ser legible SIEMPRE.
+ * Con un acento oscuro sobre una banda oscura desaparece — le pasó a Ember, cuyo
+ * vino #7E2B33 sobre la banda de stats casi negra daba 1.90. Y el motor va a
+ * wp.org (§12.1): ahí lo hereda cualquier theme, con cualquier paleta, sin que
+ * nadie lo mida. Un default que solo funciona si el acento es claro no es un
+ * default, es una apuesta.
+ *
+ * `currentColor` hereda del número, que por construcción ya es legible (es el
+ * contenido principal de la banda), así que el afijo no puede quedar peor que la
+ * cifra a la que pertenece. Sigue siendo discreto por tamaño y peso, que es de
+ * donde venía de verdad la jerarquía.
+ *
+ * Un theme que quiera el afijo en su acento —es una decisión de presentación, y
+ * por tanto suya (§1)— pone `--tnt-counter-affix-color: var( --tnt-color-accent )`.
+ * El token es el contrato público: así un theme de terceros no tiene que escribir
+ * un selector contra `.tunet-counter__affix`, que son nuestras tripas.
+ *
+ * ★★ OJO DÓNDE SE DECLARA — no es indiferente. Un `var()` dentro del valor de una
+ * custom property se sustituye al calcular ESA propiedad, en el elemento donde se
+ * declara, y lo que heredan los descendientes es ya el valor sustituido. O sea que
+ * declararlo en `:root` CONGELA el acento del root y se salta los locks de paleta
+ * de banda (los de Atrio en su dev-hero, los de Vector en la tarjeta de cristal):
+ * el afijo se quedaría con el acento global en una banda que redefine el acento.
+ * Hay que declararlo DENTRO del ámbito, sobre `.tunet-counter` o su sección, para
+ * que la sustitución vea el lock. Es la diferencia entre respetar la paleta de la
+ * banda y pisarla sin enterarte.
+ */
 .tunet-counter__affix {
 	font-family: var( --tnt-font-body );
 	font-size: 0.45em;
 	font-weight: 600;
-	color: var( --tnt-color-accent );
+	color: var( --tnt-counter-affix-color, currentColor );
 	letter-spacing: var( --tnt-tracking-wide );
 }

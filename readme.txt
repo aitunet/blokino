@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, gutenberg, carousel
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.20
+Stable tag: 0.1.21
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ Yes. The runtime honors `prefers-reduced-motion: reduce`, disabling motion while
 Effects load conditionally (only when a page uses them) and heavy libraries load on demand. The plugin follows WordPress standards for escaping, sanitization, nonces and internationalization.
 
 == Changelog ==
+
+= 0.1.21 =
+* Counter: the prefix/suffix no longer takes the theme's accent colour by default. It is part of the figure, not decoration, and with a dark accent over a dark band it disappeared. It now follows the number's colour, so it can never be less readable than the figure it belongs to. A theme can still opt into the accent with the new `--tnt-counter-affix-color` variable.
 
 = 0.1.20 =
 * Spanish: the block editor panels are now translated. Every control, option and hint in the Tunet blocks and in the Tunet Effects panel ships in Spanish (es_ES, plus the common Latin American locales). Translations for editor scripts are served as JSON, which the plugin was not shipping — so the panels stayed in English no matter which language the site used.
