@@ -192,6 +192,12 @@ class Tunet_Core_Blocks {
 			false
 		);
 
+		// Este script NO se registra desde un block.json, así que nadie le cablea las
+		// traducciones: hay que declararlas aquí o sus labels salen siempre en inglés.
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			wp_set_script_translations( 'tunet-repeater-control', 'tunet', TUNET_CORE_PATH . 'languages' );
+		}
+
 		$css_abs = TUNET_CORE_PATH . 'blocks/shared/repeater.css';
 		$css_ver = file_exists( $css_abs ) ? (string) filemtime( $css_abs ) : TUNET_CORE_VERSION;
 		wp_enqueue_style(
@@ -244,6 +250,42 @@ class Tunet_Core_Blocks {
 			$dir = TUNET_CORE_PATH . 'blocks/' . $slug;
 			if ( is_dir( $dir ) && file_exists( $dir . '/block.json' ) ) {
 				register_block_type( $dir );
+			}
+		}
+
+		$this->set_block_script_translations();
+	}
+
+	/**
+	 * Apunta las traducciones del editor a languages/ del PROPIO plugin.
+	 *
+	 * register_block_type() ya llama a wp_set_script_translations() por nosotros
+	 * —block.json declara "textdomain"— pero lo hace SIN ruta (medido en
+	 * wp-includes/blocks.php: register_block_script_handle). Sin ruta, WP resuelve
+	 * el directorio por el registro de text domains, que depende de que el .mo del
+	 * locale se haya encontrado antes; es un camino indirecto y frágil justo para
+	 * los idiomas donde el .mo aún no existe. Re-declararlo con la ruta explícita
+	 * cuesta tres líneas y deja el comportamiento sin depender de ese orden.
+	 *
+	 * Los handles se LEEN del registro en vez de recomponerlos a mano
+	 * ('tunet-section-editor-script'): ese nombre lo fabrica
+	 * generate_block_asset_handle() y es contrato de WP, no nuestro.
+	 */
+	private function set_block_script_translations() {
+		if ( ! function_exists( 'wp_set_script_translations' ) || ! class_exists( 'WP_Block_Type_Registry' ) ) {
+			return;
+		}
+
+		$registry = WP_Block_Type_Registry::get_instance();
+		$langs    = TUNET_CORE_PATH . 'languages';
+
+		foreach ( $this->blocks as $slug ) {
+			$type = $registry->get_registered( 'tunet/' . $slug );
+			if ( ! $type ) {
+				continue;
+			}
+			foreach ( (array) $type->editor_script_handles as $handle ) {
+				wp_set_script_translations( $handle, 'tunet', $langs );
 			}
 		}
 	}
