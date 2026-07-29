@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, gutenberg, carousel
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.19
+Stable tag: 0.1.20
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,10 @@ Yes. The runtime honors `prefers-reduced-motion: reduce`, disabling motion while
 Effects load conditionally (only when a page uses them) and heavy libraries load on demand. The plugin follows WordPress standards for escaping, sanitization, nonces and internationalization.
 
 == Changelog ==
+
+= 0.1.20 =
+* Spanish: the block editor panels are now translated. Every control, option and hint in the Tunet blocks and in the Tunet Effects panel ships in Spanish (es_ES, plus the common Latin American locales). Translations for editor scripts are served as JSON, which the plugin was not shipping — so the panels stayed in English no matter which language the site used.
+* Badge: the editor script was missing its dependency list, which also meant WordPress never wired up its translations. Fixed, so the Badge panel is translated too and no longer relies on other scripts having loaded first.
 
 = 0.1.19 =
 * Section: an overlay can now be reinforced on small screens. A directional gradient scrim protects the text column on a wide screen but stops covering it on a phone, where the text spans the full width — the reinforcement is a separate layer, so the overlay you picked stays exactly as you set it. Off by default.
