@@ -1,0 +1,168 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "blocks/section/edit.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_PE",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Replace": [
+                "Reemplazar"
+            ],
+            "Remove": [
+                "Quitar"
+            ],
+            "None": [
+                "Ninguno"
+            ],
+            "Wave": [
+                "Onda"
+            ],
+            "Diagonal": [
+                "Diagonal"
+            ],
+            "Curve": [
+                "Curva"
+            ],
+            "Background type": [
+                "Tipo de fondo"
+            ],
+            "Color": [
+                "Color"
+            ],
+            "Gradient": [
+                "Degradado"
+            ],
+            "Mesh": [
+                "Malla"
+            ],
+            "Image": [
+                "Imagen",
+                "Imágenes"
+            ],
+            "Video": [
+                "Vídeo"
+            ],
+            "Background color": [
+                "Color de fondo"
+            ],
+            "Animate gradient": [
+                "Animar el degradado"
+            ],
+            "Mesh — color 1": [
+                "Malla — color 1"
+            ],
+            "Mesh — color 2": [
+                "Malla — color 2"
+            ],
+            "Mesh — color 3": [
+                "Malla — color 3"
+            ],
+            "Choose image": [
+                "Elegir imagen"
+            ],
+            "Choose video": [
+                "Elegir vídeo"
+            ],
+            "Poster image": [
+                "Imagen de póster"
+            ],
+            "Play automatically": [
+                "Reproducir automáticamente"
+            ],
+            "Loop": [
+                "Bucle"
+            ],
+            "Background video always plays muted, with a pause control. Visitors who ask for reduced motion see the poster instead, with a play control — and the video is not downloaded until they ask for it.": [
+                "El vídeo de fondo se reproduce siempre sin sonido y con un control de pausa. Quien pide movimiento reducido ve el póster en su lugar, con un control de reproducción, y el vídeo no se descarga hasta que lo pide."
+            ],
+            "Background": [
+                "Fondo"
+            ],
+            "Overlay": [
+                "Superposición"
+            ],
+            "Enable overlay": [
+                "Activar la superposición"
+            ],
+            "Overlay type": [
+                "Tipo de superposición"
+            ],
+            "Overlay color": [
+                "Color de la superposición"
+            ],
+            "Overlay gradient": [
+                "Degradado de la superposición"
+            ],
+            "Opacity (%)": [
+                "Opacidad (%)"
+            ],
+            "Reinforce on small screens": [
+                "Reforzar en pantallas pequeñas"
+            ],
+            "Adds a flat scrim under 782px, on top of the overlay. Useful when a side gradient stops covering the text on mobile.": [
+                "Añade un velo plano por debajo de 782px, encima de la superposición. Útil cuando un degradado lateral deja de cubrir el texto en móvil."
+            ],
+            "Small-screen scrim color": [
+                "Color del velo en pantallas pequeñas"
+            ],
+            "Small-screen opacity (%)": [
+                "Opacidad en pantallas pequeñas (%)"
+            ],
+            "Layout": [
+                "Disposición"
+            ],
+            "Minimum height (vh)": [
+                "Altura mínima (vh)"
+            ],
+            "0 = automatic.": [
+                "0 = automática."
+            ],
+            "Vertical alignment": [
+                "Alineación vertical"
+            ],
+            "Top": [
+                "Arriba"
+            ],
+            "Center": [
+                "Centro"
+            ],
+            "Bottom": [
+                "Abajo"
+            ],
+            "Content width": [
+                "Ancho del contenido"
+            ],
+            "Constrained (content)": [
+                "Restringido (contenido)"
+            ],
+            "Wide": [
+                "Ancho"
+            ],
+            "Full": [
+                "Completo"
+            ],
+            "Independent of the section width. Set the section to “Full width” (toolbar) and constrain the content here.": [
+                "Independiente del ancho de la sección. Pon la sección a «Ancho completo» (barra de herramientas) y restringe aquí el contenido."
+            ],
+            "Shape dividers": [
+                "Divisores de forma"
+            ],
+            "Top divider": [
+                "Divisor superior"
+            ],
+            "Bottom divider": [
+                "Divisor inferior"
+            ],
+            "Divider color": [
+                "Color del divisor"
+            ],
+            "Divider height (px)": [
+                "Altura del divisor (px)"
+            ]
+        }
+    }
+}

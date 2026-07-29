@@ -1,0 +1,170 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "extensions/effects-editor.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_CL",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Entrance animation": [
+                "Animación de entrada"
+            ],
+            "None (clean block)": [
+                "Ninguna (bloque limpio)"
+            ],
+            "Fade up": [
+                "Aparecer subiendo"
+            ],
+            "Clip reveal": [
+                "Revelado por recorte"
+            ],
+            "Mask up": [
+                "Máscara hacia arriba"
+            ],
+            "Blur in": [
+                "Aparecer desenfocado"
+            ],
+            "Scale in": [
+                "Aparecer escalando"
+            ],
+            "Slide left": [
+                "Deslizar a la izquierda"
+            ],
+            "Slide right": [
+                "Deslizar a la derecha"
+            ],
+            "Text stagger": [
+                "Texto escalonado"
+            ],
+            "Text fill": [
+                "Relleno de texto"
+            ],
+            "Display style": [
+                "Estilo de presentación"
+            ],
+            "Solid (default)": [
+                "Sólido (por defecto)"
+            ],
+            "Outline": [
+                "Contorno"
+            ],
+            "Delay (ms)": [
+                "Retardo (ms)"
+            ],
+            "Duration (ms)": [
+                "Duración (ms)"
+            ],
+            "0 = use the theme duration (--tnt-dur-base).": [
+                "0 = usa la duración del tema (--tnt-dur-base)."
+            ],
+            "Easing curve": [
+                "Curva de aceleración"
+            ],
+            "Theme default (expo)": [
+                "Por defecto del tema (expo)"
+            ],
+            "Stagger (ms)": [
+                "Escalonado (ms)"
+            ],
+            "Cadence between words. 0 = default cadence.": [
+                "Cadencia entre palabras. 0 = cadencia por defecto."
+            ],
+            "Staggers the entrance of direct children. 0 = no stagger.": [
+                "Escalona la entrada de los hijos directos. 0 = sin escalonado."
+            ],
+            "It will animate once published (the animation runs on the front-end).": [
+                "Se animará al publicar (la animación ocurre en el front-end)."
+            ],
+            "Accent words (indices, e.g. \"2,5\")": [
+                "Palabras acentuadas (índices, p. ej. «2,5»)"
+            ],
+            "These words fill to the brand accent instead of ink. 1-based.": [
+                "Estas palabras se rellenan con el acento de la marca en vez de con la tinta. Se cuenta desde 1."
+            ],
+            "Hover effect": [
+                "Efecto al pasar el ratón"
+            ],
+            "None": [
+                "Ninguno"
+            ],
+            "Lift": [
+                "Elevar"
+            ],
+            "Glow": [
+                "Resplandor"
+            ],
+            "Tilt 3D": [
+                "Inclinación 3D"
+            ],
+            "Magnetic": [
+                "Magnético"
+            ],
+            "Underline grow": [
+                "Subrayado que crece"
+            ],
+            "Image zoom": [
+                "Zoom de imagen"
+            ],
+            "Scroll effect": [
+                "Efecto al desplazar"
+            ],
+            "Parallax": [
+                "Parallax"
+            ],
+            "Sticky pin": [
+                "Fijar al desplazar"
+            ],
+            "Reveal on scroll": [
+                "Revelar al desplazar"
+            ],
+            "Progress bar": [
+                "Barra de progreso"
+            ],
+            "Zoom on scroll": [
+                "Zoom al desplazar"
+            ],
+            "Parallax intensity": [
+                "Intensidad del parallax"
+            ],
+            "0 = no movement. Default ~20.": [
+                "0 = sin movimiento. Por defecto ~20."
+            ],
+            "Blend mode": [
+                "Modo de fusión"
+            ],
+            "Animated border": [
+                "Borde animado"
+            ],
+            "Gradient": [
+                "Degradado"
+            ],
+            "Rotating conic": [
+                "Cónico giratorio"
+            ],
+            "Border width (px)": [
+                "Grosor del borde (px)"
+            ],
+            "0 = default width (2px).": [
+                "0 = grosor por defecto (2px)."
+            ],
+            "Speed (s per loop)": [
+                "Velocidad (s por vuelta)"
+            ],
+            "0 = theme speed (--tnt-dur-slow).": [
+                "0 = velocidad del tema (--tnt-dur-slow)."
+            ],
+            "Start color (empty = theme accent)": [
+                "Color inicial (vacío = acento del tema)"
+            ],
+            "End color (empty = theme accent 2)": [
+                "Color final (vacío = acento 2 del tema)"
+            ],
+            "Tunet Effects": [
+                "Efectos Tunet"
+            ]
+        }
+    }
+}

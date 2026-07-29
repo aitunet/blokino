@@ -1,0 +1,86 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "blocks/marquee/edit.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_ES",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "No icons match.": [
+                "Ningún icono coincide."
+            ],
+            "General": [
+                "General"
+            ],
+            "Nav / UI": [
+                "Navegación / UI"
+            ],
+            "Contact": [
+                "Contacto"
+            ],
+            "Brand / Social": [
+                "Marca / Redes"
+            ],
+            "Search icons": [
+                "Buscar iconos"
+            ],
+            "Search…": [
+                "Buscar…"
+            ],
+            "Marquee": [
+                "Banda"
+            ],
+            "Speed (s per loop)": [
+                "Velocidad (s por vuelta)"
+            ],
+            "Direction": [
+                "Dirección"
+            ],
+            "Left": [
+                "Izquierda"
+            ],
+            "Right": [
+                "Derecha"
+            ],
+            "Spacing (rem)": [
+                "Espaciado (rem)"
+            ],
+            "Pause on hover": [
+                "Pausar al pasar el ratón"
+            ],
+            "The band only scrolls on the front end — here the items wrap so you can edit them. Visitors who ask for reduced motion see it still, with a play control.": [
+                "La banda solo se desplaza en el front end; aquí los elementos se reparten en varias líneas para que puedas editarlos. Quien pide movimiento reducido la ve quieta, con un control de reproducción."
+            ],
+            "Separator": [
+                "Separador"
+            ],
+            "Shape": [
+                "Forma"
+            ],
+            "None": [
+                "Ninguno"
+            ],
+            "Dot": [
+                "Punto"
+            ],
+            "Dash": [
+                "Guion"
+            ],
+            "Slash": [
+                "Barra"
+            ],
+            "Pipe": [
+                "Barra vertical"
+            ],
+            "Icon": [
+                "Icono"
+            ],
+            "Separator color": [
+                "Color del separador"
+            ]
+        }
+    }
+}

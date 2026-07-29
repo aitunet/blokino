@@ -1,0 +1,35 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "blocks/shared/repeater-control.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_CL",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Set image": [
+                "Poner imagen"
+            ],
+            "Replace image": [
+                "Reemplazar la imagen"
+            ],
+            "Remove": [
+                "Quitar"
+            ],
+            "Add item": [
+                "Añadir elemento"
+            ],
+            "Item": [
+                "Elemento"
+            ],
+            "Move up": [
+                "Subir"
+            ],
+            "Move down": [
+                "Bajar"
+            ]
+        }
+    }
+}

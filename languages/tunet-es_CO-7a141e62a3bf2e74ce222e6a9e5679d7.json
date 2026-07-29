@@ -1,0 +1,200 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "blocks/content-slider/edit.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_CO",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Inherit": [
+                "Heredar"
+            ],
+            "Left": [
+                "Izquierda"
+            ],
+            "Center": [
+                "Centro"
+            ],
+            "Right": [
+                "Derecha"
+            ],
+            "Filled": [
+                "Relleno"
+            ],
+            "Outline": [
+                "Contorno"
+            ],
+            "Text": [
+                "Texto"
+            ],
+            "Cover (fill)": [
+                "Cubrir (rellenar)"
+            ],
+            "Contain (fit)": [
+                "Contener (ajustar)"
+            ],
+            "Auto (original)": [
+                "Automático (original)"
+            ],
+            "No repeat": [
+                "Sin repetición"
+            ],
+            "Repeat": [
+                "Repetir"
+            ],
+            "Repeat X": [
+                "Repetir en X"
+            ],
+            "Repeat Y": [
+                "Repetir en Y"
+            ],
+            "Top left": [
+                "Arriba a la izquierda"
+            ],
+            "Top center": [
+                "Arriba al centro"
+            ],
+            "Top right": [
+                "Arriba a la derecha"
+            ],
+            "Center left": [
+                "Centro a la izquierda"
+            ],
+            "Center right": [
+                "Centro a la derecha"
+            ],
+            "Bottom left": [
+                "Abajo a la izquierda"
+            ],
+            "Bottom center": [
+                "Abajo al centro"
+            ],
+            "Bottom right": [
+                "Abajo a la derecha"
+            ],
+            "CTA": [
+                "Llamada a la acción"
+            ],
+            "Link (URL)": [
+                "Enlace (URL)"
+            ],
+            "Style": [
+                "Estilo"
+            ],
+            "Open in new tab": [
+                "Abrir en una pestaña nueva"
+            ],
+            "Background image": [
+                "Imagen de fondo"
+            ],
+            "Position": [
+                "Posición"
+            ],
+            "Size": [
+                "Tamaño"
+            ],
+            "Overlay (%)": [
+                "Superposición (%)"
+            ],
+            "Darkens the image so the text stays readable.": [
+                "Oscurece la imagen para que el texto siga siendo legible."
+            ],
+            "Overlay type": [
+                "Tipo de superposición"
+            ],
+            "Color": [
+                "Color"
+            ],
+            "Gradient": [
+                "Degradado"
+            ],
+            "Overlay color": [
+                "Color de la superposición"
+            ],
+            "Defaults to the theme ink color.": [
+                "Por defecto, el color de tinta del tema."
+            ],
+            "Overlay gradient": [
+                "Degradado de la superposición"
+            ],
+            "A CSS gradient over the image (for a directional scrim).": [
+                "Un degradado CSS sobre la imagen (para un velo direccional)."
+            ],
+            "Set image": [
+                "Poner imagen"
+            ],
+            "Replace image": [
+                "Reemplazar la imagen"
+            ],
+            "Title": [
+                "Título"
+            ],
+            "Title alignment": [
+                "Alineación del título"
+            ],
+            "Subtitle before title": [
+                "Subtítulo antes del título"
+            ],
+            "Subtitle": [
+                "Subtítulo"
+            ],
+            "Subtitle alignment": [
+                "Alineación del subtítulo"
+            ],
+            "Description": [
+                "Descripción"
+            ],
+            "Description alignment": [
+                "Alineación de la descripción"
+            ],
+            "Content alignment (slide)": [
+                "Alineación del contenido (diapositiva)"
+            ],
+            "Slides": [
+                "Diapositivas"
+            ],
+            "Add slide": [
+                "Añadir diapositiva"
+            ],
+            "Slide": [
+                "Diapositiva"
+            ],
+            "Carousel": [
+                "Carrusel"
+            ],
+            "Slides per view": [
+                "Diapositivas visibles"
+            ],
+            "Space between (px)": [
+                "Espacio entre ellas (px)"
+            ],
+            "Infinite loop": [
+                "Bucle infinito"
+            ],
+            "Autoplay": [
+                "Reproducción automática"
+            ],
+            "Pagination": [
+                "Paginación"
+            ],
+            "Navigation arrows": [
+                "Flechas de navegación"
+            ],
+            "Arrows outside": [
+                "Flechas por fuera"
+            ],
+            "Place the arrows in the side margins instead of over the slides.": [
+                "Coloca las flechas en los márgenes laterales en vez de encima de las diapositivas."
+            ],
+            "Content Slider": [
+                "Carrusel de contenido"
+            ],
+            "Add slides from the “Slides” panel in the block sidebar.": [
+                "Añade diapositivas desde el panel «Diapositivas» de la barra lateral del bloque."
+            ]
+        }
+    }
+}

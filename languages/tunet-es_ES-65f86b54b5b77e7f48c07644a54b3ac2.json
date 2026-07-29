@@ -1,0 +1,44 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "blocks/counter/edit.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_ES",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Counter": [
+                "Contador"
+            ],
+            "Start value": [
+                "Valor inicial"
+            ],
+            "End value": [
+                "Valor final"
+            ],
+            "Duration (ms)": [
+                "Duración (ms)"
+            ],
+            "0 = no animation (shows the final value).": [
+                "0 = sin animación (muestra el valor final)."
+            ],
+            "Decimals": [
+                "Decimales"
+            ],
+            "Thousands separator": [
+                "Separador de miles"
+            ],
+            "Prefix": [
+                "Prefijo"
+            ],
+            "Suffix": [
+                "Sufijo"
+            ],
+            "e.g. +, %, K, M": [
+                "p. ej. +, %, K, M"
+            ]
+        }
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "blocks/badge/edit.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_VE",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Badge": [
+                "Distintivo"
+            ],
+            "Caption (repeat with · )": [
+                "Texto (repítelo con · )"
+            ],
+            "Link URL": [
+                "URL del enlace"
+            ],
+            "Seconds per turn": [
+                "Segundos por vuelta"
+            ],
+            "Reverse direction": [
+                "Invertir la dirección"
+            ]
+        }
+    }
+}

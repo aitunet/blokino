@@ -1,0 +1,53 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "blocks/icon/edit.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_AR",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "General": [
+                "General"
+            ],
+            "Nav / UI": [
+                "Navegación / UI"
+            ],
+            "Contact": [
+                "Contacto"
+            ],
+            "Brand / Social": [
+                "Marca / Redes"
+            ],
+            "No icons match.": [
+                "Ningún icono coincide."
+            ],
+            "Icon": [
+                "Icono"
+            ],
+            "Search icons": [
+                "Buscar iconos"
+            ],
+            "Search…": [
+                "Buscar…"
+            ],
+            "Size & label": [
+                "Tamaño y etiqueta"
+            ],
+            "Size (px)": [
+                "Tamaño (px)"
+            ],
+            "Stroke width": [
+                "Grosor del trazo"
+            ],
+            "Accessibility label": [
+                "Etiqueta de accesibilidad"
+            ],
+            "Leave empty if the icon is purely decorative.": [
+                "Déjalo vacío si el icono es solo decorativo."
+            ]
+        }
+    }
+}

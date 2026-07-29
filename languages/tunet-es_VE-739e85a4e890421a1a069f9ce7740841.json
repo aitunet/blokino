@@ -1,0 +1,77 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "blocks/testimonials/edit.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_VE",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Carousel": [
+                "Carrusel"
+            ],
+            "Grid": [
+                "Rejilla"
+            ],
+            "Set avatar": [
+                "Poner avatar"
+            ],
+            "Replace avatar": [
+                "Reemplazar el avatar"
+            ],
+            "Rating (0–5)": [
+                "Valoración (0–5)"
+            ],
+            "Name": [
+                "Nombre"
+            ],
+            "Role · Company": [
+                "Puesto · Empresa"
+            ],
+            "Quote": [
+                "Cita"
+            ],
+            "Testimonials": [
+                "Testimonios"
+            ],
+            "Layout": [
+                "Disposición"
+            ],
+            "Columns": [
+                "Columnas"
+            ],
+            "Slides per view": [
+                "Diapositivas visibles"
+            ],
+            "Space between (px)": [
+                "Espacio entre ellas (px)"
+            ],
+            "Infinite loop": [
+                "Bucle infinito"
+            ],
+            "Autoplay": [
+                "Reproducción automática"
+            ],
+            "Pagination": [
+                "Paginación"
+            ],
+            "Navigation arrows": [
+                "Flechas de navegación"
+            ],
+            "Items": [
+                "Elementos"
+            ],
+            "Add testimonial": [
+                "Añadir testimonio"
+            ],
+            "Testimonial": [
+                "Testimonio"
+            ],
+            "Add testimonials from the “Items” panel in the block sidebar.": [
+                "Añade testimonios desde el panel «Elementos» de la barra lateral del bloque."
+            ]
+        }
+    }
+}
