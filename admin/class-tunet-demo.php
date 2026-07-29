@@ -204,6 +204,33 @@ class Tunet_Core_Demo {
 			return 0;
 		}
 
+		/*
+		 * Contención: esto copia un archivo del disco a la Biblioteca de medios, así
+		 * que la ruta no puede salir del theme. Hoy los $relpath vienen del escaneo de
+		 * assets/img y del manifest (comprobado: son los dos únicos orígenes), o sea
+		 * que no son alcanzables desde una petición; la guarda es para que siga siendo
+		 * verdad si mañana alguien pasa por aquí un valor de otro sitio. Un `..` en la
+		 * ruta convertiría esta función en una fuga de archivos arbitrarios: copiaría
+		 * p. ej. wp-config.php a uploads/ y lo publicaría como adjunto.
+		 */
+		$real  = realpath( $src );
+		$bases = array_filter(
+			array(
+				realpath( get_stylesheet_directory() ),
+				realpath( get_template_directory() ),
+			)
+		);
+		$inside = false;
+		foreach ( $bases as $base ) {
+			if ( $real && 0 === strpos( $real, $base . DIRECTORY_SEPARATOR ) ) {
+				$inside = true;
+				break;
+			}
+		}
+		if ( ! $inside ) {
+			return 0;
+		}
+
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 		require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -219,9 +246,21 @@ class Tunet_Core_Demo {
 			return 0;
 		}
 
+		/*
+		 * El tipo se comprueba de verdad, no se adivina. Antes, si wp_check_filetype()
+		 * no reconocía el archivo, se registraba como 'image/webp' por defecto: un
+		 * archivo que no fuera una imagen entraba en la Biblioteca ANUNCIÁNDOSE como
+		 * imagen. Ahora se exige un mime de imagen permitido y, si no lo es, se borra
+		 * la copia y se aborta — el importer se salta ese archivo (ya tolera fallos),
+		 * que es preferible a dejar basura publicada con un tipo falso.
+		 */
 		$filetype = wp_check_filetype( $dest, null );
+		if ( empty( $filetype['type'] ) || 0 !== strpos( $filetype['type'], 'image/' ) ) {
+			wp_delete_file( $dest );
+			return 0;
+		}
 		$attach   = array(
-			'post_mime_type' => $filetype['type'] ? $filetype['type'] : 'image/webp',
+			'post_mime_type' => $filetype['type'],
 			'post_title'     => sanitize_file_name( pathinfo( $filename, PATHINFO_FILENAME ) ),
 			'post_status'    => 'inherit',
 		);
@@ -388,13 +427,62 @@ class Tunet_Core_Demo {
 	 * @return string
 	 */
 	public function expand_pattern_raw( $slug, $seen = array() ) {
-		$name = preg_replace( '#^[^/]+/#', '', $slug ); // strip 'ember/'
+		$name = preg_replace( '#^[^/]+/#', '', (string) $slug ); // strip 'ember/'
+
+		/*
+		 * ★ CONTENCIÓN DE RUTA — esto termina en un `include`, o sea en EJECUCIÓN de
+		 * PHP, así que el nombre no puede salir de patterns/.
+		 *
+		 * Antes solo se quitaba el primer segmento con un preg_replace y se
+		 * concatenaba: un slug tipo `tema/../../../uploads/2026/07/algo` se convertía
+		 * en `patterns/../../../uploads/...php` y se ejecutaba. Hoy el slug SOLO viene
+		 * del manifest del theme activo —comprobado rastreando los callers: step_pages()
+		 * y la recursión de wp:pattern—, así que no es alcanzable desde una petición y
+		 * un theme ya puede ejecutar PHP por su cuenta. Pero:
+		 *   (a) el plugin va a la revisión de wp.org, donde un `include` con ruta sin
+		 *       normalizar es rechazo directo, y con razón;
+		 *   (b) el admin YA importa JSON (handle_import). El día que un manifest llegue
+		 *       por ahí, esto pasa de inofensivo a RCE sin que nadie toque esta función.
+		 * Se arregla ahora, mientras el coste es una guarda de seis líneas.
+		 *
+		 * Dos capas a propósito: el charset estricto ataja el caso obvio, y la
+		 * comprobación con realpath() cubre lo que no se ve venir (symlinks, //,
+		 * codificaciones raras). La segunda sola bastaría; la primera hace que el fallo
+		 * sea legible en vez de misterioso.
+		 */
+		if ( ! is_string( $name ) || ! preg_match( '/^[a-z0-9][a-z0-9_-]*$/i', $name ) ) {
+			return '';
+		}
 		$file = get_theme_file_path( 'patterns/' . $name . '.php' );
 		if ( ! file_exists( $file ) ) {
 			return '';
 		}
+		/*
+		 * Contra el child Y el padre: get_theme_file_path() resuelve hijo→padre, así
+		 * que un pattern legítimo del padre vive fuera del patterns/ del child.
+		 * Comprobar solo uno rompería los themes con child (que son TODOS los nuestros,
+		 * §12.4) en cuanto el child tuviera su propia carpeta patterns/.
+		 */
+		$real  = realpath( $file );
+		$bases = array_filter(
+			array(
+				realpath( get_stylesheet_directory() . '/patterns' ),
+				realpath( get_template_directory() . '/patterns' ),
+			)
+		);
+		$inside = false;
+		foreach ( $bases as $base ) {
+			if ( $real && 0 === strpos( $real, $base . DIRECTORY_SEPARATOR ) ) {
+				$inside = true;
+				break;
+			}
+		}
+		if ( ! $inside ) {
+			return '';
+		}
+
 		ob_start();
-		include $file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+		include $real; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable -- ruta contenida en patterns/ del theme (guarda arriba).
 		$content = (string) ob_get_clean();
 
 		$seen[] = $slug;

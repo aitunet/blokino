@@ -115,8 +115,18 @@ class Tunet_Core_Content {
 					'show_in_rest' => true,
 					// The website field is a URL → sanitize as one (esc_url_raw); the rest as text.
 					'sanitize_callback' => ( 'tunet_project_website' === $key ) ? 'sanitize_url' : 'sanitize_text_field',
-					'auth_callback'     => function () {
-						return current_user_can( 'edit_posts' );
+					/*
+					 * Capability POR OBJETO, no genérica. Antes era
+					 * `current_user_can( 'edit_posts' )`, que ignora el post y responde lo
+					 * mismo para cualquiera: quien pudiera editar UN post quedaba
+					 * autorizado a escribir este meta en CUALQUIER otro. En el flujo REST
+					 * normal no se llegaba a explotar —el controlador comprueba antes
+					 * `edit_post` sobre ese ID concreto—, pero eso deja la segunda puerta
+					 * abierta y dependiendo de que la primera nunca falle. El idioma
+					 * correcto usa el $object_id que WP ya pasa al callback.
+					 */
+					'auth_callback'     => function ( $allowed, $meta_key, $object_id ) {
+						return current_user_can( 'edit_post', (int) $object_id );
 					},
 				)
 			);

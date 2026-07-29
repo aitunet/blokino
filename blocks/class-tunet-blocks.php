@@ -126,6 +126,52 @@ if ( ! function_exists( 'tunet_core_safe_css_color' ) ) {
 	}
 }
 
+if ( ! function_exists( 'tunet_core_safe_css_gradient' ) ) {
+	/**
+	 * Valida un valor de gradiente CSS antes de emitirlo en un inline-style.
+	 *
+	 * Existe porque el motor tenía DOS criterios distintos para lo mismo, y el más
+	 * flojo estaba en el sitio con más uso:
+	 *   - `tunet/section` concatenaba `overlayGradient` TAL CUAL, sin comprobar ni
+	 *     que fuera un string. Con un atributo array, PHP emite el aviso "Array to
+	 *     string conversion" y el CSS acaba con `--tf-sec-overlay:Array`; en un sitio
+	 *     con WP_DEBUG_DISPLAY el aviso se imprime dentro de la página.
+	 *   - `tunet/content-slider` sí quitaba los `;` y exigía ver `gradient(`.
+	 *   - Y el runtime (sanitize_css_color) usa regex ANCLADAS, que es lo correcto.
+	 *
+	 * Hoy la sección está cubierta por WordPress: get_block_wrapper_attributes()
+	 * pasa el style por safecss_filter_attr() (comprobado en
+	 * class-wp-block-supports.php), así que una declaración colada con `;` se cae
+	 * ahí. Pero el slider emite su style A MANO, solo con esc_attr() —lo dice su
+	 * propio comentario—, así que la red de WP no siempre está debajo. Un helper
+	 * único evita que la protección dependa de por dónde salga el valor.
+	 *
+	 * Criterio: la función completa y anclada, con la lista de gradientes válidos, y
+	 * sin `;` ni caracteres que permitan cerrar la declaración o el atributo.
+	 *
+	 * @param mixed $value Valor tal cual viene del atributo del block.
+	 * @return string El gradiente si es válido, '' si no (decide el llamador).
+	 */
+	function tunet_core_safe_css_gradient( $value ) {
+		if ( ! is_string( $value ) ) {
+			return '';
+		}
+		$value = trim( $value );
+		if ( '' === $value ) {
+			return '';
+		}
+		// Ni terminadores de declaración ni salidas del atributo o del bloque CSS.
+		if ( preg_match( '/[;{}<>"\']/', $value ) ) {
+			return '';
+		}
+		// Solo funciones de gradiente reales, y el valor ENTERO tiene que ser una.
+		if ( ! preg_match( '/^(?:repeating-)?(?:linear|radial|conic)-gradient\(\s*[^()]*(?:\([^()]*\)[^()]*)*\)$/i', $value ) ) {
+			return '';
+		}
+		return $value;
+	}
+}
+
 /**
  * Registra (en el futuro) los blocks propios del motor.
  */

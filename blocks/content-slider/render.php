@@ -88,14 +88,19 @@ foreach ( $tnt_items as $tnt_item ) {
 		$tnt_ov = isset( $tnt_item['bgOverlay'] ) ? max( 0, min( 90, (int) $tnt_item['bgOverlay'] ) ) : 40;
 		if ( $tnt_ov > 0 ) {
 			$tnt_ov_type  = isset( $tnt_item['bgOverlayType'] ) ? sanitize_key( $tnt_item['bgOverlayType'] ) : 'color';
-				// Overlay en gradiente (scrim direccional): style manual → NO pasa por safecss,
-				// admite gradiente completo; se quita ';' y se valida que sea un gradient().
-				$tnt_ov_grad  = '';
-				if ( 'gradient' === $tnt_ov_type && ! empty( $tnt_item['bgOverlayGradient'] ) && is_string( $tnt_item['bgOverlayGradient'] ) ) {
-					$tnt_grad_maybe = str_replace( ';', '', $tnt_item['bgOverlayGradient'] );
-					if ( false !== strpos( $tnt_grad_maybe, 'gradient(' ) ) {
-						$tnt_ov_grad = $tnt_grad_maybe;
-					}
+				/*
+				 * Overlay en gradiente (scrim direccional). Este style se emite A MANO,
+				 * solo con esc_attr(), así que NO pasa por safecss_filter_attr(): aquí
+				 * no hay red de WordPress debajo y la validación es la única defensa.
+				 * Antes bastaba con quitar los ';' y encontrar un 'gradient(' en
+				 * cualquier parte de la cadena; ahora se exige que el valor ENTERO sea
+				 * una función de gradiente, con el MISMO helper que usa tunet/section:
+				 * un solo criterio para los dos sitios, en vez de uno flojo y otro
+				 * estricto según por dónde saliera el valor.
+				 */
+				$tnt_ov_grad = '';
+				if ( 'gradient' === $tnt_ov_type && ! empty( $tnt_item['bgOverlayGradient'] ) ) {
+					$tnt_ov_grad = tunet_core_safe_css_gradient( $tnt_item['bgOverlayGradient'] );
 				}
 					/*
 					 * `sanitize_hex_color()` devolvía '' con cualquier rgba(), y el color

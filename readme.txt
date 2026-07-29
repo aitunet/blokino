@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, gutenberg, carousel
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.21
+Stable tag: 0.1.22
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,11 @@ Yes. The runtime honors `prefers-reduced-motion: reduce`, disabling motion while
 Effects load conditionally (only when a page uses them) and heavy libraries load on demand. The plugin follows WordPress standards for escaping, sanitization, nonces and internationalization.
 
 == Changelog ==
+
+= 0.1.22 =
+* Hardening (security review). The demo importer now confines the pattern files it loads to the active theme's `patterns` folder, and the images it copies into the Media Library to the theme's own directory, instead of trusting the path it was given. A file that is not an image is no longer added to the library labelled as one.
+* Hardening: gradient overlays in Section and the Slider are validated with a single strict rule before being written to an inline style — the Slider builds its style by hand, so WordPress's own filter was not always underneath. An unusable value now degrades to transparent rather than leaving the overlay undefined, which used to paint an opaque panel over the background photo.
+* Project meta now checks permissions against the post being edited rather than a blanket "can edit posts", so the REST check no longer relies on an earlier gate to hold.
 
 = 0.1.21 =
 * Counter: the prefix/suffix no longer takes the theme's accent colour by default. It is part of the figure, not decoration, and with a dark accent over a dark band it disappeared. It now follows the number's colour, so it can never be less readable than the figure it belongs to. A theme can still opt into the accent with the new `--tnt-counter-affix-color` variable.

@@ -78,13 +78,18 @@ if ( 'mesh' === $tnt_bg_type ) {
 }
 if ( $tnt_overlay ) {
 	$tnt_ov_type = isset( $attributes['overlayType'] ) ? sanitize_key( $attributes['overlayType'] ) : 'color';
-	if ( 'gradient' === $tnt_ov_type && ! empty( $attributes['overlayGradient'] ) ) {
+	$tnt_ov_grad = ( 'gradient' === $tnt_ov_type && ! empty( $attributes['overlayGradient'] ) )
+		? tunet_core_safe_css_gradient( $attributes['overlayGradient'] )
+		: '';
+	if ( '' !== $tnt_ov_grad ) {
 		// Overlay en gradiente: --tf-sec-overlay acepta un valor de background
 		// (color o gradiente) — el CSS ya hace background:var(--tf-sec-overlay).
 		// OJO: WP filtra el inline-style (safecss_filter_attr) → los stops del
 		// gradiente deben ser rgba()/hex; var() y color-mix() dentro del gradiente
 		// se descartan (el GradientPicker produce rgba, así que el sidebar va bien).
-		$tnt_vars[] = '--tf-sec-overlay:' . $attributes['overlayGradient'];
+		// El valor pasa por el validador compartido: antes se concatenaba tal cual, sin
+		// comprobar ni que fuera un string (un atributo array emitía "Array").
+		$tnt_vars[] = '--tf-sec-overlay:' . $tnt_ov_grad;
 	} elseif ( ! empty( $attributes['overlayColor'] ) ) {
 		// Si el color es irrepresentable en un inline-style, se degrada a
 		// `transparent` A PROPÓSITO: sin esta línea el valor desaparecería y el CSS
@@ -92,6 +97,17 @@ if ( $tnt_overlay ) {
 		// que tapa la foto. Perder el scrim es malo; tapar la imagen entera es peor.
 		$tnt_ov_color = tunet_core_safe_css_color( $attributes['overlayColor'] );
 		$tnt_vars[]   = '--tf-sec-overlay:' . ( '' !== $tnt_ov_color ? $tnt_ov_color : 'transparent' );
+	} else {
+		/*
+		 * Overlay activado pero sin ningún valor utilizable (tipo gradiente con un
+		 * gradiente que no valida, y sin color de respaldo). Hay que emitir
+		 * `transparent` EXPLÍCITAMENTE: si la variable se queda sin definir, el CSS
+		 * cae a `var(--tf-sec-overlay, var(--tnt-color-bg))` A LA OPACIDAD PEDIDA, o
+		 * sea un panel opaco del color de fondo tapando la foto entera. Es
+		 * exactamente el bug del 0.1.18, y al meter la validación del gradiente se
+		 * volvía a abrir esa puerta por el otro lado.
+		 */
+		$tnt_vars[] = '--tf-sec-overlay:transparent';
 	}
 	$tnt_op = isset( $attributes['overlayOpacity'] ) ? max( 0, min( 100, (int) $attributes['overlayOpacity'] ) ) : 40;
 	$tnt_vars[] = '--tf-sec-overlay-op:' . ( $tnt_op / 100 );
