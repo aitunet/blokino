@@ -1493,6 +1493,281 @@ msgctxt "admin menu"
 msgid "Work"
 msgstr "Trabajo"
 
+#: blocks/content-slider/block.json:9
+msgctxt "block description"
+msgid "A structured slider: each slide has an image, title, subtitle, description and CTAs — edited in the sidebar."
+msgstr "Un carrusel estructurado: cada diapositiva lleva imagen, título, subtítulo, descripción y llamadas a la acción, y se edita desde la barra lateral."
+
+#: blocks/icon/block.json:9
+msgctxt "block description"
+msgid "An inline SVG icon from a curated stroke set. Inherits color (currentColor), so it's theme-token friendly — no raw HTML needed."
+msgstr "Un icono SVG en línea, de un set de trazo curado. Hereda el color (currentColor), así que encaja con los tokens del tema sin escribir HTML a mano."
+
+#: blocks/before-after/block.json:9
+msgctxt "block description"
+msgid "Image comparison with a draggable divider (before / after)."
+msgstr "Comparador de imágenes con un divisor que se arrastra (antes / después)."
+
+#: blocks/marquee/block.json:9
+msgctxt "block description"
+msgid "Infinite scrolling band of text or images (logos, claims, metrics). Content is inner blocks; duplicated for a seamless loop."
+msgstr "Banda infinita de texto o imágenes (logos, claims, métricas). El contenido son bloques internos, que se duplican para que el bucle no tenga costura."
+
+#: blocks/counter/block.json:9
+msgctxt "block description"
+msgid "Number that counts up to its value when it enters the viewport. Great for metrics and social proof."
+msgstr "Un número que cuenta hasta su valor al entrar en pantalla. Va bien para métricas y prueba social."
+
+#: blocks/badge/block.json:9
+msgctxt "block description"
+msgid "Rotating circular badge button — caption text on a ring around a center arrow. Links anywhere."
+msgstr "Botón circular giratorio: un texto en un anillo alrededor de una flecha central. Puede enlazar a donde quieras."
+
+#: blocks/section/block.json:9
+msgctxt "block description"
+msgid "Section with advanced backgrounds (animated gradient, mesh, image, video), overlay and shape dividers. The base for premium heroes."
+msgstr "Sección con fondos avanzados (degradado animado, malla, imagen, vídeo), superposición y divisores de forma. La base de los heroes premium."
+
+#: blocks/brand/block.json:9
+msgctxt "block description"
+msgid "Site brand: shows the logo if set (main or alt, managed in Tunet Core → Logos or the native Site Logo), otherwise the site title as text. In Automatic mode the alternative logo takes over on dark palettes. Linked to Home. Replaces the site-logo + site-title pair in headers."
+msgstr "La marca del sitio: muestra el logo si lo hay (principal o alternativo, gestionados en Tunet Core → Logos o en el Logo del sitio nativo) y, si no, el título del sitio como texto. En modo automático el logo alternativo toma el relevo en las paletas oscuras. Enlaza al inicio. Sustituye a la pareja logo-del-sitio + título-del-sitio de las cabeceras."
+
+#: blocks/testimonials/block.json:9
+msgctxt "block description"
+msgid "Typed testimonials in a carousel or grid. Each item has an avatar, star rating, quote, name and role."
+msgstr "Testimonios estructurados en carrusel o rejilla. Cada uno lleva avatar, valoración con estrellas, cita, nombre y puesto."
+
+#: blocks/before-after/block.json:10
+msgctxt "block keyword"
+msgid "after"
+msgstr "después"
+
+#: blocks/section/block.json:10
+msgctxt "block keyword"
+msgid "background"
+msgstr "fondo"
+
+#: blocks/badge/block.json:10
+msgctxt "block keyword"
+msgid "badge"
+msgstr "distintivo"
+
+#: blocks/marquee/block.json:10
+msgctxt "block keyword"
+msgid "band"
+msgstr "franja"
+
+#: blocks/before-after/block.json:10
+msgctxt "block keyword"
+msgid "before"
+msgstr "antes"
+
+#: blocks/brand/block.json:10
+msgctxt "block keyword"
+msgid "brand"
+msgstr "marca"
+
+#: blocks/badge/block.json:10
+msgctxt "block keyword"
+msgid "button"
+msgstr "botón"
+
+#: blocks/content-slider/block.json:10 blocks/testimonials/block.json:10
+msgctxt "block keyword"
+msgid "carousel"
+msgstr "carrusel"
+
+#: blocks/badge/block.json:10
+msgctxt "block keyword"
+msgid "circular"
+msgstr "circular"
+
+#: blocks/before-after/block.json:10
+msgctxt "block keyword"
+msgid "comparison"
+msgstr "comparación"
+
+#: blocks/content-slider/block.json:10
+msgctxt "block keyword"
+msgid "content"
+msgstr "contenido"
+
+#: blocks/counter/block.json:10
+msgctxt "block keyword"
+msgid "counter"
+msgstr "contador"
+
+#: blocks/badge/block.json:10
+msgctxt "block keyword"
+msgid "cta"
+msgstr "cta"
+
+#: blocks/section/block.json:10
+msgctxt "block keyword"
+msgid "divider"
+msgstr "divisor"
+
+#: blocks/icon/block.json:10
+msgctxt "block keyword"
+msgid "glyph"
+msgstr "glifo"
+
+#: blocks/section/block.json:10
+msgctxt "block keyword"
+msgid "gradient"
+msgstr "degradado"
+
+#: blocks/brand/block.json:10
+msgctxt "block keyword"
+msgid "header"
+msgstr "cabecera"
+
+#: blocks/content-slider/block.json:10 blocks/section/block.json:10
+msgctxt "block keyword"
+msgid "hero"
+msgstr "hero"
+
+#: blocks/icon/block.json:10
+msgctxt "block keyword"
+msgid "icon"
+msgstr "icono"
+
+#: blocks/brand/block.json:10
+msgctxt "block keyword"
+msgid "logo"
+msgstr "logo"
+
+#: blocks/marquee/block.json:10
+msgctxt "block keyword"
+msgid "logos"
+msgstr "logos"
+
+#: blocks/marquee/block.json:10
+msgctxt "block keyword"
+msgid "marquee"
+msgstr "banda"
+
+#: blocks/section/block.json:10
+msgctxt "block keyword"
+msgid "mesh"
+msgstr "malla"
+
+#: blocks/counter/block.json:10
+msgctxt "block keyword"
+msgid "metric"
+msgstr "métrica"
+
+#: blocks/counter/block.json:10
+msgctxt "block keyword"
+msgid "number"
+msgstr "número"
+
+#: blocks/testimonials/block.json:10
+msgctxt "block keyword"
+msgid "quotes"
+msgstr "citas"
+
+#: blocks/testimonials/block.json:10
+msgctxt "block keyword"
+msgid "reviews"
+msgstr "reseñas"
+
+#: blocks/badge/block.json:10
+msgctxt "block keyword"
+msgid "rotate"
+msgstr "girar"
+
+#: blocks/marquee/block.json:10
+msgctxt "block keyword"
+msgid "scroll"
+msgstr "desplazamiento"
+
+#: blocks/section/block.json:10
+msgctxt "block keyword"
+msgid "section"
+msgstr "sección"
+
+#: blocks/brand/block.json:10
+msgctxt "block keyword"
+msgid "site title"
+msgstr "título del sitio"
+
+#: blocks/before-after/block.json:10 blocks/content-slider/block.json:10
+msgctxt "block keyword"
+msgid "slider"
+msgstr "slider"
+
+#: blocks/counter/block.json:10
+msgctxt "block keyword"
+msgid "stats"
+msgstr "estadísticas"
+
+#: blocks/icon/block.json:10
+msgctxt "block keyword"
+msgid "svg"
+msgstr "svg"
+
+#: blocks/icon/block.json:10
+msgctxt "block keyword"
+msgid "symbol"
+msgstr "símbolo"
+
+#: blocks/testimonials/block.json:10
+msgctxt "block keyword"
+msgid "testimonials"
+msgstr "testimonios"
+
+#: blocks/marquee/block.json:10
+msgctxt "block keyword"
+msgid "ticker"
+msgstr "ticker"
+
+#: blocks/badge/block.json:6
+msgctxt "block title"
+msgid "Tunet Badge"
+msgstr "Tunet Distintivo"
+
+#: blocks/before-after/block.json:6
+msgctxt "block title"
+msgid "Tunet Before / After"
+msgstr "Tunet Antes / Después"
+
+#: blocks/brand/block.json:6
+msgctxt "block title"
+msgid "Tunet Brand"
+msgstr "Tunet Marca"
+
+#: blocks/content-slider/block.json:6
+msgctxt "block title"
+msgid "Tunet Content Slider"
+msgstr "Tunet Carrusel de contenido"
+
+#: blocks/counter/block.json:6
+msgctxt "block title"
+msgid "Tunet Counter"
+msgstr "Tunet Contador"
+
+#: blocks/icon/block.json:6
+msgctxt "block title"
+msgid "Tunet Icon"
+msgstr "Tunet Icono"
+
+#: blocks/marquee/block.json:6
+msgctxt "block title"
+msgid "Tunet Marquee"
+msgstr "Tunet Banda"
+
+#: blocks/section/block.json:6
+msgctxt "block title"
+msgid "Tunet Section"
+msgstr "Tunet Sección"
+
+#: blocks/testimonials/block.json:6
+msgctxt "block title"
+msgid "Tunet Testimonials"
+msgstr "Tunet Testimonios"
+
 #: blocks/counter/edit.js:96
 msgid "e.g. +, %, K, M"
 msgstr "p. ej. +, %, K, M"
