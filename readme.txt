@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, gutenberg, carousel
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.22
+Stable tag: 0.1.23
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ Yes. The runtime honors `prefers-reduced-motion: reduce`, disabling motion while
 Effects load conditionally (only when a page uses them) and heavy libraries load on demand. The plugin follows WordPress standards for escaping, sanitization, nonces and internationalization.
 
 == Changelog ==
+
+= 0.1.23 =
+* The admin menu now carries its own mark — a core with the T set in the counterform — instead of a borrowed WordPress icon. It follows your admin colour scheme, so it lights up with the menu item instead of staying grey while the label turns white.
 
 = 0.1.22 =
 * Hardening (security review). The demo importer now confines the pattern files it loads to the active theme's `patterns` folder, and the images it copies into the Media Library to the theme's own directory, instead of trusting the path it was given. A file that is not an image is no longer added to the library labelled as one.

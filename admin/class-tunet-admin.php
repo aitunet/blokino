@@ -267,9 +267,86 @@ class Tunet_Core_Admin {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'admin_head', array( $this, 'menu_icon_style' ) );
 		add_action( 'admin_post_tunet_save_settings', array( $this, 'handle_save_settings' ) );
 		add_action( 'admin_post_tunet_export', array( $this, 'handle_export' ) );
 		add_action( 'admin_post_tunet_import', array( $this, 'handle_import' ) );
+	}
+
+	/**
+	 * La forma de la marca: el núcleo con la T en contraforma.
+	 *
+	 * Un solo sitio con el `d` del path, para que el data-URI del menú y la máscara
+	 * de menu_icon_style() no puedan divergir. La fuente legible, con el porqué del
+	 * diseño y las mediciones de color, está en admin/img/icon-tunet-core.svg; aquí
+	 * va en línea porque add_menu_page() necesita el valor al registrar el menú y
+	 * leer el archivo en cada carga del admin sería una lectura de disco por página
+	 * para 300 bytes.
+	 */
+	const ICON_PATH = 'M7.5 2.5h9a5 5 0 0 1 5 5v9a5 5 0 0 1-5 5h-9a5 5 0 0 1-5-5v-9a5 5 0 0 1 5-5zM6.8 6.6h10.4v3.3h-3.6v8.7h-3.2V9.9H6.8z';
+
+	/**
+	 * La marca como data-URI para add_menu_page().
+	 *
+	 * El color va clavado al gris del menú de WP (#a7aaad) porque un icono pasado por
+	 * data-URI se pinta como background-image y WP NO lo recolorea: ese hex es el
+	 * estado de reposo. El activo/hover lo resuelve menu_icon_style().
+	 *
+	 * @return string
+	 */
+	private static function menu_icon_data_uri() {
+		$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">'
+			. '<path fill-rule="evenodd" fill="#a7aaad" d="' . self::ICON_PATH . '"/>'
+			. '</svg>';
+		// base64 y no percent-encoding: es la convención de WP para iconos de menú y
+		// evita tener que acertar con el escapado de #, <, > y las comillas.
+		return 'data:image/svg+xml;base64,' . base64_encode( $svg ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- data-URI, no ofuscación.
+	}
+
+	/**
+	 * Hace que el icono del menú siga el esquema de color del admin.
+	 *
+	 * Un icono de menú pasado como data-URI se pinta con background-image y WordPress
+	 * no lo recolorea: se queda gris cuando el ítem está activo o con el ratón encima,
+	 * mientras la etiqueta se pone blanca. Se ve descuidado, y es la razón por la que
+	 * tantos plugins tienen el icono apagado en su propia pantalla.
+	 *
+	 * Solución: repintarlo con una máscara sobre `currentColor`, que sí hereda el
+	 * color del ítem (gris → blanco). Va detrás de un @supports y solo entonces se
+	 * oculta el background, de modo que un navegador sin máscaras conserva el icono
+	 * original en lugar de quedarse sin ninguno.
+	 *
+	 * Se emite en admin_head y no en admin.css porque ese archivo solo se encola en
+	 * las pantallas del plugin, y el icono del menú sale en TODAS.
+	 */
+	public function menu_icon_style() {
+		// La máscara usa el alfa, así que el color del path da igual: negro = opaco.
+		$mask = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' fill='%23000' d='"
+			. self::ICON_PATH . "'/%3E%3C/svg%3E\")";
+		$sel  = '#adminmenu #toplevel_page_' . self::MENU_SLUG . ' .wp-menu-image';
+		?>
+		<style id="tunet-core-menu-icon">
+			@supports ((-webkit-mask-image: <?php echo $mask; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>) or (mask-image: <?php echo $mask; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>)) {
+				<?php echo esc_html( $sel ); ?> { background-image: none !important; }
+				<?php echo esc_html( $sel ); ?>::before {
+					content: "";
+					display: block;
+					width: 20px;
+					height: 20px;
+					margin: 6px auto 0;
+					background-color: currentColor;
+					-webkit-mask-image: <?php echo $mask; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
+					mask-image: <?php echo $mask; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
+					-webkit-mask-repeat: no-repeat;
+					mask-repeat: no-repeat;
+					-webkit-mask-position: center;
+					mask-position: center;
+					-webkit-mask-size: 20px 20px;
+					mask-size: 20px 20px;
+				}
+			}
+		</style>
+		<?php
 	}
 
 	/**
@@ -282,7 +359,7 @@ class Tunet_Core_Admin {
 			self::CAPABILITY,
 			self::MENU_SLUG,
 			array( $this, 'render_settings_page' ),
-			'dashicons-superhero',
+			self::menu_icon_data_uri(),
 			59
 		);
 
