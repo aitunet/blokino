@@ -333,7 +333,15 @@ class Tunet_Core_Admin {
 					display: block;
 					width: 20px;
 					height: 20px;
-					margin: 6px auto 0;
+					/*
+					 * SIN margin vertical: WP ya centra los iconos del menú con
+					 * `padding: 7px 0` sobre un contenedor de 34px (7+20+7=34, centro
+					 * exacto), y esa regla también aplica aquí. Un margen propio SE SUMA
+					 * a ese padding y baja la marca respecto a todos los dashicons
+					 * vecinos — medido: con `margin-top:6px` el centro salía a 23px
+					 * cuando el de los demás está a 17px. Solo `auto` horizontal.
+					 */
+					margin: 0 auto;
 					background-color: currentColor;
 					-webkit-mask-image: <?php echo $mask; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
 					mask-image: <?php echo $mask; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
