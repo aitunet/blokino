@@ -54,9 +54,9 @@ class Tunet_Core_Extensions {
 			true
 		);
 
-		// i18n del lado JS (cadenas con dominio 'tunet').
+		// i18n del lado JS (cadenas con dominio 'tunet-core').
 		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( self::EDITOR_HANDLE, 'tunet', TUNET_CORE_PATH . 'languages' );
+			wp_set_script_translations( self::EDITOR_HANDLE, 'tunet-core', TUNET_CORE_PATH . 'languages' );
 		}
 	}
 }

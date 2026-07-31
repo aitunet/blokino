@@ -241,7 +241,7 @@ class Tunet_Core_Blocks {
 		// Este script NO se registra desde un block.json, así que nadie le cablea las
 		// traducciones: hay que declararlas aquí o sus labels salen siempre en inglés.
 		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( 'tunet-repeater-control', 'tunet', TUNET_CORE_PATH . 'languages' );
+			wp_set_script_translations( 'tunet-repeater-control', 'tunet-core', TUNET_CORE_PATH . 'languages' );
 		}
 
 		$css_abs = TUNET_CORE_PATH . 'blocks/shared/repeater.css';
@@ -331,7 +331,7 @@ class Tunet_Core_Blocks {
 				continue;
 			}
 			foreach ( (array) $type->editor_script_handles as $handle ) {
-				wp_set_script_translations( $handle, 'tunet', $langs );
+				wp_set_script_translations( $handle, 'tunet-core', $langs );
 			}
 		}
 	}

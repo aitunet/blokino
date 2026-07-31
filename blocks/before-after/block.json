@@ -8,7 +8,7 @@
   "icon": "image-flip-horizontal",
   "description": "Image comparison with a draggable divider (before / after).",
   "keywords": ["before", "after", "comparison", "slider"],
-  "textdomain": "tunet",
+  "textdomain": "tunet-core",
   "supports": {
     "html": false,
     "anchor": true,

@@ -10,7 +10,7 @@
  * Author URI:        https://tunetdesign.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       tunet
+ * Text Domain:       tunet-core
  * Domain Path:       /languages
  *
  * @package Tunet\Core
@@ -81,8 +81,18 @@ final class Tunet_Core {
 	 * Constructor privado: cablea hooks globales y arranca módulos.
 	 */
 	private function __construct() {
-		// i18n: cargar el text domain en el momento correcto.
-		add_action( 'init', array( $this, 'load_textdomain' ) );
+		/*
+		 * i18n: NO hace falta load_plugin_textdomain(). Está desaconsejado desde WP
+		 * 4.6 y el propio Plugin Check lo marca. WordPress resuelve el dominio solo,
+		 * just-in-time: los paquetes de idioma de translate.wordpress.org por el slug
+		 * (que ES el text domain, 'tunet-core'), y los .mo empaquetados por la
+		 * cabecera Domain Path del plugin.
+		 *
+		 * MEDIDO, no supuesto (WP 7.0.2): quitando la llamada y forzando es_ES, los
+		 * 428 strings siguen traducidos y is_textdomain_loaded('tunet-core') sigue
+		 * devolviendo true. La prueba llevaba un testigo dentro del propio archivo
+		 * para descartar que OPcache estuviera sirviendo el código anterior.
+		 */
 
 		// Build / performance: assets de bloques del core separados por block,
 		// para poder cargar solo lo que aparece en la página (§3, §10).
@@ -90,13 +100,6 @@ final class Tunet_Core {
 
 		// Arranque de módulos del motor.
 		add_action( 'plugins_loaded', array( $this, 'boot_modules' ) );
-	}
-
-	/**
-	 * Carga el text domain del plugin.
-	 */
-	public function load_textdomain() {
-		load_plugin_textdomain( 'tunet', false, dirname( plugin_basename( TUNET_CORE_FILE ) ) . '/languages' );
 	}
 
 	/**
@@ -318,12 +321,12 @@ function tunet_core_activate() {
 			esc_html(
 				sprintf(
 					/* translators: 1: required WordPress version, 2: required PHP version. */
-					__( 'Tunet Core requires WordPress %1$s or newer and PHP %2$s or newer.', 'tunet' ),
+					__( 'Tunet Core requires WordPress %1$s or newer and PHP %2$s or newer.', 'tunet-core' ),
 					TUNET_CORE_MIN_WP,
 					TUNET_CORE_MIN_PHP
 				)
 			),
-			esc_html__( 'Tunet Core activation', 'tunet' ),
+			esc_html__( 'Tunet Core activation', 'tunet-core' ),
 			array( 'back_link' => true )
 		);
 	}

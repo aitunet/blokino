@@ -16,8 +16,8 @@
 	var useBlockProps = be.useBlockProps;
 
 	var LAYOUTS = [
-		{ label: __( 'Carousel', 'tunet' ), value: 'carousel' },
-		{ label: __( 'Grid', 'tunet' ), value: 'grid' }
+		{ label: __( 'Carousel', 'tunet-core' ), value: 'carousel' },
+		{ label: __( 'Grid', 'tunet-core' ), value: 'grid' }
 	];
 
 	function newTestimonial() {
@@ -34,13 +34,13 @@
 				round: true,
 				onSelect: function ( media ) { update( { avatarId: media.id, avatarUrl: media.url } ); },
 				onRemove: function () { update( { avatarId: 0, avatarUrl: '' } ); },
-				setLabel: __( 'Set avatar', 'tunet' ),
-				replaceLabel: __( 'Replace avatar', 'tunet' )
+				setLabel: __( 'Set avatar', 'tunet-core' ),
+				replaceLabel: __( 'Replace avatar', 'tunet-core' )
 			} ),
-			el( C.RangeControl, { label: __( 'Rating (0–5)', 'tunet' ), min: 0, max: 5, step: 0.5, value: item.rating, onChange: function ( v ) { update( { rating: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.TextControl, { label: __( 'Name', 'tunet' ), value: item.name, onChange: function ( v ) { update( { name: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.TextControl, { label: __( 'Role · Company', 'tunet' ), value: item.role, onChange: function ( v ) { update( { role: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.TextareaControl, { label: __( 'Quote', 'tunet' ), value: item.quote, onChange: function ( v ) { update( { quote: v } ); }, __nextHasNoMarginBottom: true } )
+			el( C.RangeControl, { label: __( 'Rating (0–5)', 'tunet-core' ), min: 0, max: 5, step: 0.5, value: item.rating, onChange: function ( v ) { update( { rating: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.TextControl, { label: __( 'Name', 'tunet-core' ), value: item.name, onChange: function ( v ) { update( { name: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.TextControl, { label: __( 'Role · Company', 'tunet-core' ), value: item.role, onChange: function ( v ) { update( { role: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.TextareaControl, { label: __( 'Quote', 'tunet-core' ), value: item.quote, onChange: function ( v ) { update( { quote: v } ); }, __nextHasNoMarginBottom: true } )
 		);
 	}
 
@@ -62,30 +62,30 @@
 					{},
 					el(
 						C.PanelBody,
-						{ title: __( 'Testimonials', 'tunet' ), initialOpen: true },
-						el( C.SelectControl, { label: __( 'Layout', 'tunet' ), value: attrs.layout, options: LAYOUTS, onChange: function ( v ) { setAttributes( { layout: v } ); }, __nextHasNoMarginBottom: true } ),
+						{ title: __( 'Testimonials', 'tunet-core' ), initialOpen: true },
+						el( C.SelectControl, { label: __( 'Layout', 'tunet-core' ), value: attrs.layout, options: LAYOUTS, onChange: function ( v ) { setAttributes( { layout: v } ); }, __nextHasNoMarginBottom: true } ),
 						isGrid
-							? el( C.RangeControl, { label: __( 'Columns', 'tunet' ), min: 1, max: 4, value: attrs.columns, onChange: function ( v ) { setAttributes( { columns: v } ); }, __nextHasNoMarginBottom: true } )
+							? el( C.RangeControl, { label: __( 'Columns', 'tunet-core' ), min: 1, max: 4, value: attrs.columns, onChange: function ( v ) { setAttributes( { columns: v } ); }, __nextHasNoMarginBottom: true } )
 							: el( Fragment, {},
-								el( C.RangeControl, { label: __( 'Slides per view', 'tunet' ), min: 1, max: 4, value: attrs.slidesPerView, onChange: function ( v ) { setAttributes( { slidesPerView: v } ); }, __nextHasNoMarginBottom: true } ),
-								el( C.RangeControl, { label: __( 'Space between (px)', 'tunet' ), min: 0, max: 80, value: attrs.spaceBetween, onChange: function ( v ) { setAttributes( { spaceBetween: v } ); }, __nextHasNoMarginBottom: true } ),
-								el( C.ToggleControl, { label: __( 'Infinite loop', 'tunet' ), checked: attrs.loop, onChange: function ( v ) { setAttributes( { loop: v } ); }, __nextHasNoMarginBottom: true } ),
-								el( C.ToggleControl, { label: __( 'Autoplay', 'tunet' ), checked: attrs.autoplay, onChange: function ( v ) { setAttributes( { autoplay: v } ); }, __nextHasNoMarginBottom: true } ),
-								el( C.ToggleControl, { label: __( 'Pagination', 'tunet' ), checked: attrs.pagination, onChange: function ( v ) { setAttributes( { pagination: v } ); }, __nextHasNoMarginBottom: true } ),
-								el( C.ToggleControl, { label: __( 'Navigation arrows', 'tunet' ), checked: attrs.navigation, onChange: function ( v ) { setAttributes( { navigation: v } ); }, __nextHasNoMarginBottom: true } )
+								el( C.RangeControl, { label: __( 'Slides per view', 'tunet-core' ), min: 1, max: 4, value: attrs.slidesPerView, onChange: function ( v ) { setAttributes( { slidesPerView: v } ); }, __nextHasNoMarginBottom: true } ),
+								el( C.RangeControl, { label: __( 'Space between (px)', 'tunet-core' ), min: 0, max: 80, value: attrs.spaceBetween, onChange: function ( v ) { setAttributes( { spaceBetween: v } ); }, __nextHasNoMarginBottom: true } ),
+								el( C.ToggleControl, { label: __( 'Infinite loop', 'tunet-core' ), checked: attrs.loop, onChange: function ( v ) { setAttributes( { loop: v } ); }, __nextHasNoMarginBottom: true } ),
+								el( C.ToggleControl, { label: __( 'Autoplay', 'tunet-core' ), checked: attrs.autoplay, onChange: function ( v ) { setAttributes( { autoplay: v } ); }, __nextHasNoMarginBottom: true } ),
+								el( C.ToggleControl, { label: __( 'Pagination', 'tunet-core' ), checked: attrs.pagination, onChange: function ( v ) { setAttributes( { pagination: v } ); }, __nextHasNoMarginBottom: true } ),
+								el( C.ToggleControl, { label: __( 'Navigation arrows', 'tunet-core' ), checked: attrs.navigation, onChange: function ( v ) { setAttributes( { navigation: v } ); }, __nextHasNoMarginBottom: true } )
 							)
 					),
 					el(
 						C.PanelBody,
-						{ title: __( 'Items', 'tunet' ), initialOpen: true },
+						{ title: __( 'Items', 'tunet-core' ), initialOpen: true },
 						el( window.tunet.RepeaterControl, {
 							items: attrs.items,
 							onChange: function ( items ) { setAttributes( { items: items } ); },
 							renderItem: renderItem,
 							newItem: newTestimonial,
 							onActivate: setActiveSlide,
-							addLabel: __( 'Add testimonial', 'tunet' ),
-							itemLabel: function ( it, i ) { return it.name || ( __( 'Testimonial', 'tunet' ) + ' ' + ( i + 1 ) ); }
+							addLabel: __( 'Add testimonial', 'tunet-core' ),
+							itemLabel: function ( it, i ) { return it.name || ( __( 'Testimonial', 'tunet-core' ) + ' ' + ( i + 1 ) ); }
 						} )
 					)
 				),
@@ -96,8 +96,8 @@
 						? el( window.tunet.CarouselPreview, { block: 'tunet/testimonials', attributes: attrs, activeIndex: activeSlide } )
 						: el( C.Placeholder, {
 							icon: 'format-quote',
-							label: __( 'Testimonials', 'tunet' ),
-							instructions: __( 'Add testimonials from the “Items” panel in the block sidebar.', 'tunet' )
+							label: __( 'Testimonials', 'tunet-core' ),
+							instructions: __( 'Add testimonials from the “Items” panel in the block sidebar.', 'tunet-core' )
 						} )
 				)
 			);

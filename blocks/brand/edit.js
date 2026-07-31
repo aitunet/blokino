@@ -32,14 +32,14 @@
 					{},
 					el(
 						c.PanelBody,
-						{ title: __( 'Brand', 'tunet' ), initialOpen: true },
+						{ title: __( 'Brand', 'tunet-core' ), initialOpen: true },
 						el( c.SelectControl, {
-							label: __( 'Variant', 'tunet' ),
+							label: __( 'Variant', 'tunet-core' ),
 							value: a.variant,
 							options: [
-								{ label: __( 'Automatic (follows the palette)', 'tunet' ), value: 'auto' },
-								{ label: __( 'Main', 'tunet' ), value: 'main' },
-								{ label: __( 'Alternative', 'tunet' ), value: 'alt' }
+								{ label: __( 'Automatic (follows the palette)', 'tunet-core' ), value: 'auto' },
+								{ label: __( 'Main', 'tunet-core' ), value: 'main' },
+								{ label: __( 'Alternative', 'tunet-core' ), value: 'alt' }
 							],
 							onChange: function ( v ) { set( { variant: v } ); },
 							__nextHasNoMarginBottom: true
@@ -49,10 +49,10 @@
 						el(
 							'p',
 							{ className: 'tunet-editor-note' },
-							__( 'Automatic shows the alternative logo on dark palettes and style variations, and the main one otherwise. Set both in Tunet Core → Logos.', 'tunet' )
+							__( 'Automatic shows the alternative logo on dark palettes and style variations, and the main one otherwise. Set both in Tunet Core → Logos.', 'tunet-core' )
 						),
 						el( c.RangeControl, {
-							label: __( 'Max width (px)', 'tunet' ),
+							label: __( 'Max width (px)', 'tunet-core' ),
 							value: a.maxWidth,
 							min: 40,
 							max: 320,
@@ -61,7 +61,7 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.ToggleControl, {
-							label: __( 'Link to Home', 'tunet' ),
+							label: __( 'Link to Home', 'tunet-core' ),
 							checked: !! a.linkToHome,
 							onChange: function ( v ) { set( { linkToHome: !! v } ); },
 							__nextHasNoMarginBottom: true
@@ -72,7 +72,7 @@
 							el(
 								c.ExternalLink,
 								{ href: 'admin.php?page=tunet-core' },
-								__( 'Manage logo in Tunet Core → Logos', 'tunet' )
+								__( 'Manage logo in Tunet Core → Logos', 'tunet-core' )
 							)
 						)
 					)

@@ -165,18 +165,18 @@ class Tunet_Core_Demo {
 	 */
 	public function import_steps() {
 		$steps   = array();
-		$steps[] = array( 'label' => __( 'Preparing…', 'tunet' ), 'cb' => array( $this, 'step_begin' ) );
-		$steps[] = array( 'label' => __( 'Importing media…', 'tunet' ), 'cb' => array( $this, 'step_media' ) );
+		$steps[] = array( 'label' => __( 'Preparing…', 'tunet-core' ), 'cb' => array( $this, 'step_begin' ) );
+		$steps[] = array( 'label' => __( 'Importing media…', 'tunet-core' ), 'cb' => array( $this, 'step_media' ) );
 		if ( class_exists( 'WPCF7_ContactForm' ) ) {
-			$steps[] = array( 'label' => __( 'Creating contact form…', 'tunet' ), 'cb' => array( $this, 'step_cf7' ) );
+			$steps[] = array( 'label' => __( 'Creating contact form…', 'tunet-core' ), 'cb' => array( $this, 'step_cf7' ) );
 		}
-		$steps[] = array( 'label' => __( 'Creating projects…', 'tunet' ), 'cb' => array( $this, 'step_projects' ) );
-		$steps[] = array( 'label' => __( 'Creating journal posts…', 'tunet' ), 'cb' => array( $this, 'step_posts' ) );
-		$steps[] = array( 'label' => __( 'Creating pages…', 'tunet' ), 'cb' => array( $this, 'step_pages' ) );
+		$steps[] = array( 'label' => __( 'Creating projects…', 'tunet-core' ), 'cb' => array( $this, 'step_projects' ) );
+		$steps[] = array( 'label' => __( 'Creating journal posts…', 'tunet-core' ), 'cb' => array( $this, 'step_posts' ) );
+		$steps[] = array( 'label' => __( 'Creating pages…', 'tunet-core' ), 'cb' => array( $this, 'step_pages' ) );
 		if ( class_exists( 'WooCommerce' ) ) {
-			$steps[] = array( 'label' => __( 'Creating products…', 'tunet' ), 'cb' => array( $this, 'step_products' ) );
+			$steps[] = array( 'label' => __( 'Creating products…', 'tunet-core' ), 'cb' => array( $this, 'step_products' ) );
 		}
-		$steps[] = array( 'label' => __( 'Finishing…', 'tunet' ), 'cb' => array( $this, 'step_finalize' ) );
+		$steps[] = array( 'label' => __( 'Finishing…', 'tunet-core' ), 'cb' => array( $this, 'step_finalize' ) );
 		return $steps;
 	}
 
@@ -374,11 +374,11 @@ class Tunet_Core_Demo {
 		$cfg   = self::manifest()['cf7'] ?? array();
 		$title = $cfg['title'] ?? 'Contact';
 
-		$form_markup = "<label>" . __( 'Your name', 'tunet' ) . "\n    [text* your-name]</label>\n\n"
-			. "<label>" . __( 'Your email', 'tunet' ) . "\n    [email* your-email]</label>\n\n"
-			. "<label>" . __( 'Subject', 'tunet' ) . "\n    [text your-subject]</label>\n\n"
-			. "<label>" . __( 'Your message (optional)', 'tunet' ) . "\n    [textarea your-message]</label>\n\n"
-			. "[submit \"" . __( 'Submit', 'tunet' ) . "\"]";
+		$form_markup = "<label>" . __( 'Your name', 'tunet-core' ) . "\n    [text* your-name]</label>\n\n"
+			. "<label>" . __( 'Your email', 'tunet-core' ) . "\n    [email* your-email]</label>\n\n"
+			. "<label>" . __( 'Subject', 'tunet-core' ) . "\n    [text your-subject]</label>\n\n"
+			. "<label>" . __( 'Your message (optional)', 'tunet-core' ) . "\n    [textarea your-message]</label>\n\n"
+			. "[submit \"" . __( 'Submit', 'tunet-core' ) . "\"]";
 
 		$form = WPCF7_ContactForm::get_template( array( 'title' => wp_slash( $title ) ) );
 		$form->set_properties(
@@ -888,7 +888,7 @@ class Tunet_Core_Demo {
 	public function ajax_step() {
 		check_ajax_referer( self::NONCE, 'nonce' );
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet-core' ) ) );
 		}
 
 		$steps = $this->import_steps();
@@ -920,10 +920,10 @@ class Tunet_Core_Demo {
 	public function ajax_rollback() {
 		check_ajax_referer( self::NONCE, 'nonce' );
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet-core' ) ) );
 		}
 		$this->replace(); // replace() clears the record on its normal path.
-		wp_send_json_success( array( 'message' => __( 'Import undone.', 'tunet' ) ) );
+		wp_send_json_success( array( 'message' => __( 'Import undone.', 'tunet-core' ) ) );
 	}
 
 	/**
@@ -974,13 +974,13 @@ class Tunet_Core_Demo {
 	public function ajax_install() {
 		check_ajax_referer( self::NONCE, 'nonce' );
 		if ( ! current_user_can( self::CAPABILITY ) || ! current_user_can( 'install_plugins' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet-core' ) ) );
 		}
 
 		$slug = isset( $_POST['slug'] ) ? sanitize_key( wp_unslash( $_POST['slug'] ) ) : '';
 		$all  = self::recommended_plugins();
 		if ( ! isset( $all[ $slug ] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Unknown plugin.', 'tunet' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Unknown plugin.', 'tunet-core' ) ) );
 		}
 		$info = $all[ $slug ];
 
@@ -996,13 +996,13 @@ class Tunet_Core_Demo {
 		if ( ! array_key_exists( $info['file'], get_plugins() ) ) {
 			$api = plugins_api( 'plugin_information', array( 'slug' => $slug, 'fields' => array( 'sections' => false ) ) );
 			if ( is_wp_error( $api ) || empty( $api->download_link ) ) {
-				wp_send_json_error( array( 'message' => __( 'Could not reach the plugin directory.', 'tunet' ), 'install_url' => $install_url ) );
+				wp_send_json_error( array( 'message' => __( 'Could not reach the plugin directory.', 'tunet-core' ), 'install_url' => $install_url ) );
 			}
 			$skin     = new Automatic_Upgrader_Skin();
 			$upgrader = new Plugin_Upgrader( $skin );
 			$result   = $upgrader->install( $api->download_link );
 			if ( is_wp_error( $result ) || ! $result ) {
-				wp_send_json_error( array( 'message' => __( 'Install failed — install it manually.', 'tunet' ), 'install_url' => $install_url ) );
+				wp_send_json_error( array( 'message' => __( 'Install failed — install it manually.', 'tunet-core' ), 'install_url' => $install_url ) );
 			}
 		}
 
@@ -1029,8 +1029,8 @@ class Tunet_Core_Demo {
 	public function register_menu() {
 		add_submenu_page(
 			Tunet_Core_Admin::MENU_SLUG,
-			__( 'Demo', 'tunet' ),
-			__( 'Demo', 'tunet' ),
+			__( 'Demo', 'tunet-core' ),
+			__( 'Demo', 'tunet-core' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
 			array( $this, 'render_demo_page' )
@@ -1051,22 +1051,22 @@ class Tunet_Core_Demo {
 
 		$pages = isset( $manifest['pages'] ) && is_array( $manifest['pages'] ) ? count( $manifest['pages'] ) : 0;
 		if ( $pages ) {
-			$rows[] = array( 'n' => $pages, 'label' => _n( 'Page', 'Pages', $pages, 'tunet' ), 'icon' => 'admin-page' );
+			$rows[] = array( 'n' => $pages, 'label' => _n( 'Page', 'Pages', $pages, 'tunet-core' ), 'icon' => 'admin-page' );
 		}
 
 		$projects = isset( $manifest['projects'] ) && is_array( $manifest['projects'] ) ? count( $manifest['projects'] ) : 0;
 		if ( $projects ) {
-			$rows[] = array( 'n' => $projects, 'label' => _n( 'Project', 'Projects', $projects, 'tunet' ), 'icon' => 'portfolio' );
+			$rows[] = array( 'n' => $projects, 'label' => _n( 'Project', 'Projects', $projects, 'tunet-core' ), 'icon' => 'portfolio' );
 		}
 
 		$posts = isset( $manifest['posts'] ) && is_array( $manifest['posts'] ) ? count( $manifest['posts'] ) : 0;
 		if ( $posts ) {
-			$rows[] = array( 'n' => $posts, 'label' => _n( 'Journal post', 'Journal posts', $posts, 'tunet' ), 'icon' => 'admin-post' );
+			$rows[] = array( 'n' => $posts, 'label' => _n( 'Journal post', 'Journal posts', $posts, 'tunet-core' ), 'icon' => 'admin-post' );
 		}
 
 		$products = isset( $manifest['woo']['products'] ) && is_array( $manifest['woo']['products'] ) ? count( $manifest['woo']['products'] ) : 0;
 		if ( $products ) {
-			$rows[] = array( 'n' => $products, 'label' => _n( 'Product', 'Products', $products, 'tunet' ), 'icon' => 'cart' );
+			$rows[] = array( 'n' => $products, 'label' => _n( 'Product', 'Products', $products, 'tunet-core' ), 'icon' => 'cart' );
 		}
 
 		// Real image count = manifest-keyed images + every image under assets/img
@@ -1079,7 +1079,7 @@ class Tunet_Core_Demo {
 		}
 		$images = count( $image_rel );
 		if ( $images ) {
-			$rows[] = array( 'n' => $images, 'label' => _n( 'Image', 'Images', $images, 'tunet' ), 'icon' => 'format-image' );
+			$rows[] = array( 'n' => $images, 'label' => _n( 'Image', 'Images', $images, 'tunet-core' ), 'icon' => 'format-image' );
 		}
 
 		return $rows;
@@ -1107,18 +1107,18 @@ class Tunet_Core_Demo {
 		$cancel    = self_admin_url( 'admin.php?page=' . Tunet_Core_Admin::MENU_SLUG );
 		?>
 		<div class="wrap tunet-admin tunet-demo">
-			<h1><?php esc_html_e( 'Tunet Core · Demo', 'tunet' ); ?></h1>
+			<h1><?php esc_html_e( 'Tunet Core · Demo', 'tunet-core' ); ?></h1>
 
 			<?php if ( ! $has_items ) : ?>
 				<div class="tunet-demo-empty">
 					<span class="dashicons dashicons-info-outline" aria-hidden="true"></span>
 					<div>
-						<p><strong><?php esc_html_e( 'No demo to import for the active theme.', 'tunet' ); ?></strong></p>
+						<p><strong><?php esc_html_e( 'No demo to import for the active theme.', 'tunet-core' ); ?></strong></p>
 						<p class="description">
 							<?php
 							printf(
 								/* translators: %s: active theme name. */
-								esc_html__( '%s does not ship a demo manifest. Activate a Tunet theme to unlock its designed demo.', 'tunet' ),
+								esc_html__( '%s does not ship a demo manifest. Activate a Tunet theme to unlock its designed demo.', 'tunet-core' ),
 								'<strong>' . esc_html( $theme->get( 'Name' ) ) . '</strong>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							);
 							?>
@@ -1128,8 +1128,8 @@ class Tunet_Core_Demo {
 			<?php else : ?>
 			<div id="tunet-wizard" class="tunet-wizard" data-has-demo="<?php echo $has_demo ? '1' : '0'; ?>">
 				<ol class="tunet-stepper">
-					<li class="tunet-stepper__item is-current" data-step="plugins"><span class="tunet-stepper__n">1</span><?php esc_html_e( 'Plugins', 'tunet' ); ?></li>
-					<li class="tunet-stepper__item" data-step="import"><span class="tunet-stepper__n">2</span><?php esc_html_e( 'Import', 'tunet' ); ?></li>
+					<li class="tunet-stepper__item is-current" data-step="plugins"><span class="tunet-stepper__n">1</span><?php esc_html_e( 'Plugins', 'tunet-core' ); ?></li>
+					<li class="tunet-stepper__item" data-step="import"><span class="tunet-stepper__n">2</span><?php esc_html_e( 'Import', 'tunet-core' ); ?></li>
 				</ol>
 
 				<div class="tunet-wizard__grid">
@@ -1137,14 +1137,14 @@ class Tunet_Core_Demo {
 						<?php if ( $shot ) : ?>
 							<div class="tunet-preview">
 								<div class="tunet-preview__bar"><span></span><span></span><span></span></div>
-								<div class="tunet-preview__shot"><img src="<?php echo esc_url( $shot ); ?>" alt="<?php echo esc_attr( sprintf( /* translators: %s: theme name. */ __( '%s preview', 'tunet' ), $theme->get( 'Name' ) ) ); ?>" /></div>
+								<div class="tunet-preview__shot"><img src="<?php echo esc_url( $shot ); ?>" alt="<?php echo esc_attr( sprintf( /* translators: %s: theme name. */ __( '%s preview', 'tunet-core' ), $theme->get( 'Name' ) ) ); ?>" /></div>
 							</div>
 						<?php endif; ?>
 						<p class="tunet-preview__caption">
 							<?php
 							printf(
 								/* translators: %s: active theme name. */
-								esc_html__( 'Demo for %s', 'tunet' ),
+								esc_html__( 'Demo for %s', 'tunet-core' ),
 								'<strong>' . esc_html( $theme->get( 'Name' ) ) . '</strong>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							);
 							?>
@@ -1153,32 +1153,32 @@ class Tunet_Core_Demo {
 
 					<div class="tunet-wizard__main">
 						<section class="tunet-step" data-panel="plugins">
-							<h2 class="tunet-step__title"><?php esc_html_e( 'Recommended plugins', 'tunet' ); ?></h2>
-							<p class="tunet-step__lead"><?php esc_html_e( 'These add optional parts of the demo (forms, shop…). Pick any you want and install & activate them, or just continue without them.', 'tunet' ); ?></p>
+							<h2 class="tunet-step__title"><?php esc_html_e( 'Recommended plugins', 'tunet-core' ); ?></h2>
+							<p class="tunet-step__lead"><?php esc_html_e( 'These add optional parts of the demo (forms, shop…). Pick any you want and install & activate them, or just continue without them.', 'tunet-core' ); ?></p>
 							<ul class="tunet-plugins" id="tunet-plugins-list"></ul>
 							<p class="tunet-plugins__msg" aria-live="polite"></p>
 							<div class="tunet-step__actions">
-								<a class="tunet-cancel" href="<?php echo esc_url( $cancel ); ?>"><?php esc_html_e( 'Cancel', 'tunet' ); ?></a>
+								<a class="tunet-cancel" href="<?php echo esc_url( $cancel ); ?>"><?php esc_html_e( 'Cancel', 'tunet-core' ); ?></a>
 								<span class="tunet-step__spacer"></span>
-								<button type="button" class="button" id="tunet-plugins-install"><?php esc_html_e( 'Install & activate', 'tunet' ); ?></button>
-								<button type="button" class="button button-primary" id="tunet-plugins-continue" disabled><?php esc_html_e( 'Continue', 'tunet' ); ?></button>
+								<button type="button" class="button" id="tunet-plugins-install"><?php esc_html_e( 'Install & activate', 'tunet-core' ); ?></button>
+								<button type="button" class="button button-primary" id="tunet-plugins-continue" disabled><?php esc_html_e( 'Continue', 'tunet-core' ); ?></button>
 							</div>
 						</section>
 
 						<section class="tunet-step" data-panel="import" hidden>
-							<h2 class="tunet-step__title"><?php esc_html_e( 'Import the demo', 'tunet' ); ?></h2>
-							<p class="tunet-step__lead"><?php esc_html_e( 'Creates the demo as native, editable blocks — pages, content and settings. You can undo it with one click.', 'tunet' ); ?></p>
+							<h2 class="tunet-step__title"><?php esc_html_e( 'Import the demo', 'tunet-core' ); ?></h2>
+							<p class="tunet-step__lead"><?php esc_html_e( 'Creates the demo as native, editable blocks — pages, content and settings. You can undo it with one click.', 'tunet-core' ); ?></p>
 							<?php if ( $has_demo ) : ?>
-								<p class="tunet-demo-note"><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span> <?php esc_html_e( 'A demo is already imported. Re-importing replaces it; Undo removes it.', 'tunet' ); ?></p>
+								<p class="tunet-demo-note"><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span> <?php esc_html_e( 'A demo is already imported. Re-importing replaces it; Undo removes it.', 'tunet-core' ); ?></p>
 							<?php endif; ?>
 							<div class="tunet-progress" hidden><div class="tunet-progress__bar"></div></div>
 							<p class="tunet-progress__status" aria-live="polite"></p>
-							<p class="tunet-done" hidden><a class="button button-primary button-hero" href="<?php echo esc_url( $home ); ?>"><?php esc_html_e( 'View site', 'tunet' ); ?></a></p>
+							<p class="tunet-done" hidden><a class="button button-primary button-hero" href="<?php echo esc_url( $home ); ?>"><?php esc_html_e( 'View site', 'tunet-core' ); ?></a></p>
 							<div class="tunet-step__actions">
-								<button type="button" class="button tunet-back" data-to="plugins">&larr; <?php esc_html_e( 'Back', 'tunet' ); ?></button>
+								<button type="button" class="button tunet-back" data-to="plugins">&larr; <?php esc_html_e( 'Back', 'tunet-core' ); ?></button>
 								<span class="tunet-step__spacer"></span>
-								<button type="button" class="button button-primary" id="tunet-demo-import"><?php esc_html_e( 'Import demo', 'tunet' ); ?></button>
-								<button type="button" class="button" id="tunet-demo-rollback" <?php disabled( ! $has_demo ); ?>><?php esc_html_e( 'Undo import', 'tunet' ); ?></button>
+								<button type="button" class="button button-primary" id="tunet-demo-import"><?php esc_html_e( 'Import demo', 'tunet-core' ); ?></button>
+								<button type="button" class="button" id="tunet-demo-rollback" <?php disabled( ! $has_demo ); ?>><?php esc_html_e( 'Undo import', 'tunet-core' ); ?></button>
 							</div>
 						</section>
 					</div>

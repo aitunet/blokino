@@ -32,8 +32,8 @@
 	window.tunet.MediaField = function ( props ) {
 		var id = props.id || 0;
 		var url = props.url || '';
-		var setLabel = props.setLabel || __( 'Set image', 'tunet' );
-		var replaceLabel = props.replaceLabel || __( 'Replace image', 'tunet' );
+		var setLabel = props.setLabel || __( 'Set image', 'tunet-core' );
+		var replaceLabel = props.replaceLabel || __( 'Replace image', 'tunet-core' );
 		var cls = 'tunet-media-field' + ( props.round ? ' is-round' : '' );
 
 		if ( ! MediaUpload || ! MediaUploadCheck ) {
@@ -67,7 +67,7 @@
 							{ className: 'tunet-media-field__actions' },
 							el( C.Button, { variant: 'secondary', size: 'small', onClick: o.open }, url ? replaceLabel : setLabel ),
 							( id || url )
-								? el( C.Button, { variant: 'tertiary', size: 'small', isDestructive: true, onClick: props.onRemove }, __( 'Remove', 'tunet' ) )
+								? el( C.Button, { variant: 'tertiary', size: 'small', isDestructive: true, onClick: props.onRemove }, __( 'Remove', 'tunet-core' ) )
 								: null
 						)
 					);
@@ -86,9 +86,9 @@
 		var newItem = props.newItem;
 		var onActivate = props.onActivate;
 		var max = props.max || 0;
-		var addLabel = props.addLabel || __( 'Add item', 'tunet' );
+		var addLabel = props.addLabel || __( 'Add item', 'tunet-core' );
 		var itemLabel = props.itemLabel || function ( it, i ) {
-			return __( 'Item', 'tunet' ) + ' ' + ( i + 1 );
+			return __( 'Item', 'tunet-core' ) + ' ' + ( i + 1 );
 		};
 
 		function update( index, patch ) {
@@ -139,9 +139,9 @@
 					el(
 						'div',
 						{ className: 'tunet-repeater__actions', style: { display: 'flex', gap: '4px', marginTop: '12px' } },
-						el( C.Button, { variant: 'secondary', size: 'small', disabled: index === 0, onClick: function () { move( index, -1 ); }, label: __( 'Move up', 'tunet' ) }, '↑' ),
-						el( C.Button, { variant: 'secondary', size: 'small', disabled: index === items.length - 1, onClick: function () { move( index, 1 ); }, label: __( 'Move down', 'tunet' ) }, '↓' ),
-						el( C.Button, { variant: 'secondary', isDestructive: true, size: 'small', onClick: function () { remove( index ); } }, __( 'Remove', 'tunet' ) )
+						el( C.Button, { variant: 'secondary', size: 'small', disabled: index === 0, onClick: function () { move( index, -1 ); }, label: __( 'Move up', 'tunet-core' ) }, '↑' ),
+						el( C.Button, { variant: 'secondary', size: 'small', disabled: index === items.length - 1, onClick: function () { move( index, 1 ); }, label: __( 'Move down', 'tunet-core' ) }, '↓' ),
+						el( C.Button, { variant: 'secondary', isDestructive: true, size: 'small', onClick: function () { remove( index ); } }, __( 'Remove', 'tunet-core' ) )
 					)
 				)
 			);

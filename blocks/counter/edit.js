@@ -60,22 +60,22 @@
 					{},
 					el(
 						c.PanelBody,
-						{ title: __( 'Counter', 'tunet' ), initialOpen: true },
-						numberField( __( 'Start value', 'tunet' ), a.start, function ( v ) {
+						{ title: __( 'Counter', 'tunet-core' ), initialOpen: true },
+						numberField( __( 'Start value', 'tunet-core' ), a.start, function ( v ) {
 							set( { start: parseFloat( v ) || 0 } );
 						} ),
-						numberField( __( 'End value', 'tunet' ), a.end, function ( v ) {
+						numberField( __( 'End value', 'tunet-core' ), a.end, function ( v ) {
 							set( { end: parseFloat( v ) || 0 } );
 						} ),
-						numberField( __( 'Duration (ms)', 'tunet' ), a.duration, function ( v ) {
+						numberField( __( 'Duration (ms)', 'tunet-core' ), a.duration, function ( v ) {
 							set( { duration: parseInt( v, 10 ) || 0 } );
-						}, __( '0 = no animation (shows the final value).', 'tunet' ) ),
-						numberField( __( 'Decimals', 'tunet' ), a.decimals, function ( v ) {
+						}, __( '0 = no animation (shows the final value).', 'tunet-core' ) ),
+						numberField( __( 'Decimals', 'tunet-core' ), a.decimals, function ( v ) {
 							var n = parseInt( v, 10 ) || 0;
 							set( { decimals: Math.max( 0, Math.min( 4, n ) ) } );
 						} ),
 						el( c.ToggleControl, {
-							label: __( 'Thousands separator', 'tunet' ),
+							label: __( 'Thousands separator', 'tunet-core' ),
 							checked: !! a.separator,
 							onChange: function ( v ) {
 								set( { separator: v } );
@@ -83,7 +83,7 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.TextControl, {
-							label: __( 'Prefix', 'tunet' ),
+							label: __( 'Prefix', 'tunet-core' ),
 							value: a.prefix || '',
 							onChange: function ( v ) {
 								set( { prefix: v } );
@@ -91,9 +91,9 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.TextControl, {
-							label: __( 'Suffix', 'tunet' ),
+							label: __( 'Suffix', 'tunet-core' ),
 							value: a.suffix || '',
-							help: __( 'e.g. +, %, K, M', 'tunet' ),
+							help: __( 'e.g. +, %, K, M', 'tunet-core' ),
 							onChange: function ( v ) {
 								set( { suffix: v } );
 							},

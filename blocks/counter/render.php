@@ -13,37 +13,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$tnt_start     = isset( $attributes['start'] ) ? (float) $attributes['start'] : 0;
-$tnt_end       = isset( $attributes['end'] ) ? (float) $attributes['end'] : 100;
-$tnt_duration  = isset( $attributes['duration'] ) ? max( 0, (int) $attributes['duration'] ) : 2000;
-$tnt_decimals  = isset( $attributes['decimals'] ) ? max( 0, min( 4, (int) $attributes['decimals'] ) ) : 0;
-$tnt_separator = ! empty( $attributes['separator'] );
-$tnt_prefix    = isset( $attributes['prefix'] ) ? (string) $attributes['prefix'] : '';
-$tnt_suffix    = isset( $attributes['suffix'] ) ? (string) $attributes['suffix'] : '';
+$tunet_start     = isset( $attributes['start'] ) ? (float) $attributes['start'] : 0;
+$tunet_end       = isset( $attributes['end'] ) ? (float) $attributes['end'] : 100;
+$tunet_duration  = isset( $attributes['duration'] ) ? max( 0, (int) $attributes['duration'] ) : 2000;
+$tunet_decimals  = isset( $attributes['decimals'] ) ? max( 0, min( 4, (int) $attributes['decimals'] ) ) : 0;
+$tunet_separator = ! empty( $attributes['separator'] );
+$tunet_prefix    = isset( $attributes['prefix'] ) ? (string) $attributes['prefix'] : '';
+$tunet_suffix    = isset( $attributes['suffix'] ) ? (string) $attributes['suffix'] : '';
 
 // Valor final formateado (con o sin separador de miles).
-$tnt_formatted = $tnt_separator
-	? number_format( $tnt_end, $tnt_decimals )
-	: number_format( $tnt_end, $tnt_decimals, '.', '' );
+$tunet_formatted = $tunet_separator
+	? number_format( $tunet_end, $tunet_decimals )
+	: number_format( $tunet_end, $tunet_decimals, '.', '' );
 
-$tnt_wrapper = get_block_wrapper_attributes(
+$tunet_wrapper = get_block_wrapper_attributes(
 	array(
 		'class'              => 'tunet-counter',
 		'data-tnt-counter'   => '',
-		'data-start'         => (string) $tnt_start,
-		'data-end'           => (string) $tnt_end,
-		'data-duration'      => (string) $tnt_duration,
-		'data-decimals'      => (string) $tnt_decimals,
-		'data-separator'     => $tnt_separator ? '1' : '0',
+		'data-start'         => (string) $tunet_start,
+		'data-end'           => (string) $tunet_end,
+		'data-duration'      => (string) $tunet_duration,
+		'data-decimals'      => (string) $tunet_decimals,
+		'data-separator'     => $tunet_separator ? '1' : '0',
 	)
 );
 ?>
-<p <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
-	<?php if ( '' !== $tnt_prefix ) : ?>
-		<span class="tunet-counter__affix tunet-counter__prefix"><?php echo esc_html( $tnt_prefix ); ?></span>
+<p <?php echo $tunet_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
+	<?php if ( '' !== $tunet_prefix ) : ?>
+		<span class="tunet-counter__affix tunet-counter__prefix"><?php echo esc_html( $tunet_prefix ); ?></span>
 	<?php endif; ?>
-	<span class="tunet-counter__num"><?php echo esc_html( $tnt_formatted ); ?></span>
-	<?php if ( '' !== $tnt_suffix ) : ?>
-		<span class="tunet-counter__affix tunet-counter__suffix"><?php echo esc_html( $tnt_suffix ); ?></span>
+	<span class="tunet-counter__num"><?php echo esc_html( $tunet_formatted ); ?></span>
+	<?php if ( '' !== $tunet_suffix ) : ?>
+		<span class="tunet-counter__affix tunet-counter__suffix"><?php echo esc_html( $tunet_suffix ); ?></span>
 	<?php endif; ?>
 </p>

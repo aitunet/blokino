@@ -8,7 +8,7 @@
   "icon": "star-filled",
   "description": "An inline SVG icon from a curated stroke set. Inherits color (currentColor), so it's theme-token friendly — no raw HTML needed.",
   "keywords": ["icon", "svg", "symbol", "glyph"],
-  "textdomain": "tunet",
+  "textdomain": "tunet-core",
   "supports": {
     "html": false,
     "anchor": true,

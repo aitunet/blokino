@@ -5,1790 +5,1790 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
+"Language: es_CO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Claude Code\n"
-"X-Domain: tunet\n"
+"X-Domain: tunet-core\n"
 
-#: admin/class-tunet-demo.php:1033
+#: admin/class-tunet-demo.php:1121
 msgid "%s does not ship a demo manifest. Activate a Tunet theme to unlock its designed demo."
-msgstr ""
+msgstr "%s no incluye un manifiesto de demo. Activa un theme de Tunet para desbloquear su demo diseñada."
 
-#: admin/class-tunet-demo.php:1052
+#: admin/class-tunet-demo.php:1140
 msgid "%s preview"
-msgstr ""
+msgstr "Vista previa de %s"
 
 #: blocks/section/edit.js:243
 msgid "0 = automatic."
-msgstr ""
+msgstr "0 = automática."
 
 #: extensions/effects-editor.js:326
 msgid "0 = default width (2px)."
-msgstr ""
+msgstr "0 = grosor por defecto (2px)."
 
 #: blocks/counter/edit.js:72
 msgid "0 = no animation (shows the final value)."
-msgstr ""
+msgstr "0 = sin animación (muestra el valor final)."
 
 #: extensions/effects-editor.js:274
 msgid "0 = no movement. Default ~20."
-msgstr ""
+msgstr "0 = sin movimiento. Por defecto ~20."
 
 #: extensions/effects-editor.js:338
 msgid "0 = theme speed (--tnt-dur-slow)."
-msgstr ""
+msgstr "0 = velocidad del tema (--tnt-dur-slow)."
 
 #: extensions/effects-editor.js:176
 msgid "0 = use the theme duration (--tnt-dur-base)."
-msgstr ""
+msgstr "0 = usa la duración del tema (--tnt-dur-base)."
 
 #: blocks/content-slider/edit.js:116
 msgid "A CSS gradient over the image (for a directional scrim)."
-msgstr ""
+msgstr "Un degradado CSS sobre la imagen (para un velo direccional)."
 
-#: admin/class-tunet-demo.php:1084
+#: admin/class-tunet-demo.php:1172
 msgid "A demo is already imported. Re-importing replaces it; Undo removes it."
-msgstr ""
+msgstr "Ya hay una demo importada. Volver a importar la reemplaza; Deshacer la elimina."
 
-#: admin/class-tunet-admin.php:470 admin/class-tunet-admin.php:512
+#: admin/class-tunet-admin.php:555 admin/class-tunet-admin.php:597
 msgid "Accent"
-msgstr ""
+msgstr "Acento"
 
-#: admin/class-tunet-admin.php:471 admin/class-tunet-admin.php:513
+#: admin/class-tunet-admin.php:556 admin/class-tunet-admin.php:598
 msgid "Accent 2"
-msgstr ""
+msgstr "Acento 2"
 
 #: extensions/effects-editor.js:218
 msgid "Accent words (indices, e.g. \"2,5\")"
-msgstr ""
+msgstr "Palabras acentuadas (índices, p. ej. «2,5»)"
 
 #: blocks/icon/edit.js:116
 msgid "Accessibility label"
-msgstr ""
+msgstr "Etiqueta de accesibilidad"
 
-#: admin/class-tunet-admin.php:355
+#: admin/class-tunet-admin.php:440
 msgid "Activate"
-msgstr ""
+msgstr "Activar"
 
-#: admin/class-tunet-admin.php:356
+#: admin/class-tunet-admin.php:441
 msgid "Active"
-msgstr ""
+msgstr "Activo"
 
-#: admin/class-tunet-admin.php:489
+#: admin/class-tunet-admin.php:574
 msgid "Active: %s. While these are set, switching the style variation will not change them."
-msgstr ""
+msgstr "Activos: %s. Mientras estén definidos, cambiar de variación de estilo no los modificará."
 
 #: content/class-tunet-content.php:48
 msgid "Add New"
-msgstr ""
+msgstr "Añadir nuevo"
 
 #: content/class-tunet-content.php:49
 msgid "Add New Project"
-msgstr ""
+msgstr "Añadir nuevo proyecto"
 
 #: blocks/shared/repeater-control.js:89
 msgid "Add item"
-msgstr ""
+msgstr "Añadir elemento"
 
 #: blocks/content-slider/edit.js:187
 msgid "Add slide"
-msgstr ""
+msgstr "Añadir diapositiva"
 
 #: blocks/content-slider/edit.js:219
 msgid "Add slides from the “Slides” panel in the block sidebar."
-msgstr ""
+msgstr "Añade diapositivas desde el panel «Diapositivas» de la barra lateral del bloque."
 
 #: blocks/testimonials/edit.js:87
 msgid "Add testimonial"
-msgstr ""
+msgstr "Añadir testimonio"
 
 #: blocks/testimonials/edit.js:100
 msgid "Add testimonials from the “Items” panel in the block sidebar."
-msgstr ""
+msgstr "Añade testimonios desde el panel «Elementos» de la barra lateral del bloque."
 
 #: blocks/section/edit.js:234
 msgid "Adds a flat scrim under 782px, on top of the overlay. Useful when a side gradient stops covering the text on mobile."
-msgstr ""
+msgstr "Añade un velo plano por debajo de 782px, encima de la superposición. Útil cuando un degradado lateral deja de cubrir el texto en móvil."
 
 #: blocks/before-after/edit.js:96
 msgid "After label"
-msgstr ""
+msgstr "Etiqueta de «después»"
 
 #: content/class-tunet-content.php:55
 msgid "All Projects"
-msgstr ""
+msgstr "Todos los proyectos"
 
-#: admin/class-tunet-admin.php:360
+#: admin/class-tunet-admin.php:445
 msgid "All set — continue to the import."
-msgstr ""
+msgstr "Todo listo — continúa con la importación."
 
 #: blocks/brand/edit.js:42
 msgid "Alternative"
-msgstr ""
+msgstr "Alternativo"
 
-#: admin/class-tunet-admin.php:437
+#: admin/class-tunet-admin.php:522
 msgid "Alternative logo (dark backgrounds)"
-msgstr ""
+msgstr "Logo alternativo (fondos oscuros)"
 
-#: admin/class-tunet-admin.php:349
+#: admin/class-tunet-admin.php:434
 msgid "An error occurred."
-msgstr ""
+msgstr "Ocurrió un error."
 
 #: blocks/section/edit.js:159
 msgid "Animate gradient"
-msgstr ""
+msgstr "Animar el degradado"
 
 #: extensions/effects-editor.js:302
 msgid "Animated border"
-msgstr ""
+msgstr "Borde animado"
 
-#: admin/class-tunet-admin.php:415
+#: admin/class-tunet-admin.php:500
 msgid "Appearance & styles"
-msgstr ""
+msgstr "Apariencia y estilos"
 
 #: blocks/content-slider/edit.js:202
 msgid "Arrows outside"
-msgstr ""
+msgstr "Flechas por fuera"
 
 #: blocks/content-slider/edit.js:37
 msgid "Auto (original)"
-msgstr ""
+msgstr "Automático (original)"
 
 #: blocks/brand/edit.js:40
 msgid "Automatic (follows the palette)"
-msgstr ""
+msgstr "Automática (sigue la paleta)"
 
 #: blocks/brand/edit.js:52
 msgid "Automatic shows the alternative logo on dark palettes and style variations, and the main one otherwise. Set both in Tunet Core → Logos."
-msgstr ""
+msgstr "La opción automática muestra el logo alternativo en las paletas y variaciones oscuras, y el principal en el resto. Configura los dos en Tunet Core → Logos."
 
 #: blocks/content-slider/edit.js:197 blocks/testimonials/edit.js:73
 msgid "Autoplay"
-msgstr ""
+msgstr "Reproducción automática"
 
-#: admin/class-tunet-demo.php:1090
+#: admin/class-tunet-demo.php:1178
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
-#: admin/class-tunet-admin.php:472 admin/class-tunet-admin.php:514 blocks/section/edit.js:209
+#: admin/class-tunet-admin.php:557 admin/class-tunet-admin.php:599 blocks/section/edit.js:209
 msgid "Background"
-msgstr ""
+msgstr "Fondo"
 
 #: blocks/section/edit.js:155
 msgid "Background color"
-msgstr ""
+msgstr "Color de fondo"
 
 #: blocks/content-slider/edit.js:98
 msgid "Background image"
-msgstr ""
+msgstr "Imagen de fondo"
 
 #: blocks/section/edit.js:140
 msgid "Background type"
-msgstr ""
+msgstr "Tipo de fondo"
 
 #: blocks/section/edit.js:200
 msgid "Background video always plays muted, with a pause control. Visitors who ask for reduced motion see the poster instead, with a play control — and the video is not downloaded until they ask for it."
-msgstr ""
+msgstr "El vídeo de fondo se reproduce siempre sin sonido y con un control de pausa. Quien pide movimiento reducido ve el póster en su lugar, con un control de reproducción, y el vídeo no se descarga hasta que lo pide."
 
 #: blocks/badge/edit.js:15
 msgid "Badge"
-msgstr ""
+msgstr "Distintivo"
 
-#: admin/class-tunet-admin.php:451
+#: admin/class-tunet-admin.php:536
 msgid "Base size"
-msgstr ""
+msgstr "Tamaño base"
 
 #: blocks/before-after/edit.js:90
 msgid "Before label"
-msgstr ""
+msgstr "Etiqueta de «antes»"
 
 #: extensions/effects-editor.js:284
 msgid "Blend mode"
-msgstr ""
+msgstr "Modo de fusión"
 
-#: admin/class-tunet-admin.php:551
+#: admin/class-tunet-admin.php:636
 msgid "Blog & archives"
-msgstr ""
+msgstr "Blog y archivos"
 
 #: extensions/effects-editor.js:126
 msgid "Blur in"
-msgstr ""
+msgstr "Aparecer desenfocado"
 
-#: admin/class-tunet-admin.php:449
+#: admin/class-tunet-admin.php:534
 msgid "Body"
-msgstr ""
+msgstr "Cuerpo"
 
-#: admin/class-tunet-admin.php:536
+#: admin/class-tunet-admin.php:621
 msgid "Bold (slow)"
-msgstr ""
+msgstr "Intenso (lento)"
 
 #: extensions/effects-editor.js:321
 msgid "Border width (px)"
-msgstr ""
+msgstr "Grosor del borde (px)"
 
 #: blocks/section/edit.js:244
 msgid "Bottom"
-msgstr ""
+msgstr "Abajo"
 
 #: blocks/content-slider/edit.js:55
 msgid "Bottom center"
-msgstr ""
+msgstr "Abajo al centro"
 
 #: blocks/section/edit.js:260
 msgid "Bottom divider"
-msgstr ""
+msgstr "Divisor inferior"
 
 #: blocks/content-slider/edit.js:54
 msgid "Bottom left"
-msgstr ""
+msgstr "Abajo a la izquierda"
 
 #: blocks/content-slider/edit.js:56
 msgid "Bottom right"
-msgstr ""
+msgstr "Abajo a la derecha"
 
 #: blocks/brand/edit.js:35
 msgid "Brand"
-msgstr ""
+msgstr "Marca"
 
 #: blocks/icon/edit.js:23 blocks/marquee/edit.js:78
 msgid "Brand / Social"
-msgstr ""
+msgstr "Marca / Redes"
 
-#: admin/class-tunet-admin.php:431
+#: admin/class-tunet-admin.php:516
 msgid "Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic)."
-msgstr ""
+msgstr "Recursos de marca que se mantienen entre themes. El logo principal se sincroniza con el Logo del sitio nativo. Sube alta resolución (retina es automático)."
 
-#: admin/class-tunet-admin.php:455
+#: admin/class-tunet-admin.php:540
 msgid "Brand colors"
-msgstr ""
+msgstr "Colores de marca"
 
-#: admin/class-tunet-admin.php:485
+#: admin/class-tunet-admin.php:570
 msgid "Brand colors are overriding this theme."
-msgstr ""
+msgstr "Los colores de marca están anulando este theme."
 
-#: admin/class-tunet-admin.php:430
+#: admin/class-tunet-admin.php:515
 msgid "Brand logos"
-msgstr ""
+msgstr "Logos de marca"
 
-#: admin/class-tunet-admin.php:443
+#: admin/class-tunet-admin.php:528
 msgid "Branding"
-msgstr ""
+msgstr "Identidad de marca"
 
 #: blocks/content-slider/edit.js:81
 msgid "CTA"
-msgstr ""
+msgstr "Llamada a la acción"
 
 #: extensions/effects-editor.js:204
 msgid "Cadence between words. 0 = default cadence."
-msgstr ""
+msgstr "Cadencia entre palabras. 0 = cadencia por defecto."
 
-#: admin/class-tunet-demo.php:1073
+#: admin/class-tunet-demo.php:1161
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: blocks/badge/edit.js:16
 msgid "Caption (repeat with · )"
-msgstr ""
+msgstr "Texto (repítelo con · )"
 
 #: blocks/content-slider/edit.js:193 blocks/testimonials/edit.js:19
 msgid "Carousel"
-msgstr ""
+msgstr "Carrusel"
 
 #: blocks/content-slider/edit.js:21 blocks/content-slider/edit.js:26 blocks/content-slider/edit.js:52 blocks/section/edit.js:244
 msgid "Center"
-msgstr ""
+msgstr "Centro"
 
 #: blocks/content-slider/edit.js:51
 msgid "Center left"
-msgstr ""
+msgstr "Centro a la izquierda"
 
 #: blocks/content-slider/edit.js:53
 msgid "Center right"
-msgstr ""
+msgstr "Centro a la derecha"
 
 #: blocks/before-after/edit.js:28
 msgid "Change after image"
-msgstr ""
+msgstr "Cambiar la imagen «después»"
 
 #: blocks/before-after/edit.js:26
 msgid "Change before image"
-msgstr ""
+msgstr "Cambiar la imagen «antes»"
 
-#: admin/class-tunet-admin.php:730
+#: admin/class-tunet-admin.php:818
 msgid "Choose / change"
-msgstr ""
+msgstr "Elegir / cambiar"
 
 #: blocks/before-after/edit.js:28
 msgid "Choose after image"
-msgstr ""
+msgstr "Elegir la imagen «después»"
 
 #: blocks/before-after/edit.js:26
 msgid "Choose before image"
-msgstr ""
+msgstr "Elegir la imagen «antes»"
 
 #: blocks/section/edit.js:166
 msgid "Choose image"
-msgstr ""
+msgstr "Elegir imagen"
 
 #: blocks/before-after/edit.js:128
 msgid "Choose the before and after images to compare."
-msgstr ""
+msgstr "Elige las imágenes de antes y después para comparar."
 
 #: blocks/section/edit.js:171
 msgid "Choose video"
-msgstr ""
+msgstr "Elegir vídeo"
 
-#: admin/class-tunet-admin.php:501
+#: admin/class-tunet-admin.php:586
 msgid "Clear all brand colors"
-msgstr ""
+msgstr "Vaciar todos los colores de marca"
 
 #: content/class-tunet-content.php:101
 msgid "Client"
-msgstr ""
+msgstr "Cliente"
 
 #: extensions/effects-editor.js:124
 msgid "Clip reveal"
-msgstr ""
+msgstr "Revelado por recorte"
 
 #: blocks/content-slider/edit.js:103 blocks/section/edit.js:144 blocks/section/edit.js:217
 msgid "Color"
-msgstr ""
+msgstr "Color"
 
 #: blocks/testimonials/edit.js:68
 msgid "Columns"
-msgstr ""
+msgstr "Columnas"
 
-#: admin/class-tunet-admin.php:451
+#: admin/class-tunet-admin.php:536
 msgid "Compact"
-msgstr ""
+msgstr "Compacto"
 
 #: blocks/before-after/render.php:64
 msgid "Compare before and after"
-msgstr ""
+msgstr "Comparar antes y después"
 
 #: blocks/section/edit.js:249
 msgid "Constrained (content)"
-msgstr ""
+msgstr "Restringido (contenido)"
 
 #: blocks/icon/edit.js:22 blocks/marquee/edit.js:77
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #: blocks/content-slider/edit.js:36
 msgid "Contain (fit)"
-msgstr ""
+msgstr "Contener (ajustar)"
 
 #: blocks/content-slider/edit.js:218
 msgid "Content Slider"
-msgstr ""
+msgstr "Carrusel de contenido"
 
 #: blocks/content-slider/edit.js:146
 msgid "Content alignment (slide)"
-msgstr ""
+msgstr "Alineación del contenido (diapositiva)"
 
-#: admin/class-tunet-admin.php:542
+#: admin/class-tunet-admin.php:627
 msgid "Content layout"
-msgstr ""
+msgstr "Disposición del contenido"
 
 #: blocks/section/edit.js:246
 msgid "Content width"
-msgstr ""
+msgstr "Ancho del contenido"
 
-#: admin/class-tunet-admin.php:358 admin/class-tunet-demo.php:1076
+#: admin/class-tunet-admin.php:443 admin/class-tunet-demo.php:1164
 msgid "Continue"
-msgstr ""
+msgstr "Continuar"
 
-#: admin/class-tunet-admin.php:523
+#: admin/class-tunet-admin.php:608
 msgid "Corner radius (px)"
-msgstr ""
+msgstr "Radio de las esquinas (px)"
 
-#: admin/class-tunet-demo.php:911
+#: admin/class-tunet-demo.php:999
 msgid "Could not reach the plugin directory."
-msgstr ""
+msgstr "No se pudo acceder al directorio de plugins."
 
 #: blocks/counter/edit.js:63
 msgid "Counter"
-msgstr ""
+msgstr "Contador"
 
 #: blocks/content-slider/edit.js:35
 msgid "Cover (fill)"
-msgstr ""
+msgstr "Cubrir (rellenar)"
 
-#: admin/class-tunet-demo.php:1082
+#: admin/class-tunet-demo.php:1170
 msgid "Creates the demo as native, editable blocks — pages, content and settings. You can undo it with one click."
-msgstr ""
+msgstr "Crea la demo como bloques nativos y editables — páginas, contenido y ajustes. Puedes deshacerla con un solo clic."
 
 #: admin/class-tunet-demo.php:171
 msgid "Creating contact form…"
-msgstr ""
+msgstr "Creando formulario de contacto…"
 
 #: admin/class-tunet-demo.php:174
 msgid "Creating journal posts…"
-msgstr ""
+msgstr "Creando entradas del diario…"
 
 #: admin/class-tunet-demo.php:175
 msgid "Creating pages…"
-msgstr ""
+msgstr "Creando páginas…"
 
 #: admin/class-tunet-demo.php:177
 msgid "Creating products…"
-msgstr ""
+msgstr "Creando productos…"
 
 #: admin/class-tunet-demo.php:173
 msgid "Creating projects…"
-msgstr ""
+msgstr "Creando proyectos…"
 
 #: blocks/section/edit.js:83
 msgid "Curve"
-msgstr ""
+msgstr "Curva"
 
 #: blocks/content-slider/edit.js:102
 msgid "Darkens the image so the text stays readable."
-msgstr ""
+msgstr "Oscurece la imagen para que el texto siga siendo legible."
 
 #: blocks/marquee/edit.js:159
 msgid "Dash"
-msgstr ""
+msgstr "Guion"
 
 #: blocks/counter/edit.js:73
 msgid "Decimals"
-msgstr ""
+msgstr "Decimales"
 
 #: blocks/content-slider/edit.js:106
 msgid "Defaults to the theme ink color."
-msgstr ""
+msgstr "Por defecto, el color de tinta del tema."
 
 #: extensions/effects-editor.js:160
 msgid "Delay (ms)"
-msgstr ""
+msgstr "Retardo (ms)"
 
-#: admin/class-tunet-demo.php:944 admin/class-tunet-demo.php:945
+#: admin/class-tunet-demo.php:1032 admin/class-tunet-demo.php:1033
 msgid "Demo"
-msgstr ""
+msgstr "Demo"
 
-#: admin/class-tunet-demo.php:1059
+#: admin/class-tunet-demo.php:1147
 msgid "Demo for %s"
-msgstr ""
+msgstr "Demo de %s"
 
-#: admin/class-tunet-admin.php:347
+#: admin/class-tunet-admin.php:432
 msgid "Demo imported."
-msgstr ""
+msgstr "Demo importada."
 
 #: blocks/content-slider/edit.js:144
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #: blocks/content-slider/edit.js:145
 msgid "Description alignment"
-msgstr ""
+msgstr "Alineación de la descripción"
 
 #: blocks/section/edit.js:82
 msgid "Diagonal"
-msgstr ""
+msgstr "Diagonal"
 
 #: blocks/marquee/edit.js:117
 msgid "Direction"
-msgstr ""
+msgstr "Dirección"
 
-#: admin/class-tunet-admin.php:448
+#: admin/class-tunet-admin.php:533
 msgid "Display"
-msgstr ""
+msgstr "Display"
 
 #: extensions/effects-editor.js:140
 msgid "Display style"
-msgstr ""
+msgstr "Estilo de presentación"
 
 #: blocks/section/edit.js:261
 msgid "Divider color"
-msgstr ""
+msgstr "Color del divisor"
 
 #: blocks/section/edit.js:262
 msgid "Divider height (px)"
-msgstr ""
+msgstr "Altura del divisor (px)"
 
 #: blocks/marquee/edit.js:158
 msgid "Dot"
-msgstr ""
+msgstr "Punto"
 
-#: admin/class-tunet-admin.php:592
+#: admin/class-tunet-admin.php:677
 msgid "Download the current settings as a JSON file."
-msgstr ""
+msgstr "Descarga los ajustes actuales como archivo JSON."
 
 #: blocks/counter/edit.js:70 extensions/effects-editor.js:171
 msgid "Duration (ms)"
-msgstr ""
+msgstr "Duración (ms)"
 
 #: extensions/effects-editor.js:183
 msgid "Easing curve"
-msgstr ""
+msgstr "Curva de aceleración"
 
 #: content/class-tunet-content.php:50
 msgid "Edit Project"
-msgstr ""
+msgstr "Editar proyecto"
 
-#: admin/class-tunet-admin.php:457
+#: admin/class-tunet-admin.php:542
 msgid "Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation."
-msgstr ""
+msgstr "Vacío = decide el theme. Un valor aquí anula el token del theme en todo el sitio, en todas las variaciones de estilo."
 
-#: admin/class-tunet-admin.php:526
+#: admin/class-tunet-admin.php:611
 msgid "Empty = theme. Rounding for Tunet blocks/components that use the radius tokens. 0 = sharp."
-msgstr ""
+msgstr "Vacío = theme. Redondeo para los bloques/componentes de Tunet que usan los tokens de radio. 0 = recto."
 
 #: blocks/section/edit.js:211
 msgid "Enable overlay"
-msgstr ""
+msgstr "Activar la superposición"
 
-#: admin/class-tunet-admin.php:561
+#: admin/class-tunet-admin.php:646
 msgid "Enable the effects engine (tf*) on the front-end"
-msgstr ""
+msgstr "Activar el motor de efectos (tf*) en el front-end"
 
 #: extensions/effects-editor.js:359
 msgid "End color (empty = theme accent 2)"
-msgstr ""
+msgstr "Color final (vacío = acento 2 del tema)"
 
 #: blocks/counter/edit.js:67
 msgid "End value"
-msgstr ""
+msgstr "Valor final"
 
 #: extensions/effects-editor.js:119
 msgid "Entrance animation"
-msgstr ""
+msgstr "Animación de entrada"
 
-#: admin/class-tunet-admin.php:591
+#: admin/class-tunet-admin.php:676
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
-#: admin/class-tunet-admin.php:596
+#: admin/class-tunet-admin.php:681
 msgid "Export settings (.json)"
-msgstr ""
+msgstr "Exportar ajustes (.json)"
 
 #: extensions/effects-editor.js:123
 msgid "Fade up"
-msgstr ""
+msgstr "Aparecer subiendo"
 
 #: blocks/content-slider/edit.js:30
 msgid "Filled"
-msgstr ""
+msgstr "Relleno"
 
 #: admin/class-tunet-demo.php:179
 msgid "Finishing…"
-msgstr ""
+msgstr "Finalizando…"
 
 #: blocks/section/edit.js:251
 msgid "Full"
-msgstr ""
+msgstr "Completo"
 
-#: admin/class-tunet-admin.php:547
+#: admin/class-tunet-admin.php:632
 msgid "Full width (no sidebar)"
-msgstr ""
+msgstr "Ancho completo (sin barra lateral)"
 
-#: admin/class-tunet-admin.php:558 blocks/icon/edit.js:20 blocks/marquee/edit.js:75
+#: admin/class-tunet-admin.php:643 blocks/icon/edit.js:20 blocks/marquee/edit.js:75
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: extensions/effects-editor.js:237
 msgid "Glow"
-msgstr ""
+msgstr "Resplandor"
 
 #: blocks/content-slider/edit.js:103 blocks/section/edit.js:145 blocks/section/edit.js:157 blocks/section/edit.js:218 extensions/effects-editor.js:306
 msgid "Gradient"
-msgstr ""
+msgstr "Degradado"
 
 #: blocks/testimonials/edit.js:20
 msgid "Grid"
-msgstr ""
+msgstr "Rejilla"
 
 #: extensions/effects-editor.js:232
 msgid "Hover effect"
-msgstr ""
+msgstr "Efecto al pasar el ratón"
 
 #: blocks/icon/edit.js:80 blocks/marquee/edit.js:162
 msgid "Icon"
-msgstr ""
+msgstr "Icono"
 
-#: admin/class-tunet-demo.php:994 blocks/section/edit.js:147
+#: admin/class-tunet-demo.php:1082 blocks/section/edit.js:147
 msgid "Image"
 msgid_plural "Images"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Imagen"
+msgstr[1] "Imágenes"
 
 #: extensions/effects-editor.js:241
 msgid "Image zoom"
-msgstr ""
+msgstr "Zoom de imagen"
 
 #: blocks/before-after/edit.js:66
 msgid "Images"
-msgstr ""
+msgstr "Imágenes"
 
-#: admin/class-tunet-admin.php:602 admin/class-tunet-demo.php:1044
+#: admin/class-tunet-admin.php:687 admin/class-tunet-demo.php:1132
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
-#: admin/class-tunet-demo.php:1092
+#: admin/class-tunet-demo.php:1180
 msgid "Import demo"
-msgstr ""
+msgstr "Importar demo"
 
-#: admin/class-tunet-admin.php:608
+#: admin/class-tunet-admin.php:693
 msgid "Import settings"
-msgstr ""
+msgstr "Importar ajustes"
 
-#: admin/class-tunet-demo.php:1081
+#: admin/class-tunet-demo.php:1169
 msgid "Import the demo"
-msgstr ""
+msgstr "Importar la demo"
 
-#: admin/class-tunet-admin.php:348 admin/class-tunet-demo.php:838
+#: admin/class-tunet-admin.php:433 admin/class-tunet-demo.php:926
 msgid "Import undone."
-msgstr ""
+msgstr "Importación deshecha."
 
 #: admin/class-tunet-demo.php:169
 msgid "Importing media…"
-msgstr ""
+msgstr "Importando archivos multimedia…"
 
-#: admin/class-tunet-admin.php:346
+#: admin/class-tunet-admin.php:431
 msgid "Importing…"
-msgstr ""
+msgstr "Importando…"
 
 #: blocks/section/edit.js:253
 msgid "Independent of the section width. Set the section to “Full width” (toolbar) and constrain the content here."
-msgstr ""
+msgstr "Independiente del ancho de la sección. Pon la sección a «Ancho completo» (barra de herramientas) y restringe aquí el contenido."
 
 #: blocks/content-slider/edit.js:196 blocks/testimonials/edit.js:72
 msgid "Infinite loop"
-msgstr ""
+msgstr "Bucle infinito"
 
 #: blocks/content-slider/edit.js:19
 msgid "Inherit"
-msgstr ""
+msgstr "Heredar"
 
-#: admin/class-tunet-admin.php:353 admin/class-tunet-demo.php:1075
+#: admin/class-tunet-admin.php:438 admin/class-tunet-demo.php:1163
 msgid "Install & activate"
-msgstr ""
+msgstr "Instalar y activar"
 
-#: admin/class-tunet-demo.php:917
+#: admin/class-tunet-demo.php:1005
 msgid "Install failed — install it manually."
-msgstr ""
+msgstr "La instalación falló — instálalo manualmente."
 
-#: admin/class-tunet-admin.php:363
+#: admin/class-tunet-admin.php:448
 msgid "Install manually"
-msgstr ""
+msgstr "Instalar manualmente"
 
-#: admin/class-tunet-admin.php:354
+#: admin/class-tunet-admin.php:439
 msgid "Installing…"
-msgstr ""
+msgstr "Instalando…"
 
 #: extensions/effects-editor.js:214
 msgid "It will animate once published (the animation runs on the front-end)."
-msgstr ""
+msgstr "Se animará al publicar (la animación ocurre en el front-end)."
 
 #: blocks/shared/repeater-control.js:91
 msgid "Item"
-msgstr ""
+msgstr "Elemento"
 
 #: blocks/testimonials/edit.js:80
 msgid "Items"
-msgstr ""
+msgstr "Elementos"
 
-#: admin/class-tunet-demo.php:976
+#: admin/class-tunet-demo.php:1064
 msgid "Journal post"
 msgid_plural "Journal posts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Entrada del diario"
+msgstr[1] "Entradas del diario"
 
-#: admin/class-tunet-admin.php:451
+#: admin/class-tunet-admin.php:536
 msgid "Large"
-msgstr ""
+msgstr "Grande"
 
 #: blocks/section/edit.js:242 blocks/testimonials/edit.js:66
 msgid "Layout"
-msgstr ""
+msgstr "Disposición"
 
 #: blocks/badge/render.php:39
 msgid "Learn more"
-msgstr ""
+msgstr "Más información"
 
 #: blocks/icon/edit.js:117
 msgid "Leave empty if the icon is purely decorative."
-msgstr ""
+msgstr "Déjalo vacío si el icono es solo decorativo."
 
 #: blocks/content-slider/edit.js:20 blocks/content-slider/edit.js:25 blocks/marquee/edit.js:120
 msgid "Left"
-msgstr ""
+msgstr "Izquierda"
 
 #: extensions/effects-editor.js:236
 msgid "Lift"
-msgstr ""
+msgstr "Elevar"
 
 #: blocks/content-slider/edit.js:83
 msgid "Link (URL)"
-msgstr ""
+msgstr "Enlace (URL)"
 
 #: blocks/badge/edit.js:17
 msgid "Link URL"
-msgstr ""
+msgstr "URL del enlace"
 
 #: blocks/brand/edit.js:64
 msgid "Link to Home"
-msgstr ""
+msgstr "Enlazar al inicio"
 
 #: blocks/section/edit.js:192
 msgid "Loop"
-msgstr ""
+msgstr "Bucle"
 
 #: extensions/effects-editor.js:239
 msgid "Magnetic"
-msgstr ""
+msgstr "Magnético"
 
 #: blocks/brand/edit.js:41
 msgid "Main"
-msgstr ""
+msgstr "Principal"
 
-#: admin/class-tunet-admin.php:436
+#: admin/class-tunet-admin.php:521
 msgid "Main logo"
-msgstr ""
+msgstr "Logo principal"
 
 #: blocks/brand/edit.js:75
 msgid "Manage logo in Tunet Core → Logos"
-msgstr ""
+msgstr "Gestiona el logo en Tunet Core → Logos"
 
 #: blocks/marquee/edit.js:106
 msgid "Marquee"
-msgstr ""
+msgstr "Banda"
 
 #: extensions/effects-editor.js:125
 msgid "Mask up"
-msgstr ""
+msgstr "Máscara hacia arriba"
 
 #: blocks/brand/edit.js:55
 msgid "Max width (px)"
-msgstr ""
+msgstr "Ancho máximo (px)"
 
 #: blocks/section/edit.js:146
 msgid "Mesh"
-msgstr ""
+msgstr "Malla"
 
 #: blocks/section/edit.js:161
 msgid "Mesh — color 1"
-msgstr ""
+msgstr "Malla — color 1"
 
 #: blocks/section/edit.js:162
 msgid "Mesh — color 2"
-msgstr ""
+msgstr "Malla — color 2"
 
 #: blocks/section/edit.js:163
 msgid "Mesh — color 3"
-msgstr ""
+msgstr "Malla — color 3"
 
 #: blocks/section/edit.js:243
 msgid "Minimum height (vh)"
-msgstr ""
+msgstr "Altura mínima (vh)"
 
-#: admin/class-tunet-admin.php:450
+#: admin/class-tunet-admin.php:535
 msgid "Monospace"
-msgstr ""
+msgstr "Monoespaciada"
 
-#: admin/class-tunet-admin.php:532
+#: admin/class-tunet-admin.php:617
 msgid "Motion"
-msgstr ""
+msgstr "Movimiento"
 
-#: admin/class-tunet-admin.php:536
+#: admin/class-tunet-admin.php:621
 msgid "Motion intensity"
-msgstr ""
+msgstr "Intensidad del movimiento"
 
 #: blocks/shared/repeater-control.js:143
 msgid "Move down"
-msgstr ""
+msgstr "Bajar"
 
 #: blocks/shared/repeater-control.js:142
 msgid "Move up"
-msgstr ""
+msgstr "Subir"
 
 #: blocks/testimonials/edit.js:41
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: blocks/icon/edit.js:21 blocks/marquee/edit.js:76
 msgid "Nav / UI"
-msgstr ""
+msgstr "Navegación / UI"
 
 #: blocks/content-slider/edit.js:199 blocks/testimonials/edit.js:75
 msgid "Navigation arrows"
-msgstr ""
+msgstr "Flechas de navegación"
 
 #: content/class-tunet-content.php:51
 msgid "New Project"
-msgstr ""
+msgstr "Nuevo proyecto"
 
-#: admin/class-tunet-demo.php:1028
+#: admin/class-tunet-demo.php:1116
 msgid "No demo to import for the active theme."
-msgstr ""
+msgstr "No hay ninguna demo para importar en el theme activo."
 
-#: admin/class-tunet-admin.php:361
+#: admin/class-tunet-admin.php:446
 msgid "No extra plugins needed for this demo — continue to the import."
-msgstr ""
+msgstr "No se necesitan plugins adicionales para esta demo — continúa con la importación."
 
 #: blocks/icon/edit.js:59 blocks/marquee/edit.js:72
 msgid "No icons match."
-msgstr ""
+msgstr "Ningún icono coincide."
 
 #: content/class-tunet-content.php:54
 msgid "No projects found"
-msgstr ""
+msgstr "No se encontraron proyectos"
 
 #: blocks/content-slider/edit.js:40
 msgid "No repeat"
-msgstr ""
+msgstr "Sin repetición"
 
 #: blocks/marquee/edit.js:157 blocks/section/edit.js:80 blocks/section/edit.js:143 extensions/effects-editor.js:235 extensions/effects-editor.js:254 extensions/effects-editor.js:287 extensions/effects-editor.js:305
 msgid "None"
-msgstr ""
+msgstr "Ninguno"
 
 #: extensions/effects-editor.js:122
 msgid "None (clean block)"
-msgstr ""
+msgstr "Ninguna (bloque limpio)"
 
 #: blocks/section/edit.js:226
 msgid "Opacity (%)"
-msgstr ""
+msgstr "Opacidad (%)"
 
-#: admin/class-tunet-admin.php:419
+#: admin/class-tunet-admin.php:504
 msgid "Open Styles in the Site Editor"
-msgstr ""
+msgstr "Abrir Estilos en el editor del sitio"
 
 #: blocks/content-slider/edit.js:85
 msgid "Open in new tab"
-msgstr ""
+msgstr "Abrir en una pestaña nueva"
 
-#: admin/class-tunet-admin.php:359
+#: admin/class-tunet-admin.php:444
 msgid "Optional"
-msgstr ""
+msgstr "Opcional"
 
 #: blocks/content-slider/edit.js:31 extensions/effects-editor.js:144
 msgid "Outline"
-msgstr ""
+msgstr "Contorno"
 
 #: blocks/section/edit.js:210
 msgid "Overlay"
-msgstr ""
+msgstr "Superposición"
 
 #: blocks/content-slider/edit.js:102
 msgid "Overlay (%)"
-msgstr ""
+msgstr "Superposición (%)"
 
 #: blocks/content-slider/edit.js:106 blocks/section/edit.js:223
 msgid "Overlay color"
-msgstr ""
+msgstr "Color de la superposición"
 
 #: blocks/content-slider/edit.js:116 blocks/section/edit.js:224
 msgid "Overlay gradient"
-msgstr ""
+msgstr "Degradado de la superposición"
 
 #: blocks/content-slider/edit.js:103 blocks/section/edit.js:214
 msgid "Overlay type"
-msgstr ""
+msgstr "Tipo de superposición"
 
-#: admin/class-tunet-demo.php:966
+#: admin/class-tunet-demo.php:1054
 msgid "Page"
 msgid_plural "Pages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Página"
+msgstr[1] "Páginas"
 
 #: blocks/content-slider/edit.js:198 blocks/testimonials/edit.js:74
 msgid "Pagination"
-msgstr ""
+msgstr "Paginación"
 
 #: extensions/effects-editor.js:255
 msgid "Parallax"
-msgstr ""
+msgstr "Parallax"
 
 #: extensions/effects-editor.js:269
 msgid "Parallax intensity"
-msgstr ""
+msgstr "Intensidad del parallax"
 
 #: blocks/marquee/render.php:89
 msgid "Pause"
-msgstr ""
+msgstr "Pausar"
 
-#: blocks/section/render.php:138
+#: blocks/section/render.php:154
 msgid "Pause background video"
-msgstr ""
+msgstr "Pausar el vídeo de fondo"
 
 #: blocks/marquee/edit.js:136
 msgid "Pause on hover"
-msgstr ""
+msgstr "Pausar al pasar el ratón"
 
-#: admin/class-tunet-admin.php:819 admin/class-tunet-admin.php:853 admin/class-tunet-admin.php:875 admin/class-tunet-demo.php:803 admin/class-tunet-demo.php:835 admin/class-tunet-demo.php:889
+#: admin/class-tunet-admin.php:907 admin/class-tunet-admin.php:941 admin/class-tunet-admin.php:963 admin/class-tunet-demo.php:891 admin/class-tunet-demo.php:923 admin/class-tunet-demo.php:977
 msgid "Permission denied."
-msgstr ""
+msgstr "Permiso denegado."
 
 #: blocks/marquee/edit.js:161
 msgid "Pipe"
-msgstr ""
+msgstr "Barra vertical"
 
 #: blocks/content-slider/edit.js:203
 msgid "Place the arrows in the side margins instead of over the slides."
-msgstr ""
+msgstr "Coloca las flechas en los márgenes laterales en vez de encima de las diapositivas."
 
 #: blocks/marquee/render.php:89
 msgid "Play"
-msgstr ""
+msgstr "Reproducir"
 
 #: blocks/section/edit.js:185
 msgid "Play automatically"
-msgstr ""
+msgstr "Reproducir automáticamente"
 
-#: blocks/section/render.php:138
+#: blocks/section/render.php:154
 msgid "Play background video"
-msgstr ""
+msgstr "Reproducir el vídeo de fondo"
 
-#: admin/class-tunet-demo.php:1043
+#: admin/class-tunet-demo.php:1131
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: blocks/content-slider/edit.js:99
 msgid "Position"
-msgstr ""
+msgstr "Posición"
 
 #: blocks/section/edit.js:180
 msgid "Poster image"
-msgstr ""
+msgstr "Imagen de póster"
 
 #: blocks/counter/edit.js:86
 msgid "Prefix"
-msgstr ""
+msgstr "Prefijo"
 
 #: admin/class-tunet-demo.php:168
 msgid "Preparing…"
-msgstr ""
+msgstr "Preparando…"
 
-#: admin/class-tunet-admin.php:469 admin/class-tunet-admin.php:511
+#: admin/class-tunet-admin.php:554 admin/class-tunet-admin.php:596
 msgid "Primary"
-msgstr ""
+msgstr "Primario"
 
-#: admin/class-tunet-demo.php:981
+#: admin/class-tunet-demo.php:1069
 msgid "Product"
 msgid_plural "Products"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Producto"
+msgstr[1] "Productos"
 
 #: extensions/effects-editor.js:258
 msgid "Progress bar"
-msgstr ""
+msgstr "Barra de progreso"
 
-#: admin/class-tunet-demo.php:971
+#: admin/class-tunet-demo.php:1059
 msgid "Project"
 msgid_plural "Projects"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Proyecto"
+msgstr[1] "Proyectos"
 
 #: blocks/testimonials/edit.js:43
 msgid "Quote"
-msgstr ""
+msgstr "Cita"
 
 #: blocks/testimonials/render.php:47
 msgid "Rated %s out of 5"
-msgstr ""
+msgstr "Valorado %s de 5"
 
 #: blocks/testimonials/edit.js:40
 msgid "Rating (0–5)"
-msgstr ""
+msgstr "Valoración (0–5)"
 
-#: admin/class-tunet-admin.php:352 admin/class-tunet-demo.php:1068
+#: admin/class-tunet-admin.php:437 admin/class-tunet-demo.php:1156
 msgid "Recommended plugins"
-msgstr ""
+msgstr "Plugins recomendados"
 
 #: blocks/section/edit.js:233
 msgid "Reinforce on small screens"
-msgstr ""
+msgstr "Reforzar en pantallas pequeñas"
 
 #: blocks/section/edit.js:73 blocks/shared/repeater-control.js:70 blocks/shared/repeater-control.js:144
 msgid "Remove"
-msgstr ""
+msgstr "Quitar"
 
-#: admin/class-tunet-admin.php:731
+#: admin/class-tunet-admin.php:819
 msgid "Remove logo"
-msgstr ""
+msgstr "Quitar logo"
 
 #: blocks/content-slider/edit.js:41 blocks/content-slider/edit.js:101
 msgid "Repeat"
-msgstr ""
+msgstr "Repetir"
 
 #: blocks/content-slider/edit.js:42
 msgid "Repeat X"
-msgstr ""
+msgstr "Repetir en X"
 
 #: blocks/content-slider/edit.js:43
 msgid "Repeat Y"
-msgstr ""
+msgstr "Repetir en Y"
 
 #: blocks/section/edit.js:71
 msgid "Replace"
-msgstr ""
+msgstr "Reemplazar"
 
 #: blocks/testimonials/edit.js:38
 msgid "Replace avatar"
-msgstr ""
+msgstr "Reemplazar el avatar"
 
 #: blocks/content-slider/edit.js:136 blocks/shared/repeater-control.js:36
 msgid "Replace image"
-msgstr ""
+msgstr "Reemplazar la imagen"
 
-#: admin/class-tunet-admin.php:357
+#: admin/class-tunet-admin.php:442
 msgid "Required"
-msgstr ""
+msgstr "Obligatorio"
 
-#: admin/class-tunet-admin.php:700
+#: admin/class-tunet-admin.php:785
 msgid "Reset to theme color"
-msgstr ""
+msgstr "Restablecer al color del theme"
 
-#: admin/class-tunet-admin.php:603
+#: admin/class-tunet-admin.php:688
 msgid "Restore settings from a previously exported JSON file."
-msgstr ""
+msgstr "Restaura los ajustes desde un archivo JSON exportado previamente."
 
 #: extensions/effects-editor.js:257
 msgid "Reveal on scroll"
-msgstr ""
+msgstr "Revelar al desplazar"
 
 #: blocks/badge/edit.js:19
 msgid "Reverse direction"
-msgstr ""
+msgstr "Invertir la dirección"
 
 #: blocks/content-slider/edit.js:22 blocks/content-slider/edit.js:27 blocks/marquee/edit.js:121
 msgid "Right"
-msgstr ""
+msgstr "Derecha"
 
 #: content/class-tunet-content.php:103
 msgid "Role"
-msgstr ""
+msgstr "Rol"
 
 #: blocks/testimonials/edit.js:42
 msgid "Role · Company"
-msgstr ""
+msgstr "Puesto · Empresa"
 
 #: extensions/effects-editor.js:307
 msgid "Rotating conic"
-msgstr ""
+msgstr "Cónico giratorio"
 
-#: admin/class-tunet-admin.php:566
+#: admin/class-tunet-admin.php:651
 msgid "Save settings"
-msgstr ""
+msgstr "Guardar ajustes"
 
 #: extensions/effects-editor.js:127
 msgid "Scale in"
-msgstr ""
+msgstr "Aparecer escalando"
 
 #: extensions/effects-editor.js:251
 msgid "Scroll effect"
-msgstr ""
+msgstr "Efecto al desplazar"
 
 #: content/class-tunet-content.php:53
 msgid "Search Projects"
-msgstr ""
+msgstr "Buscar proyectos"
 
 #: blocks/icon/edit.js:84 blocks/marquee/edit.js:91
 msgid "Search icons"
-msgstr ""
+msgstr "Buscar iconos"
 
 #: blocks/icon/edit.js:85 blocks/marquee/edit.js:91
 msgid "Search…"
-msgstr ""
+msgstr "Buscar…"
 
 #: blocks/badge/edit.js:18
 msgid "Seconds per turn"
-msgstr ""
+msgstr "Segundos por vuelta"
 
-#: admin/class-tunet-admin.php:350
+#: admin/class-tunet-admin.php:435
 msgid "Select logo"
-msgstr ""
+msgstr "Seleccionar logo"
 
 #: blocks/marquee/edit.js:152
 msgid "Separator"
-msgstr ""
+msgstr "Separador"
 
 #: blocks/marquee/edit.js:171
 msgid "Separator color"
-msgstr ""
+msgstr "Color del separador"
 
 #: blocks/testimonials/edit.js:37
 msgid "Set avatar"
-msgstr ""
+msgstr "Poner avatar"
 
 #: blocks/content-slider/edit.js:135 blocks/shared/repeater-control.js:35
 msgid "Set image"
-msgstr ""
+msgstr "Poner imagen"
 
-#: admin/class-tunet-admin.php:291 admin/class-tunet-admin.php:292 blocks/before-after/edit.js:77
+#: admin/class-tunet-admin.php:376 admin/class-tunet-admin.php:377 blocks/before-after/edit.js:77
 msgid "Settings"
-msgstr ""
+msgstr "Ajustes"
 
-#: admin/class-tunet-admin.php:752
+#: admin/class-tunet-admin.php:840
 msgid "Settings imported successfully."
-msgstr ""
+msgstr "Ajustes importados correctamente."
 
-#: admin/class-tunet-admin.php:750
+#: admin/class-tunet-admin.php:838
 msgid "Settings saved."
-msgstr ""
+msgstr "Ajustes guardados."
 
-#: admin/class-tunet-admin.php:519 blocks/marquee/edit.js:154
+#: admin/class-tunet-admin.php:604 blocks/marquee/edit.js:154
 msgid "Shape"
-msgstr ""
+msgstr "Forma"
 
 #: blocks/section/edit.js:258
 msgid "Shape dividers"
-msgstr ""
+msgstr "Divisores de forma"
 
-#: admin/class-tunet-admin.php:543
+#: admin/class-tunet-admin.php:628
 msgid "Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor."
-msgstr ""
+msgstr "Muestra una barra lateral —o usa el ancho completo— en las entradas del blog y los archivos. Las páginas no se ven afectadas aquí: usan plantillas por página (p. ej. Estrecha, Con barra lateral) que se eligen en el editor de páginas."
 
-#: admin/class-tunet-admin.php:550
+#: admin/class-tunet-admin.php:635
 msgid "Single posts"
-msgstr ""
+msgstr "Entradas individuales"
 
 #: blocks/content-slider/edit.js:100
 msgid "Size"
-msgstr ""
+msgstr "Tamaño"
 
 #: blocks/icon/edit.js:92
 msgid "Size & label"
-msgstr ""
+msgstr "Tamaño y etiqueta"
 
 #: blocks/icon/edit.js:94
 msgid "Size (px)"
-msgstr ""
+msgstr "Tamaño (px)"
 
 #: blocks/marquee/edit.js:160
 msgid "Slash"
-msgstr ""
+msgstr "Barra"
 
 #: blocks/content-slider/edit.js:188
 msgid "Slide"
-msgstr ""
+msgstr "Diapositiva"
 
 #: extensions/effects-editor.js:128
 msgid "Slide left"
-msgstr ""
+msgstr "Deslizar a la izquierda"
 
 #: extensions/effects-editor.js:129
 msgid "Slide right"
-msgstr ""
+msgstr "Deslizar a la derecha"
 
 #: blocks/content-slider/edit.js:180
 msgid "Slides"
-msgstr ""
+msgstr "Diapositivas"
 
 #: blocks/content-slider/edit.js:194 blocks/testimonials/edit.js:70
 msgid "Slides per view"
-msgstr ""
+msgstr "Diapositivas visibles"
 
 #: blocks/section/edit.js:240
 msgid "Small-screen opacity (%)"
-msgstr ""
+msgstr "Opacidad en pantallas pequeñas (%)"
 
 #: blocks/section/edit.js:239
 msgid "Small-screen scrim color"
-msgstr ""
+msgstr "Color del velo en pantallas pequeñas"
 
 #: extensions/effects-editor.js:143
 msgid "Solid (default)"
-msgstr ""
+msgstr "Sólido (por defecto)"
 
 #: blocks/content-slider/edit.js:195 blocks/testimonials/edit.js:71
 msgid "Space between (px)"
-msgstr ""
+msgstr "Espacio entre ellas (px)"
 
 #: blocks/marquee/edit.js:127
 msgid "Spacing (rem)"
-msgstr ""
+msgstr "Espaciado (rem)"
 
 #: blocks/marquee/edit.js:108 extensions/effects-editor.js:333
 msgid "Speed (s per loop)"
-msgstr ""
+msgstr "Velocidad (s por vuelta)"
 
-#: admin/class-tunet-admin.php:533
+#: admin/class-tunet-admin.php:618
 msgid "Speed of all Tunet effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic."
-msgstr ""
+msgstr "Velocidad de todos los efectos de Tunet (entrada, hover, scroll). Sutil = más rápido y ajustado; Intenso = más lento y dramático."
 
 #: extensions/effects-editor.js:198
 msgid "Stagger (ms)"
-msgstr ""
+msgstr "Escalonado (ms)"
 
 #: extensions/effects-editor.js:205
 msgid "Staggers the entrance of direct children. 0 = no stagger."
-msgstr ""
+msgstr "Escalona la entrada de los hijos directos. 0 = sin escalonado."
 
 #: extensions/effects-editor.js:346
 msgid "Start color (empty = theme accent)"
-msgstr ""
+msgstr "Color inicial (vacío = acento del tema)"
 
 #: blocks/before-after/edit.js:79
 msgid "Start position (%)"
-msgstr ""
+msgstr "Posición inicial (%)"
 
 #: blocks/counter/edit.js:64
 msgid "Start value"
-msgstr ""
+msgstr "Valor inicial"
 
 #: extensions/effects-editor.js:256
 msgid "Sticky pin"
-msgstr ""
+msgstr "Fijar al desplazar"
 
 #: blocks/icon/edit.js:105
 msgid "Stroke width"
-msgstr ""
+msgstr "Grosor del trazo"
 
 #: blocks/content-slider/edit.js:84
 msgid "Style"
-msgstr ""
+msgstr "Estilo"
 
-#: admin/class-tunet-demo.php:340
+#: admin/class-tunet-demo.php:379
 msgid "Subject"
-msgstr ""
+msgstr "Asunto"
 
-#: admin/class-tunet-demo.php:342
+#: admin/class-tunet-demo.php:381
 msgid "Submit"
-msgstr ""
+msgstr "Enviar"
 
 #: blocks/content-slider/edit.js:142
 msgid "Subtitle"
-msgstr ""
+msgstr "Subtítulo"
 
 #: blocks/content-slider/edit.js:143
 msgid "Subtitle alignment"
-msgstr ""
+msgstr "Alineación del subtítulo"
 
 #: blocks/content-slider/edit.js:141
 msgid "Subtitle before title"
-msgstr ""
+msgstr "Subtítulo antes del título"
 
-#: admin/class-tunet-admin.php:536
+#: admin/class-tunet-admin.php:621
 msgid "Subtle (fast)"
-msgstr ""
+msgstr "Sutil (rápido)"
 
 #: blocks/counter/edit.js:94
 msgid "Suffix"
-msgstr ""
+msgstr "Sufijo"
 
-#: admin/class-tunet-admin.php:416
+#: admin/class-tunet-admin.php:501
 msgid "Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them."
-msgstr ""
+msgstr "Cambia el aspecto del theme activo —sus variaciones de estilo de color (p. ej. claro / oscuro)— en el editor del sitio. Las variaciones vienen con el theme; el editor es donde las previsualizas y aplicas."
 
 #: blocks/testimonials/edit.js:88
 msgid "Testimonial"
-msgstr ""
+msgstr "Testimonio"
 
 #: blocks/testimonials/edit.js:65 blocks/testimonials/edit.js:99
 msgid "Testimonials"
-msgstr ""
+msgstr "Testimonios"
 
-#: admin/class-tunet-admin.php:473 admin/class-tunet-admin.php:515 blocks/content-slider/edit.js:32 blocks/content-slider/edit.js:82
+#: admin/class-tunet-admin.php:558 admin/class-tunet-admin.php:600 blocks/content-slider/edit.js:32 blocks/content-slider/edit.js:82
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #: extensions/effects-editor.js:131
 msgid "Text fill"
-msgstr ""
+msgstr "Relleno de texto"
 
 #: extensions/effects-editor.js:130
 msgid "Text stagger"
-msgstr ""
+msgstr "Texto escalonado"
 
 #: blocks/marquee/edit.js:147
 msgid "The band only scrolls on the front end — here the items wrap so you can edit them. Visitors who ask for reduced motion see it still, with a play control."
-msgstr ""
+msgstr "La banda solo se desplaza en el front end; aquí los elementos se reparten en varias líneas para que puedas editarlos. Quien pide movimiento reducido la ve quieta, con un control de reproducción."
 
-#: admin/class-tunet-admin.php:754
+#: admin/class-tunet-admin.php:842
 msgid "The file is not a valid settings JSON."
-msgstr ""
+msgstr "El archivo no es un JSON de ajustes válido."
 
-#: admin/class-tunet-admin.php:407
+#: admin/class-tunet-admin.php:492
 msgid "The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens)."
-msgstr ""
+msgstr "El theme proporciona los valores por defecto. Lo que dejes vacío usa el theme; lo que definas lo sobrescribe globalmente (tokens --tnt-*)."
 
-#: admin/class-tunet-admin.php:451 admin/class-tunet-admin.php:536 admin/class-tunet-admin.php:630
+#: admin/class-tunet-admin.php:536 admin/class-tunet-admin.php:621 admin/class-tunet-admin.php:715
 msgid "Theme default"
-msgstr ""
+msgstr "Valor del theme"
 
 #: extensions/effects-editor.js:186
 msgid "Theme default (expo)"
-msgstr ""
+msgstr "Por defecto del tema (expo)"
 
-#: admin/class-tunet-admin.php:554
+#: admin/class-tunet-admin.php:639
 msgid "Themes that ship a sidebar area react automatically. A theme without one simply stays full width."
-msgstr ""
+msgstr "Los temas que incluyen una barra lateral reaccionan automáticamente. Un tema sin ella simplemente se queda a ancho completo."
 
-#: admin/class-tunet-admin.php:503
+#: admin/class-tunet-admin.php:588
 msgid "Then press Save changes."
-msgstr ""
+msgstr "Después pulsa Guardar cambios."
 
-#: admin/class-tunet-demo.php:1069
+#: admin/class-tunet-demo.php:1157
 msgid "These add optional parts of the demo (forms, shop…). Pick any you want and install & activate them, or just continue without them."
-msgstr ""
+msgstr "Estos añaden partes opcionales de la demo (formularios, tienda…). Elige los que quieras e instálalos y actívalos, o simplemente continúa sin ellos."
 
 #: extensions/effects-editor.js:220
 msgid "These words fill to the brand accent instead of ink. 1-based."
-msgstr ""
+msgstr "Estas palabras se rellenan con el acento de la marca en vez de con la tinta. Se cuenta desde 1."
 
 #: blocks/counter/edit.js:78
 msgid "Thousands separator"
-msgstr ""
+msgstr "Separador de miles"
 
 #: extensions/effects-editor.js:238
 msgid "Tilt 3D"
-msgstr ""
+msgstr "Inclinación 3D"
 
 #: blocks/content-slider/edit.js:139
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #: blocks/content-slider/edit.js:140
 msgid "Title alignment"
-msgstr ""
+msgstr "Alineación del título"
 
-#: admin/class-tunet-admin.php:300 admin/class-tunet-admin.php:301
+#: admin/class-tunet-admin.php:385 admin/class-tunet-admin.php:386
 msgid "Tools"
-msgstr ""
+msgstr "Herramientas"
 
 #: blocks/section/edit.js:244
 msgid "Top"
-msgstr ""
+msgstr "Arriba"
 
 #: blocks/content-slider/edit.js:49
 msgid "Top center"
-msgstr ""
+msgstr "Arriba al centro"
 
 #: blocks/section/edit.js:259
 msgid "Top divider"
-msgstr ""
+msgstr "Divisor superior"
 
 #: blocks/content-slider/edit.js:48
 msgid "Top left"
-msgstr ""
+msgstr "Arriba a la izquierda"
 
 #: blocks/content-slider/edit.js:50
 msgid "Top right"
-msgstr ""
+msgstr "Arriba a la derecha"
 
 #: blocks/before-after/edit.js:127
 msgid "Tunet Before / After"
-msgstr ""
+msgstr "Tunet Antes / Después"
 
-#: admin/class-tunet-admin.php:280 admin/class-tunet-admin.php:281 admin/class-tunet-admin.php:310 admin/class-tunet-admin.php:311 admin/class-tunet-admin.php:406
+#: admin/class-tunet-admin.php:365 admin/class-tunet-admin.php:366 admin/class-tunet-admin.php:395 admin/class-tunet-admin.php:396 admin/class-tunet-admin.php:491
 msgid "Tunet Core"
-msgstr ""
+msgstr "Tunet Core"
 
 #: tunet-core.php:326
 msgid "Tunet Core activation"
-msgstr ""
+msgstr "Activación de Tunet Core"
 
 #: tunet-core.php:321
 msgid "Tunet Core requires WordPress %1$s or newer and PHP %2$s or newer."
-msgstr ""
+msgstr "Tunet Core requiere WordPress %1$s o superior y PHP %2$s o superior."
 
-#: admin/class-tunet-demo.php:1022
+#: admin/class-tunet-demo.php:1110
 msgid "Tunet Core · Demo"
-msgstr ""
+msgstr "Tunet Core · Demo"
 
-#: admin/class-tunet-admin.php:583
+#: admin/class-tunet-admin.php:668
 msgid "Tunet Core · Tools"
-msgstr ""
+msgstr "Tunet Core · Herramientas"
 
 #: extensions/effects-editor.js:386
 msgid "Tunet Effects"
-msgstr ""
+msgstr "Efectos Tunet"
 
 #: content/class-tunet-content.php:85
 msgid "Types"
-msgstr ""
+msgstr "Tipos"
 
-#: admin/class-tunet-admin.php:445
+#: admin/class-tunet-admin.php:530
 msgid "Typography (Google Fonts)"
-msgstr ""
+msgstr "Tipografía (Google Fonts)"
 
 #: extensions/effects-editor.js:240
 msgid "Underline grow"
-msgstr ""
+msgstr "Subrayado que crece"
 
-#: admin/class-tunet-demo.php:1093
+#: admin/class-tunet-demo.php:1181
 msgid "Undo import"
-msgstr ""
+msgstr "Deshacer importación"
 
-#: admin/class-tunet-demo.php:895
+#: admin/class-tunet-demo.php:983
 msgid "Unknown plugin."
-msgstr ""
+msgstr "Plugin desconocido."
 
-#: admin/class-tunet-admin.php:351
+#: admin/class-tunet-admin.php:436
 msgid "Use this logo"
-msgstr ""
+msgstr "Usar este logo"
 
 #: blocks/brand/edit.js:37
 msgid "Variant"
-msgstr ""
+msgstr "Variante"
 
 #: blocks/section/edit.js:244
 msgid "Vertical alignment"
-msgstr ""
+msgstr "Alineación vertical"
 
 #: blocks/section/edit.js:148
 msgid "Video"
-msgstr ""
+msgstr "Vídeo"
 
 #: content/class-tunet-content.php:52
 msgid "View Project"
-msgstr ""
+msgstr "Ver proyecto"
 
-#: admin/class-tunet-admin.php:362 admin/class-tunet-demo.php:1088
+#: admin/class-tunet-admin.php:447 admin/class-tunet-demo.php:1176
 msgid "View site"
-msgstr ""
+msgstr "Ver el sitio"
 
 #: blocks/section/edit.js:81
 msgid "Wave"
-msgstr ""
+msgstr "Onda"
 
 #: content/class-tunet-content.php:104
 msgid "Website"
-msgstr ""
+msgstr "Sitio web"
 
-#: admin/class-tunet-admin.php:563
+#: admin/class-tunet-admin.php:648
 msgid "When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging)."
-msgstr ""
+msgstr "Cuando está desactivado, el runtime no se carga y los bloques se muestran limpios (útil para depurar el rendimiento)."
 
 #: blocks/section/edit.js:250
 msgid "Wide"
-msgstr ""
+msgstr "Ancho"
 
-#: admin/class-tunet-admin.php:548
+#: admin/class-tunet-admin.php:633
 msgid "With sidebar"
-msgstr ""
+msgstr "Con barra lateral"
 
-#: admin/class-tunet-admin.php:433
+#: admin/class-tunet-admin.php:518
 msgid "With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo."
-msgstr ""
+msgstr "Con el bloque Marca en Automático, el logo alternativo se usa en paletas oscuras y en variaciones de estilo oscuras, y el principal en el resto. Déjalo vacío para usar siempre el logo principal."
 
 #: content/class-tunet-content.php:102
 msgid "Year"
-msgstr ""
+msgstr "Año"
 
-#: admin/class-tunet-admin.php:496
+#: admin/class-tunet-admin.php:581
 msgid "You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable."
-msgstr ""
+msgstr "Has puesto un fondo pero no un color de texto: en un theme cuyo color de texto cambia con la variación, esa pareja puede quedar ilegible."
 
-#: admin/class-tunet-demo.php:339
+#: admin/class-tunet-demo.php:378
 msgid "Your email"
-msgstr ""
+msgstr "Tu correo electrónico"
 
-#: admin/class-tunet-demo.php:341
+#: admin/class-tunet-demo.php:380
 msgid "Your message (optional)"
-msgstr ""
+msgstr "Tu mensaje (opcional)"
 
-#: admin/class-tunet-demo.php:338
+#: admin/class-tunet-demo.php:377
 msgid "Your name"
-msgstr ""
+msgstr "Tu nombre"
 
 #: extensions/effects-editor.js:259
 msgid "Zoom on scroll"
-msgstr ""
+msgstr "Zoom al desplazar"
 
 #: content/class-tunet-content.php:47
 msgctxt "admin menu"
 msgid "Work"
-msgstr ""
+msgstr "Trabajo"
 
 #: blocks/content-slider/block.json:9
 msgctxt "block description"
 msgid "A structured slider: each slide has an image, title, subtitle, description and CTAs — edited in the sidebar."
-msgstr ""
+msgstr "Un carrusel estructurado: cada diapositiva lleva imagen, título, subtítulo, descripción y llamadas a la acción, y se edita desde la barra lateral."
 
 #: blocks/icon/block.json:9
 msgctxt "block description"
 msgid "An inline SVG icon from a curated stroke set. Inherits color (currentColor), so it's theme-token friendly — no raw HTML needed."
-msgstr ""
+msgstr "Un icono SVG en línea, de un set de trazo curado. Hereda el color (currentColor), así que encaja con los tokens del tema sin escribir HTML a mano."
 
 #: blocks/before-after/block.json:9
 msgctxt "block description"
 msgid "Image comparison with a draggable divider (before / after)."
-msgstr ""
+msgstr "Comparador de imágenes con un divisor que se arrastra (antes / después)."
 
 #: blocks/marquee/block.json:9
 msgctxt "block description"
 msgid "Infinite scrolling band of text or images (logos, claims, metrics). Content is inner blocks; duplicated for a seamless loop."
-msgstr ""
+msgstr "Banda infinita de texto o imágenes (logos, claims, métricas). El contenido son bloques internos, que se duplican para que el bucle no tenga costura."
 
 #: blocks/counter/block.json:9
 msgctxt "block description"
 msgid "Number that counts up to its value when it enters the viewport. Great for metrics and social proof."
-msgstr ""
+msgstr "Un número que cuenta hasta su valor al entrar en pantalla. Va bien para métricas y prueba social."
 
 #: blocks/badge/block.json:9
 msgctxt "block description"
 msgid "Rotating circular badge button — caption text on a ring around a center arrow. Links anywhere."
-msgstr ""
+msgstr "Botón circular giratorio: un texto en un anillo alrededor de una flecha central. Puede enlazar a donde quieras."
 
 #: blocks/section/block.json:9
 msgctxt "block description"
 msgid "Section with advanced backgrounds (animated gradient, mesh, image, video), overlay and shape dividers. The base for premium heroes."
-msgstr ""
+msgstr "Sección con fondos avanzados (degradado animado, malla, imagen, vídeo), superposición y divisores de forma. La base de los heroes premium."
 
 #: blocks/brand/block.json:9
 msgctxt "block description"
 msgid "Site brand: shows the logo if set (main or alt, managed in Tunet Core → Logos or the native Site Logo), otherwise the site title as text. In Automatic mode the alternative logo takes over on dark palettes. Linked to Home. Replaces the site-logo + site-title pair in headers."
-msgstr ""
+msgstr "La marca del sitio: muestra el logo si lo hay (principal o alternativo, gestionados en Tunet Core → Logos o en el Logo del sitio nativo) y, si no, el título del sitio como texto. En modo automático el logo alternativo toma el relevo en las paletas oscuras. Enlaza al inicio. Sustituye a la pareja logo-del-sitio + título-del-sitio de las cabeceras."
 
 #: blocks/testimonials/block.json:9
 msgctxt "block description"
 msgid "Typed testimonials in a carousel or grid. Each item has an avatar, star rating, quote, name and role."
-msgstr ""
+msgstr "Testimonios estructurados en carrusel o rejilla. Cada uno lleva avatar, valoración con estrellas, cita, nombre y puesto."
 
 #: blocks/before-after/block.json:10
 msgctxt "block keyword"
 msgid "after"
-msgstr ""
+msgstr "después"
 
 #: blocks/section/block.json:10
 msgctxt "block keyword"
 msgid "background"
-msgstr ""
+msgstr "fondo"
 
 #: blocks/badge/block.json:10
 msgctxt "block keyword"
 msgid "badge"
-msgstr ""
+msgstr "distintivo"
 
 #: blocks/marquee/block.json:10
 msgctxt "block keyword"
 msgid "band"
-msgstr ""
+msgstr "franja"
 
 #: blocks/before-after/block.json:10
 msgctxt "block keyword"
 msgid "before"
-msgstr ""
+msgstr "antes"
 
 #: blocks/brand/block.json:10
 msgctxt "block keyword"
 msgid "brand"
-msgstr ""
+msgstr "marca"
 
 #: blocks/badge/block.json:10
 msgctxt "block keyword"
 msgid "button"
-msgstr ""
+msgstr "botón"
 
 #: blocks/content-slider/block.json:10 blocks/testimonials/block.json:10
 msgctxt "block keyword"
 msgid "carousel"
-msgstr ""
+msgstr "carrusel"
 
 #: blocks/badge/block.json:10
 msgctxt "block keyword"
 msgid "circular"
-msgstr ""
+msgstr "circular"
 
 #: blocks/before-after/block.json:10
 msgctxt "block keyword"
 msgid "comparison"
-msgstr ""
+msgstr "comparación"
 
 #: blocks/content-slider/block.json:10
 msgctxt "block keyword"
 msgid "content"
-msgstr ""
+msgstr "contenido"
 
 #: blocks/counter/block.json:10
 msgctxt "block keyword"
 msgid "counter"
-msgstr ""
+msgstr "contador"
 
 #: blocks/badge/block.json:10
 msgctxt "block keyword"
 msgid "cta"
-msgstr ""
+msgstr "cta"
 
 #: blocks/section/block.json:10
 msgctxt "block keyword"
 msgid "divider"
-msgstr ""
+msgstr "divisor"
 
 #: blocks/icon/block.json:10
 msgctxt "block keyword"
 msgid "glyph"
-msgstr ""
+msgstr "glifo"
 
 #: blocks/section/block.json:10
 msgctxt "block keyword"
 msgid "gradient"
-msgstr ""
+msgstr "degradado"
 
 #: blocks/brand/block.json:10
 msgctxt "block keyword"
 msgid "header"
-msgstr ""
+msgstr "cabecera"
 
 #: blocks/content-slider/block.json:10 blocks/section/block.json:10
 msgctxt "block keyword"
 msgid "hero"
-msgstr ""
+msgstr "hero"
 
 #: blocks/icon/block.json:10
 msgctxt "block keyword"
 msgid "icon"
-msgstr ""
+msgstr "icono"
 
 #: blocks/brand/block.json:10
 msgctxt "block keyword"
 msgid "logo"
-msgstr ""
+msgstr "logo"
 
 #: blocks/marquee/block.json:10
 msgctxt "block keyword"
 msgid "logos"
-msgstr ""
+msgstr "logos"
 
 #: blocks/marquee/block.json:10
 msgctxt "block keyword"
 msgid "marquee"
-msgstr ""
+msgstr "banda"
 
 #: blocks/section/block.json:10
 msgctxt "block keyword"
 msgid "mesh"
-msgstr ""
+msgstr "malla"
 
 #: blocks/counter/block.json:10
 msgctxt "block keyword"
 msgid "metric"
-msgstr ""
+msgstr "métrica"
 
 #: blocks/counter/block.json:10
 msgctxt "block keyword"
 msgid "number"
-msgstr ""
+msgstr "número"
 
 #: blocks/testimonials/block.json:10
 msgctxt "block keyword"
 msgid "quotes"
-msgstr ""
+msgstr "citas"
 
 #: blocks/testimonials/block.json:10
 msgctxt "block keyword"
 msgid "reviews"
-msgstr ""
+msgstr "reseñas"
 
 #: blocks/badge/block.json:10
 msgctxt "block keyword"
 msgid "rotate"
-msgstr ""
+msgstr "girar"
 
 #: blocks/marquee/block.json:10
 msgctxt "block keyword"
 msgid "scroll"
-msgstr ""
+msgstr "desplazamiento"
 
 #: blocks/section/block.json:10
 msgctxt "block keyword"
 msgid "section"
-msgstr ""
+msgstr "sección"
 
 #: blocks/brand/block.json:10
 msgctxt "block keyword"
 msgid "site title"
-msgstr ""
+msgstr "título del sitio"
 
 #: blocks/before-after/block.json:10 blocks/content-slider/block.json:10
 msgctxt "block keyword"
 msgid "slider"
-msgstr ""
+msgstr "slider"
 
 #: blocks/counter/block.json:10
 msgctxt "block keyword"
 msgid "stats"
-msgstr ""
+msgstr "estadísticas"
 
 #: blocks/icon/block.json:10
 msgctxt "block keyword"
 msgid "svg"
-msgstr ""
+msgstr "svg"
 
 #: blocks/icon/block.json:10
 msgctxt "block keyword"
 msgid "symbol"
-msgstr ""
+msgstr "símbolo"
 
 #: blocks/testimonials/block.json:10
 msgctxt "block keyword"
 msgid "testimonials"
-msgstr ""
+msgstr "testimonios"
 
 #: blocks/marquee/block.json:10
 msgctxt "block keyword"
 msgid "ticker"
-msgstr ""
+msgstr "ticker"
 
 #: blocks/badge/block.json:6
 msgctxt "block title"
 msgid "Tunet Badge"
-msgstr ""
+msgstr "Tunet Distintivo"
 
 #: blocks/before-after/block.json:6
 msgctxt "block title"
 msgid "Tunet Before / After"
-msgstr ""
+msgstr "Tunet Antes / Después"
 
 #: blocks/brand/block.json:6
 msgctxt "block title"
 msgid "Tunet Brand"
-msgstr ""
+msgstr "Tunet Marca"
 
 #: blocks/content-slider/block.json:6
 msgctxt "block title"
 msgid "Tunet Content Slider"
-msgstr ""
+msgstr "Tunet Carrusel de contenido"
 
 #: blocks/counter/block.json:6
 msgctxt "block title"
 msgid "Tunet Counter"
-msgstr ""
+msgstr "Tunet Contador"
 
 #: blocks/icon/block.json:6
 msgctxt "block title"
 msgid "Tunet Icon"
-msgstr ""
+msgstr "Tunet Icono"
 
 #: blocks/marquee/block.json:6
 msgctxt "block title"
 msgid "Tunet Marquee"
-msgstr ""
+msgstr "Tunet Banda"
 
 #: blocks/section/block.json:6
 msgctxt "block title"
 msgid "Tunet Section"
-msgstr ""
+msgstr "Tunet Sección"
 
 #: blocks/testimonials/block.json:6
 msgctxt "block title"
 msgid "Tunet Testimonials"
-msgstr ""
+msgstr "Tunet Testimonios"
 
 #: blocks/counter/edit.js:96
 msgid "e.g. +, %, K, M"
-msgstr ""
+msgstr "p. ej. +, %, K, M"
 
 #: content/class-tunet-content.php:45
 msgctxt "post type general name"
 msgid "Projects"
-msgstr ""
+msgstr "Proyectos"
 
 #: content/class-tunet-content.php:46
 msgctxt "post type singular name"
 msgid "Project"
-msgstr ""
+msgstr "Proyecto"
 
 #: content/class-tunet-content.php:83
 msgctxt "taxonomy general name"
 msgid "Project Types"
-msgstr ""
+msgstr "Tipos de proyecto"
 
 #: content/class-tunet-content.php:84
 msgctxt "taxonomy singular name"
 msgid "Project Type"
-msgstr ""
+msgstr "Tipo de proyecto"
 

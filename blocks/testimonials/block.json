@@ -8,7 +8,7 @@
   "icon": "testimonial",
   "description": "Typed testimonials in a carousel or grid. Each item has an avatar, star rating, quote, name and role.",
   "keywords": ["testimonials", "reviews", "quotes", "carousel"],
-  "textdomain": "tunet",
+  "textdomain": "tunet-core",
   "supports": {
     "html": false,
     "anchor": true,

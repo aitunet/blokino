@@ -44,7 +44,7 @@ if ( ! function_exists( 'tunet_core_testimonial_card' ) ) {
 		if ( $rating > 0 && function_exists( 'tunet_core_icon_svg' ) ) {
 			$star  = tunet_core_icon_svg( 'star', array( 'size' => 0, 'class' => 'tunet-rating__star' ) );
 			$five  = str_repeat( $star, 5 );
-			$label = sprintf( /* translators: %s: rating value out of 5. */ __( 'Rated %s out of 5', 'tunet' ), $rating );
+			$label = sprintf( /* translators: %s: rating value out of 5. */ __( 'Rated %s out of 5', 'tunet-core' ), $rating );
 			$rating_html  = '<span class="tunet-rating" role="img" aria-label="' . esc_attr( $label ) . '" style="--tnt-rating:' . esc_attr( number_format( (float) $rating, 1, '.', '' ) ) . ';">';
 			$rating_html .= '<span class="tunet-rating__layer tunet-rating__layer--empty" aria-hidden="true">' . $five . '</span>';
 			$rating_html .= '<span class="tunet-rating__layer tunet-rating__layer--full" aria-hidden="true">' . $five . '</span>';
@@ -68,26 +68,26 @@ if ( ! function_exists( 'tunet_core_testimonial_card' ) ) {
 	}
 }
 
-$tnt_items = ( isset( $attributes['items'] ) && is_array( $attributes['items'] ) ) ? $attributes['items'] : array();
-if ( empty( $tnt_items ) ) {
+$tunet_items = ( isset( $attributes['items'] ) && is_array( $attributes['items'] ) ) ? $attributes['items'] : array();
+if ( empty( $tunet_items ) ) {
 	return;
 }
 
-$tnt_layout = ( isset( $attributes['layout'] ) && 'grid' === $attributes['layout'] ) ? 'grid' : 'carousel';
+$tunet_layout = ( isset( $attributes['layout'] ) && 'grid' === $attributes['layout'] ) ? 'grid' : 'carousel';
 
-if ( 'grid' === $tnt_layout ) {
-	$tnt_cols  = isset( $attributes['columns'] ) ? max( 1, min( 4, (int) $attributes['columns'] ) ) : 3;
-	$tnt_cards = '';
-	foreach ( $tnt_items as $tnt_item ) {
-		$tnt_cards .= tunet_core_testimonial_card( $tnt_item );
+if ( 'grid' === $tunet_layout ) {
+	$tunet_cols  = isset( $attributes['columns'] ) ? max( 1, min( 4, (int) $attributes['columns'] ) ) : 3;
+	$tunet_cards = '';
+	foreach ( $tunet_items as $tunet_item ) {
+		$tunet_cards .= tunet_core_testimonial_card( $tunet_item );
 	}
-	$tnt_wrapper = get_block_wrapper_attributes(
+	$tunet_wrapper = get_block_wrapper_attributes(
 		array(
 			'class' => 'tunet-testimonials tunet-testimonials--grid',
-			'style' => '--tnt-tst-cols:' . $tnt_cols . ';',
+			'style' => '--tnt-tst-cols:' . $tunet_cols . ';',
 		)
 	);
-	echo '<div ' . $tnt_wrapper . '>' . $tnt_cards . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup escapado en el card.
+	echo '<div ' . $tunet_wrapper . '>' . $tunet_cards . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup escapado en el card.
 	return;
 }
 
@@ -95,42 +95,42 @@ if ( class_exists( 'Tunet_Core_Runtime' ) ) {
 	Tunet_Core_Runtime::enqueue_carousel();
 }
 
-$tnt_spv   = isset( $attributes['slidesPerView'] ) ? (float) $attributes['slidesPerView'] : 3;
-$tnt_space = isset( $attributes['spaceBetween'] ) ? max( 0, (int) $attributes['spaceBetween'] ) : 24;
-$tnt_speed = isset( $attributes['speed'] ) ? max( 0, (int) $attributes['speed'] ) : 600;
-$tnt_delay = isset( $attributes['autoplayDelay'] ) ? max( 0, (int) $attributes['autoplayDelay'] ) : 5000;
-$tnt_loop  = ! empty( $attributes['loop'] );
-$tnt_auto  = ! empty( $attributes['autoplay'] );
-$tnt_pag   = ! isset( $attributes['pagination'] ) || ! empty( $attributes['pagination'] );
-$tnt_nav   = ! isset( $attributes['navigation'] ) || ! empty( $attributes['navigation'] );
-$tnt_pspv  = max( 1, $tnt_spv );
+$tunet_spv   = isset( $attributes['slidesPerView'] ) ? (float) $attributes['slidesPerView'] : 3;
+$tunet_space = isset( $attributes['spaceBetween'] ) ? max( 0, (int) $attributes['spaceBetween'] ) : 24;
+$tunet_speed = isset( $attributes['speed'] ) ? max( 0, (int) $attributes['speed'] ) : 600;
+$tunet_delay = isset( $attributes['autoplayDelay'] ) ? max( 0, (int) $attributes['autoplayDelay'] ) : 5000;
+$tunet_loop  = ! empty( $attributes['loop'] );
+$tunet_auto  = ! empty( $attributes['autoplay'] );
+$tunet_pag   = ! isset( $attributes['pagination'] ) || ! empty( $attributes['pagination'] );
+$tunet_nav   = ! isset( $attributes['navigation'] ) || ! empty( $attributes['navigation'] );
+$tunet_pspv  = max( 1, $tunet_spv );
 
-$tnt_slides = '';
-foreach ( $tnt_items as $tnt_item ) {
-	$tnt_slides .= '<div class="swiper-slide">' . tunet_core_testimonial_card( $tnt_item ) . '</div>';
+$tunet_slides = '';
+foreach ( $tunet_items as $tunet_item ) {
+	$tunet_slides .= '<div class="swiper-slide">' . tunet_core_testimonial_card( $tunet_item ) . '</div>';
 }
 
-$tnt_wrapper = get_block_wrapper_attributes(
+$tunet_wrapper = get_block_wrapper_attributes(
 	array(
 		'class'               => 'tunet-testimonials tunet-carousel swiper',
-		'style'               => '--tnt-carousel-spv:' . $tnt_pspv . ';',
+		'style'               => '--tnt-carousel-spv:' . $tunet_pspv . ';',
 		'data-swiper-base'    => esc_url( TUNET_CORE_URL . 'runtime/vendor/swiper/' ),
 		'data-effect'         => 'slide',
-		'data-spv'            => (string) $tnt_spv,
-		'data-space'          => (string) $tnt_space,
-		'data-speed'          => (string) $tnt_speed,
-		'data-loop'           => $tnt_loop ? '1' : '0',
-		'data-autoplay'       => $tnt_auto ? '1' : '0',
-		'data-autoplay-delay' => (string) $tnt_delay,
-		'data-pagination'     => $tnt_pag ? '1' : '0',
-		'data-navigation'     => $tnt_nav ? '1' : '0',
+		'data-spv'            => (string) $tunet_spv,
+		'data-space'          => (string) $tunet_space,
+		'data-speed'          => (string) $tunet_speed,
+		'data-loop'           => $tunet_loop ? '1' : '0',
+		'data-autoplay'       => $tunet_auto ? '1' : '0',
+		'data-autoplay-delay' => (string) $tunet_delay,
+		'data-pagination'     => $tunet_pag ? '1' : '0',
+		'data-navigation'     => $tunet_nav ? '1' : '0',
 	)
 );
 ?>
-<div <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
+<div <?php echo $tunet_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
 	<div class="swiper-wrapper">
-		<?php echo $tnt_slides; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup escapado en el card. ?>
+		<?php echo $tunet_slides; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup escapado en el card. ?>
 	</div>
-	<?php if ( $tnt_pag ) : ?><div class="swiper-pagination"></div><?php endif; ?>
-	<?php if ( $tnt_nav ) : ?><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><?php endif; ?>
+	<?php if ( $tunet_pag ) : ?><div class="swiper-pagination"></div><?php endif; ?>
+	<?php if ( $tunet_nav ) : ?><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><?php endif; ?>
 </div>

@@ -18,20 +18,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$tnt_variant = isset( $attributes['variant'] ) ? sanitize_key( (string) $attributes['variant'] ) : 'auto';
-if ( ! in_array( $tnt_variant, array( 'auto', 'main', 'alt' ), true ) ) {
-	$tnt_variant = 'auto';
+$tunet_variant = isset( $attributes['variant'] ) ? sanitize_key( (string) $attributes['variant'] ) : 'auto';
+if ( ! in_array( $tunet_variant, array( 'auto', 'main', 'alt' ), true ) ) {
+	$tunet_variant = 'auto';
 }
-$tnt_max  = isset( $attributes['maxWidth'] ) ? absint( $attributes['maxWidth'] ) : 140;
-$tnt_link = ! isset( $attributes['linkToHome'] ) || (bool) $attributes['linkToHome'];
+$tunet_max  = isset( $attributes['maxWidth'] ) ? absint( $attributes['maxWidth'] ) : 140;
+$tunet_link = ! isset( $attributes['linkToHome'] ) || (bool) $attributes['linkToHome'];
 
 // 1) Fuente de los logos: admin del motor si existe; si no, custom_logo nativo
 // (degradación wp.org, §12.1: el motor tiene que servir sin un theme Tunet).
 // OJO: Tunet_Core_Admin::logo_id('alt') cae al principal cuando no hay alternativo;
 // para 'auto' hace falta saber si existe uno DE VERDAD, así que se lee el ajuste crudo.
-$tnt_has_admin = class_exists( 'Tunet_Core_Admin' );
-$tnt_main_id   = $tnt_has_admin ? (int) Tunet_Core_Admin::logo_id( 'main' ) : (int) get_theme_mod( 'custom_logo' );
-$tnt_alt_id    = $tnt_has_admin ? (int) Tunet_Core_Admin::get( 'logo_alt_id' ) : 0;
+$tunet_has_admin = class_exists( 'Tunet_Core_Admin' );
+$tunet_main_id   = $tunet_has_admin ? (int) Tunet_Core_Admin::logo_id( 'main' ) : (int) get_theme_mod( 'custom_logo' );
+$tunet_alt_id    = $tunet_has_admin ? (int) Tunet_Core_Admin::get( 'logo_alt_id' ) : 0;
 
 // 2) Qué se pinta.
 // 'auto' (default) = los DOS logos, y quien decide cuál se ve es el CSS a través de
@@ -39,24 +39,24 @@ $tnt_alt_id    = $tnt_has_admin ? (int) Tunet_Core_Admin::get( 'logo_alt_id' ) :
 // variation oscura saca el logo claro sola, sin tocar el markup ni el block: era
 // justo lo que el campo "Alternative logo (dark backgrounds)" ya prometía y no hacía.
 // Sin logo alternativo configurado, 'auto' se comporta exactamente como 'main'.
-$tnt_render_main = ( 'alt' !== $tnt_variant );
-$tnt_render_alt  = ( 'main' !== $tnt_variant ) && $tnt_alt_id > 0;
-if ( 'alt' === $tnt_variant ) {
+$tunet_render_main = ( 'alt' !== $tunet_variant );
+$tunet_render_alt  = ( 'main' !== $tunet_variant ) && $tunet_alt_id > 0;
+if ( 'alt' === $tunet_variant ) {
 	// Variante forzada a mano: se respeta, con el fallback histórico al principal.
-	$tnt_alt_id     = $tnt_has_admin ? (int) Tunet_Core_Admin::logo_id( 'alt' ) : 0;
-	$tnt_render_alt = $tnt_alt_id > 0;
-} elseif ( 'auto' === $tnt_variant && ! $tnt_main_id && $tnt_alt_id ) {
+	$tunet_alt_id     = $tunet_has_admin ? (int) Tunet_Core_Admin::logo_id( 'alt' ) : 0;
+	$tunet_render_alt = $tunet_alt_id > 0;
+} elseif ( 'auto' === $tunet_variant && ! $tunet_main_id && $tunet_alt_id ) {
 	// Caso raro pero posible: solo hay logo alternativo. Pasa a ser el visible; si
 	// no, el CSS lo dejaría en display:none y la marca desaparecería del header.
-	$tnt_main_id    = $tnt_alt_id;
-	$tnt_render_alt = false;
+	$tunet_main_id    = $tunet_alt_id;
+	$tunet_render_alt = false;
 }
 
 // ¿Hay REALMENTE dos logos que conmutar? Solo entonces se emiten las clases de
 // variante. Si hay uno solo, va sin modificador y NINGUNA regla de display lo
 // puede ocultar: si no, una paleta oscura con --tnt-brand-main-display:none
 // borraría la marca de un sitio que únicamente subió el logo principal.
-$tnt_two = $tnt_render_main && $tnt_render_alt && $tnt_main_id && $tnt_alt_id;
+$tunet_two = $tunet_render_main && $tunet_render_alt && $tunet_main_id && $tunet_alt_id;
 
 /**
  * <img> de un logo, con su clase de variante solo si hay conmutación.
@@ -65,13 +65,13 @@ $tnt_two = $tnt_render_main && $tnt_render_alt && $tnt_main_id && $tnt_alt_id;
  * @param string $variant main|alt.
  * @return string
  */
-$tnt_img = static function ( $id, $variant ) use ( $tnt_two ) {
+$tunet_img = static function ( $id, $variant ) use ( $tunet_two ) {
 	if ( ! $id ) {
 		return '';
 	}
-	$tnt_class = 'tunet-brand__img';
-	if ( $tnt_two ) {
-		$tnt_class .= ' tunet-brand__img--' . $variant;
+	$tunet_class = 'tunet-brand__img';
+	if ( $tunet_two ) {
+		$tunet_class .= ' tunet-brand__img--' . $variant;
 	}
 	return wp_get_attachment_image(
 		$id,
@@ -80,39 +80,39 @@ $tnt_img = static function ( $id, $variant ) use ( $tnt_two ) {
 		array(
 			// Las dos van con el mismo alt: solo una está visible en cada momento y
 			// display:none la saca del árbol de accesibilidad, así que no se duplica.
-			'class' => $tnt_class,
+			'class' => $tunet_class,
 			'alt'   => get_bloginfo( 'name' ),
 		)
 	);
 };
 
-$tnt_inner = '';
-if ( $tnt_render_main ) {
-	$tnt_inner .= $tnt_img( $tnt_main_id, 'main' );
+$tunet_inner = '';
+if ( $tunet_render_main ) {
+	$tunet_inner .= $tunet_img( $tunet_main_id, 'main' );
 }
-if ( $tnt_render_alt ) {
-	$tnt_inner .= $tnt_img( $tnt_alt_id, 'alt' );
+if ( $tunet_render_alt ) {
+	$tunet_inner .= $tunet_img( $tunet_alt_id, 'alt' );
 }
-$tnt_has_logo = ( '' !== $tnt_inner ); // false si el id quedó huérfano (imagen borrada) → fallback a título.
-if ( ! $tnt_has_logo ) {
-	$tnt_inner = '<span class="tunet-brand__title">' . esc_html( get_bloginfo( 'name' ) ) . '</span>';
+$tunet_has_logo = ( '' !== $tunet_inner ); // false si el id quedó huérfano (imagen borrada) → fallback a título.
+if ( ! $tunet_has_logo ) {
+	$tunet_inner = '<span class="tunet-brand__title">' . esc_html( get_bloginfo( 'name' ) ) . '</span>';
 }
 
 // 3) Wrapper: <a> a Home (rel="home"), o <span> si linkToHome = false.
 // El cap de ancho solo aplica al LOGO; el título de texto (fallback) va a su ancho
 // natural — un sitio sin logo con nombre largo no se estrecha ni wrapea (degradación §12).
-$tnt_style = ( $tnt_has_logo && $tnt_max ) ? 'max-width:' . $tnt_max . 'px' : '';
+$tunet_style = ( $tunet_has_logo && $tunet_max ) ? 'max-width:' . $tunet_max . 'px' : '';
 // has-alt = hay dos logos y por tanto conmutación real. Los themes lo usan para
 // forzar una variante en bandas que son oscuras SIEMPRE (footers sobre --tnt-color-ink)
 // sin arriesgarse a ocultar la marca de un sitio que solo subió un logo.
-$tnt_wrapper = get_block_wrapper_attributes(
+$tunet_wrapper = get_block_wrapper_attributes(
 	array(
-		'class' => 'tunet-brand' . ( $tnt_two ? ' has-alt' : '' ),
-		'style' => $tnt_style,
+		'class' => 'tunet-brand' . ( $tunet_two ? ' has-alt' : '' ),
+		'style' => $tunet_style,
 	)
 );
-$tnt_tag  = $tnt_link ? 'a' : 'span';
-$tnt_href = $tnt_link ? ' href="' . esc_url( home_url( '/' ) ) . '" rel="home"' : '';
+$tunet_tag  = $tunet_link ? 'a' : 'span';
+$tunet_href = $tunet_link ? ' href="' . esc_url( home_url( '/' ) ) . '" rel="home"' : '';
 
-// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $tnt_wrapper (WP), $tnt_href (esc_url), $tnt_inner (wp_get_attachment_image/esc_html), $tnt_tag literal.
-echo '<' . $tnt_tag . ' ' . $tnt_wrapper . $tnt_href . '>' . $tnt_inner . '</' . $tnt_tag . '>';
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $tunet_wrapper (WP), $tunet_href (esc_url), $tunet_inner (wp_get_attachment_image/esc_html), $tunet_tag literal.
+echo '<' . $tunet_tag . ' ' . $tunet_wrapper . $tunet_href . '>' . $tunet_inner . '</' . $tunet_tag . '>';

@@ -138,7 +138,10 @@ class Tunet_Core_Runtime {
 		$css = Tunet_Core_Admin::branding_css( $settings );
 		if ( $css ) {
 			if ( ! wp_style_is( 'tunet-core-branding', 'registered' ) ) {
-				wp_register_style( 'tunet-core-branding', false );
+				// Handle sin fuente: solo transporta el wp_add_inline_style de abajo.
+				// La versión no cambia nada aquí, pero se declara porque un registro
+				// sin versión es un aviso de los estándares y no merece una excepción.
+				wp_register_style( 'tunet-core-branding', false, array(), TUNET_CORE_VERSION );
 			}
 			wp_enqueue_style( 'tunet-core-branding' );
 			wp_add_inline_style( 'tunet-core-branding', $css );

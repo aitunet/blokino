@@ -15,7 +15,7 @@
 		"gradient",
 		"divider"
 	],
-	"textdomain": "tunet",
+	"textdomain": "tunet-core",
 	"supports": {
 		"html": false,
 		"anchor": true,

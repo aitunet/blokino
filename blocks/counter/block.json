@@ -8,7 +8,7 @@
   "icon": "chart-bar",
   "description": "Number that counts up to its value when it enters the viewport. Great for metrics and social proof.",
   "keywords": ["counter", "number", "metric", "stats"],
-  "textdomain": "tunet",
+  "textdomain": "tunet-core",
   "supports": {
     "html": false,
     "anchor": true,

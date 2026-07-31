@@ -14,29 +14,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/icons.php';
 
-$tnt_set  = tunet_core_icon_set();
-$tnt_name = isset( $attributes['icon'] ) ? sanitize_key( $attributes['icon'] ) : '';
-if ( ! isset( $tnt_set[ $tnt_name ] ) ) {
-	$tnt_keys = array_keys( $tnt_set );
-	$tnt_name = isset( $tnt_keys[0] ) ? $tnt_keys[0] : '';
+$tunet_set  = tunet_core_icon_set();
+$tunet_name = isset( $attributes['icon'] ) ? sanitize_key( $attributes['icon'] ) : '';
+if ( ! isset( $tunet_set[ $tunet_name ] ) ) {
+	$tunet_keys = array_keys( $tunet_set );
+	$tunet_name = isset( $tunet_keys[0] ) ? $tunet_keys[0] : '';
 }
-if ( '' === $tnt_name ) {
+if ( '' === $tunet_name ) {
 	return;
 }
 
-$tnt_size   = isset( $attributes['size'] ) ? (int) $attributes['size'] : 24;
-$tnt_stroke = isset( $attributes['strokeWidth'] ) ? (float) $attributes['strokeWidth'] : 2;
-$tnt_label  = isset( $attributes['label'] ) ? trim( (string) $attributes['label'] ) : '';
+$tunet_size   = isset( $attributes['size'] ) ? (int) $attributes['size'] : 24;
+$tunet_stroke = isset( $attributes['strokeWidth'] ) ? (float) $attributes['strokeWidth'] : 2;
+$tunet_label  = isset( $attributes['label'] ) ? trim( (string) $attributes['label'] ) : '';
 
-$tnt_svg = tunet_core_icon_svg(
-	$tnt_name,
+$tunet_svg = tunet_core_icon_svg(
+	$tunet_name,
 	array(
-		'size'   => $tnt_size,
-		'stroke' => $tnt_stroke,
-		'label'  => $tnt_label,
+		'size'   => $tunet_size,
+		'stroke' => $tunet_stroke,
+		'label'  => $tunet_label,
 	)
 );
 
-$tnt_wrapper = get_block_wrapper_attributes( array( 'class' => 'tunet-icon' ) );
+$tunet_wrapper = get_block_wrapper_attributes( array( 'class' => 'tunet-icon' ) );
 ?>
-<span <?php echo $tnt_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>><?php echo $tnt_svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG curado del motor (icons.php), no entrada de usuario. ?></span>
+<span <?php echo $tunet_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>><?php echo $tunet_svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG curado del motor (icons.php), no entrada de usuario. ?></span>

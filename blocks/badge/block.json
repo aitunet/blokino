@@ -8,7 +8,7 @@
   "icon": "image-rotate",
   "description": "Rotating circular badge button — caption text on a ring around a center arrow. Links anywhere.",
   "keywords": ["badge", "circular", "rotate", "cta", "button"],
-  "textdomain": "tunet",
+  "textdomain": "tunet-core",
   "supports": {
     "html": false,
     "anchor": true,

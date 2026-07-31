@@ -69,13 +69,13 @@
 					var flat = allNames.filter( matches );
 					gridChildren = flat.length
 						? [ el( 'div', { className: 'tunet-marquee-editor__sep-grid', key: 'flat' }, flat.map( sepBtn ) ) ]
-						: [ el( 'p', { key: 'empty' }, __( 'No icons match.', 'tunet' ) ) ];
+						: [ el( 'p', { key: 'empty' }, __( 'No icons match.', 'tunet-core' ) ) ];
 				} else {
 					gridChildren = [
-						{ key: 'general', label: __( 'General', 'tunet' ) },
-						{ key: 'nav', label: __( 'Nav / UI', 'tunet' ) },
-						{ key: 'contact', label: __( 'Contact', 'tunet' ) },
-						{ key: 'brand', label: __( 'Brand / Social', 'tunet' ) }
+						{ key: 'general', label: __( 'General', 'tunet-core' ) },
+						{ key: 'nav', label: __( 'Nav / UI', 'tunet-core' ) },
+						{ key: 'contact', label: __( 'Contact', 'tunet-core' ) },
+						{ key: 'brand', label: __( 'Brand / Social', 'tunet-core' ) }
 					].map( function ( cat ) {
 						var inCat = allNames.filter( function ( n ) { return ( ICONS[ n ].category || 'general' ) === cat.key; } );
 						if ( ! inCat.length ) { return null; }
@@ -88,7 +88,7 @@
 				iconPicker = el( Fragment, {},
 					el( c.SearchControl, {
 						value: query, onChange: setQuery,
-						label: __( 'Search icons', 'tunet' ), placeholder: __( 'Search…', 'tunet' ),
+						label: __( 'Search icons', 'tunet-core' ), placeholder: __( 'Search…', 'tunet-core' ),
 						__nextHasNoMarginBottom: true
 					} ),
 					el( 'div', { className: 'tunet-marquee-editor__sep-picker' }, gridChildren )
@@ -103,9 +103,9 @@
 					{},
 					el(
 						c.PanelBody,
-						{ title: __( 'Marquee', 'tunet' ), initialOpen: true },
+						{ title: __( 'Marquee', 'tunet-core' ), initialOpen: true },
 						el( c.RangeControl, {
-							label: __( 'Speed (s per loop)', 'tunet' ),
+							label: __( 'Speed (s per loop)', 'tunet-core' ),
 							value: a.speed,
 							min: 5,
 							max: 120,
@@ -114,17 +114,17 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.SelectControl, {
-							label: __( 'Direction', 'tunet' ),
+							label: __( 'Direction', 'tunet-core' ),
 							value: a.direction,
 							options: [
-								{ label: __( 'Left', 'tunet' ), value: 'left' },
-								{ label: __( 'Right', 'tunet' ), value: 'right' }
+								{ label: __( 'Left', 'tunet-core' ), value: 'left' },
+								{ label: __( 'Right', 'tunet-core' ), value: 'right' }
 							],
 							onChange: function ( v ) { set( { direction: v } ); },
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.RangeControl, {
-							label: __( 'Spacing (rem)', 'tunet' ),
+							label: __( 'Spacing (rem)', 'tunet-core' ),
 							value: a.gap,
 							min: 0,
 							max: 10,
@@ -133,7 +133,7 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.ToggleControl, {
-							label: __( 'Pause on hover', 'tunet' ),
+							label: __( 'Pause on hover', 'tunet-core' ),
 							checked: !! a.pauseOnHover,
 							onChange: function ( v ) { set( { pauseOnHover: v } ); },
 							__nextHasNoMarginBottom: true
@@ -144,22 +144,22 @@
 						el(
 							'p',
 							{ className: 'tunet-editor-note' },
-							__( 'The band only scrolls on the front end — here the items wrap so you can edit them. Visitors who ask for reduced motion see it still, with a play control.', 'tunet' )
+							__( 'The band only scrolls on the front end — here the items wrap so you can edit them. Visitors who ask for reduced motion see it still, with a play control.', 'tunet-core' )
 						)
 					),
 					el(
 						c.PanelBody,
-						{ title: __( 'Separator', 'tunet' ), initialOpen: false },
+						{ title: __( 'Separator', 'tunet-core' ), initialOpen: false },
 						el( c.SelectControl, {
-							label: __( 'Shape', 'tunet' ),
+							label: __( 'Shape', 'tunet-core' ),
 							value: a.separator,
 							options: [
-								{ label: __( 'None', 'tunet' ), value: 'none' },
-								{ label: __( 'Dot', 'tunet' ), value: 'dot' },
-								{ label: __( 'Dash', 'tunet' ), value: 'dash' },
-								{ label: __( 'Slash', 'tunet' ), value: 'slash' },
-								{ label: __( 'Pipe', 'tunet' ), value: 'pipe' },
-								{ label: __( 'Icon', 'tunet' ), value: 'icon' }
+								{ label: __( 'None', 'tunet-core' ), value: 'none' },
+								{ label: __( 'Dot', 'tunet-core' ), value: 'dot' },
+								{ label: __( 'Dash', 'tunet-core' ), value: 'dash' },
+								{ label: __( 'Slash', 'tunet-core' ), value: 'slash' },
+								{ label: __( 'Pipe', 'tunet-core' ), value: 'pipe' },
+								{ label: __( 'Icon', 'tunet-core' ), value: 'icon' }
 							],
 							onChange: function ( v ) { set( { separator: v } ); },
 							__nextHasNoMarginBottom: true
@@ -168,7 +168,7 @@
 						'none' !== a.separator ? el(
 							'div',
 							{ style: { marginBlockStart: '12px' } },
-							el( 'p', { style: { margin: '0 0 8px' } }, __( 'Separator color', 'tunet' ) ),
+							el( 'p', { style: { margin: '0 0 8px' } }, __( 'Separator color', 'tunet-core' ) ),
 							el( c.ColorPalette, {
 								colors: palette,
 								value: a.separatorColor,

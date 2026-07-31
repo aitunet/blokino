@@ -8,7 +8,7 @@
   "icon": "admin-home",
   "description": "Site brand: shows the logo if set (main or alt, managed in Tunet Core → Logos or the native Site Logo), otherwise the site title as text. In Automatic mode the alternative logo takes over on dark palettes. Linked to Home. Replaces the site-logo + site-title pair in headers.",
   "keywords": ["brand", "logo", "site title", "header"],
-  "textdomain": "tunet",
+  "textdomain": "tunet-core",
   "supports": {
     "html": false,
     "anchor": true,

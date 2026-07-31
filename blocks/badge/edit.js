@@ -12,11 +12,11 @@
 			var set = props.setAttributes;
 			return el( wp.element.Fragment, {},
 				el( InspectorControls, {},
-					el( c.PanelBody, { title: __( 'Badge', 'tunet' ), initialOpen: true },
-						el( c.TextControl, { label: __( 'Caption (repeat with · )', 'tunet' ), value: a.text, onChange: function ( v ) { set( { text: v } ); }, __nextHasNoMarginBottom: true } ),
-						el( c.TextControl, { label: __( 'Link URL', 'tunet' ), value: a.url, onChange: function ( v ) { set( { url: v } ); }, __nextHasNoMarginBottom: true } ),
-						el( c.RangeControl, { label: __( 'Seconds per turn', 'tunet' ), value: a.speed, min: 4, max: 60, onChange: function ( v ) { set( { speed: v || 18 } ); }, __nextHasNoMarginBottom: true } ),
-						el( c.ToggleControl, { label: __( 'Reverse direction', 'tunet' ), checked: !! a.reverse, onChange: function ( v ) { set( { reverse: !! v } ); }, __nextHasNoMarginBottom: true } )
+					el( c.PanelBody, { title: __( 'Badge', 'tunet-core' ), initialOpen: true },
+						el( c.TextControl, { label: __( 'Caption (repeat with · )', 'tunet-core' ), value: a.text, onChange: function ( v ) { set( { text: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( c.TextControl, { label: __( 'Link URL', 'tunet-core' ), value: a.url, onChange: function ( v ) { set( { url: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( c.RangeControl, { label: __( 'Seconds per turn', 'tunet-core' ), value: a.speed, min: 4, max: 60, onChange: function ( v ) { set( { speed: v || 18 } ); }, __nextHasNoMarginBottom: true } ),
+						el( c.ToggleControl, { label: __( 'Reverse direction', 'tunet-core' ), checked: !! a.reverse, onChange: function ( v ) { set( { reverse: !! v } ); }, __nextHasNoMarginBottom: true } )
 					)
 				),
 				el( 'div', useBlockProps( { className: 'tunet-badge-editor' } ),

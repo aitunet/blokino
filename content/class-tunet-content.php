@@ -42,17 +42,17 @@ class Tunet_Core_Content {
 	 */
 	public function register_cpt() {
 		$labels = array(
-			'name'               => _x( 'Projects', 'post type general name', 'tunet' ),
-			'singular_name'      => _x( 'Project', 'post type singular name', 'tunet' ),
-			'menu_name'          => _x( 'Work', 'admin menu', 'tunet' ),
-			'add_new'            => __( 'Add New', 'tunet' ),
-			'add_new_item'       => __( 'Add New Project', 'tunet' ),
-			'edit_item'          => __( 'Edit Project', 'tunet' ),
-			'new_item'           => __( 'New Project', 'tunet' ),
-			'view_item'          => __( 'View Project', 'tunet' ),
-			'search_items'       => __( 'Search Projects', 'tunet' ),
-			'not_found'          => __( 'No projects found', 'tunet' ),
-			'all_items'          => __( 'All Projects', 'tunet' ),
+			'name'               => _x( 'Projects', 'post type general name', 'tunet-core' ),
+			'singular_name'      => _x( 'Project', 'post type singular name', 'tunet-core' ),
+			'menu_name'          => _x( 'Work', 'admin menu', 'tunet-core' ),
+			'add_new'            => __( 'Add New', 'tunet-core' ),
+			'add_new_item'       => __( 'Add New Project', 'tunet-core' ),
+			'edit_item'          => __( 'Edit Project', 'tunet-core' ),
+			'new_item'           => __( 'New Project', 'tunet-core' ),
+			'view_item'          => __( 'View Project', 'tunet-core' ),
+			'search_items'       => __( 'Search Projects', 'tunet-core' ),
+			'not_found'          => __( 'No projects found', 'tunet-core' ),
+			'all_items'          => __( 'All Projects', 'tunet-core' ),
 		);
 
 		register_post_type(
@@ -80,9 +80,9 @@ class Tunet_Core_Content {
 			self::CPT,
 			array(
 				'labels'            => array(
-					'name'          => _x( 'Project Types', 'taxonomy general name', 'tunet' ),
-					'singular_name' => _x( 'Project Type', 'taxonomy singular name', 'tunet' ),
-					'menu_name'     => __( 'Types', 'tunet' ),
+					'name'          => _x( 'Project Types', 'taxonomy general name', 'tunet-core' ),
+					'singular_name' => _x( 'Project Type', 'taxonomy singular name', 'tunet-core' ),
+					'menu_name'     => __( 'Types', 'tunet-core' ),
 				),
 				'public'            => true,
 				'hierarchical'      => true,
@@ -98,10 +98,10 @@ class Tunet_Core_Content {
 	 */
 	public function register_meta() {
 		$fields = array(
-			'tunet_project_client'  => __( 'Client', 'tunet' ),
-			'tunet_project_year'    => __( 'Year', 'tunet' ),
-			'tunet_project_role'    => __( 'Role', 'tunet' ),
-			'tunet_project_website' => __( 'Website', 'tunet' ),
+			'tunet_project_client'  => __( 'Client', 'tunet-core' ),
+			'tunet_project_year'    => __( 'Year', 'tunet-core' ),
+			'tunet_project_role'    => __( 'Role', 'tunet-core' ),
+			'tunet_project_website' => __( 'Website', 'tunet-core' ),
 		);
 		foreach ( $fields as $key => $label ) {
 			register_post_meta(

@@ -116,19 +116,19 @@
 				: ( useSetting ? ( useSetting( 'color.palette' ) || [] ) : [] );
 
 			var animationControl = el( SelectControl, {
-				label: __( 'Entrance animation', 'tunet' ),
+				label: __( 'Entrance animation', 'tunet-core' ),
 				value: a.tfAnimation || '',
 				options: [
-					{ label: __( 'None (clean block)', 'tunet' ), value: '' },
-					{ label: __( 'Fade up', 'tunet' ), value: 'fade-up' },
-					{ label: __( 'Clip reveal', 'tunet' ), value: 'clip-reveal' },
-					{ label: __( 'Mask up', 'tunet' ), value: 'mask-up' },
-					{ label: __( 'Blur in', 'tunet' ), value: 'blur-in' },
-					{ label: __( 'Scale in', 'tunet' ), value: 'scale-in' },
-					{ label: __( 'Slide left', 'tunet' ), value: 'slide-left' },
-					{ label: __( 'Slide right', 'tunet' ), value: 'slide-right' },
-					{ label: __( 'Text stagger', 'tunet' ), value: 'text-stagger' },
-					{ label: __( 'Text fill', 'tunet' ), value: 'text-fill' }
+					{ label: __( 'None (clean block)', 'tunet-core' ), value: '' },
+					{ label: __( 'Fade up', 'tunet-core' ), value: 'fade-up' },
+					{ label: __( 'Clip reveal', 'tunet-core' ), value: 'clip-reveal' },
+					{ label: __( 'Mask up', 'tunet-core' ), value: 'mask-up' },
+					{ label: __( 'Blur in', 'tunet-core' ), value: 'blur-in' },
+					{ label: __( 'Scale in', 'tunet-core' ), value: 'scale-in' },
+					{ label: __( 'Slide left', 'tunet-core' ), value: 'slide-left' },
+					{ label: __( 'Slide right', 'tunet-core' ), value: 'slide-right' },
+					{ label: __( 'Text stagger', 'tunet-core' ), value: 'text-stagger' },
+					{ label: __( 'Text fill', 'tunet-core' ), value: 'text-fill' }
 				],
 				onChange: function ( value ) {
 					set( { tfAnimation: value } );
@@ -137,11 +137,11 @@
 			} );
 
 			var displayControl = el( SelectControl, {
-				label: __( 'Display style', 'tunet' ),
+				label: __( 'Display style', 'tunet-core' ),
 				value: a.tfDisplay || '',
 				options: [
-					{ label: __( 'Solid (default)', 'tunet' ), value: '' },
-					{ label: __( 'Outline', 'tunet' ), value: 'outline' }
+					{ label: __( 'Solid (default)', 'tunet-core' ), value: '' },
+					{ label: __( 'Outline', 'tunet-core' ), value: 'outline' }
 				],
 				onChange: function ( value ) {
 					set( { tfDisplay: value } );
@@ -157,7 +157,7 @@
 					Fragment,
 					{},
 					el( RangeControl, {
-						label: __( 'Delay (ms)', 'tunet' ),
+						label: __( 'Delay (ms)', 'tunet-core' ),
 						value: a.tfAnimDelay || 0,
 						min: 0,
 						max: 2000,
@@ -168,22 +168,22 @@
 						__nextHasNoMarginBottom: true
 					} ),
 					el( RangeControl, {
-						label: __( 'Duration (ms)', 'tunet' ),
+						label: __( 'Duration (ms)', 'tunet-core' ),
 						value: a.tfAnimDuration || 0,
 						min: 0,
 						max: 3000,
 						step: 50,
-						help: __( '0 = use the theme duration (--tnt-dur-base).', 'tunet' ),
+						help: __( '0 = use the theme duration (--tnt-dur-base).', 'tunet-core' ),
 						onChange: function ( value ) {
 							set( { tfAnimDuration: value || 0 } );
 						},
 						__nextHasNoMarginBottom: true
 					} ),
 					el( SelectControl, {
-						label: __( 'Easing curve', 'tunet' ),
+						label: __( 'Easing curve', 'tunet-core' ),
 						value: a.tfAnimEasing || '',
 						options: [
-							{ label: __( 'Theme default (expo)', 'tunet' ), value: '' },
+							{ label: __( 'Theme default (expo)', 'tunet-core' ), value: '' },
 							{ label: 'Expo', value: 'expo' }, // Easing curve names are technical keywords, left raw (untranslated) on purpose.
 							{ label: 'Power3', value: 'power3' },
 							{ label: 'Spring', value: 'spring' },
@@ -195,14 +195,14 @@
 						__nextHasNoMarginBottom: true
 					} ),
 					el( RangeControl, {
-						label: __( 'Stagger (ms)', 'tunet' ),
+						label: __( 'Stagger (ms)', 'tunet-core' ),
 						value: a.tfStagger || 0,
 						min: 0,
 						max: 300,
 						step: 10,
 						help: isTextStagger
-							? __( 'Cadence between words. 0 = default cadence.', 'tunet' )
-							: __( 'Staggers the entrance of direct children. 0 = no stagger.', 'tunet' ),
+							? __( 'Cadence between words. 0 = default cadence.', 'tunet-core' )
+							: __( 'Staggers the entrance of direct children. 0 = no stagger.', 'tunet-core' ),
 						onChange: function ( value ) {
 							set( { tfStagger: value || 0 } );
 						},
@@ -211,13 +211,13 @@
 					el(
 						'p',
 						{ style: { fontStyle: 'italic', opacity: 0.7, marginTop: '8px' } },
-						__( 'It will animate once published (the animation runs on the front-end).', 'tunet' )
+						__( 'It will animate once published (the animation runs on the front-end).', 'tunet-core' )
 					),
 					( a.tfAnimation === 'text-fill' )
 						? el( TextControl, {
-							label: __( 'Accent words (indices, e.g. "2,5")', 'tunet' ),
+							label: __( 'Accent words (indices, e.g. "2,5")', 'tunet-core' ),
 							value: a.tfFillAccent || '',
-							help: __( 'These words fill to the brand accent instead of ink. 1-based.', 'tunet' ),
+							help: __( 'These words fill to the brand accent instead of ink. 1-based.', 'tunet-core' ),
 							onChange: function ( value ) {
 								set( { tfFillAccent: value.replace( /[^0-9,\s]/g, '' ) } );
 							},
@@ -229,16 +229,16 @@
 
 			// Hover is independent of the entrance animation.
 			var hoverControl = el( SelectControl, {
-				label: __( 'Hover effect', 'tunet' ),
+				label: __( 'Hover effect', 'tunet-core' ),
 				value: a.tfHover || '',
 				options: [
-					{ label: __( 'None', 'tunet' ), value: '' },
-					{ label: __( 'Lift', 'tunet' ), value: 'lift' },
-					{ label: __( 'Glow', 'tunet' ), value: 'glow' },
-					{ label: __( 'Tilt 3D', 'tunet' ), value: 'tilt' },
-					{ label: __( 'Magnetic', 'tunet' ), value: 'magnetic' },
-					{ label: __( 'Underline grow', 'tunet' ), value: 'underline-grow' },
-					{ label: __( 'Image zoom', 'tunet' ), value: 'image-zoom' }
+					{ label: __( 'None', 'tunet-core' ), value: '' },
+					{ label: __( 'Lift', 'tunet-core' ), value: 'lift' },
+					{ label: __( 'Glow', 'tunet-core' ), value: 'glow' },
+					{ label: __( 'Tilt 3D', 'tunet-core' ), value: 'tilt' },
+					{ label: __( 'Magnetic', 'tunet-core' ), value: 'magnetic' },
+					{ label: __( 'Underline grow', 'tunet-core' ), value: 'underline-grow' },
+					{ label: __( 'Image zoom', 'tunet-core' ), value: 'image-zoom' }
 				],
 				onChange: function ( value ) {
 					set( { tfHover: value } );
@@ -248,15 +248,15 @@
 
 			// Scroll.
 			var scrollControl = el( SelectControl, {
-				label: __( 'Scroll effect', 'tunet' ),
+				label: __( 'Scroll effect', 'tunet-core' ),
 				value: a.tfScroll || '',
 				options: [
-					{ label: __( 'None', 'tunet' ), value: '' },
-					{ label: __( 'Parallax', 'tunet' ), value: 'parallax' },
-					{ label: __( 'Sticky pin', 'tunet' ), value: 'sticky-pin' },
-					{ label: __( 'Reveal on scroll', 'tunet' ), value: 'reveal-on-scroll' },
-					{ label: __( 'Progress bar', 'tunet' ), value: 'progress' },
-					{ label: __( 'Zoom on scroll', 'tunet' ), value: 'zoom' }
+					{ label: __( 'None', 'tunet-core' ), value: '' },
+					{ label: __( 'Parallax', 'tunet-core' ), value: 'parallax' },
+					{ label: __( 'Sticky pin', 'tunet-core' ), value: 'sticky-pin' },
+					{ label: __( 'Reveal on scroll', 'tunet-core' ), value: 'reveal-on-scroll' },
+					{ label: __( 'Progress bar', 'tunet-core' ), value: 'progress' },
+					{ label: __( 'Zoom on scroll', 'tunet-core' ), value: 'zoom' }
 				],
 				onChange: function ( value ) {
 					set( { tfScroll: value } );
@@ -266,12 +266,12 @@
 
 			var parallaxControl = a.tfScroll === 'parallax'
 				? el( RangeControl, {
-					label: __( 'Parallax intensity', 'tunet' ),
+					label: __( 'Parallax intensity', 'tunet-core' ),
 					value: a.tfParallaxSpeed || 0,
 					min: 0,
 					max: 100,
 					step: 5,
-					help: __( '0 = no movement. Default ~20.', 'tunet' ),
+					help: __( '0 = no movement. Default ~20.', 'tunet-core' ),
 					onChange: function ( value ) {
 						set( { tfParallaxSpeed: value || 0 } );
 					},
@@ -281,10 +281,10 @@
 
 			// Blend + border.
 			var blendControl = el( SelectControl, {
-				label: __( 'Blend mode', 'tunet' ),
+				label: __( 'Blend mode', 'tunet-core' ),
 				value: a.tfBlend || '',
 				options: [
-					{ label: __( 'None', 'tunet' ), value: '' },
+					{ label: __( 'None', 'tunet-core' ), value: '' },
 					{ label: 'Multiply', value: 'multiply' }, // mix-blend-mode CSS keywords are technical proper-nouns, left raw on purpose.
 					{ label: 'Screen', value: 'screen' },
 					{ label: 'Overlay', value: 'overlay' },
@@ -299,12 +299,12 @@
 			} );
 
 			var borderControl = el( SelectControl, {
-				label: __( 'Animated border', 'tunet' ),
+				label: __( 'Animated border', 'tunet-core' ),
 				value: a.tfBorderFx || '',
 				options: [
-					{ label: __( 'None', 'tunet' ), value: '' },
-					{ label: __( 'Gradient', 'tunet' ), value: 'gradient' },
-					{ label: __( 'Rotating conic', 'tunet' ), value: 'conic-rotate' }
+					{ label: __( 'None', 'tunet-core' ), value: '' },
+					{ label: __( 'Gradient', 'tunet-core' ), value: 'gradient' },
+					{ label: __( 'Rotating conic', 'tunet-core' ), value: 'conic-rotate' }
 				],
 				onChange: function ( value ) {
 					set( { tfBorderFx: value } );
@@ -318,24 +318,24 @@
 					Fragment,
 					{},
 					el( RangeControl, {
-						label: __( 'Border width (px)', 'tunet' ),
+						label: __( 'Border width (px)', 'tunet-core' ),
 						value: a.tfBorderWidth || 0,
 						min: 0,
 						max: 12,
 						step: 1,
-						help: __( '0 = default width (2px).', 'tunet' ),
+						help: __( '0 = default width (2px).', 'tunet-core' ),
 						onChange: function ( value ) {
 							set( { tfBorderWidth: value || 0 } );
 						},
 						__nextHasNoMarginBottom: true
 					} ),
 					el( RangeControl, {
-						label: __( 'Speed (s per loop)', 'tunet' ),
+						label: __( 'Speed (s per loop)', 'tunet-core' ),
 						value: a.tfBorderSpeed || 0,
 						min: 0,
 						max: 20,
 						step: 0.5,
-						help: __( '0 = theme speed (--tnt-dur-slow).', 'tunet' ),
+						help: __( '0 = theme speed (--tnt-dur-slow).', 'tunet-core' ),
 						onChange: function ( value ) {
 							set( { tfBorderSpeed: value || 0 } );
 						},
@@ -343,7 +343,7 @@
 					} ),
 					el(
 						BaseControl,
-						{ label: __( 'Start color (empty = theme accent)', 'tunet' ), __nextHasNoMarginBottom: true },
+						{ label: __( 'Start color (empty = theme accent)', 'tunet-core' ), __nextHasNoMarginBottom: true },
 						el( ColorPalette, {
 							value: a.tfBorderColor1 || undefined,
 							colors: themePalette,
@@ -356,7 +356,7 @@
 					),
 					el(
 						BaseControl,
-						{ label: __( 'End color (empty = theme accent 2)', 'tunet' ), __nextHasNoMarginBottom: true },
+						{ label: __( 'End color (empty = theme accent 2)', 'tunet-core' ), __nextHasNoMarginBottom: true },
 						el( ColorPalette, {
 							value: a.tfBorderColor2 || undefined,
 							colors: themePalette,
@@ -383,7 +383,7 @@
 					{},
 					el(
 						PanelBody,
-						{ title: __( 'Tunet Effects', 'tunet' ), initialOpen: false },
+						{ title: __( 'Tunet Effects', 'tunet-core' ), initialOpen: false },
 						animationControl,
 						displayControl,
 						detailControls,

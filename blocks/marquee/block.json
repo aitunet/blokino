@@ -8,7 +8,7 @@
   "icon": "controls-repeat",
   "description": "Infinite scrolling band of text or images (logos, claims, metrics). Content is inner blocks; duplicated for a seamless loop.",
   "keywords": ["marquee", "band", "logos", "ticker", "scroll"],
-  "textdomain": "tunet",
+  "textdomain": "tunet-core",
   "supports": {
     "html": false,
     "anchor": true,

@@ -8,7 +8,7 @@
   "icon": "images-alt",
   "description": "A structured slider: each slide has an image, title, subtitle, description and CTAs — edited in the sidebar.",
   "keywords": ["slider", "carousel", "hero", "content"],
-  "textdomain": "tunet",
+  "textdomain": "tunet-core",
   "supports": {
     "html": false,
     "anchor": true,

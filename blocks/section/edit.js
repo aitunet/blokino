@@ -68,19 +68,19 @@
 						render: function ( o ) {
 							return el( 'div', { className: 'tunet-media-field__actions' },
 								el( c.Button, { variant: hasUrl ? 'secondary' : 'primary', onClick: o.open },
-									hasUrl ? __( 'Replace', 'tunet' ) : label ),
+									hasUrl ? __( 'Replace', 'tunet-core' ) : label ),
 								hasUrl
-									? el( c.Button, { variant: 'tertiary', isDestructive: true, onClick: onClear }, __( 'Remove', 'tunet' ) )
+									? el( c.Button, { variant: 'tertiary', isDestructive: true, onClick: onClear }, __( 'Remove', 'tunet-core' ) )
 									: null );
 						}
 					} ) ) ) );
 	}
 
 	var DIVIDER_OPTS = [
-		{ label: __( 'None', 'tunet' ), value: 'none' },
-		{ label: __( 'Wave', 'tunet' ), value: 'wave' },
-		{ label: __( 'Diagonal', 'tunet' ), value: 'slant' },
-		{ label: __( 'Curve', 'tunet' ), value: 'curve' }
+		{ label: __( 'None', 'tunet-core' ), value: 'none' },
+		{ label: __( 'Wave', 'tunet-core' ), value: 'wave' },
+		{ label: __( 'Diagonal', 'tunet-core' ), value: 'slant' },
+		{ label: __( 'Curve', 'tunet-core' ), value: 'curve' }
 	];
 
 	registerBlockType( 'tunet/section', {
@@ -137,38 +137,38 @@
 			var bgControls = [
 				el( c.SelectControl, {
 					key: 'bgtype',
-					label: __( 'Background type', 'tunet' ),
+					label: __( 'Background type', 'tunet-core' ),
 					value: a.bgType,
 					options: [
-						{ label: __( 'None', 'tunet' ), value: 'none' },
-						{ label: __( 'Color', 'tunet' ), value: 'color' },
-						{ label: __( 'Gradient', 'tunet' ), value: 'gradient' },
-						{ label: __( 'Mesh', 'tunet' ), value: 'mesh' },
-						{ label: __( 'Image', 'tunet' ), value: 'image' },
-						{ label: __( 'Video', 'tunet' ), value: 'video' }
+						{ label: __( 'None', 'tunet-core' ), value: 'none' },
+						{ label: __( 'Color', 'tunet-core' ), value: 'color' },
+						{ label: __( 'Gradient', 'tunet-core' ), value: 'gradient' },
+						{ label: __( 'Mesh', 'tunet-core' ), value: 'mesh' },
+						{ label: __( 'Image', 'tunet-core' ), value: 'image' },
+						{ label: __( 'Video', 'tunet-core' ), value: 'video' }
 					],
 					onChange: function ( v ) { set( { bgType: v } ); },
 					__nextHasNoMarginBottom: true
 				} )
 			];
 			if ( a.bgType === 'color' ) {
-				bgControls.push( colorRow( __( 'Background color', 'tunet' ), a.bgColor, palette, function ( v ) { set( { bgColor: v } ); } ) );
+				bgControls.push( colorRow( __( 'Background color', 'tunet-core' ), a.bgColor, palette, function ( v ) { set( { bgColor: v } ); } ) );
 			} else if ( a.bgType === 'gradient' ) {
-				bgControls.push( el( c.BaseControl, { key: 'grad', label: __( 'Gradient', 'tunet' ), __nextHasNoMarginBottom: true },
+				bgControls.push( el( c.BaseControl, { key: 'grad', label: __( 'Gradient', 'tunet-core' ), __nextHasNoMarginBottom: true },
 					el( c.GradientPicker, { value: a.gradient || null, gradients: gradients, onChange: function ( v ) { set( { gradient: v || '' } ); } } ) ) );
-				bgControls.push( el( c.ToggleControl, { key: 'ganim', label: __( 'Animate gradient', 'tunet' ), checked: !! a.gradientAnimate, onChange: function ( v ) { set( { gradientAnimate: v } ); }, __nextHasNoMarginBottom: true } ) );
+				bgControls.push( el( c.ToggleControl, { key: 'ganim', label: __( 'Animate gradient', 'tunet-core' ), checked: !! a.gradientAnimate, onChange: function ( v ) { set( { gradientAnimate: v } ); }, __nextHasNoMarginBottom: true } ) );
 			} else if ( a.bgType === 'mesh' ) {
-				bgControls.push( colorRow( __( 'Mesh — color 1', 'tunet' ), a.meshColor1, palette, function ( v ) { set( { meshColor1: v } ); } ) );
-				bgControls.push( colorRow( __( 'Mesh — color 2', 'tunet' ), a.meshColor2, palette, function ( v ) { set( { meshColor2: v } ); } ) );
-				bgControls.push( colorRow( __( 'Mesh — color 3', 'tunet' ), a.meshColor3, palette, function ( v ) { set( { meshColor3: v } ); } ) );
+				bgControls.push( colorRow( __( 'Mesh — color 1', 'tunet-core' ), a.meshColor1, palette, function ( v ) { set( { meshColor1: v } ); } ) );
+				bgControls.push( colorRow( __( 'Mesh — color 2', 'tunet-core' ), a.meshColor2, palette, function ( v ) { set( { meshColor2: v } ); } ) );
+				bgControls.push( colorRow( __( 'Mesh — color 3', 'tunet-core' ), a.meshColor3, palette, function ( v ) { set( { meshColor3: v } ); } ) );
 			} else if ( a.bgType === 'image' ) {
 				bgControls.push( el( 'div', { key: 'img', style: { marginBottom: '12px' } },
-					mediaField( __( 'Choose image', 'tunet' ), 'image', a.bgImageId, a.bgImageUrl,
+					mediaField( __( 'Choose image', 'tunet-core' ), 'image', a.bgImageId, a.bgImageUrl,
 						function ( m ) { set( { bgImageId: m.id, bgImageUrl: m.url } ); },
 						function () { set( { bgImageId: undefined, bgImageUrl: '' } ); } ) ) );
 			} else if ( a.bgType === 'video' ) {
 				bgControls.push( el( 'div', { key: 'vid', style: { marginBottom: '12px' } },
-					mediaField( __( 'Choose video', 'tunet' ), 'video', a.bgVideoId, a.bgVideoUrl,
+					mediaField( __( 'Choose video', 'tunet-core' ), 'video', a.bgVideoId, a.bgVideoUrl,
 						function ( m ) { set( { bgVideoId: m.id, bgVideoUrl: m.url } ); },
 						function () { set( { bgVideoId: undefined, bgVideoUrl: '' } ); } ) ) );
 				// Poster: es el control que mas aporta. Se ve mientras el video carga, en
@@ -177,19 +177,19 @@
 				// Ademas activa la carga perezosa: con poster el video no se descarga hasta
 				// que hace falta (ver render.php).
 				bgControls.push( el( 'div', { key: 'vidposter', style: { marginBottom: '12px' } },
-					mediaField( __( 'Poster image', 'tunet' ), 'image', a.bgVideoPosterId, a.bgVideoPosterUrl,
+					mediaField( __( 'Poster image', 'tunet-core' ), 'image', a.bgVideoPosterId, a.bgVideoPosterUrl,
 						function ( m ) { set( { bgVideoPosterId: m.id, bgVideoPosterUrl: m.url } ); },
 						function () { set( { bgVideoPosterId: undefined, bgVideoPosterUrl: '' } ); } ) ) );
 				bgControls.push( el( c.ToggleControl, {
 					key: 'vidauto',
-					label: __( 'Play automatically', 'tunet' ),
+					label: __( 'Play automatically', 'tunet-core' ),
 					checked: a.bgVideoAutoplay !== false,
 					onChange: function ( v ) { set( { bgVideoAutoplay: !! v } ); },
 					__nextHasNoMarginBottom: true
 				} ) );
 				bgControls.push( el( c.ToggleControl, {
 					key: 'vidloop',
-					label: __( 'Loop', 'tunet' ),
+					label: __( 'Loop', 'tunet-core' ),
 					checked: a.bgVideoLoop !== false,
 					onChange: function ( v ) { set( { bgVideoLoop: !! v } ); },
 					__nextHasNoMarginBottom: true
@@ -197,7 +197,7 @@
 				// Sin decir esto se buscan opciones que no existen (le paso al tester): el
 				// fondo va mudo SIEMPRE porque los navegadores bloquean el autoplay con audio.
 				bgControls.push( el( 'p', { key: 'vidnote', className: 'tunet-editor-note' },
-					__( 'Background video always plays muted, with a pause control. Visitors who ask for reduced motion see the poster instead, with a play control — and the video is not downloaded until they ask for it.', 'tunet' ) ) );
+					__( 'Background video always plays muted, with a pause control. Visitors who ask for reduced motion see the poster instead, with a play control — and the video is not downloaded until they ask for it.', 'tunet-core' ) ) );
 			}
 
 			return el(
@@ -206,60 +206,60 @@
 				el(
 					InspectorControls,
 					{},
-					el( c.PanelBody, { title: __( 'Background', 'tunet' ), initialOpen: true }, bgControls ),
-					el( c.PanelBody, { title: __( 'Overlay', 'tunet' ), initialOpen: false },
-						el( c.ToggleControl, { label: __( 'Enable overlay', 'tunet' ), checked: !! a.overlay, onChange: function ( v ) { set( { overlay: v } ); }, __nextHasNoMarginBottom: true } ),
+					el( c.PanelBody, { title: __( 'Background', 'tunet-core' ), initialOpen: true }, bgControls ),
+					el( c.PanelBody, { title: __( 'Overlay', 'tunet-core' ), initialOpen: false },
+						el( c.ToggleControl, { label: __( 'Enable overlay', 'tunet-core' ), checked: !! a.overlay, onChange: function ( v ) { set( { overlay: v } ); }, __nextHasNoMarginBottom: true } ),
 						a.overlay ? el( c.SelectControl, {
 							key: 'ovtype',
-							label: __( 'Overlay type', 'tunet' ),
+							label: __( 'Overlay type', 'tunet-core' ),
 							value: a.overlayType || 'color',
 							options: [
-								{ label: __( 'Color', 'tunet' ), value: 'color' },
-								{ label: __( 'Gradient', 'tunet' ), value: 'gradient' }
+								{ label: __( 'Color', 'tunet-core' ), value: 'color' },
+								{ label: __( 'Gradient', 'tunet-core' ), value: 'gradient' }
 							],
 							onChange: function ( v ) { set( { overlayType: v } ); },
 							__nextHasNoMarginBottom: true
 						} ) : null,
-						( a.overlay && ( a.overlayType || 'color' ) === 'color' ) ? colorRow( __( 'Overlay color', 'tunet' ), a.overlayColor, palette, function ( v ) { set( { overlayColor: v } ); } ) : null,
-						( a.overlay && a.overlayType === 'gradient' ) ? el( c.BaseControl, { key: 'ovgrad', label: __( 'Overlay gradient', 'tunet' ), __nextHasNoMarginBottom: true },
+						( a.overlay && ( a.overlayType || 'color' ) === 'color' ) ? colorRow( __( 'Overlay color', 'tunet-core' ), a.overlayColor, palette, function ( v ) { set( { overlayColor: v } ); } ) : null,
+						( a.overlay && a.overlayType === 'gradient' ) ? el( c.BaseControl, { key: 'ovgrad', label: __( 'Overlay gradient', 'tunet-core' ), __nextHasNoMarginBottom: true },
 							el( c.GradientPicker, { value: a.overlayGradient || null, gradients: gradients, onChange: function ( v ) { set( { overlayGradient: v || '' } ); } } ) ) : null,
-						a.overlay ? el( c.RangeControl, { label: __( 'Opacity (%)', 'tunet' ), value: a.overlayOpacity, min: 0, max: 100, onChange: function ( v ) { set( { overlayOpacity: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ) : null,
+						a.overlay ? el( c.RangeControl, { label: __( 'Opacity (%)', 'tunet-core' ), value: a.overlayOpacity, min: 0, max: 100, onChange: function ( v ) { set( { overlayOpacity: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ) : null,
 						// Un overlay en gradiente lateral protege el texto en escritorio pero
 						// no en móvil, donde el texto ocupa todo el ancho: la dirección de un
 						// gradiente no depende de la forma de la caja. Este refuerzo uniforme
 						// es una capa aparte, así que el overlay elegido no se toca.
 						a.overlay ? el( c.ToggleControl, {
 							key: 'ovmob',
-							label: __( 'Reinforce on small screens', 'tunet' ),
-							help: __( 'Adds a flat scrim under 782px, on top of the overlay. Useful when a side gradient stops covering the text on mobile.', 'tunet' ),
+							label: __( 'Reinforce on small screens', 'tunet-core' ),
+							help: __( 'Adds a flat scrim under 782px, on top of the overlay. Useful when a side gradient stops covering the text on mobile.', 'tunet-core' ),
 							checked: !! a.overlayMobile,
 							onChange: function ( v ) { set( { overlayMobile: v } ); },
 							__nextHasNoMarginBottom: true
 						} ) : null,
-						( a.overlay && a.overlayMobile ) ? colorRow( __( 'Small-screen scrim color', 'tunet' ), a.overlayMobileColor, palette, function ( v ) { set( { overlayMobileColor: v } ); } ) : null,
-						( a.overlay && a.overlayMobile ) ? el( c.RangeControl, { key: 'ovmobop', label: __( 'Small-screen opacity (%)', 'tunet' ), value: a.overlayMobileOpacity, min: 0, max: 100, onChange: function ( v ) { set( { overlayMobileOpacity: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ) : null
+						( a.overlay && a.overlayMobile ) ? colorRow( __( 'Small-screen scrim color', 'tunet-core' ), a.overlayMobileColor, palette, function ( v ) { set( { overlayMobileColor: v } ); } ) : null,
+						( a.overlay && a.overlayMobile ) ? el( c.RangeControl, { key: 'ovmobop', label: __( 'Small-screen opacity (%)', 'tunet-core' ), value: a.overlayMobileOpacity, min: 0, max: 100, onChange: function ( v ) { set( { overlayMobileOpacity: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ) : null
 					),
-					el( c.PanelBody, { title: __( 'Layout', 'tunet' ), initialOpen: false },
-						el( c.RangeControl, { label: __( 'Minimum height (vh)', 'tunet' ), value: a.minHeight, min: 0, max: 100, help: __( '0 = automatic.', 'tunet' ), onChange: function ( v ) { set( { minHeight: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ),
-						el( c.SelectControl, { label: __( 'Vertical alignment', 'tunet' ), value: a.verticalAlignment, options: [ { label: __( 'Top', 'tunet' ), value: 'top' }, { label: __( 'Center', 'tunet' ), value: 'center' }, { label: __( 'Bottom', 'tunet' ), value: 'bottom' } ], onChange: function ( v ) { set( { verticalAlignment: v } ); }, __nextHasNoMarginBottom: true } ),
+					el( c.PanelBody, { title: __( 'Layout', 'tunet-core' ), initialOpen: false },
+						el( c.RangeControl, { label: __( 'Minimum height (vh)', 'tunet-core' ), value: a.minHeight, min: 0, max: 100, help: __( '0 = automatic.', 'tunet-core' ), onChange: function ( v ) { set( { minHeight: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ),
+						el( c.SelectControl, { label: __( 'Vertical alignment', 'tunet-core' ), value: a.verticalAlignment, options: [ { label: __( 'Top', 'tunet-core' ), value: 'top' }, { label: __( 'Center', 'tunet-core' ), value: 'center' }, { label: __( 'Bottom', 'tunet-core' ), value: 'bottom' } ], onChange: function ( v ) { set( { verticalAlignment: v } ); }, __nextHasNoMarginBottom: true } ),
 						el( c.SelectControl, {
-							label: __( 'Content width', 'tunet' ),
+							label: __( 'Content width', 'tunet-core' ),
 							value: a.contentWidth,
 							options: [
-								{ label: __( 'Constrained (content)', 'tunet' ), value: 'constrained' },
-								{ label: __( 'Wide', 'tunet' ), value: 'wide' },
-								{ label: __( 'Full', 'tunet' ), value: 'full' }
+								{ label: __( 'Constrained (content)', 'tunet-core' ), value: 'constrained' },
+								{ label: __( 'Wide', 'tunet-core' ), value: 'wide' },
+								{ label: __( 'Full', 'tunet-core' ), value: 'full' }
 							],
-							help: __( 'Independent of the section width. Set the section to “Full width” (toolbar) and constrain the content here.', 'tunet' ),
+							help: __( 'Independent of the section width. Set the section to “Full width” (toolbar) and constrain the content here.', 'tunet-core' ),
 							onChange: function ( v ) { set( { contentWidth: v } ); },
 							__nextHasNoMarginBottom: true
 						} )
 					),
-					el( c.PanelBody, { title: __( 'Shape dividers', 'tunet' ), initialOpen: false },
-						el( c.SelectControl, { label: __( 'Top divider', 'tunet' ), value: a.dividerTop, options: DIVIDER_OPTS, onChange: function ( v ) { set( { dividerTop: v } ); }, __nextHasNoMarginBottom: true } ),
-						el( c.SelectControl, { label: __( 'Bottom divider', 'tunet' ), value: a.dividerBottom, options: DIVIDER_OPTS, onChange: function ( v ) { set( { dividerBottom: v } ); }, __nextHasNoMarginBottom: true } ),
-						( a.dividerTop !== 'none' || a.dividerBottom !== 'none' ) ? colorRow( __( 'Divider color', 'tunet' ), a.dividerColor, palette, function ( v ) { set( { dividerColor: v } ); } ) : null,
-						( a.dividerTop !== 'none' || a.dividerBottom !== 'none' ) ? el( c.RangeControl, { label: __( 'Divider height (px)', 'tunet' ), value: a.dividerHeight, min: 10, max: 240, onChange: function ( v ) { set( { dividerHeight: v || 60 } ); }, __nextHasNoMarginBottom: true } ) : null
+					el( c.PanelBody, { title: __( 'Shape dividers', 'tunet-core' ), initialOpen: false },
+						el( c.SelectControl, { label: __( 'Top divider', 'tunet-core' ), value: a.dividerTop, options: DIVIDER_OPTS, onChange: function ( v ) { set( { dividerTop: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( c.SelectControl, { label: __( 'Bottom divider', 'tunet-core' ), value: a.dividerBottom, options: DIVIDER_OPTS, onChange: function ( v ) { set( { dividerBottom: v } ); }, __nextHasNoMarginBottom: true } ),
+						( a.dividerTop !== 'none' || a.dividerBottom !== 'none' ) ? colorRow( __( 'Divider color', 'tunet-core' ), a.dividerColor, palette, function ( v ) { set( { dividerColor: v } ); } ) : null,
+						( a.dividerTop !== 'none' || a.dividerBottom !== 'none' ) ? el( c.RangeControl, { label: __( 'Divider height (px)', 'tunet-core' ), value: a.dividerHeight, min: 10, max: 240, onChange: function ( v ) { set( { dividerHeight: v || 60 } ); }, __nextHasNoMarginBottom: true } ) : null
 					)
 				),
 				el(

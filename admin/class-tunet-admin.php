@@ -11,7 +11,7 @@
  *
  * Reads/builders are STATIC so the runtime can use them on the front-end.
  *
- * Default UI language is English; strings are translatable (text domain 'tunet').
+ * Default UI language is English; strings are translatable (text domain 'tunet-core').
  *
  * @package Tunet\Core
  */
@@ -362,8 +362,8 @@ class Tunet_Core_Admin {
 	 */
 	public function register_menu() {
 		add_menu_page(
-			__( 'Tunet Core', 'tunet' ),
-			__( 'Tunet Core', 'tunet' ),
+			__( 'Tunet Core', 'tunet-core' ),
+			__( 'Tunet Core', 'tunet-core' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
 			array( $this, 'render_settings_page' ),
@@ -373,8 +373,8 @@ class Tunet_Core_Admin {
 
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Settings', 'tunet' ),
-			__( 'Settings', 'tunet' ),
+			__( 'Settings', 'tunet-core' ),
+			__( 'Settings', 'tunet-core' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
 			array( $this, 'render_settings_page' )
@@ -382,8 +382,8 @@ class Tunet_Core_Admin {
 
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Tools', 'tunet' ),
-			__( 'Tools', 'tunet' ),
+			__( 'Tools', 'tunet-core' ),
+			__( 'Tools', 'tunet-core' ),
 			self::CAPABILITY,
 			self::TOOLS_SLUG,
 			array( $this, 'render_tools_page' )
@@ -392,8 +392,8 @@ class Tunet_Core_Admin {
 		// Direct link under Appearance → settings page.
 		add_submenu_page(
 			'themes.php',
-			__( 'Tunet Core', 'tunet' ),
-			__( 'Tunet Core', 'tunet' ),
+			__( 'Tunet Core', 'tunet-core' ),
+			__( 'Tunet Core', 'tunet-core' ),
 			self::CAPABILITY,
 			'admin.php?page=' . self::MENU_SLUG
 		);
@@ -428,24 +428,24 @@ class Tunet_Core_Admin {
 				'homeUrl' => home_url( '/' ),
 				'nonce'   => wp_create_nonce( 'tunet_demo' ),
 				'i18n'    => array(
-					'importing'    => __( 'Importing…', 'tunet' ),
-					'done'         => __( 'Demo imported.', 'tunet' ),
-					'rollback'     => __( 'Import undone.', 'tunet' ),
-					'error'        => __( 'An error occurred.', 'tunet' ),
-					'chooseLogo'   => __( 'Select logo', 'tunet' ),
-					'useLogo'      => __( 'Use this logo', 'tunet' ),
-					'pluginsTitle' => __( 'Recommended plugins', 'tunet' ),
-					'installAct'   => __( 'Install & activate', 'tunet' ),
-					'installing'   => __( 'Installing…', 'tunet' ),
-					'activate'     => __( 'Activate', 'tunet' ),
-					'active'       => __( 'Active', 'tunet' ),
-					'required'     => __( 'Required', 'tunet' ),
-					'continue'     => __( 'Continue', 'tunet' ),
-					'optional'     => __( 'Optional', 'tunet' ),
-					'pluginsReady' => __( 'All set — continue to the import.', 'tunet' ),
-					'noPlugins'    => __( 'No extra plugins needed for this demo — continue to the import.', 'tunet' ),
-					'viewSite'     => __( 'View site', 'tunet' ),
-					'installManually' => __( 'Install manually', 'tunet' ),
+					'importing'    => __( 'Importing…', 'tunet-core' ),
+					'done'         => __( 'Demo imported.', 'tunet-core' ),
+					'rollback'     => __( 'Import undone.', 'tunet-core' ),
+					'error'        => __( 'An error occurred.', 'tunet-core' ),
+					'chooseLogo'   => __( 'Select logo', 'tunet-core' ),
+					'useLogo'      => __( 'Use this logo', 'tunet-core' ),
+					'pluginsTitle' => __( 'Recommended plugins', 'tunet-core' ),
+					'installAct'   => __( 'Install & activate', 'tunet-core' ),
+					'installing'   => __( 'Installing…', 'tunet-core' ),
+					'activate'     => __( 'Activate', 'tunet-core' ),
+					'active'       => __( 'Active', 'tunet-core' ),
+					'required'     => __( 'Required', 'tunet-core' ),
+					'continue'     => __( 'Continue', 'tunet-core' ),
+					'optional'     => __( 'Optional', 'tunet-core' ),
+					'pluginsReady' => __( 'All set — continue to the import.', 'tunet-core' ),
+					'noPlugins'    => __( 'No extra plugins needed for this demo — continue to the import.', 'tunet-core' ),
+					'viewSite'     => __( 'View site', 'tunet-core' ),
+					'installManually' => __( 'Install manually', 'tunet-core' ),
 				),
 			)
 		);
@@ -482,14 +482,19 @@ class Tunet_Core_Admin {
 			return;
 		}
 
-		$s        = self::get_settings();
+		$s = self::get_settings();
+		// No es procesado de formulario: es la bandera que admin-post.php nos devuelve
+		// por redirección para saber QUÉ aviso pintar. No cambia nada, la pantalla ya
+		// está detrás de current_user_can(), y el valor pasa por sanitize_key() y
+		// luego por un lookup contra una lista cerrada en notice_text().
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$notice   = isset( $_GET['tunet_notice'] ) ? sanitize_key( wp_unslash( $_GET['tunet_notice'] ) ) : '';
 		$post_url = admin_url( 'admin-post.php' );
 		$palette  = $this->theme_palette();
 		?>
 		<div class="wrap tunet-admin">
-			<h1><?php esc_html_e( 'Tunet Core', 'tunet' ); ?></h1>
-			<p class="description"><?php esc_html_e( 'The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens).', 'tunet' ); ?></p>
+			<h1><?php esc_html_e( 'Tunet Core', 'tunet-core' ); ?></h1>
+			<p class="description"><?php esc_html_e( 'The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens).', 'tunet-core' ); ?></p>
 
 			<?php if ( $notice ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $this->notice_text( $notice ) ); ?></p></div>
@@ -497,11 +502,11 @@ class Tunet_Core_Admin {
 
 			<?php if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) : ?>
 				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'Appearance & styles', 'tunet' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them.', 'tunet' ); ?></p>
+					<h2><?php esc_html_e( 'Appearance & styles', 'tunet-core' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them.', 'tunet-core' ); ?></p>
 					<p>
 						<a class="button button-secondary" href="<?php echo esc_url( admin_url( 'site-editor.php?path=%2Fwp_global_styles' ) ); ?>">
-							<?php esc_html_e( 'Open Styles in the Site Editor', 'tunet' ); ?>
+							<?php esc_html_e( 'Open Styles in the Site Editor', 'tunet-core' ); ?>
 						</a>
 					</p>
 				</div>
@@ -512,34 +517,34 @@ class Tunet_Core_Admin {
 				<?php wp_nonce_field( 'tunet_save_settings' ); ?>
 
 				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'Brand logos', 'tunet' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic).', 'tunet' ); ?></p>
+					<h2><?php esc_html_e( 'Brand logos', 'tunet-core' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic).', 'tunet-core' ); ?></p>
 					<?php /* El campo ya se llamaba "dark backgrounds" pero nada lo aplicaba solo: el logo alternativo se quedaba sin usar y el header oscuro mostraba el oscuro. Ahora sí conmuta, y conviene decirlo aquí. */ ?>
-					<p class="description"><?php esc_html_e( 'With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo.', 'tunet' ); ?></p>
+					<p class="description"><?php esc_html_e( 'With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo.', 'tunet-core' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
-						$this->row_logo( __( 'Main logo', 'tunet' ), 'logo_main_id', (int) $s['logo_main_id'] );
-						$this->row_logo( __( 'Alternative logo (dark backgrounds)', 'tunet' ), 'logo_alt_id', (int) $s['logo_alt_id'], true );
+						$this->row_logo( __( 'Main logo', 'tunet-core' ), 'logo_main_id', (int) $s['logo_main_id'] );
+						$this->row_logo( __( 'Alternative logo (dark backgrounds)', 'tunet-core' ), 'logo_alt_id', (int) $s['logo_alt_id'], true );
 						?>
 					</table>
 				</div>
 
 				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'Branding', 'tunet' ); ?></h2>
+					<h2><?php esc_html_e( 'Branding', 'tunet-core' ); ?></h2>
 
-					<h3><?php esc_html_e( 'Typography (Google Fonts)', 'tunet' ); ?></h3>
+					<h3><?php esc_html_e( 'Typography (Google Fonts)', 'tunet-core' ); ?></h3>
 					<table class="form-table" role="presentation">
 						<?php
-						$this->row_font( __( 'Display', 'tunet' ), 'font_display', $s['font_display'], self::fonts_text() );
-						$this->row_font( __( 'Body', 'tunet' ), 'font_body', $s['font_body'], self::fonts_text() );
-						$this->row_font( __( 'Monospace', 'tunet' ), 'font_mono', $s['font_mono'], self::fonts_mono() );
-						$this->row_select( __( 'Base size', 'tunet' ), 'text_base', $s['text_base'], array( '' => __( 'Theme default', 'tunet' ), 'sm' => __( 'Compact', 'tunet' ), 'lg' => __( 'Large', 'tunet' ) ) );
+						$this->row_font( __( 'Display', 'tunet-core' ), 'font_display', $s['font_display'], self::fonts_text() );
+						$this->row_font( __( 'Body', 'tunet-core' ), 'font_body', $s['font_body'], self::fonts_text() );
+						$this->row_font( __( 'Monospace', 'tunet-core' ), 'font_mono', $s['font_mono'], self::fonts_mono() );
+						$this->row_select( __( 'Base size', 'tunet-core' ), 'text_base', $s['text_base'], array( '' => __( 'Theme default', 'tunet-core' ), 'sm' => __( 'Compact', 'tunet-core' ), 'lg' => __( 'Large', 'tunet-core' ) ) );
 						?>
 					</table>
 
-					<h3><?php esc_html_e( 'Brand colors', 'tunet' ); ?></h3>
+					<h3><?php esc_html_e( 'Brand colors', 'tunet-core' ); ?></h3>
 					<p class="description">
-						<?php esc_html_e( 'Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation.', 'tunet' ); ?>
+						<?php esc_html_e( 'Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation.', 'tunet-core' ); ?>
 					</p>
 					<?php
 					/*
@@ -551,11 +556,11 @@ class Tunet_Core_Admin {
 					 * Se avisa en vez de prohibirlo: el override explicito es la funcion.
 					 */
 					$brand_keys   = array(
-						'brand_primary'  => __( 'Primary', 'tunet' ),
-						'brand_accent'   => __( 'Accent', 'tunet' ),
-						'brand_accent_2' => __( 'Accent 2', 'tunet' ),
-						'brand_bg'       => __( 'Background', 'tunet' ),
-						'brand_text'     => __( 'Text', 'tunet' ),
+						'brand_primary'  => __( 'Primary', 'tunet-core' ),
+						'brand_accent'   => __( 'Accent', 'tunet-core' ),
+						'brand_accent_2' => __( 'Accent 2', 'tunet-core' ),
+						'brand_bg'       => __( 'Background', 'tunet-core' ),
+						'brand_text'     => __( 'Text', 'tunet-core' ),
 					);
 					$brand_active = array();
 					foreach ( $brand_keys as $bk => $blabel ) {
@@ -567,25 +572,25 @@ class Tunet_Core_Admin {
 						?>
 						<div class="notice notice-warning inline tunet-brand-warning">
 							<p>
-								<strong><?php esc_html_e( 'Brand colors are overriding this theme.', 'tunet' ); ?></strong>
+								<strong><?php esc_html_e( 'Brand colors are overriding this theme.', 'tunet-core' ); ?></strong>
 								<?php
 								printf(
 									/* translators: %s: comma-separated list of overridden color names with their hex value. */
-									esc_html__( 'Active: %s. While these are set, switching the style variation will not change them.', 'tunet' ),
+									esc_html__( 'Active: %s. While these are set, switching the style variation will not change them.', 'tunet-core' ),
 									esc_html( implode( ', ', $brand_active ) )
 								);
 								?>
 							</p>
 							<?php if ( ! empty( $s['brand_bg'] ) && empty( $s['brand_text'] ) ) : ?>
 								<p>
-									<?php esc_html_e( 'You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable.', 'tunet' ); ?>
+									<?php esc_html_e( 'You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable.', 'tunet-core' ); ?>
 								</p>
 							<?php endif; ?>
 							<p>
 								<button type="button" class="button" id="tunet-brand-clear-all">
-									<?php esc_html_e( 'Clear all brand colors', 'tunet' ); ?>
+									<?php esc_html_e( 'Clear all brand colors', 'tunet-core' ); ?>
 								</button>
-								<span class="description"><?php esc_html_e( 'Then press Save changes.', 'tunet' ); ?></span>
+								<span class="description"><?php esc_html_e( 'Then press Save changes.', 'tunet-core' ); ?></span>
 							</p>
 						</div>
 						<?php
@@ -593,62 +598,62 @@ class Tunet_Core_Admin {
 					?>
 					<table class="form-table tunet-brand-colors" role="presentation">
 						<?php
-						$this->row_color( __( 'Primary', 'tunet' ), 'brand_primary', $s['brand_primary'], $palette['primary'] ?? '' );
-						$this->row_color( __( 'Accent', 'tunet' ), 'brand_accent', $s['brand_accent'], $palette['accent'] ?? '' );
-						$this->row_color( __( 'Accent 2', 'tunet' ), 'brand_accent_2', $s['brand_accent_2'], $palette['accent-2'] ?? '' );
-						$this->row_color( __( 'Background', 'tunet' ), 'brand_bg', $s['brand_bg'], $palette['bg'] ?? '' );
-						$this->row_color( __( 'Text', 'tunet' ), 'brand_text', $s['brand_text'], $palette['text'] ?? '' );
+						$this->row_color( __( 'Primary', 'tunet-core' ), 'brand_primary', $s['brand_primary'], $palette['primary'] ?? '' );
+						$this->row_color( __( 'Accent', 'tunet-core' ), 'brand_accent', $s['brand_accent'], $palette['accent'] ?? '' );
+						$this->row_color( __( 'Accent 2', 'tunet-core' ), 'brand_accent_2', $s['brand_accent_2'], $palette['accent-2'] ?? '' );
+						$this->row_color( __( 'Background', 'tunet-core' ), 'brand_bg', $s['brand_bg'], $palette['bg'] ?? '' );
+						$this->row_color( __( 'Text', 'tunet-core' ), 'brand_text', $s['brand_text'], $palette['text'] ?? '' );
 						?>
 					</table>
 
-					<h3><?php esc_html_e( 'Shape', 'tunet' ); ?></h3>
+					<h3><?php esc_html_e( 'Shape', 'tunet-core' ); ?></h3>
 					<table class="form-table" role="presentation">
 						<?php
 						$this->row_number(
-							__( 'Corner radius (px)', 'tunet' ),
+							__( 'Corner radius (px)', 'tunet-core' ),
 							'radius',
 							$s['radius'],
-							__( 'Empty = theme. Rounding for Tunet blocks/components that use the radius tokens. 0 = sharp.', 'tunet' ),
+							__( 'Empty = theme. Rounding for Tunet blocks/components that use the radius tokens. 0 = sharp.', 'tunet-core' ),
 							64
 						);
 						?>
 					</table>
 
-					<h3><?php esc_html_e( 'Motion', 'tunet' ); ?></h3>
-					<p class="description"><?php esc_html_e( 'Speed of all Tunet effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic.', 'tunet' ); ?></p>
+					<h3><?php esc_html_e( 'Motion', 'tunet-core' ); ?></h3>
+					<p class="description"><?php esc_html_e( 'Speed of all Tunet effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic.', 'tunet-core' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
-						$this->row_select( __( 'Motion intensity', 'tunet' ), 'motion', $s['motion'], array( '' => __( 'Theme default', 'tunet' ), 'subtle' => __( 'Subtle (fast)', 'tunet' ), 'bold' => __( 'Bold (slow)', 'tunet' ) ) );
+						$this->row_select( __( 'Motion intensity', 'tunet-core' ), 'motion', $s['motion'], array( '' => __( 'Theme default', 'tunet-core' ), 'subtle' => __( 'Subtle (fast)', 'tunet-core' ), 'bold' => __( 'Bold (slow)', 'tunet-core' ) ) );
 						?>
 					</table>
 				</div>
 
 				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'Content layout', 'tunet' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor.', 'tunet' ); ?></p>
+					<h2><?php esc_html_e( 'Content layout', 'tunet-core' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor.', 'tunet-core' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
 						$layout_opts = array(
-							''        => __( 'Full width (no sidebar)', 'tunet' ),
-							'sidebar' => __( 'With sidebar', 'tunet' ),
+							''        => __( 'Full width (no sidebar)', 'tunet-core' ),
+							'sidebar' => __( 'With sidebar', 'tunet-core' ),
 						);
-						$this->row_select( __( 'Single posts', 'tunet' ), 'layout_post_single', $s['layout_post_single'], $layout_opts );
-						$this->row_select( __( 'Blog & archives', 'tunet' ), 'layout_archive', $s['layout_archive'], $layout_opts );
+						$this->row_select( __( 'Single posts', 'tunet-core' ), 'layout_post_single', $s['layout_post_single'], $layout_opts );
+						$this->row_select( __( 'Blog & archives', 'tunet-core' ), 'layout_archive', $s['layout_archive'], $layout_opts );
 						?>
 					</table>
-					<p class="description"><?php esc_html_e( 'Themes that ship a sidebar area react automatically. A theme without one simply stays full width.', 'tunet' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Themes that ship a sidebar area react automatically. A theme without one simply stays full width.', 'tunet-core' ); ?></p>
 				</div>
 
 				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'General', 'tunet' ); ?></h2>
+					<h2><?php esc_html_e( 'General', 'tunet-core' ); ?></h2>
 					<p><label>
 						<input type="checkbox" name="effects_enabled" value="1" <?php checked( ! empty( $s['effects_enabled'] ) ); ?> />
-						<?php esc_html_e( 'Enable the effects engine (tf*) on the front-end', 'tunet' ); ?>
+						<?php esc_html_e( 'Enable the effects engine (tf*) on the front-end', 'tunet-core' ); ?>
 					</label></p>
-					<p class="description"><?php esc_html_e( 'When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging).', 'tunet' ); ?></p>
+					<p class="description"><?php esc_html_e( 'When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging).', 'tunet-core' ); ?></p>
 				</div>
 
-				<?php submit_button( __( 'Save settings', 'tunet' ) ); ?>
+				<?php submit_button( __( 'Save settings', 'tunet-core' ) ); ?>
 			</form>
 		</div>
 		<?php
@@ -661,11 +666,15 @@ class Tunet_Core_Admin {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
 			return;
 		}
+		// Misma bandera de aviso por redirección que en la pantalla de ajustes: no
+		// procesa nada, la página ya exigió la capacidad, y el valor se sanea y se
+		// resuelve contra una lista cerrada.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$notice   = isset( $_GET['tunet_notice'] ) ? sanitize_key( wp_unslash( $_GET['tunet_notice'] ) ) : '';
 		$post_url = admin_url( 'admin-post.php' );
 		?>
 		<div class="wrap tunet-admin">
-			<h1><?php esc_html_e( 'Tunet Core · Tools', 'tunet' ); ?></h1>
+			<h1><?php esc_html_e( 'Tunet Core · Tools', 'tunet-core' ); ?></h1>
 
 			<?php if ( $notice ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $this->notice_text( $notice ) ); ?></p></div>
@@ -673,24 +682,24 @@ class Tunet_Core_Admin {
 
 			<div class="tunet-admin__grid">
 				<div class="card">
-					<h2><?php esc_html_e( 'Export', 'tunet' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Download the current settings as a JSON file.', 'tunet' ); ?></p>
+					<h2><?php esc_html_e( 'Export', 'tunet-core' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Download the current settings as a JSON file.', 'tunet-core' ); ?></p>
 					<p>
 						<a class="button button-secondary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'tunet_export', $post_url ), 'tunet_export' ) ); ?>">
 							<span class="dashicons dashicons-download" aria-hidden="true" style="vertical-align:text-bottom"></span>
-							<?php esc_html_e( 'Export settings (.json)', 'tunet' ); ?>
+							<?php esc_html_e( 'Export settings (.json)', 'tunet-core' ); ?>
 						</a>
 					</p>
 				</div>
 
 				<div class="card">
-					<h2><?php esc_html_e( 'Import', 'tunet' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Restore settings from a previously exported JSON file.', 'tunet' ); ?></p>
+					<h2><?php esc_html_e( 'Import', 'tunet-core' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Restore settings from a previously exported JSON file.', 'tunet-core' ); ?></p>
 					<form method="post" action="<?php echo esc_url( $post_url ); ?>" enctype="multipart/form-data">
 						<input type="hidden" name="action" value="tunet_import" />
 						<?php wp_nonce_field( 'tunet_import' ); ?>
 						<p><input type="file" name="tunet_import_file" accept="application/json,.json" required /></p>
-						<?php submit_button( __( 'Import settings', 'tunet' ), 'secondary' ); ?>
+						<?php submit_button( __( 'Import settings', 'tunet-core' ), 'secondary' ); ?>
 					</form>
 				</div>
 
@@ -712,7 +721,7 @@ class Tunet_Core_Admin {
 	 * @param array  $fonts   family => weights map.
 	 */
 	private function row_font( $label, $name, $current, $fonts ) {
-		$options = array( '' => __( 'Theme default', 'tunet' ) );
+		$options = array( '' => __( 'Theme default', 'tunet-core' ) );
 		foreach ( $fonts as $family => $weights ) {
 			$options[ $family ] = $family;
 		}
@@ -782,7 +791,7 @@ class Tunet_Core_Admin {
 			<td class="tunet-color-row">
 				<input type="color" value="<?php echo esc_attr( $current ? $current : $placeholder ); ?>" data-target="tunet-<?php echo esc_attr( $name ); ?>" class="tunet-color-swatch" aria-hidden="true" tabindex="-1" />
 				<input type="text" id="tunet-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" placeholder="<?php echo esc_attr( $placeholder . ' (theme)' ); ?>" class="tunet-color-text regular-text" pattern="#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})" />
-				<button type="button" class="button tunet-icon-btn tunet-color-clear" data-target="tunet-<?php echo esc_attr( $name ); ?>" title="<?php esc_attr_e( 'Reset to theme color', 'tunet' ); ?>" aria-label="<?php esc_attr_e( 'Reset to theme color', 'tunet' ); ?>">
+				<button type="button" class="button tunet-icon-btn tunet-color-clear" data-target="tunet-<?php echo esc_attr( $name ); ?>" title="<?php esc_attr_e( 'Reset to theme color', 'tunet-core' ); ?>" aria-label="<?php esc_attr_e( 'Reset to theme color', 'tunet-core' ); ?>">
 					<span class="dashicons dashicons-image-rotate" aria-hidden="true"></span>
 				</button>
 			</td>
@@ -815,8 +824,8 @@ class Tunet_Core_Admin {
 					</div>
 					<input type="hidden" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" />
 					<p class="tunet-logo-actions">
-						<button type="button" class="button tunet-logo-pick" data-target="<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Choose / change', 'tunet' ); ?></button>
-						<button type="button" class="button tunet-icon-btn tunet-logo-remove" data-target="<?php echo esc_attr( $id ); ?>" title="<?php esc_attr_e( 'Remove logo', 'tunet' ); ?>" aria-label="<?php esc_attr_e( 'Remove logo', 'tunet' ); ?>">
+						<button type="button" class="button tunet-logo-pick" data-target="<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Choose / change', 'tunet-core' ); ?></button>
+						<button type="button" class="button tunet-icon-btn tunet-logo-remove" data-target="<?php echo esc_attr( $id ); ?>" title="<?php esc_attr_e( 'Remove logo', 'tunet-core' ); ?>" aria-label="<?php esc_attr_e( 'Remove logo', 'tunet-core' ); ?>">
 							<span class="dashicons dashicons-trash" aria-hidden="true"></span>
 						</button>
 					</p>
@@ -835,11 +844,11 @@ class Tunet_Core_Admin {
 	private function notice_text( $key ) {
 		switch ( $key ) {
 			case 'saved':
-				return __( 'Settings saved.', 'tunet' );
+				return __( 'Settings saved.', 'tunet-core' );
 			case 'imported':
-				return __( 'Settings imported successfully.', 'tunet' );
+				return __( 'Settings imported successfully.', 'tunet-core' );
 			case 'import_error':
-				return __( 'The file is not a valid settings JSON.', 'tunet' );
+				return __( 'The file is not a valid settings JSON.', 'tunet-core' );
 			default:
 				return '';
 		}
@@ -904,7 +913,7 @@ class Tunet_Core_Admin {
 	 */
 	public function handle_save_settings() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'tunet' ) );
+			wp_die( esc_html__( 'Permission denied.', 'tunet-core' ) );
 		}
 		check_admin_referer( 'tunet_save_settings' );
 
@@ -938,7 +947,7 @@ class Tunet_Core_Admin {
 	 */
 	public function handle_export() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'tunet' ) );
+			wp_die( esc_html__( 'Permission denied.', 'tunet-core' ) );
 		}
 		check_admin_referer( 'tunet_export' );
 
@@ -960,13 +969,23 @@ class Tunet_Core_Admin {
 	 */
 	public function handle_import() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'tunet' ) );
+			wp_die( esc_html__( 'Permission denied.', 'tunet-core' ) );
 		}
 		check_admin_referer( 'tunet_import' );
 
 		$notice = 'import_error';
-		if ( isset( $_FILES['tunet_import_file']['tmp_name'] ) && is_uploaded_file( $_FILES['tunet_import_file']['tmp_name'] ) ) {
-			$raw  = file_get_contents( $_FILES['tunet_import_file']['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+
+		// El saneado real de una subida es is_uploaded_file(): confirma que la ruta
+		// es la que PHP acaba de crear y no una que venga del cliente. Aun así se
+		// pasa por sanitize_text_field antes de tocarla, porque un tmp_name no
+		// contiene nada que ese filtro pueda estropear y así la comprobación queda
+		// explícita en el código en vez de argumentada en un phpcs:ignore.
+		$tmp = isset( $_FILES['tunet_import_file']['tmp_name'] )
+			? sanitize_text_field( wp_unslash( $_FILES['tunet_import_file']['tmp_name'] ) )
+			: '';
+
+		if ( '' !== $tmp && is_uploaded_file( $tmp ) ) {
+			$raw  = file_get_contents( $tmp ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- lectura de un fichero local recién subido, no remota.
 			$data = json_decode( $raw, true );
 			if ( is_array( $data ) && isset( $data['settings'] ) && is_array( $data['settings'] ) ) {
 				$clean = $this->sanitize_settings( $data['settings'] );

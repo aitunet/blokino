@@ -23,9 +23,9 @@
 	// gender agreement can't be resolved when fragments are translated in isolation).
 	function pickerLabel( kind, hasUrl ) {
 		if ( 'before' === kind ) {
-			return hasUrl ? __( 'Change before image', 'tunet' ) : __( 'Choose before image', 'tunet' );
+			return hasUrl ? __( 'Change before image', 'tunet-core' ) : __( 'Choose before image', 'tunet-core' );
 		}
-		return hasUrl ? __( 'Change after image', 'tunet' ) : __( 'Choose after image', 'tunet' );
+		return hasUrl ? __( 'Change after image', 'tunet-core' ) : __( 'Choose after image', 'tunet-core' );
 	}
 
 	function picker( kind, valueId, hasUrl, onSelect ) {
@@ -63,7 +63,7 @@
 				{},
 				el(
 					c.PanelBody,
-					{ title: __( 'Images', 'tunet' ), initialOpen: true },
+					{ title: __( 'Images', 'tunet-core' ), initialOpen: true },
 					picker( 'before', a.beforeId, !! a.beforeUrl, function ( m ) {
 						set( { beforeId: m.id, beforeUrl: m.url, beforeAlt: m.alt || '', width: m.width, height: m.height } );
 					} ),
@@ -74,9 +74,9 @@
 				),
 				el(
 					c.PanelBody,
-					{ title: __( 'Settings', 'tunet' ), initialOpen: true },
+					{ title: __( 'Settings', 'tunet-core' ), initialOpen: true },
 					el( c.RangeControl, {
-						label: __( 'Start position (%)', 'tunet' ),
+						label: __( 'Start position (%)', 'tunet-core' ),
 						value: a.startPosition || 50,
 						min: 0,
 						max: 100,
@@ -87,13 +87,13 @@
 						__nextHasNoMarginBottom: true
 					} ),
 					el( c.TextControl, {
-						label: __( 'Before label', 'tunet' ),
+						label: __( 'Before label', 'tunet-core' ),
 						value: a.beforeLabel || '',
 						onChange: function ( v ) { set( { beforeLabel: v } ); },
 						__nextHasNoMarginBottom: true
 					} ),
 					el( c.TextControl, {
-						label: __( 'After label', 'tunet' ),
+						label: __( 'After label', 'tunet-core' ),
 						value: a.afterLabel || '',
 						onChange: function ( v ) { set( { afterLabel: v } ); },
 						__nextHasNoMarginBottom: true
@@ -124,8 +124,8 @@
 						c.Placeholder,
 						{
 							icon: 'image-flip-horizontal',
-							label: __( 'Tunet Before / After', 'tunet' ),
-							instructions: __( 'Choose the before and after images to compare.', 'tunet' )
+							label: __( 'Tunet Before / After', 'tunet-core' ),
+							instructions: __( 'Choose the before and after images to compare.', 'tunet-core' )
 						},
 						picker( 'before', a.beforeId, !! a.beforeUrl, function ( m ) {
 							set( { beforeId: m.id, beforeUrl: m.url, beforeAlt: m.alt || '', width: m.width, height: m.height } );

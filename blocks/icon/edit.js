@@ -17,10 +17,10 @@
 	var c = wp.components;
 
 	var CATS = [
-		{ key: 'general', label: __( 'General', 'tunet' ) },
-		{ key: 'nav',     label: __( 'Nav / UI', 'tunet' ) },
-		{ key: 'contact', label: __( 'Contact', 'tunet' ) },
-		{ key: 'brand',   label: __( 'Brand / Social', 'tunet' ) }
+		{ key: 'general', label: __( 'General', 'tunet-core' ) },
+		{ key: 'nav',     label: __( 'Nav / UI', 'tunet-core' ) },
+		{ key: 'contact', label: __( 'Contact', 'tunet-core' ) },
+		{ key: 'brand',   label: __( 'Brand / Social', 'tunet-core' ) }
 	];
 
 	registerBlockType( 'tunet/icon', {
@@ -56,7 +56,7 @@
 				var flat = allNames.filter( matches );
 				pickerChildren = flat.length
 					? [ el( 'div', { className: 'tunet-icon-picker__grid', key: 'flat' }, flat.map( iconButton ) ) ]
-					: [ el( 'p', { className: 'tunet-icon-picker__empty', key: 'empty' }, __( 'No icons match.', 'tunet' ) ) ];
+					: [ el( 'p', { className: 'tunet-icon-picker__empty', key: 'empty' }, __( 'No icons match.', 'tunet-core' ) ) ];
 			} else {
 				pickerChildren = CATS.map( function ( cat ) {
 					var inCat = allNames.filter( function ( n ) { return ( ICONS[ n ].category || 'general' ) === cat.key; } );
@@ -77,21 +77,21 @@
 					{},
 					el(
 						c.PanelBody,
-						{ title: __( 'Icon', 'tunet' ), initialOpen: true },
+						{ title: __( 'Icon', 'tunet-core' ), initialOpen: true },
 						el( c.SearchControl, {
 							value: query,
 							onChange: setQuery,
-							label: __( 'Search icons', 'tunet' ),
-							placeholder: __( 'Search…', 'tunet' ),
+							label: __( 'Search icons', 'tunet-core' ),
+							placeholder: __( 'Search…', 'tunet-core' ),
 							__nextHasNoMarginBottom: true
 						} ),
 						picker
 					),
 					el(
 						c.PanelBody,
-						{ title: __( 'Size & label', 'tunet' ), initialOpen: false },
+						{ title: __( 'Size & label', 'tunet-core' ), initialOpen: false },
 						el( c.RangeControl, {
-							label: __( 'Size (px)', 'tunet' ),
+							label: __( 'Size (px)', 'tunet-core' ),
 							value: a.size || 24,
 							min: 12,
 							max: 96,
@@ -102,7 +102,7 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						'fill' !== selMode ? el( c.RangeControl, {
-							label: __( 'Stroke width', 'tunet' ),
+							label: __( 'Stroke width', 'tunet-core' ),
 							value: a.strokeWidth || 2,
 							min: 1,
 							max: 3,
@@ -113,8 +113,8 @@
 							__nextHasNoMarginBottom: true
 						} ) : null,
 						el( c.TextControl, {
-							label: __( 'Accessibility label', 'tunet' ),
-							help: __( 'Leave empty if the icon is purely decorative.', 'tunet' ),
+							label: __( 'Accessibility label', 'tunet-core' ),
+							help: __( 'Leave empty if the icon is purely decorative.', 'tunet-core' ),
 							value: a.label || '',
 							onChange: function ( v ) {
 								set( { label: v } );
