@@ -519,7 +519,7 @@ class Tunet_Core_Admin {
 					<table class="form-table" role="presentation">
 						<?php
 						$this->row_logo( __( 'Main logo', 'tunet' ), 'logo_main_id', (int) $s['logo_main_id'] );
-						$this->row_logo( __( 'Alternative logo (dark backgrounds)', 'tunet' ), 'logo_alt_id', (int) $s['logo_alt_id'] );
+						$this->row_logo( __( 'Alternative logo (dark backgrounds)', 'tunet' ), 'logo_alt_id', (int) $s['logo_alt_id'], true );
 						?>
 					</table>
 				</div>
@@ -796,8 +796,11 @@ class Tunet_Core_Admin {
 	 * @param string $label   Label.
 	 * @param string $name    Field name (hidden, attachment ID).
 	 * @param int    $current Current attachment ID.
+	 * @param bool   $dark    Logo meant for dark backgrounds: preview it on a dark
+	 *                        checkerboard. A light logo on the light board reads as
+	 *                        an empty box — parece que la subida ha fallado.
 	 */
-	private function row_logo( $label, $name, $current ) {
+	private function row_logo( $label, $name, $current, $dark = false ) {
 		$img = $current ? wp_get_attachment_image_url( $current, 'medium' ) : '';
 		$id  = 'tunet-' . $name;
 		?>
@@ -805,7 +808,7 @@ class Tunet_Core_Admin {
 			<th scope="row"><?php echo esc_html( $label ); ?></th>
 			<td>
 				<div class="tunet-logo-field">
-					<div class="tunet-logo-preview" data-for="<?php echo esc_attr( $id ); ?>">
+					<div class="tunet-logo-preview<?php echo $dark ? ' tunet-logo-preview--dark' : ''; ?>" data-for="<?php echo esc_attr( $id ); ?>">
 						<?php if ( $img ) : ?>
 							<img src="<?php echo esc_url( $img ); ?>" alt="" />
 						<?php endif; ?>

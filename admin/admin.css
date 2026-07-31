@@ -36,6 +36,19 @@
 	border-radius: 6px;
 }
 
+/* El logo alternativo existe PARA fondos oscuros: previsualizado sobre el tablero
+   claro es un rectángulo vacío y parece que la subida ha fallado. Mismo tablero,
+   en oscuro, para juzgarlo donde se va a usar. */
+.tunet-logo-preview--dark img {
+	background:
+		linear-gradient( 45deg, #2c3338 25%, transparent 25% ) 0 0 / 16px 16px,
+		linear-gradient( -45deg, #2c3338 25%, transparent 25% ) 0 8px / 16px 16px,
+		linear-gradient( 45deg, transparent 75%, #2c3338 75% ) 8px -8px / 16px 16px,
+		linear-gradient( -45deg, transparent 75%, #2c3338 75% ) -8px 0 / 16px 16px,
+		#1d2327;
+	border-color: #1d2327;
+}
+
 .tunet-admin__grid {
 	display: grid;
 	grid-template-columns: repeat( auto-fit, minmax( 320px, 1fr ) );
