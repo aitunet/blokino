@@ -1,10 +1,10 @@
 === Tunet Core ===
 Contributors: tunetdesign
-Tags: blocks, effects, animation, gutenberg, carousel
+Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.24
+Stable tag: 0.1.25
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Tunet Core is the shared engine of the Tunet ecosystem. It adds motion and inter
 
 1. Upload the `tunet-core` folder to `/wp-content/plugins/`, or install it from the Plugins screen in wp-admin.
 2. Activate the plugin through the *Plugins* menu in WordPress.
-3. Open *Settings → Tunet Core* to configure global options, or edit any block and open the *Tunet Effects* panel to add an effect.
+3. Open *Tunet Core → Settings* (its own item in the admin menu) to configure global options, or edit any block and open the *Tunet Effects* panel to add an effect.
 
 Requires WordPress 6.6 or newer and PHP 7.4 or newer.
 
@@ -53,7 +53,20 @@ Yes. The runtime honors `prefers-reduced-motion: reduce`, disabling motion while
 
 Effects load conditionally (only when a page uses them) and heavy libraries load on demand. The plugin follows WordPress standards for escaping, sanitization, nonces and internationalization.
 
+== Screenshots ==
+
+1. The *Tunet Effects* panel is added to every block — including the ones that ship with WordPress. The first option is "None (clean block)", and it is the default: nothing moves until you ask it to.
+2. Nine blocks for the things the editor does not cover: sections, sliders, marquees, counters, icons, badges, testimonials, a before/after comparer and a brand block.
+3. *Tunet Section* handles the backgrounds a hero needs — image, video, gradient, mesh — with an overlay you control, including a reinforcement that only applies on small screens.
+4. Global settings: brand colours, typefaces and shape. Left empty, the active theme decides; a value here overrides that token site-wide.
+5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
+
 == Changelog ==
+
+= 0.1.25 =
+* **Translations: the text domain is now `tunet-core`, matching the plugin slug.** It was `tunet`, and WordPress.org serves community translations by slug — so the two had to agree for any translation from translate.wordpress.org to ever reach you. The Spanish that ships with the plugin is unaffected. If you maintained your own `.mo` file, rename it from `tunet-{locale}.mo` to `tunet-core-{locale}.mo`.
+* The plugin no longer calls `load_plugin_textdomain()`. WordPress has resolved plugin translations on its own since 4.6, and the bundled ones still load — verified, not assumed.
+* Housekeeping for the WordPress.org review: coding-standard fixes across the block render files and the admin screens. No change in behaviour.
 
 = 0.1.24 =
 * Settings: the alternative logo — the one that exists for dark backgrounds — is now previewed on a dark board instead of the light one. A light logo on a light board looked like an empty box, which read as a failed upload.
