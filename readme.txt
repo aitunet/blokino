@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, gutenberg, carousel
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.23
+Stable tag: 0.1.24
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ Yes. The runtime honors `prefers-reduced-motion: reduce`, disabling motion while
 Effects load conditionally (only when a page uses them) and heavy libraries load on demand. The plugin follows WordPress standards for escaping, sanitization, nonces and internationalization.
 
 == Changelog ==
+
+= 0.1.24 =
+* Settings: the alternative logo — the one that exists for dark backgrounds — is now previewed on a dark board instead of the light one. A light logo on a light board looked like an empty box, which read as a failed upload.
 
 = 0.1.23 =
 * The admin menu now carries its own mark — a core with the T set in the counterform — instead of a borrowed WordPress icon. It follows your admin colour scheme, so it lights up with the menu item instead of staying grey while the label turns white.
