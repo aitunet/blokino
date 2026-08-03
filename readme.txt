@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.25
+Stable tag: 0.1.26
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.26 =
+* Demo importer: a recommended plugin a theme asks for is no longer dropped without a word. The wizard can only offer a plugin it knows how to detect, and until now anything it could not resolve disappeared silently — the theme author saw nothing, and the buyer was never offered a plugin the demo actually uses. It now says so in the error log when `WP_DEBUG` is on, naming the plugin and the line the manifest is missing.
 
 = 0.1.25 =
 * **Translations: the text domain is now `tunet-core`, matching the plugin slug.** It was `tunet`, and WordPress.org serves community translations by slug — so the two had to agree for any translation from translate.wordpress.org to ever reach you. The Spanish that ships with the plugin is unaffected. If you maintained your own `.mo` file, rename it from `tunet-{locale}.mo` to `tunet-core-{locale}.mo`.

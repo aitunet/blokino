@@ -55,7 +55,28 @@ class Tunet_Core_Demo {
 			$base = isset( $known[ $slug ] ) ? $known[ $slug ] : array();
 			$file = ! empty( $info['file'] ) ? $info['file'] : ( $base['file'] ?? '' );
 			if ( '' === $slug || ! $file ) {
-				continue; // can't detect/install without a known slug + plugin file path
+				/*
+				 * No se puede detectar ni instalar sin la ruta del plugin, así que se
+				 * descarta — pero NO en silencio: sin aviso, el autor del theme declara
+				 * un plugin, el asistente no lo ofrece nunca y nadie se entera. Pasó de
+				 * verdad: Sana declaraba `easy-appointments` sin `file` y su paso 1
+				 * jamás lo mostró, con el theme usando [ea_bootstrap] y CSS propio.
+				 *
+				 * Va a error_log y NO por _doing_it_wrong(): esto se ejecuta también en
+				 * los handlers AJAX del importador, y un notice impreso con
+				 * WP_DEBUG_DISPLAY corrompe el JSON y rompe el import (§13.4).
+				 */
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG && '' !== $slug ) {
+					error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- aviso solo para el desarrollador del theme, con WP_DEBUG.
+						sprintf(
+							'Tunet Core: the demo manifest declares the plugin "%1$s", but the wizard cannot offer it. '
+								. 'Only contact-form-7 and woocommerce are known out of the box; for any other plugin the '
+								. 'manifest must give its main file, as in: \'%1$s\' => array( \'optional\' => true, \'file\' => \'%1$s/<main-file>.php\' ).',
+							$slug
+						)
+					);
+				}
+				continue;
 			}
 			$out[ $slug ] = array(
 				'file'     => $file,
