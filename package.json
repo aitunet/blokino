@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Motor del ecosistema Tunet: extensiones tf*, blocks propios y runtime de efectos. Build con @wordpress/scripts y assets condicionales por block.",
-  "author": "TUNET Digital Agency",
+  "author": "TUNET Design <ai@tunetdesign.com>",
   "license": "GPL-2.0-or-later",
   "scripts": {
     "build": "wp-scripts build",
@@ -15,5 +15,14 @@
   "devDependencies": {
     "@wordpress/scripts": "^30.0.0"
   },
-  "comment": "PIEZA 2+: cada block propio y el bundle de extensiones tf* se compilarán de src/ a build/. block.json declarará viewScript/style por block para que should_load_separate_core_block_assets (ya activado en PHP) cargue solo lo presente en la página."
+  "comment": "PIEZA 2+: cada block propio y el bundle de extensiones tf* se compilarán de src/ a build/. block.json declarará viewScript/style por block para que should_load_separate_core_block_assets (ya activado en PHP) cargue solo lo presente en la página.",
+  "homepage": "https://tunetdesign.com/tunet-core",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aitunet/tunet-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aitunet/tunet-core/issues",
+    "email": "ai@tunetdesign.com"
+  }
 }

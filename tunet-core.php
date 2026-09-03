@@ -6,7 +6,7 @@
  * Version:           0.1.26
  * Requires at least: 6.6
  * Requires PHP:      7.4
- * Author:            TUNET Digital Agency
+ * Author:            TUNET Design
  * Author URI:        https://tunetdesign.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html

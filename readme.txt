@@ -27,6 +27,10 @@ Tunet Core is the shared engine of the Tunet ecosystem. It adds motion and inter
 * Motor/design separation — functionality lives here, presentation lives in each theme.
 * Degrades with dignity — the engine ships sensible token defaults, so effects and blocks look good under any theme, not only the Tunet themes.
 
+**Who makes it**
+
+Developed and maintained by TUNET Design (https://tunetdesign.com). Source and issue tracker: https://github.com/aitunet. Support: ai@tunetdesign.com
+
 == Installation ==
 
 1. Upload the `tunet-core` folder to `/wp-content/plugins/`, or install it from the Plugins screen in wp-admin.
