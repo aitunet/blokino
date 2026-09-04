@@ -1,0 +1,47 @@
+/*
+ * tunet/breadcrumbs — presentación mínima y theme-agnóstica.
+ *
+ * Solo estructura: separador, envoltura y estados. Todo el color y la métrica
+ * salen de los tokens --tnt-*, así que el rastro se ve como el theme activo
+ * quiera sin que el motor imponga nada (CLAUDE.md §8, "nada hardcodeado").
+ */
+
+.tunet-breadcrumbs__list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var( --tnt-space-2, 0.5rem );
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tunet-breadcrumbs__item {
+	display: flex;
+	align-items: baseline;
+	gap: var( --tnt-space-2, 0.5rem );
+	margin: 0;
+}
+
+/*
+ * El separador es decorativo y va en ::before, no en el marcado: si fuera texto
+ * real, un lector de pantalla leería "barra" entre cada eslabón.
+ */
+.tunet-breadcrumbs__item + .tunet-breadcrumbs__item::before {
+	content: var( --tnt-breadcrumb-sep, "/" );
+	opacity: 0.45;
+}
+
+.tunet-breadcrumbs__current {
+	opacity: 0.65;
+}
+
+.tunet-breadcrumbs__link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.tunet-breadcrumbs__link:hover,
+.tunet-breadcrumbs__link:focus-visible {
+	text-decoration: underline;
+}

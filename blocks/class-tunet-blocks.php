@@ -202,6 +202,7 @@ class Tunet_Core_Blocks {
 		'badge',
 		'testimonials',
 		'content-slider',
+		'breadcrumbs',
 	);
 
 	/**

@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.27
+Stable tag: 0.1.28
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,10 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.28 =
+* New block `tunet/breadcrumbs`: a server-rendered trail from the site home to the current page, covering pages (including nested ones), posts, custom post types with their archive, hierarchical taxonomies, date and author archives, search and 404. No SEO plugin needed. It emits `BreadcrumbList` structured data (opt-out), marks the current item with `aria-current`, and keeps the separator in CSS so screen readers do not read it out.
+* New filter `tunet_core_breadcrumb_trail` to rewrite the trail before it renders.
 
 = 0.1.27 =
 * New filter `tunet_core_icon_set`: themes and plugins can now add icons to the icon set (and override one by slug) without editing the plugin. Core icons cannot be removed through it, so a theme that already uses one keeps working. Invalid entries are dropped instead of breaking the render.

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "tunet/breadcrumbs",
+  "version": "0.1.0",
+  "title": "Tunet Breadcrumbs",
+  "category": "theme",
+  "icon": "arrow-right-alt2",
+  "description": "Trail from the site home to the current page. Server-rendered, no plugin required, and it emits BreadcrumbList structured data.",
+  "keywords": ["breadcrumb", "trail", "navigation", "seo"],
+  "textdomain": "tunet-core",
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "align": ["wide", "full"],
+    "spacing": { "margin": true, "padding": true },
+    "typography": { "fontSize": true, "lineHeight": true, "__experimentalFontFamily": true, "__experimentalLetterSpacing": true, "__experimentalTextTransform": true },
+    "color": { "text": true, "background": false, "link": true }
+  },
+  "attributes": {
+    "homeLabel": { "type": "string", "default": "" },
+    "separator": { "type": "string", "default": "/" },
+    "showCurrent": { "type": "boolean", "default": true },
+    "structuredData": { "type": "boolean", "default": true }
+  },
+  "editorScript": "file:./edit.js",
+  "style": "file:./style.css",
+  "render": "file:./render.php"
+}
