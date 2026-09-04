@@ -33,7 +33,7 @@ if ( ! function_exists( 'tunet_core_icon_set' ) ) {
 		if ( null !== $set ) {
 			return $set;
 		}
-		$set = array(
+		$core = array(
 			// --- Generales (trazo) --------------------------------------------
 			'layout'         => array( 'label' => 'Layout',         'mode' => 'stroke', 'category' => 'general', 'svg' => '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>' ),
 			'activity'       => array( 'label' => 'Activity',       'mode' => 'stroke', 'category' => 'general', 'svg' => '<path d="M3 12h4l3-8 4 16 3-8h4"/>' ),
@@ -117,6 +117,47 @@ if ( ! function_exists( 'tunet_core_icon_set' ) ) {
 			'vimeo' => array( 'label' => 'Vimeo', 'mode' => 'fill', 'category' => 'brand', 'svg' => '<path d="M23.9765 6.4168c-.105 2.338-1.739 5.5429-4.894 9.6088-3.2679 4.247-6.0258 6.3699-8.2898 6.3699-1.409 0-2.578-1.294-3.553-3.881l-1.9179-7.1138c-.719-2.584-1.488-3.878-2.312-3.878-.179 0-.806.378-1.8809 1.132l-1.129-1.457a315.06 315.06 0 003.501-3.1279c1.579-1.368 2.765-2.085 3.5539-2.159 1.867-.18 3.016 1.1 3.447 3.838.465 2.953.789 4.789.971 5.5069.5389 2.45 1.1309 3.674 1.7759 3.674.502 0 1.256-.796 2.265-2.385 1.004-1.589 1.54-2.797 1.612-3.628.144-1.371-.395-2.061-1.614-2.061-.574 0-1.167.121-1.777.391 1.186-3.8679 3.434-5.7568 6.7619-5.6368 2.4729.06 3.6279 1.664 3.4929 4.7969z"/>' ),
 			'google' => array( 'label' => 'Google', 'mode' => 'fill', 'category' => 'brand', 'svg' => '<path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>' ),
 		);
+
+		/**
+		 * Permite a un theme o plugin AMPLIAR el set de iconos.
+		 *
+		 * Antes el array era cerrado: quien necesitaba un icono nuevo tenia que
+		 * editar el motor. El filtro recibe el set del nucleo y devuelve el set
+		 * final; cada entrada ajena se valida y las invalidas se descartan en
+		 * silencio, para que un filtro mal escrito no rompa el render.
+		 *
+		 * Los iconos del nucleo NO se pueden eliminar desde el filtro (un theme
+		 * ya publicado podria estar usandolos y se quedaria sin icono); si se
+		 * pueden sobrescribir por slug.
+		 *
+		 * El resultado se cachea en un static, asi que el filtro debe estar
+		 * registrado ANTES del primer render de un icono: engancharlo en 'init'
+		 * o antes.
+		 *
+		 * @since 0.1.27
+		 *
+		 * @param array<string,array{label:string,svg:string,mode:string,category:string}> $core Set del nucleo.
+		 */
+		$filtered = apply_filters( 'tunet_core_icon_set', $core );
+
+		$extra = array();
+		if ( is_array( $filtered ) ) {
+			foreach ( $filtered as $slug => $icon ) {
+				$slug = sanitize_key( (string) $slug );
+				if ( '' === $slug || ! is_array( $icon ) || empty( $icon['svg'] ) || ! is_string( $icon['svg'] ) ) {
+					continue;
+				}
+				$extra[ $slug ] = array(
+					'label'    => isset( $icon['label'] ) ? sanitize_text_field( (string) $icon['label'] ) : $slug,
+					'svg'      => $icon['svg'],
+					'mode'     => ( isset( $icon['mode'] ) && 'fill' === $icon['mode'] ) ? 'fill' : 'stroke',
+					'category' => isset( $icon['category'] ) ? sanitize_key( (string) $icon['category'] ) : 'general',
+				);
+			}
+		}
+
+		$set = array_merge( $core, $extra );
+
 		return $set;
 	}
 }

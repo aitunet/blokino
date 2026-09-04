@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.26
+Stable tag: 0.1.27
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.27 =
+* New filter `tunet_core_icon_set`: themes and plugins can now add icons to the icon set (and override one by slug) without editing the plugin. Core icons cannot be removed through it, so a theme that already uses one keeps working. Invalid entries are dropped instead of breaking the render.
 
 = 0.1.26 =
 * Demo importer: a recommended plugin a theme asks for is no longer dropped without a word. The wizard can only offer a plugin it knows how to detect, and until now anything it could not resolve disappeared silently — the theme author saw nothing, and the buyer was never offered a plugin the demo actually uses. It now says so in the error log when `WP_DEBUG` is on, naming the plugin and the line the manifest is missing.
