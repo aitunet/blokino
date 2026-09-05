@@ -2,9 +2,9 @@
 Contributors: tunetdesign
 Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.28
+Stable tag: 0.1.29
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,12 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.29 =
+* New declarative content-type framework. `tunet_core_register_content_type( $slug, $args )` and the `tunet_core_content_types` filter let a theme or plugin register a post type with its taxonomies and meta — labels, REST exposure, per-field sanitising, per-object capability checks, admin columns and Block Bindings — without editing the plugin. Declaring the same slug twice merges section by section, so a meta field can be added to an existing type without restating it. Invalid entries are dropped instead of breaking the whole registration, and core types cannot be removed through the filter.
+* `project` and `project_type` are now registered through that framework. Same slugs, same rewrites, same REST surface: the only visible change is that the four case-study meta fields now carry a human `label`, so they show a readable name in the Block Bindings UI instead of the raw meta key.
+* Rewrite rules are flushed automatically, once, when the set of registered types changes — no more 404 on a brand-new archive.
+* Spanish catalogues completed: the breadcrumb block strings shipped in 0.1.28 were untranslated in all seven locales.
 
 = 0.1.28 =
 * New block `tunet/breadcrumbs`: a server-rendered trail from the site home to the current page, covering pages (including nested ones), posts, custom post types with their archive, hierarchical taxonomies, date and author archives, search and 404. No SEO plugin needed. It emits `BreadcrumbList` structured data (opt-out), marks the current item with `aria-current`, and keeps the separator in CSS so screen readers do not read it out.

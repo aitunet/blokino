@@ -1,0 +1,44 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "blocks/breadcrumbs/edit.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_CO",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Home": [
+                "Inicio"
+            ],
+            "Work": [
+                "Trabajo"
+            ],
+            "Project name": [
+                "Nombre del proyecto"
+            ],
+            "Breadcrumbs": [
+                "Migas de pan"
+            ],
+            "Home label": [
+                "Rótulo del inicio"
+            ],
+            "Leave empty to use \"Home\".": [
+                "Déjalo vacío para usar «Inicio»."
+            ],
+            "Separator": [
+                "Separador"
+            ],
+            "Show current page": [
+                "Mostrar la página actual"
+            ],
+            "Output BreadcrumbList structured data": [
+                "Emitir datos estructurados BreadcrumbList"
+            ],
+            "Search engines use it to draw the trail in results.": [
+                "Los buscadores lo usan para dibujar el rastro en los resultados."
+            ]
+        }
+    }
+}
