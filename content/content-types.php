@@ -16,10 +16,13 @@ if ( ! function_exists( 'tunet_core_register_content_type' ) ) {
 	/**
 	 * Declara un tipo de contenido (CPT + taxonomías + meta) sin editar el motor.
 	 *
-	 * Llamarla ANTES de `init` prioridad 10 — en el archivo del plugin, en
-	 * `plugins_loaded` o en `after_setup_theme`. Declarar dos veces el mismo slug
-	 * funde las definiciones sección a sección, así que se puede añadir un meta a
-	 * `project` sin repetir el resto de la definición.
+	 * Llamarla antes de `init` prioridad 10, y preferiblemente en **`init` con
+	 * prioridad 0 o 1**: si las etiquetas pasan por `__()`, hacerlo antes de
+	 * `init` hace que WordPress 6.7 se niegue a cargar el text domain y devuelva
+	 * la cadena sin traducir. `plugins_loaded` solo sirve con literales crudos.
+	 *
+	 * Declarar dos veces el mismo slug funde las definiciones sección a sección,
+	 * así que se puede añadir un meta a `project` sin repetir el resto.
 	 *
 	 * Forma de $args (todo opcional salvo el sentido común):
 	 *

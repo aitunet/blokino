@@ -73,10 +73,15 @@ class Tunet_Core_Content {
 	/**
 	 * Añade un tipo de contenido a la cola de registro.
 	 *
-	 * Hay que llamarla ANTES de `init` (prioridad 10): en el archivo del plugin,
-	 * en `plugins_loaded` o en `after_setup_theme`. Si el slug ya existe, la
-	 * definición nueva se funde sección a sección con la anterior, así que se
-	 * puede añadir un meta a `project` sin repetir el resto.
+	 * Hay que llamarla antes de `init` prioridad 10. El sitio recomendado es
+	 * **`init` con prioridad 0 o 1**, no `plugins_loaded`: si las etiquetas pasan
+	 * por `__()`, WordPress 6.7 se niega a cargar el text domain antes de `init`
+	 * («Translation loading was triggered too early») y devuelve la cadena sin
+	 * traducir. Solo tiene sentido declarar antes de `init` si las etiquetas son
+	 * literales sin traducir.
+	 *
+	 * Si el slug ya existe, la definición nueva se funde sección a sección con la
+	 * anterior, así que se puede añadir un meta a `project` sin repetir el resto.
 	 *
 	 * @since 0.1.29
 	 *
