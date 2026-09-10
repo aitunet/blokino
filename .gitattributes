@@ -1,0 +1,11 @@
+# Normalise line endings: LF in the repo and on every checkout (the plugin is
+# developed on Windows and shipped to Linux hosts).
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.mo binary
+*.woff binary
+*.woff2 binary
