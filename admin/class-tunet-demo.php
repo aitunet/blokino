@@ -642,6 +642,16 @@ class Tunet_Core_Demo {
 		);
 	}
 	/**
+	 * Post status for a manifest entry: 'publish' unless it says 'draft'.
+	 *
+	 * @param array $entry Manifest entry.
+	 * @return string
+	 */
+	private function post_status( $entry ) {
+		return ( isset( $entry['status'] ) && 'draft' === $entry['status'] ) ? 'draft' : 'publish';
+	}
+
+	/**
 	 * Idempotency guard by slug, scoped to ONE post type.
 	 *
 	 * Not get_page_by_path(): that helper silently adds 'attachment' to the
@@ -756,7 +766,9 @@ class Tunet_Core_Demo {
 			$id = wp_insert_post(
 				array(
 					'post_type'    => 'project',
-					'post_status'  => 'publish',
+					// 'status' => 'draft' keeps a case in the demo but out of the site
+					// (archived work the owner may republish later).
+					'post_status'  => $this->post_status( $p ),
 					'post_title'   => wp_slash( $p['title'] ),
 					'post_name'    => wp_slash( $p['slug'] ),
 					'post_excerpt' => wp_slash( $p['excerpt'] ?? '' ),
@@ -797,7 +809,7 @@ class Tunet_Core_Demo {
 			$id = wp_insert_post(
 				array(
 					'post_type'    => 'post',
-					'post_status'  => 'publish',
+					'post_status'  => $this->post_status( $p ),
 					'post_title'   => wp_slash( $p['title'] ),
 					'post_name'    => wp_slash( $p['slug'] ),
 					'post_content' => wp_slash( $this->wire_media( (string) ( $p['content'] ?? '' ) ) ),

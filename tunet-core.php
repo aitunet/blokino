@@ -3,7 +3,7 @@
  * Plugin Name:       Tunet Core
  * Plugin URI:        https://tunetdesign.com/tunet-core
  * Description:       Engine of the Tunet ecosystem. Provides the shared infrastructure (native block extensions with tf* effects, custom blocks, the effects runtime and an options panel). Presentation lives in each theme; this plugin never hardcodes styles. Not sold separately.
- * Version:           0.1.32
+ * Version:           0.1.33
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            TUNET Design
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * Constantes del plugin
  * ---------------------------------------------------------------------- */
-define( 'TUNET_CORE_VERSION', '0.1.32' );
+define( 'TUNET_CORE_VERSION', '0.1.33' );
 define( 'TUNET_CORE_FILE', __FILE__ );
 define( 'TUNET_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'TUNET_CORE_URL', plugin_dir_url( __FILE__ ) );
