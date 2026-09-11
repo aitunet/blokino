@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.31
+Stable tag: 0.1.32
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.32 =
+* Demo importer: the slides of a Content Slider are wired to the Media Library like every other demo image (`imageId` + library URL), so a buyer replaces them from the block sidebar and the rollback removes them.
 
 = 0.1.31 =
 * Settings: the Google Fonts catalog of the typography picker can be extended from a theme or plugin with the `tunet_core_fonts_text` and `tunet_core_fonts_mono` filters (family => weights), so a theme can list its own defaults there.

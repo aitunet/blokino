@@ -533,8 +533,9 @@ class Tunet_Core_Demo {
 	/**
 	 * Point a pattern's images at the Media Library copies imported in step_media,
 	 * so the buyer can edit/replace them from the editor. Rewrites core/image
-	 * blocks (adds the attachment id + wp-image-{id} class + library URL) and
-	 * tunet/section image backgrounds (sets bgImageId/bgImageUrl). No-op outside an
+	 * blocks (adds the attachment id + wp-image-{id} class + library URL),
+	 * tunet/section image backgrounds (sets bgImageId/bgImageUrl), before/after
+	 * pairs and the slides of tunet/content-slider (imageId/imageUrl). No-op outside an
 	 * import (empty url_map) → patterns keep their theme-file URLs.
 	 *
 	 * @param string $content Expanded (inlined) pattern markup.
@@ -584,6 +585,15 @@ class Tunet_Core_Demo {
 				$att                          = $map[ $block['attrs']['bgImageUrl'] ];
 				$block['attrs']['bgImageId']  = (int) $att['id'];
 				$block['attrs']['bgImageUrl'] = $att['url'];
+			} elseif ( 'tunet/content-slider' === $name && ! empty( $block['attrs']['items'] ) && is_array( $block['attrs']['items'] ) ) {
+				// Slides: wire each slide image (imageId + library URL).
+				foreach ( $block['attrs']['items'] as $i => $item ) {
+					if ( ! empty( $item['imageUrl'] ) && empty( $item['imageId'] ) && isset( $map[ $item['imageUrl'] ] ) ) {
+						$att = $map[ $item['imageUrl'] ];
+						$block['attrs']['items'][ $i ]['imageId']  = (int) $att['id'];
+						$block['attrs']['items'][ $i ]['imageUrl'] = $att['url'];
+					}
+				}
 			} elseif ( 'tunet/before-after' === $name ) {
 				// Comparison block: wire both the before and after images.
 				foreach ( array( 'before', 'after' ) as $side ) {
