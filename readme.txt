@@ -67,6 +67,14 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 
 == Changelog ==
 
+= 0.1.30 =
+* Demo importer: an optional `brand` block in the manifest sets the site title, tagline and the engine's main/alternative logos from the theme's demo images; rollback restores the previous values.
+* Demo importer: projects and posts accept a `date`, so a demo keeps its real chronology instead of stamping everything with the import minute.
+* Demo importer: the content of projects and posts goes through the same media wiring as page patterns, so a gallery inside a case study points at the Media Library copies and stays editable.
+* Demo importer: the Contact Form 7 form can be defined by the manifest (`form` and `mail_body`), for themes that ship their own intake form.
+* Demo importer: the "already exists" guard is scoped to one post type. It used `get_page_by_path()`, which silently also matches attachments, so a demo image named like a project slug made the importer skip the project with no error.
+* Effects runtime: `text-stagger` no longer splits a word around inline markup — "do<mark>e</mark>rs" animates as one word instead of three fragments.
+
 = 0.1.29 =
 * New declarative content-type framework. `tunet_core_register_content_type( $slug, $args )` and the `tunet_core_content_types` filter let a theme or plugin register a post type with its taxonomies and meta — labels, REST exposure, per-field sanitising, per-object capability checks, admin columns and Block Bindings — without editing the plugin. Declaring the same slug twice merges section by section, so a meta field can be added to an existing type without restating it. Invalid entries are dropped instead of breaking the whole registration, and core types cannot be removed through the filter.
 * `project` and `project_type` are now registered through that framework. Same slugs, same rewrites, same REST surface: the only visible change is that the four case-study meta fields now carry a human `label`, so they show a readable name in the Block Bindings UI instead of the raw meta key.

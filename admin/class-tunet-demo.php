@@ -632,6 +632,33 @@ class Tunet_Core_Demo {
 		);
 	}
 	/**
+	 * Idempotency guard by slug, scoped to ONE post type.
+	 *
+	 * Not get_page_by_path(): that helper silently adds 'attachment' to the
+	 * post types it searches, so a demo image whose file name equals a project
+	 * slug (work/quattro-eyewear.webp → attachment "quattro-eyewear") made the
+	 * importer think the project already existed and skip it — an import with
+	 * zero projects and no error. Found on TUNET, whose boards are named after
+	 * the client.
+	 *
+	 * @param string $slug      Post slug.
+	 * @param string $post_type Exact post type.
+	 * @return bool
+	 */
+	private function slug_exists( $slug, $post_type ) {
+		$found = get_posts(
+			array(
+				'name'           => $slug,
+				'post_type'      => $post_type,
+				'post_status'    => 'any',
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+			)
+		);
+		return ! empty( $found );
+	}
+
+	/**
 	 * Optional explicit date for a manifest entry ('date' => 'Y-m-d H:i:s' or
 	 * anything strtotime() reads). Lets a demo keep a real chronology instead of
 	 * stamping everything with the import minute — a work archive ordered by
@@ -713,7 +740,7 @@ class Tunet_Core_Demo {
 			if ( empty( $p['slug'] ) || empty( $p['title'] ) ) {
 				continue; // Skip incomplete manifest entries (no warnings).
 			}
-			if ( get_page_by_path( $p['slug'], OBJECT, 'project' ) ) {
+			if ( $this->slug_exists( $p['slug'], 'project' ) ) {
 				continue; // idempotent guard within a single build
 			}
 			$id = wp_insert_post(
@@ -754,7 +781,7 @@ class Tunet_Core_Demo {
 	public function step_posts() {
 		$posts = self::manifest()['posts'] ?? array();
 		foreach ( $posts as $p ) {
-			if ( get_page_by_path( $p['slug'], OBJECT, 'post' ) ) {
+			if ( $this->slug_exists( $p['slug'], 'post' ) ) {
 				continue;
 			}
 			$id = wp_insert_post(
@@ -819,7 +846,7 @@ class Tunet_Core_Demo {
 			if ( empty( $page['slug'] ) || empty( $page['pattern'] ) || empty( $page['title'] ) ) {
 				continue; // Skip incomplete manifest entries (no warnings).
 			}
-			if ( get_page_by_path( $page['slug'] ) ) {
+			if ( $this->slug_exists( $page['slug'], 'page' ) ) {
 				continue;
 			}
 			$content = $this->expand_pattern( $page['pattern'] );
@@ -898,7 +925,7 @@ class Tunet_Core_Demo {
 			if ( empty( $pr['slug'] ) || empty( $pr['title'] ) ) {
 				continue; // Skip incomplete manifest entries (no warnings).
 			}
-			if ( get_page_by_path( $pr['slug'], OBJECT, 'product' ) ) {
+			if ( $this->slug_exists( $pr['slug'], 'product' ) ) {
 				continue;
 			}
 			$product = new WC_Product_Simple();
