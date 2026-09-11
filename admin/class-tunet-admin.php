@@ -34,9 +34,9 @@ class Tunet_Core_Admin {
 	 * Catalogs (curated Google Fonts)
 	 * ------------------------------------------------------------------ */
 
-	/** Sans/serif fonts (display/body) → weights. */
+	/** Sans/serif fonts (display/body) → weights. Themes/plugins extend it with the tunet_core_fonts_text filter. */
 	public static function fonts_text() {
-		return array(
+		return apply_filters( 'tunet_core_fonts_text', array(
 			'Inter'             => '400;500;600;700',
 			'Sora'              => '400;600;700;800',
 			'Space Grotesk'     => '400;500;700',
@@ -50,18 +50,18 @@ class Tunet_Core_Admin {
 			'Fraunces'          => '400;600;700',
 			'Playfair Display'  => '400;600;700',
 			'DM Serif Display'  => '400',
-		);
+		) );
 	}
 
 	/** Monospace fonts → weights. */
 	public static function fonts_mono() {
-		return array(
+		return apply_filters( 'tunet_core_fonts_mono', array(
 			'JetBrains Mono' => '400;500;700',
 			'Space Mono'     => '400;700',
 			'IBM Plex Mono'  => '400;500;600',
 			'Fira Code'      => '400;500;600',
 			'Roboto Mono'    => '400;500;700',
-		);
+		) );
 	}
 
 	/** Families using a serif stack. */
