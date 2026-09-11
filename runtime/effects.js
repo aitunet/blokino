@@ -59,13 +59,57 @@
 			return;
 		}
 		var counter = { n: 0 };
+		glueInline( el );
 		walkText( el, counter );
 		el.setAttribute( 'data-tf-split', '1' );
+	}
+
+	/* Una palabra con markup inline pegado —"do<mark>e</mark>rs", "<em>a</em>go",
+	 * "re<strong>mark</strong>able"— NO es tres palabras. Antes de partir por
+	 * espacios, los fragmentos de texto pegados (sin espacio) a un elemento
+	 * inline se envuelven con él en un único <span class="tf-word"> (ya
+	 * indexado luego por walkText en orden de documento). Recursivo, y solo
+	 * para inline pequeños: enlaces, énfasis, marcas, spans. */
+	var GLUE_TAGS = { A: 1, ABBR: 1, B: 1, EM: 1, I: 1, MARK: 1, SMALL: 1, SPAN: 1, STRONG: 1, SUB: 1, SUP: 1, U: 1 };
+
+	function glueInline( node ) {
+		var children = Array.prototype.slice.call( node.childNodes );
+		children.forEach( function ( child ) {
+			if ( child.nodeType !== 1 || ! GLUE_TAGS[ child.tagName ] || child.classList.contains( 'tf-word' ) ) {
+				if ( child.nodeType === 1 && child.childNodes.length && ! child.classList.contains( 'tf-word' ) ) {
+					glueInline( child );
+				}
+				return;
+			}
+			var prev = child.previousSibling;
+			var next = child.nextSibling;
+			var before = ( prev && prev.nodeType === 3 ) ? prev.textContent.match( /\S+$/ ) : null;
+			var after = ( next && next.nodeType === 3 ) ? next.textContent.match( /^\S+/ ) : null;
+			if ( ! before && ! after ) {
+				return;
+			}
+			var span = document.createElement( 'span' );
+			span.className = 'tf-word';
+			node.insertBefore( span, child );
+			if ( before ) {
+				prev.textContent = prev.textContent.slice( 0, -before[ 0 ].length );
+				span.appendChild( document.createTextNode( before[ 0 ] ) );
+			}
+			span.appendChild( child );
+			if ( after ) {
+				next.textContent = next.textContent.slice( after[ 0 ].length );
+				span.appendChild( document.createTextNode( after[ 0 ] ) );
+			}
+		} );
 	}
 
 	function walkText( node, counter ) {
 		var children = Array.prototype.slice.call( node.childNodes );
 		children.forEach( function ( child ) {
+			if ( child.nodeType === 1 && child.classList.contains( 'tf-word' ) && ! child.style.getPropertyValue( '--tf-i' ) ) {
+				child.style.setProperty( '--tf-i', counter.n++ );
+				return;
+			}
 			if ( child.nodeType === 3 ) {
 				if ( ! child.textContent.trim() ) {
 					return;

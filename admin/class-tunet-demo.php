@@ -188,6 +188,9 @@ class Tunet_Core_Demo {
 		$steps   = array();
 		$steps[] = array( 'label' => __( 'Preparing…', 'tunet-core' ), 'cb' => array( $this, 'step_begin' ) );
 		$steps[] = array( 'label' => __( 'Importing media…', 'tunet-core' ), 'cb' => array( $this, 'step_media' ) );
+		if ( ! empty( self::manifest()['brand'] ) ) {
+			$steps[] = array( 'label' => __( 'Setting up the brand…', 'tunet-core' ), 'cb' => array( $this, 'step_brand' ) );
+		}
 		if ( class_exists( 'WPCF7_ContactForm' ) ) {
 			$steps[] = array( 'label' => __( 'Creating contact form…', 'tunet-core' ), 'cb' => array( $this, 'step_cf7' ) );
 		}
@@ -400,6 +403,12 @@ class Tunet_Core_Demo {
 			. "<label>" . __( 'Subject', 'tunet-core' ) . "\n    [text your-subject]</label>\n\n"
 			. "<label>" . __( 'Your message (optional)', 'tunet-core' ) . "\n    [textarea your-message]</label>\n\n"
 			. "[submit \"" . __( 'Submit', 'tunet-core' ) . "\"]";
+		// A theme may ship its own form markup (CF7 tags) — an agency intake form
+		// with a service selector, say. It replaces the generic four-field form.
+		if ( ! empty( $cfg['form'] ) && is_string( $cfg['form'] ) ) {
+			$form_markup = $cfg['form'];
+		}
+
 
 		$form = WPCF7_ContactForm::get_template( array( 'title' => wp_slash( $title ) ) );
 		$form->set_properties(
@@ -410,7 +419,7 @@ class Tunet_Core_Demo {
 					'subject'            => '[your-subject]',
 					'sender'             => '[your-name] <wordpress@' . wp_parse_url( home_url(), PHP_URL_HOST ) . '>',
 					'recipient'          => get_option( 'admin_email' ),
-					'body'               => "From: [your-name] <[your-email]>\n\n[your-message]",
+					'body'               => ( ! empty( $cfg['mail_body'] ) && is_string( $cfg['mail_body'] ) ) ? $cfg['mail_body'] : "From: [your-name] <[your-email]>\n\n[your-message]",
 					'additional_headers' => 'Reply-To: [your-email]',
 				),
 			)
@@ -623,6 +632,79 @@ class Tunet_Core_Demo {
 		);
 	}
 	/**
+	 * Optional explicit date for a manifest entry ('date' => 'Y-m-d H:i:s' or
+	 * anything strtotime() reads). Lets a demo keep a real chronology instead of
+	 * stamping everything with the import minute — a work archive ordered by
+	 * date needs it. Empty → WordPress uses "now".
+	 *
+	 * @param array $entry Manifest entry.
+	 * @return array wp_insert_post() args (post_date/post_date_gmt) or empty.
+	 */
+	private function post_date_args( $entry ) {
+		if ( empty( $entry['date'] ) ) {
+			return array();
+		}
+		$ts = strtotime( (string) $entry['date'] );
+		if ( ! $ts ) {
+			return array();
+		}
+		return array(
+			'post_date'     => gmdate( 'Y-m-d H:i:s', $ts + (int) ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ),
+			'post_date_gmt' => gmdate( 'Y-m-d H:i:s', $ts ),
+		);
+	}
+
+	/**
+	 * Brand step (opt-in via manifest 'brand'): site title, tagline and the
+	 * engine's main/alt logos (already uploaded by step_media, resolved by their
+	 * theme-relative path). Previous values are recorded so rollback restores
+	 * them. Keys: site_title, tagline, logo (main), logo_alt.
+	 */
+	public function step_brand() {
+		$brand = self::manifest()['brand'] ?? array();
+		if ( empty( $brand ) || ! is_array( $brand ) ) {
+			return;
+		}
+		$record = self::get_record();
+		$prev   = array(
+			'blogname'        => get_option( 'blogname' ),
+			'blogdescription' => get_option( 'blogdescription' ),
+			'custom_logo'     => (int) get_theme_mod( 'custom_logo' ),
+			'settings'        => get_option( 'tunet_core_settings', array() ),
+		);
+		if ( ! empty( $brand['site_title'] ) ) {
+			update_option( 'blogname', sanitize_text_field( $brand['site_title'] ) );
+		}
+		if ( isset( $brand['tagline'] ) ) {
+			update_option( 'blogdescription', sanitize_text_field( $brand['tagline'] ) );
+		}
+		$map      = $record['url_map'] ?? array();
+		$settings = (array) get_option( 'tunet_core_settings', array() );
+		$find     = function ( $relpath ) use ( $map ) {
+			if ( empty( $relpath ) ) {
+				return 0;
+			}
+			$url = get_theme_file_uri( $relpath );
+			return isset( $map[ $url ] ) ? (int) $map[ $url ]['id'] : 0;
+		};
+		$main = $find( $brand['logo'] ?? '' );
+		$alt  = $find( $brand['logo_alt'] ?? '' );
+		if ( $main ) {
+			$settings['logo_main_id'] = $main;
+			set_theme_mod( 'custom_logo', $main );
+		}
+		if ( $alt ) {
+			$settings['logo_alt_id'] = $alt;
+		}
+		if ( $main || $alt ) {
+			update_option( 'tunet_core_settings', $settings );
+		}
+		$record               = self::get_record();
+		$record['prev_brand'] = $prev;
+		update_option( self::RECORD, $record );
+	}
+
+	/**
 	 * Create the `project` CPT entries from the manifest.
 	 */
 	public function step_projects() {
@@ -641,8 +723,11 @@ class Tunet_Core_Demo {
 					'post_title'   => wp_slash( $p['title'] ),
 					'post_name'    => wp_slash( $p['slug'] ),
 					'post_excerpt' => wp_slash( $p['excerpt'] ?? '' ),
-					'post_content' => wp_slash( $p['content'] ?? '' ),
-				),
+					// Project content goes through wire_media() too: a gallery or a
+					// board inside a case study must point at the Media Library copies,
+					// exactly like a page pattern does (§4.4).
+					'post_content' => wp_slash( $this->wire_media( (string) ( $p['content'] ?? '' ) ) ),
+				) + $this->post_date_args( $p ),
 				true
 			);
 			if ( is_wp_error( $id ) || ! $id ) {
@@ -678,8 +763,8 @@ class Tunet_Core_Demo {
 					'post_status'  => 'publish',
 					'post_title'   => wp_slash( $p['title'] ),
 					'post_name'    => wp_slash( $p['slug'] ),
-					'post_content' => wp_slash( $p['content'] ?? '' ),
-				),
+					'post_content' => wp_slash( $this->wire_media( (string) ( $p['content'] ?? '' ) ) ),
+				) + $this->post_date_args( $p ),
 				true
 			);
 			if ( is_wp_error( $id ) || ! $id ) {
@@ -890,6 +975,18 @@ class Tunet_Core_Demo {
 		}
 		foreach ( (array) ( $r['categories'] ?? array() ) as $tid ) {
 			wp_delete_term( (int) $tid, 'category' );
+		}
+
+		// Restore the brand (title, tagline, logos) if the import set it.
+		if ( ! empty( $r['prev_brand'] ) && is_array( $r['prev_brand'] ) ) {
+			update_option( 'blogname', $r['prev_brand']['blogname'] );
+			update_option( 'blogdescription', $r['prev_brand']['blogdescription'] );
+			if ( ! empty( $r['prev_brand']['custom_logo'] ) ) {
+				set_theme_mod( 'custom_logo', (int) $r['prev_brand']['custom_logo'] );
+			} else {
+				remove_theme_mod( 'custom_logo' );
+			}
+			update_option( 'tunet_core_settings', (array) $r['prev_brand']['settings'] );
 		}
 
 		// Restore the previous front-page settings if the import changed them.
