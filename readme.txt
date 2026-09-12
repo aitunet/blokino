@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.37
+Stable tag: 0.1.38
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,7 @@ Tunet Core is the shared engine of the Tunet ecosystem. It adds motion and inter
 * **Custom blocks where the core falls short.** Section (advanced backgrounds: video, gradient, mesh, overlay, shape dividers), Marquee (infinite band), Counter (animated number on scroll), Before/After (image comparator), Slider and Testimonials (Swiper-powered), Brand, Icon and Badge.
 * **A lightweight effects runtime.** Effects are detected per page and their assets are enqueued only when a block on the page uses them. Reveal uses the native IntersectionObserver; heavier libraries load on demand. `prefers-reduced-motion` is always respected.
 * **An options panel + demo importer.** Global settings, JSON import/export, sidebar layout controls, and a per-theme demo importer with a progress bar and one-click rollback.
+* **A Themes screen.** The premium themes designed for this engine, listed from the tunetdesign.com catalog with live previews — open it when you want it; it never nags.
 
 **Design principles**
 
@@ -53,6 +54,10 @@ No. The engine ships default design-token values so effects and blocks look good
 
 Yes. The runtime honors `prefers-reduced-motion: reduce`, disabling motion while keeping content visible.
 
+= Does the plugin send any data anywhere? =
+
+No. Nothing is tracked or sent. The only outbound request is made when you open *Tunet Core → Themes*: a GET to tunetdesign.com for the public theme catalog (name, price, images), cached for 12 hours and sent with a neutral user agent — no site URL, no user data. Nothing runs in the background.
+
 = Is it accessible and performant? =
 
 Effects load conditionally (only when a page uses them) and heavy libraries load on demand. The plugin follows WordPress standards for escaping, sanitization, nonces and internationalization.
@@ -66,6 +71,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.38 =
+* New *Tunet Core → Themes* screen: the premium themes designed for this engine, listed from the tunetdesign.com catalog (name, price, live preview, board), with an "Installed"/"Active" badge for the ones already on the site and a shortcut to import the active theme's demo. Opt-in by design: it only appears when you open it, fetches the catalog only then (cached 12 hours, neutral user agent, nothing about your site is sent) and shows a plain link if the store cannot be reached. The Demo screen's empty state now links to it.
 
 = 0.1.37 =
 * Demo importer: a page entry can set its block template (`'template' => 'page-narrow'`) and declare itself the site's Privacy Policy page (`'privacy' => true`, restored on rollback). The `edd` block accepts `'settings'` (key => value) so a demo can switch on the checkout agreements pointing at its own legal pages; previous values are restored on rollback.

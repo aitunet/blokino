@@ -408,8 +408,9 @@ class Tunet_Core_Admin {
 		$is_settings = ( 'toplevel_page_' . self::MENU_SLUG === $hook );
 		$is_tools    = ( false !== strpos( $hook, self::TOOLS_SLUG ) );
 		$is_demo     = ( false !== strpos( $hook, Tunet_Core_Demo::MENU_SLUG ) );
+		$is_themes   = ( false !== strpos( $hook, Tunet_Core_Themes::MENU_SLUG ) );
 
-		if ( ! $is_settings && ! $is_tools && ! $is_demo ) {
+		if ( ! $is_settings && ! $is_tools && ! $is_demo && ! $is_themes ) {
 			return;
 		}
 

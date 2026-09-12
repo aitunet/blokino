@@ -1480,6 +1480,7 @@ class Tunet_Core_Demo {
 								'<strong>' . esc_html( $theme->get( 'Name' ) ) . '</strong>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							);
 							?>
+							<a href="<?php echo esc_url( Tunet_Core_Themes::url() ); ?>"><?php esc_html_e( 'Browse Tunet themes →', 'tunet-core' ); ?></a>
 						</p>
 					</div>
 				</div>
