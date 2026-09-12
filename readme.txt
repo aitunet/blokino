@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.35
+Stable tag: 0.1.36
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.36 =
+* Demo importer: a page entry can set its block template (`'template' => 'page-narrow'`) and declare itself the site's Privacy Policy page (`'privacy' => true`, restored on rollback). The `edd` block accepts `'settings'` (key => value) so a demo can switch on the checkout agreements pointing at its own legal pages; previous values are restored on rollback.
 
 = 0.1.35 =
 * Effects runtime: the `text-stagger` word glue introduced in 0.1.30 now applies only to single-token inline markup ("do<mark>e</mark>rs", "<a>word</a>,"). A whole phrase in inline markup followed by punctuation ("<em>in person</em>.") keeps animating word by word as before, instead of appearing at once.

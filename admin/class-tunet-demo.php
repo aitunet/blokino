@@ -895,11 +895,37 @@ class Tunet_Core_Demo {
 			);
 			if ( ! is_wp_error( $id ) && $id ) {
 				$this->track( 'posts', $id );
+				// 'template' => 'page-narrow': a block-theme custom template (theme.json
+				// customTemplates). Set as meta, not via page_template — wp_insert_post()
+				// validates that argument against classic templates only.
+				if ( ! empty( $page['template'] ) ) {
+					update_post_meta( (int) $id, '_wp_page_template', sanitize_file_name( (string) $page['template'] ) );
+				}
 				if ( ! empty( $page['front'] ) ) {
 					$this->set_front_page( (int) $id );
 				}
+				// 'privacy' => true: this page becomes the site's Privacy Policy page
+				// (Settings → Privacy), which WP links from the login screen and
+				// EDD uses for its "agree to privacy policy" checkbox.
+				if ( ! empty( $page['privacy'] ) ) {
+					$this->set_privacy_page( (int) $id );
+				}
 			}
 		}
+	}
+
+	/**
+	 * Mark a created page as the Privacy Policy page, remembering the previous
+	 * one so rollback can restore it.
+	 *
+	 * @param int $id Page ID.
+	 */
+	private function set_privacy_page( $id ) {
+		$r = self::get_record();
+		if ( ! isset( $r['prev_privacy'] ) ) {
+			$this->set_record( 'prev_privacy', (int) get_option( 'wp_page_for_privacy_policy', 0 ) );
+		}
+		update_option( 'wp_page_for_privacy_policy', (int) $id );
 	}
 
 	/**
@@ -943,6 +969,7 @@ class Tunet_Core_Demo {
 	 *     // or per extra page — key = EDD setting; title / slug / content|pattern:
 	 *     'pages'          => array( 'login_page' => array( 'title' => 'Log in', 'slug' => 'login' ) ),
 	 *     'login_redirect' => true,   // after login → Order history (only if unset)
+	 *     'settings'       => array( 'show_agree_to_terms' => 1, 'agree_label' => 'I agree to the <a href="…">Terms</a>' ),
 	 *   )
 	 */
 	public function step_edd() {
@@ -1021,6 +1048,23 @@ class Tunet_Core_Demo {
 			if ( $history && ! $redirect ) {
 				$prev['login_redirect_page'] = array_key_exists( 'login_redirect_page', $settings ) ? $settings['login_redirect_page'] : null;
 				edd_update_option( 'login_redirect_page', $history );
+			}
+		}
+
+		// 4) Store settings the demo relies on ('settings' => key => value): the
+		//    checkout agreements that point at the demo's legal pages, say. Scalars
+		//    only; strings may carry links (EDD's agree labels allow anchors).
+		if ( ! empty( $cfg['settings'] ) && is_array( $cfg['settings'] ) ) {
+			$settings = (array) get_option( 'edd_settings', array() );
+			foreach ( $cfg['settings'] as $key => $value ) {
+				$key = sanitize_key( (string) $key );
+				if ( '' === $key || ! is_scalar( $value ) ) {
+					continue;
+				}
+				if ( ! array_key_exists( $key, $prev ) ) {
+					$prev[ $key ] = array_key_exists( $key, $settings ) ? $settings[ $key ] : null;
+				}
+				edd_update_option( $key, is_string( $value ) ? wp_kses_post( $value ) : ( is_bool( $value ) ? (int) $value : $value ) );
 			}
 		}
 
@@ -1175,6 +1219,11 @@ class Tunet_Core_Demo {
 		if ( ! empty( $r['prev_front'] ) && is_array( $r['prev_front'] ) ) {
 			update_option( 'show_on_front', $r['prev_front']['show_on_front'] );
 			update_option( 'page_on_front', (int) $r['prev_front']['page_on_front'] );
+		}
+
+		// Restore the previous Privacy Policy page if the import set one.
+		if ( array_key_exists( 'prev_privacy', $r ) ) {
+			update_option( 'wp_page_for_privacy_policy', (int) $r['prev_privacy'] );
 		}
 
 		$this->clear_record();
