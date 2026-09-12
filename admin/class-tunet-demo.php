@@ -1072,7 +1072,10 @@ class Tunet_Core_Demo {
 			$this->track( 'edd_pages', $id );
 		}
 		if ( $prev ) {
-			$this->set_record( 'prev_edd', $prev );
+			// Merge, earliest value wins: running the step again on the same record
+			// (idempotent re-import, QA) must not forget what the first run replaced.
+			$existing = (array) ( self::get_record()['prev_edd'] ?? array() );
+			$this->set_record( 'prev_edd', $existing + $prev );
 		}
 	}
 

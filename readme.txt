@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.36
+Stable tag: 0.1.37
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,7 +67,7 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 
 == Changelog ==
 
-= 0.1.36 =
+= 0.1.37 =
 * Demo importer: a page entry can set its block template (`'template' => 'page-narrow'`) and declare itself the site's Privacy Policy page (`'privacy' => true`, restored on rollback). The `edd` block accepts `'settings'` (key => value) so a demo can switch on the checkout agreements pointing at its own legal pages; previous values are restored on rollback.
 
 = 0.1.35 =
