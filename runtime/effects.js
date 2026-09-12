@@ -69,13 +69,16 @@
 	 * espacios, los fragmentos de texto pegados (sin espacio) a un elemento
 	 * inline se envuelven con él en un único <span class="tf-word"> (ya
 	 * indexado luego por walkText en orden de documento). Recursivo, y solo
-	 * para inline pequeños: enlaces, énfasis, marcas, spans. */
+	 * para inline pequeños: enlaces, énfasis, marcas, spans. Solo se pega si el
+	 * inline es UN token ("e", "mark", "word"): una frase entera en cursiva
+	 * seguida de un punto —"<em>in person</em>."— sigue partiéndose palabra a
+	 * palabra como siempre; pegarla la haría aparecer de golpe. */
 	var GLUE_TAGS = { A: 1, ABBR: 1, B: 1, EM: 1, I: 1, MARK: 1, SMALL: 1, SPAN: 1, STRONG: 1, SUB: 1, SUP: 1, U: 1 };
 
 	function glueInline( node ) {
 		var children = Array.prototype.slice.call( node.childNodes );
 		children.forEach( function ( child ) {
-			if ( child.nodeType !== 1 || ! GLUE_TAGS[ child.tagName ] || child.classList.contains( 'tf-word' ) ) {
+			if ( child.nodeType !== 1 || ! GLUE_TAGS[ child.tagName ] || child.classList.contains( 'tf-word' ) || /\s/.test( child.textContent.trim() ) ) {
 				if ( child.nodeType === 1 && child.childNodes.length && ! child.classList.contains( 'tf-word' ) ) {
 					glueInline( child );
 				}

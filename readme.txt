@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.34
+Stable tag: 0.1.35
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.35 =
+* Effects runtime: the `text-stagger` word glue introduced in 0.1.30 now applies only to single-token inline markup ("do<mark>e</mark>rs", "<a>word</a>,"). A whole phrase in inline markup followed by punctuation ("<em>in person</em>.") keeps animating word by word as before, instead of appearing at once.
 
 = 0.1.34 =
 * Demo importer: an optional `edd` block in the manifest (`'pages' => true`) sets up the Easy Digital Downloads store pages when EDD is active — the pages EDD itself creates are adopted (never duplicated), missing ones are restored through EDD's own installer, and a Login page (`edd/login`) is created and set as EDD's login page so wp-login.php redirects to a branded screen; `'login_redirect' => true` sends customers to Order history after logging in. Rollback removes only the pages the import created and restores the previous settings.
