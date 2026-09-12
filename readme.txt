@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.33
+Stable tag: 0.1.34
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.34 =
+* Demo importer: an optional `edd` block in the manifest (`'pages' => true`) sets up the Easy Digital Downloads store pages when EDD is active — the pages EDD itself creates are adopted (never duplicated), missing ones are restored through EDD's own installer, and a Login page (`edd/login`) is created and set as EDD's login page so wp-login.php redirects to a branded screen; `'login_redirect' => true` sends customers to Order history after logging in. Rollback removes only the pages the import created and restores the previous settings.
 
 = 0.1.33 =
 * Demo importer: a project or post entry can carry `status => draft` to be imported unpublished (archived work the site owner may bring back later); everything else stays published.

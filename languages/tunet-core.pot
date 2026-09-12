@@ -10,11 +10,11 @@ msgstr ""
 "X-Generator: Claude Code\n"
 "X-Domain: tunet-core\n"
 
-#: admin/class-tunet-demo.php:1142
+#: admin/class-tunet-demo.php:1427
 msgid "%s does not ship a demo manifest. Activate a Tunet theme to unlock its designed demo."
 msgstr ""
 
-#: admin/class-tunet-demo.php:1161
+#: admin/class-tunet-demo.php:1446
 msgid "%s preview"
 msgstr ""
 
@@ -46,7 +46,7 @@ msgstr ""
 msgid "A CSS gradient over the image (for a directional scrim)."
 msgstr ""
 
-#: admin/class-tunet-demo.php:1193
+#: admin/class-tunet-demo.php:1478
 msgid "A demo is already imported. Re-importing replaces it; Undo removes it."
 msgstr ""
 
@@ -78,15 +78,15 @@ msgstr ""
 msgid "Active: %s. While these are set, switching the style variation will not change them."
 msgstr ""
 
-#: content/class-tunet-content.php:541 content/class-tunet-content.php:609
+#: content/class-tunet-content.php:546 content/class-tunet-content.php:614
 msgid "Add New"
 msgstr ""
 
-#: content/class-tunet-content.php:543 content/class-tunet-content.php:582
+#: content/class-tunet-content.php:548 content/class-tunet-content.php:587
 msgid "Add New %s"
 msgstr ""
 
-#: content/class-tunet-content.php:610
+#: content/class-tunet-content.php:615
 msgid "Add New Project"
 msgstr ""
 
@@ -118,11 +118,11 @@ msgstr ""
 msgid "After label"
 msgstr ""
 
-#: content/class-tunet-content.php:555 content/class-tunet-content.php:576
+#: content/class-tunet-content.php:560 content/class-tunet-content.php:581
 msgid "All %s"
 msgstr ""
 
-#: content/class-tunet-content.php:616
+#: content/class-tunet-content.php:621
 msgid "All Projects"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgstr ""
 msgid "Autoplay"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1199
+#: admin/class-tunet-demo.php:1484
 msgid "Back"
 msgstr ""
 
@@ -298,7 +298,7 @@ msgstr ""
 msgid "Cadence between words. 0 = default cadence."
 msgstr ""
 
-#: admin/class-tunet-demo.php:1182
+#: admin/class-tunet-demo.php:1467
 msgid "Cancel"
 msgstr ""
 
@@ -358,7 +358,7 @@ msgstr ""
 msgid "Clear all brand colors"
 msgstr ""
 
-#: content/class-tunet-content.php:651
+#: content/class-tunet-content.php:656
 msgid "Client"
 msgstr ""
 
@@ -410,7 +410,7 @@ msgstr ""
 msgid "Content width"
 msgstr ""
 
-#: admin/class-tunet-admin.php:443 admin/class-tunet-demo.php:1185
+#: admin/class-tunet-admin.php:443 admin/class-tunet-demo.php:1470
 msgid "Continue"
 msgstr ""
 
@@ -418,7 +418,7 @@ msgstr ""
 msgid "Corner radius (px)"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1020
+#: admin/class-tunet-demo.php:1299
 msgid "Could not reach the plugin directory."
 msgstr ""
 
@@ -430,27 +430,27 @@ msgstr ""
 msgid "Cover (fill)"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1191
+#: admin/class-tunet-demo.php:1476
 msgid "Creates the demo as native, editable blocks — pages, content and settings. You can undo it with one click."
 msgstr ""
 
-#: admin/class-tunet-demo.php:192
+#: admin/class-tunet-demo.php:196
 msgid "Creating contact form…"
 msgstr ""
 
-#: admin/class-tunet-demo.php:195
+#: admin/class-tunet-demo.php:199
 msgid "Creating journal posts…"
 msgstr ""
 
-#: admin/class-tunet-demo.php:196
+#: admin/class-tunet-demo.php:200
 msgid "Creating pages…"
 msgstr ""
 
-#: admin/class-tunet-demo.php:198
+#: admin/class-tunet-demo.php:205
 msgid "Creating products…"
 msgstr ""
 
-#: admin/class-tunet-demo.php:194
+#: admin/class-tunet-demo.php:198
 msgid "Creating projects…"
 msgstr ""
 
@@ -478,11 +478,11 @@ msgstr ""
 msgid "Delay (ms)"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1053 admin/class-tunet-demo.php:1054
+#: admin/class-tunet-demo.php:1332 admin/class-tunet-demo.php:1333
 msgid "Demo"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1168
+#: admin/class-tunet-demo.php:1453
 msgid "Demo for %s"
 msgstr ""
 
@@ -538,11 +538,11 @@ msgstr ""
 msgid "Easing curve"
 msgstr ""
 
-#: content/class-tunet-content.php:545 content/class-tunet-content.php:578
+#: content/class-tunet-content.php:550 content/class-tunet-content.php:583
 msgid "Edit %s"
 msgstr ""
 
-#: content/class-tunet-content.php:611
+#: content/class-tunet-content.php:616
 msgid "Edit Project"
 msgstr ""
 
@@ -590,7 +590,7 @@ msgstr ""
 msgid "Filled"
 msgstr ""
 
-#: admin/class-tunet-demo.php:200
+#: admin/class-tunet-demo.php:207
 msgid "Finishing…"
 msgstr ""
 
@@ -634,7 +634,7 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1103 blocks/section/edit.js:147
+#: admin/class-tunet-demo.php:1388 blocks/section/edit.js:147
 msgid "Image"
 msgid_plural "Images"
 msgstr[0] ""
@@ -648,11 +648,11 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
-#: admin/class-tunet-admin.php:696 admin/class-tunet-demo.php:1153
+#: admin/class-tunet-admin.php:696 admin/class-tunet-demo.php:1438
 msgid "Import"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1201
+#: admin/class-tunet-demo.php:1486
 msgid "Import demo"
 msgstr ""
 
@@ -660,15 +660,15 @@ msgstr ""
 msgid "Import settings"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1190
+#: admin/class-tunet-demo.php:1475
 msgid "Import the demo"
 msgstr ""
 
-#: admin/class-tunet-admin.php:433 admin/class-tunet-demo.php:947
+#: admin/class-tunet-admin.php:433 admin/class-tunet-demo.php:1226
 msgid "Import undone."
 msgstr ""
 
-#: admin/class-tunet-demo.php:190
+#: admin/class-tunet-demo.php:191
 msgid "Importing media…"
 msgstr ""
 
@@ -688,11 +688,11 @@ msgstr ""
 msgid "Inherit"
 msgstr ""
 
-#: admin/class-tunet-admin.php:438 admin/class-tunet-demo.php:1184
+#: admin/class-tunet-admin.php:438 admin/class-tunet-demo.php:1469
 msgid "Install & activate"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1026
+#: admin/class-tunet-demo.php:1305
 msgid "Install failed — install it manually."
 msgstr ""
 
@@ -716,7 +716,7 @@ msgstr ""
 msgid "Items"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1085
+#: admin/class-tunet-demo.php:1364
 msgid "Journal post"
 msgid_plural "Journal posts"
 msgstr[0] ""
@@ -760,6 +760,10 @@ msgstr ""
 
 #: blocks/brand/edit.js:64
 msgid "Link to Home"
+msgstr ""
+
+#: admin/class-tunet-demo.php:975
+msgid "Log in"
 msgstr ""
 
 #: blocks/section/edit.js:192
@@ -846,23 +850,23 @@ msgstr ""
 msgid "Navigation arrows"
 msgstr ""
 
-#: content/class-tunet-content.php:547
+#: content/class-tunet-content.php:552
 msgid "New %s"
 msgstr ""
 
-#: content/class-tunet-content.php:584
+#: content/class-tunet-content.php:589
 msgid "New %s Name"
 msgstr ""
 
-#: content/class-tunet-content.php:612
+#: content/class-tunet-content.php:617
 msgid "New Project"
 msgstr ""
 
-#: content/class-tunet-content.php:553 content/class-tunet-content.php:588
+#: content/class-tunet-content.php:558 content/class-tunet-content.php:593
 msgid "No %s found"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1137
+#: admin/class-tunet-demo.php:1422
 msgid "No demo to import for the active theme."
 msgstr ""
 
@@ -874,7 +878,7 @@ msgstr ""
 msgid "No icons match."
 msgstr ""
 
-#: content/class-tunet-content.php:615
+#: content/class-tunet-content.php:620
 msgid "No projects found"
 msgstr ""
 
@@ -938,7 +942,7 @@ msgstr ""
 msgid "Overlay type"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1075
+#: admin/class-tunet-demo.php:1354
 msgid "Page"
 msgid_plural "Pages"
 msgstr[0] ""
@@ -968,7 +972,7 @@ msgstr ""
 msgid "Pause on hover"
 msgstr ""
 
-#: admin/class-tunet-admin.php:916 admin/class-tunet-admin.php:950 admin/class-tunet-admin.php:972 admin/class-tunet-demo.php:912 admin/class-tunet-demo.php:944 admin/class-tunet-demo.php:998
+#: admin/class-tunet-admin.php:916 admin/class-tunet-admin.php:950 admin/class-tunet-admin.php:972 admin/class-tunet-demo.php:1191 admin/class-tunet-demo.php:1223 admin/class-tunet-demo.php:1277
 msgid "Permission denied."
 msgstr ""
 
@@ -992,7 +996,7 @@ msgstr ""
 msgid "Play background video"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1152
+#: admin/class-tunet-demo.php:1437
 msgid "Plugins"
 msgstr ""
 
@@ -1008,7 +1012,7 @@ msgstr ""
 msgid "Prefix"
 msgstr ""
 
-#: admin/class-tunet-demo.php:189
+#: admin/class-tunet-demo.php:190
 msgid "Preparing…"
 msgstr ""
 
@@ -1016,7 +1020,7 @@ msgstr ""
 msgid "Primary"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1090
+#: admin/class-tunet-demo.php:1369
 msgid "Product"
 msgid_plural "Products"
 msgstr[0] ""
@@ -1026,7 +1030,7 @@ msgstr[1] ""
 msgid "Progress bar"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1080
+#: admin/class-tunet-demo.php:1359
 msgid "Project"
 msgid_plural "Projects"
 msgstr[0] ""
@@ -1048,7 +1052,7 @@ msgstr ""
 msgid "Rating (0–5)"
 msgstr ""
 
-#: admin/class-tunet-admin.php:437 admin/class-tunet-demo.php:1177
+#: admin/class-tunet-admin.php:437 admin/class-tunet-demo.php:1462
 msgid "Recommended plugins"
 msgstr ""
 
@@ -1112,7 +1116,7 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: content/class-tunet-content.php:657
+#: content/class-tunet-content.php:662
 msgid "Role"
 msgstr ""
 
@@ -1136,11 +1140,11 @@ msgstr ""
 msgid "Scroll effect"
 msgstr ""
 
-#: content/class-tunet-content.php:551 content/class-tunet-content.php:586
+#: content/class-tunet-content.php:556 content/class-tunet-content.php:591
 msgid "Search %s"
 msgstr ""
 
-#: content/class-tunet-content.php:614
+#: content/class-tunet-content.php:619
 msgid "Search Projects"
 msgstr ""
 
@@ -1182,6 +1186,14 @@ msgstr ""
 
 #: blocks/content-slider/edit.js:135 blocks/shared/repeater-control.js:35
 msgid "Set image"
+msgstr ""
+
+#: admin/class-tunet-demo.php:193
+msgid "Setting up the brand…"
+msgstr ""
+
+#: admin/class-tunet-demo.php:202
+msgid "Setting up the store pages…"
 msgstr ""
 
 #: admin/class-tunet-admin.php:376 admin/class-tunet-admin.php:377 blocks/before-after/edit.js:77
@@ -1304,6 +1316,10 @@ msgstr ""
 msgid "Sticky pin"
 msgstr ""
 
+#: admin/class-tunet-demo.php:1375
+msgid "Store pages (EDD)"
+msgstr ""
+
 #: blocks/icon/edit.js:105
 msgid "Stroke width"
 msgstr ""
@@ -1312,11 +1328,11 @@ msgstr ""
 msgid "Style"
 msgstr ""
 
-#: admin/class-tunet-demo.php:400
+#: admin/class-tunet-demo.php:407
 msgid "Subject"
 msgstr ""
 
-#: admin/class-tunet-demo.php:402
+#: admin/class-tunet-demo.php:409
 msgid "Submit"
 msgstr ""
 
@@ -1392,7 +1408,7 @@ msgstr ""
 msgid "Then press Save changes."
 msgstr ""
 
-#: admin/class-tunet-demo.php:1178
+#: admin/class-tunet-demo.php:1463
 msgid "These add optional parts of the demo (forms, shop…). Pick any you want and install & activate them, or just continue without them."
 msgstr ""
 
@@ -1456,7 +1472,7 @@ msgstr ""
 msgid "Tunet Core requires WordPress %1$s or newer and PHP %2$s or newer."
 msgstr ""
 
-#: admin/class-tunet-demo.php:1131
+#: admin/class-tunet-demo.php:1416
 msgid "Tunet Core · Demo"
 msgstr ""
 
@@ -1468,7 +1484,7 @@ msgstr ""
 msgid "Tunet Effects"
 msgstr ""
 
-#: content/class-tunet-content.php:636
+#: content/class-tunet-content.php:641
 msgid "Types"
 msgstr ""
 
@@ -1480,15 +1496,15 @@ msgstr ""
 msgid "Underline grow"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1202
+#: admin/class-tunet-demo.php:1487
 msgid "Undo import"
 msgstr ""
 
-#: admin/class-tunet-demo.php:1004
+#: admin/class-tunet-demo.php:1283
 msgid "Unknown plugin."
 msgstr ""
 
-#: content/class-tunet-content.php:580
+#: content/class-tunet-content.php:585
 msgid "Update %s"
 msgstr ""
 
@@ -1508,15 +1524,15 @@ msgstr ""
 msgid "Video"
 msgstr ""
 
-#: content/class-tunet-content.php:549
+#: content/class-tunet-content.php:554
 msgid "View %s"
 msgstr ""
 
-#: content/class-tunet-content.php:613
+#: content/class-tunet-content.php:618
 msgid "View Project"
 msgstr ""
 
-#: admin/class-tunet-admin.php:447 admin/class-tunet-demo.php:1197
+#: admin/class-tunet-admin.php:447 admin/class-tunet-demo.php:1482
 msgid "View site"
 msgstr ""
 
@@ -1524,7 +1540,7 @@ msgstr ""
 msgid "Wave"
 msgstr ""
 
-#: content/class-tunet-content.php:660
+#: content/class-tunet-content.php:665
 msgid "Website"
 msgstr ""
 
@@ -1548,7 +1564,7 @@ msgstr ""
 msgid "Work"
 msgstr ""
 
-#: content/class-tunet-content.php:654
+#: content/class-tunet-content.php:659
 msgid "Year"
 msgstr ""
 
@@ -1556,15 +1572,15 @@ msgstr ""
 msgid "You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable."
 msgstr ""
 
-#: admin/class-tunet-demo.php:399
+#: admin/class-tunet-demo.php:406
 msgid "Your email"
 msgstr ""
 
-#: admin/class-tunet-demo.php:401
+#: admin/class-tunet-demo.php:408
 msgid "Your message (optional)"
 msgstr ""
 
-#: admin/class-tunet-demo.php:398
+#: admin/class-tunet-demo.php:405
 msgid "Your name"
 msgstr ""
 
@@ -1572,7 +1588,7 @@ msgstr ""
 msgid "Zoom on scroll"
 msgstr ""
 
-#: content/class-tunet-content.php:608
+#: content/class-tunet-content.php:613
 msgctxt "admin menu"
 msgid "Work"
 msgstr ""
@@ -1886,22 +1902,22 @@ msgstr ""
 msgid "e.g. +, %, K, M"
 msgstr ""
 
-#: content/class-tunet-content.php:606
+#: content/class-tunet-content.php:611
 msgctxt "post type general name"
 msgid "Projects"
 msgstr ""
 
-#: content/class-tunet-content.php:607
+#: content/class-tunet-content.php:612
 msgctxt "post type singular name"
 msgid "Project"
 msgstr ""
 
-#: content/class-tunet-content.php:634
+#: content/class-tunet-content.php:639
 msgctxt "taxonomy general name"
 msgid "Project Types"
 msgstr ""
 
-#: content/class-tunet-content.php:635
+#: content/class-tunet-content.php:640
 msgctxt "taxonomy singular name"
 msgid "Project Type"
 msgstr ""

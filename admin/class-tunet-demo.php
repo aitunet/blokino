@@ -131,6 +131,7 @@ class Tunet_Core_Demo {
 				'projects'     => array(),
 				'attachments'  => array(),
 				'products'     => array(),
+				'edd_pages'    => array(),
 				'product_cats' => array(),
 				'project_types'=> array(),
 				'categories'   => array(),
@@ -197,6 +198,9 @@ class Tunet_Core_Demo {
 		$steps[] = array( 'label' => __( 'Creating projects…', 'tunet-core' ), 'cb' => array( $this, 'step_projects' ) );
 		$steps[] = array( 'label' => __( 'Creating journal posts…', 'tunet-core' ), 'cb' => array( $this, 'step_posts' ) );
 		$steps[] = array( 'label' => __( 'Creating pages…', 'tunet-core' ), 'cb' => array( $this, 'step_pages' ) );
+		if ( class_exists( 'Easy_Digital_Downloads' ) && ! empty( self::manifest()['edd']['pages'] ) ) {
+			$steps[] = array( 'label' => __( 'Setting up the store pages…', 'tunet-core' ), 'cb' => array( $this, 'step_edd' ) );
+		}
 		if ( class_exists( 'WooCommerce' ) ) {
 			$steps[] = array( 'label' => __( 'Creating products…', 'tunet-core' ), 'cb' => array( $this, 'step_products' ) );
 		}
@@ -920,6 +924,115 @@ class Tunet_Core_Demo {
 	}
 
 	/**
+	 * EDD store pages (opt-in: manifest 'edd' => array( 'pages' => … ); EDD active).
+	 *
+	 * EDD creates its required pages (checkout, receipt, confirmation, failed
+	 * transaction, order history, products) when it is activated, so on a normal
+	 * site this step ADOPTS them and only restores what is missing — a store whose
+	 * pages were deleted, or an EDD installed long before the theme — through EDD's
+	 * own installer, so titles, content and hierarchy are exactly EDD's. It then
+	 * adds the page EDD never creates but does know through a setting: the Login
+	 * page (edd/login block, 'login_page'), which also re-routes wp_login_url() to a
+	 * branded screen instead of wp-login.php. A page is created only when its
+	 * setting does not point to an existing page; the created IDs and the previous
+	 * settings are recorded so rollback undoes exactly this and nothing more.
+	 *
+	 * Manifest:
+	 *   'edd' => array(
+	 *     'pages'          => true,   // EDD's required pages + the Login page (defaults)
+	 *     // or per extra page — key = EDD setting; title / slug / content|pattern:
+	 *     'pages'          => array( 'login_page' => array( 'title' => 'Log in', 'slug' => 'login' ) ),
+	 *     'login_redirect' => true,   // after login → Order history (only if unset)
+	 *   )
+	 */
+	public function step_edd() {
+		$cfg = self::manifest()['edd'] ?? array();
+		if ( empty( $cfg['pages'] ) || ! function_exists( 'edd_get_option' ) ) {
+			return;
+		}
+		$created = array();
+		$prev    = array(); // setting => previous value (null = it did not exist).
+
+		// 1) EDD's required pages: adopt the existing ones, create the missing ones
+		//    with EDD's installer. Whatever setting changed points at a new page.
+		if ( function_exists( 'edd_install_pages' ) && function_exists( 'edd_get_required_pages' ) ) {
+			$before = (array) get_option( 'edd_settings', array() );
+			edd_install_pages();
+			$after = (array) get_option( 'edd_settings', array() );
+			foreach ( array_keys( (array) edd_get_required_pages() ) as $key ) {
+				$was = isset( $before[ $key ] ) ? (int) $before[ $key ] : 0;
+				$now = isset( $after[ $key ] ) ? (int) $after[ $key ] : 0;
+				if ( $now && $now !== $was ) {
+					$prev[ $key ] = array_key_exists( $key, $before ) ? $before[ $key ] : null;
+					$created[]    = $now;
+				}
+			}
+		}
+
+		// 2) Pages EDD knows only by setting. Engine defaults, manifest overrides.
+		$extra = array(
+			'login_page' => array(
+				'title'   => __( 'Log in', 'tunet-core' ),
+				'slug'    => 'login',
+				'content' => '<!-- wp:edd/login /-->',
+			),
+		);
+		$declared = is_array( $cfg['pages'] ) ? $cfg['pages'] : array_fill_keys( array_keys( $extra ), true );
+		foreach ( $declared as $key => $spec ) {
+			$key = sanitize_key( (string) $key );
+			if ( empty( $spec ) || ! isset( $extra[ $key ] ) ) {
+				continue; // Required pages are EDD's business (step 1); unknown keys are ignored.
+			}
+			$spec     = is_array( $spec ) ? array_merge( $extra[ $key ], $spec ) : $extra[ $key ];
+			$settings = (array) get_option( 'edd_settings', array() );
+			$current  = isset( $settings[ $key ] ) ? (int) $settings[ $key ] : 0;
+			$status   = $current ? get_post_status( $current ) : false;
+			if ( $status && 'trash' !== $status ) {
+				continue; // Adopt the page the store already uses.
+			}
+			$content = ! empty( $spec['pattern'] ) ? $this->expand_pattern( $spec['pattern'] ) : (string) ( $spec['content'] ?? '' );
+			if ( '' === $content ) {
+				continue;
+			}
+			$id = wp_insert_post(
+				array(
+					'post_type'      => 'page',
+					'post_status'    => 'publish',
+					'comment_status' => 'closed',
+					'post_title'     => wp_slash( (string) $spec['title'] ),
+					'post_name'      => wp_slash( sanitize_title( (string) $spec['slug'] ) ),
+					'post_content'   => wp_slash( $content ),
+				),
+				true
+			);
+			if ( is_wp_error( $id ) || ! $id ) {
+				continue;
+			}
+			$created[]    = (int) $id;
+			$prev[ $key ] = array_key_exists( $key, $settings ) ? $settings[ $key ] : null;
+			edd_update_option( $key, (int) $id ); // Keeps EDD's in-memory options in sync too.
+		}
+
+		// 3) After logging in, land on Order history (only when nothing is set).
+		if ( ! empty( $cfg['login_redirect'] ) ) {
+			$settings = (array) get_option( 'edd_settings', array() );
+			$history  = isset( $settings['purchase_history_page'] ) ? (int) $settings['purchase_history_page'] : 0;
+			$redirect = isset( $settings['login_redirect_page'] ) ? (int) $settings['login_redirect_page'] : 0;
+			if ( $history && ! $redirect ) {
+				$prev['login_redirect_page'] = array_key_exists( 'login_redirect_page', $settings ) ? $settings['login_redirect_page'] : null;
+				edd_update_option( 'login_redirect_page', $history );
+			}
+		}
+
+		foreach ( $created as $id ) {
+			$this->track( 'edd_pages', $id );
+		}
+		if ( $prev ) {
+			$this->set_record( 'prev_edd', $prev );
+		}
+	}
+
+	/**
 	 * Create WooCommerce products from the manifest (Woo active only).
 	 */
 	public function step_products() {
@@ -1024,6 +1137,26 @@ class Tunet_Core_Demo {
 		}
 		foreach ( (array) ( $r['categories'] ?? array() ) as $tid ) {
 			wp_delete_term( (int) $tid, 'category' );
+		}
+
+		// EDD store pages the import created, and the settings that pointed at them.
+		// Settings are edited raw so this also works with EDD deactivated (they persist).
+		foreach ( (array) ( $r['edd_pages'] ?? array() ) as $id ) {
+			wp_delete_post( (int) $id, true );
+		}
+		if ( ! empty( $r['prev_edd'] ) && is_array( $r['prev_edd'] ) ) {
+			$settings = (array) get_option( 'edd_settings', array() );
+			foreach ( $r['prev_edd'] as $key => $value ) {
+				if ( null === $value ) {
+					unset( $settings[ $key ] );
+				} else {
+					$settings[ $key ] = $value;
+				}
+			}
+			update_option( 'edd_settings', $settings );
+			if ( isset( $GLOBALS['edd_options'] ) ) {
+				$GLOBALS['edd_options'] = $settings; // EDD caches its settings in this global for the request.
+			}
 		}
 
 		// Restore the brand (title, tagline, logos) if the import set it.
@@ -1236,6 +1369,12 @@ class Tunet_Core_Demo {
 			$rows[] = array( 'n' => $products, 'label' => _n( 'Product', 'Products', $products, 'tunet-core' ), 'icon' => 'cart' );
 		}
 
+		// EDD store pages: only a label (the count is decided at import time — the
+		// pages EDD already created are adopted, not duplicated).
+		if ( ! empty( $manifest['edd']['pages'] ) && class_exists( 'Easy_Digital_Downloads' ) ) {
+			$rows[] = array( 'n' => '✓', 'label' => __( 'Store pages (EDD)', 'tunet-core' ), 'icon' => 'cart' );
+		}
+
 		// Real image count = manifest-keyed images + every image under assets/img
 		// (what step_media actually imports), deduped — so the preview matches.
 		$image_rel = isset( $manifest['images'] ) && is_array( $manifest['images'] ) ? array_values( $manifest['images'] ) : array();
@@ -1355,7 +1494,7 @@ class Tunet_Core_Demo {
 						<?php foreach ( $summary as $row ) : ?>
 							<li class="tunet-summary__item">
 								<span class="dashicons dashicons-<?php echo esc_attr( $row['icon'] ); ?>" aria-hidden="true"></span>
-								<span class="tunet-summary__n"><?php echo esc_html( number_format_i18n( $row['n'] ) ); ?></span>
+								<span class="tunet-summary__n"><?php echo esc_html( is_numeric( $row['n'] ) ? number_format_i18n( $row['n'] ) : $row['n'] ); ?></span>
 								<span class="tunet-summary__l"><?php echo esc_html( $row['label'] ); ?></span>
 							</li>
 						<?php endforeach; ?>
