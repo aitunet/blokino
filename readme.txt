@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.38
+Stable tag: 0.1.39
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.39 =
+* Themes screen: catalog entries are read as plain scalars before sanitizing (a malformed catalog cannot break the screen); the placeholder name shown when a theme has no board image is no longer underlined.
 
 = 0.1.38 =
 * New *Tunet Core → Themes* screen: the premium themes designed for this engine, listed from the tunetdesign.com catalog (name, price, live preview, board), with an "Installed"/"Active" badge for the ones already on the site and a shortcut to import the active theme's demo. Opt-in by design: it only appears when you open it, fetches the catalog only then (cached 12 hours, neutral user agent, nothing about your site is sent) and shows a plain link if the store cannot be reached. The Demo screen's empty state now links to it.

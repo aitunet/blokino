@@ -105,19 +105,27 @@ class Tunet_Core_Themes {
 		delete_transient( self::TRANSIENT . '_fail' );
 		$clean = array();
 		foreach ( $items as $item ) {
-			if ( ! is_array( $item ) || empty( $item['name'] ) || empty( $item['url'] ) ) {
+			if ( ! is_array( $item ) ) {
+				continue;
+			}
+			// Remote JSON: every field is read as a scalar (a nested value would
+			// hit the sanitizers as an array) before being sanitized.
+			$field = static function ( $key ) use ( $item ) {
+				return isset( $item[ $key ] ) && is_scalar( $item[ $key ] ) ? (string) $item[ $key ] : '';
+			};
+			if ( '' === $field( 'name' ) || '' === $field( 'url' ) ) {
 				continue;
 			}
 			$clean[] = array(
-				'slug'     => sanitize_key( $item['slug'] ?? '' ),
-				'theme'    => sanitize_key( $item['theme'] ?? '' ),
-				'name'     => sanitize_text_field( $item['name'] ),
-				'tagline'  => sanitize_text_field( $item['tagline'] ?? '' ),
-				'price'    => sanitize_text_field( $item['price'] ?? '' ),
-				'url'      => esc_url_raw( $item['url'] ),
-				'demo_url' => esc_url_raw( $item['demo_url'] ?? '' ),
-				'image'    => esc_url_raw( $item['image'] ?? '' ),
-				'version'  => sanitize_text_field( $item['version'] ?? '' ),
+				'slug'     => sanitize_key( $field( 'slug' ) ),
+				'theme'    => sanitize_key( $field( 'theme' ) ),
+				'name'     => sanitize_text_field( $field( 'name' ) ),
+				'tagline'  => sanitize_text_field( $field( 'tagline' ) ),
+				'price'    => sanitize_text_field( $field( 'price' ) ),
+				'url'      => esc_url_raw( $field( 'url' ) ),
+				'demo_url' => esc_url_raw( $field( 'demo_url' ) ),
+				'image'    => esc_url_raw( $field( 'image' ) ),
+				'version'  => sanitize_text_field( $field( 'version' ) ),
 			);
 		}
 		set_transient( self::TRANSIENT, $clean, self::TTL );
