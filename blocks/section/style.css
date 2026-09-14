@@ -12,7 +12,11 @@
 	display: flex;
 	flex-direction: column;
 	isolation: isolate;
+	/* clip (no hidden): recorta bg/dividers igual pero NO crea un contenedor de scroll,
+	   así un position:sticky dentro de la sección sigue funcionando (columnas fijas).
+	   hidden queda como fallback para navegadores sin overflow:clip. */
 	overflow: hidden;
+	overflow: clip;
 	min-height: var( --tf-sec-min-h, auto );
 }
 

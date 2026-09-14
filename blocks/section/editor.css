@@ -1,7 +1,8 @@
 /* ==========================================================================
  * Tunet Core · Block tunet/section — overrides SOLO del editor
  * --------------------------------------------------------------------------
- * En el front, .tunet-section usa overflow:hidden (para bg/dividers). En el
+ * En el front, .tunet-section usa overflow:clip (para bg/dividers; clip y no
+ * hidden para no anular los sticky internos). En el
  * editor eso recorta el botón "+" de añadir bloque (appender). Aquí lo dejamos
  * visible para poder editar con comodidad.
  * ========================================================================== */
