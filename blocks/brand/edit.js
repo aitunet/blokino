@@ -71,7 +71,7 @@
 							{ style: { marginTop: '4px' } },
 							el(
 								c.ExternalLink,
-								{ href: 'admin.php?page=tunet-core' },
+								{ href: 'admin.php?page=tunet-core-settings' },
 								__( 'Manage logo in Tunet Core → Logos', 'tunet-core' )
 							)
 						)

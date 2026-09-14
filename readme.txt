@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.42
+Stable tag: 0.1.43
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,7 @@ Tunet Core is the shared engine of the Tunet ecosystem. It adds motion and inter
 * **A lightweight effects runtime.** Effects are detected per page and their assets are enqueued only when a block on the page uses them. Reveal uses the native IntersectionObserver; heavier libraries load on demand. `prefers-reduced-motion` is always respected.
 * **An options panel + demo importer.** Global settings, JSON import/export, sidebar layout controls, and a per-theme demo importer with a progress bar and one-click rollback.
 * **A Themes screen.** The premium themes designed for this engine, listed from the tunetdesign.com catalog with live previews — open it when you want it; it never nags.
+* **A Get started screen.** Site status, the three steps to a finished site (theme → demo → effects) and the doors to the documentation.
 
 **Design principles**
 
@@ -71,6 +72,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.43 =
+* New Get started screen behind the Tunet Core menu entry: site status (theme, demo, effects), the three steps to a finished site, what the engine adds, the latest changes and the doors to docs and support. Settings moved to its own submenu. A one-time dismissible notice points there after activation — no redirect.
 
 = 0.1.42 =
 * Demo importer: an EDD store manifest can declare its download categories (`edd` → `categories`: name, slug, description). Existing terms are adopted by slug; created ones are tracked, and rollback removes only those that are still empty.

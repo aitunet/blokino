@@ -26,7 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Tunet_Core_Admin {
 
 	const OPTION     = 'tunet_core_settings';
-	const MENU_SLUG  = 'tunet-core';
+	const MENU_SLUG  = 'tunet-core';          // top-level entry = the Get started screen
+	const SETTINGS_SLUG = 'tunet-core-settings';
 	const TOOLS_SLUG  = 'tunet-tools';
 	const CAPABILITY  = 'manage_options';
 
@@ -367,9 +368,19 @@ class Tunet_Core_Admin {
 			__( 'Tunet Core', 'tunet-core' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
-			array( $this, 'render_settings_page' ),
+			array( 'Tunet_Core_Welcome', 'render_page' ),
 			self::menu_icon_data_uri(),
 			59
+		);
+
+		// The parent's own entry is the first submenu: Get started.
+		add_submenu_page(
+			self::MENU_SLUG,
+			__( 'Get started', 'tunet-core' ),
+			__( 'Get started', 'tunet-core' ),
+			self::CAPABILITY,
+			self::MENU_SLUG,
+			array( 'Tunet_Core_Welcome', 'render_page' )
 		);
 
 		add_submenu_page(
@@ -377,7 +388,7 @@ class Tunet_Core_Admin {
 			__( 'Settings', 'tunet-core' ),
 			__( 'Settings', 'tunet-core' ),
 			self::CAPABILITY,
-			self::MENU_SLUG,
+			self::SETTINGS_SLUG,
 			array( $this, 'render_settings_page' )
 		);
 
@@ -396,7 +407,7 @@ class Tunet_Core_Admin {
 			__( 'Tunet Core', 'tunet-core' ),
 			__( 'Tunet Core', 'tunet-core' ),
 			self::CAPABILITY,
-			'admin.php?page=' . self::MENU_SLUG
+			'admin.php?page=' . self::SETTINGS_SLUG
 		);
 	}
 
@@ -424,12 +435,13 @@ class Tunet_Core_Admin {
 	 * @param string $hook Hook suffix.
 	 */
 	public function enqueue_assets( $hook ) {
-		$is_settings = ( 'toplevel_page_' . self::MENU_SLUG === $hook );
+		$is_welcome  = ( 'toplevel_page_' . self::MENU_SLUG === $hook );
+		$is_settings = ( false !== strpos( $hook, self::SETTINGS_SLUG ) );
 		$is_tools    = ( false !== strpos( $hook, self::TOOLS_SLUG ) );
 		$is_demo     = ( false !== strpos( $hook, Tunet_Core_Demo::MENU_SLUG ) );
 		$is_themes   = ( false !== strpos( $hook, Tunet_Core_Themes::MENU_SLUG ) );
 
-		if ( ! $is_settings && ! $is_tools && ! $is_demo && ! $is_themes ) {
+		if ( ! $is_welcome && ! $is_settings && ! $is_tools && ! $is_demo && ! $is_themes ) {
 			return;
 		}
 
@@ -941,7 +953,7 @@ class Tunet_Core_Admin {
 		update_option( self::OPTION, $clean );
 		$this->sync_custom_logo( $clean );
 
-		wp_safe_redirect( add_query_arg( 'tunet_notice', 'saved', admin_url( 'admin.php?page=' . self::MENU_SLUG ) ) );
+		wp_safe_redirect( add_query_arg( 'tunet_notice', 'saved', admin_url( 'admin.php?page=' . self::SETTINGS_SLUG ) ) );
 		exit;
 	}
 
