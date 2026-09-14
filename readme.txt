@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.41
+Stable tag: 0.1.42
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.42 =
+* Demo importer: an EDD store manifest can declare its download categories (`edd` → `categories`: name, slug, description). Existing terms are adopted by slug; created ones are tracked, and rollback removes only those that are still empty.
 
 = 0.1.41 =
 * Section block: `overflow: clip` instead of `hidden` (same clipping of backgrounds and dividers, but a sticky column inside a section now works).

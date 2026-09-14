@@ -132,6 +132,7 @@ class Tunet_Core_Demo {
 				'attachments'  => array(),
 				'products'     => array(),
 				'edd_pages'    => array(),
+				'edd_categories' => array(),
 				'product_cats' => array(),
 				'project_types'=> array(),
 				'categories'   => array(),
@@ -970,11 +971,16 @@ class Tunet_Core_Demo {
 	 *     'pages'          => array( 'login_page' => array( 'title' => 'Log in', 'slug' => 'login' ) ),
 	 *     'login_redirect' => true,   // after login → Order history (only if unset)
 	 *     'settings'       => array( 'show_agree_to_terms' => 1, 'agree_label' => 'I agree to the <a href="…">Terms</a>' ),
+	 *     'categories'     => array( array( 'name' => 'WordPress themes', 'slug' => 'wordpress-themes', 'description' => '…' ) ),
 	 *   )
 	 */
 	public function step_edd() {
 		$cfg = self::manifest()['edd'] ?? array();
-		if ( empty( $cfg['pages'] ) || ! function_exists( 'edd_get_option' ) ) {
+		if ( ! function_exists( 'edd_get_option' ) ) {
+			return;
+		}
+		$this->edd_categories( $cfg['categories'] ?? array() );
+		if ( empty( $cfg['pages'] ) ) {
 			return;
 		}
 		$created = array();
@@ -1076,6 +1082,48 @@ class Tunet_Core_Demo {
 			// (idempotent re-import, QA) must not forget what the first run replaced.
 			$existing = (array) ( self::get_record()['prev_edd'] ?? array() );
 			$this->set_record( 'prev_edd', $existing + $prev );
+		}
+	}
+
+	/**
+	 * Download categories the store lists (manifest 'edd' => 'categories'): each
+	 * one { name, slug, description } (a bare string is a name). A category that
+	 * already exists — matched by slug — is adopted untouched, so a store that was
+	 * set up before the theme keeps its own terms; the missing ones are created and
+	 * tracked. Rollback removes only the terms this step created, and only while
+	 * they are still empty: a category the owner has since filled with products is
+	 * never pulled from under them. With EDD deactivated the taxonomy is gone and
+	 * the step is a no-op (both ways).
+	 *
+	 * @param array $cats Category specs from the manifest.
+	 */
+	private function edd_categories( $cats ) {
+		if ( empty( $cats ) || ! is_array( $cats ) || ! taxonomy_exists( 'download_category' ) ) {
+			return;
+		}
+		foreach ( $cats as $cat ) {
+			if ( is_string( $cat ) ) {
+				$cat = array( 'name' => $cat );
+			}
+			$name = is_array( $cat ) ? sanitize_text_field( (string) ( $cat['name'] ?? '' ) ) : '';
+			if ( '' === $name ) {
+				continue;
+			}
+			$slug = sanitize_title( (string) ( $cat['slug'] ?? $name ) );
+			if ( '' === $slug || get_term_by( 'slug', $slug, 'download_category' ) ) {
+				continue; // Adopt the store's own term.
+			}
+			$term = wp_insert_term(
+				$name,
+				'download_category',
+				array(
+					'slug'        => $slug,
+					'description' => wp_kses_post( (string) ( $cat['description'] ?? '' ) ),
+				)
+			);
+			if ( ! is_wp_error( $term ) ) {
+				$this->track( 'edd_categories', (int) $term['term_id'] );
+			}
 		}
 	}
 
@@ -1184,6 +1232,13 @@ class Tunet_Core_Demo {
 		}
 		foreach ( (array) ( $r['categories'] ?? array() ) as $tid ) {
 			wp_delete_term( (int) $tid, 'category' );
+		}
+		// Download categories the import created — only while still empty (see edd_categories()).
+		foreach ( (array) ( $r['edd_categories'] ?? array() ) as $tid ) {
+			$term = taxonomy_exists( 'download_category' ) ? get_term( (int) $tid, 'download_category' ) : null;
+			if ( $term instanceof WP_Term && 0 === (int) $term->count ) {
+				wp_delete_term( (int) $tid, 'download_category' );
+			}
 		}
 
 		// EDD store pages the import created, and the settings that pointed at them.
