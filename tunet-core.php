@@ -3,7 +3,7 @@
  * Plugin Name:       Tunet Core
  * Plugin URI:        https://tunetdesign.com/tunet-core
  * Description:       Engine of the Tunet ecosystem. Provides the shared infrastructure (native block extensions with tf* effects, custom blocks, the effects runtime and an options panel). Presentation lives in each theme; this plugin never hardcodes styles. Not sold separately.
- * Version:           0.1.39
+ * Version:           0.1.40
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            TUNET Design
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * Constantes del plugin
  * ---------------------------------------------------------------------- */
-define( 'TUNET_CORE_VERSION', '0.1.39' );
+define( 'TUNET_CORE_VERSION', '0.1.40' );
 define( 'TUNET_CORE_FILE', __FILE__ );
 define( 'TUNET_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'TUNET_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -275,14 +275,16 @@ add_action( 'wp_head', 'tunet_core_meta_description', 1 );
  *
  * WordPress compara cada theme instalado con el directorio de wp.org POR SLUG;
  * como existen themes públicos llamados "aurora", "ember", etc., wp.org ofrece
- * "su" versión como update. Los themes Tunet son premium (fuera de wp.org) y se
+ * "su" versión como update. Los themes Tunet PREMIUM son ajenos a wp.org y se
  * actualizan por EDD Software Licensing (CLAUDE.md §12); quitamos del transient
- * de updates cualquier theme marcado como nuestro.
+ * de updates cualquier theme marcado como premium.
  *
  * Vive en el motor (no en cada theme) a propósito: el motor SIEMPRE está activo,
  * así cubre también los themes Tunet INACTIVOS —cuyo functions.php no se carga—
- * y cualquier theme Tunet futuro sin código nuevo. "Lo nuestro" se identifica por
- * el header Update URI o Author URI = tunetdesign.com.
+ * y cualquier theme Tunet futuro sin código nuevo. "Lo nuestro premium" se
+ * identifica solo por el header Update URI = tunetdesign.com; un theme Tunet
+ * GRATIS distribuido por wp.org (p. ej. Tunet Starter) no declara ese header y
+ * debe seguir recibiendo sus updates del directorio con normalidad.
  *
  * Degrada con dignidad (§12): sin themes Tunet instalados no toca nada; no
  * desactiva funciones ni muestra avisos → cumple las guidelines de wp.org.
@@ -299,8 +301,10 @@ function tunet_core_suppress_theme_updates( $value ) {
 		if ( ! $theme->exists() ) {
 			continue;
 		}
-		$signals = (string) $theme->get( 'UpdateURI' ) . ' ' . (string) $theme->get( 'AuthorURI' );
-		if ( false !== stripos( $signals, 'tunetdesign.com' ) ) {
+		// Only themes that update from tunetdesign.com (premium, EDD). A theme
+		// hosted on wordpress.org (Tunet Starter) has no Update URI → keep it.
+		$update_uri = (string) $theme->get( 'UpdateURI' );
+		if ( '' !== $update_uri && false !== stripos( $update_uri, 'tunetdesign.com' ) ) {
 			unset( $value->response[ $slug ] );
 		}
 	}

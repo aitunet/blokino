@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.39
+Stable tag: 0.1.40
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,11 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+
+= 0.1.40 =
+* Theme updates: only themes that update from tunetdesign.com (premium) are excluded from the WordPress.org update check; a Tunet theme hosted on WordPress.org keeps its updates.
+* Demo: the submenu only appears when the active theme ships a demo manifest.
+* New `tunet_core_admin_menu` action for themes that add screens under the Tunet Core menu.
 
 = 0.1.39 =
 * Themes screen: catalog entries are read as plain scalars before sanitizing (a malformed catalog cannot break the screen); the placeholder name shown when a theme has no board image is no longer underlined.

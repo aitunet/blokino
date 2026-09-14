@@ -266,6 +266,7 @@ class Tunet_Core_Admin {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
+		add_action( 'admin_menu', array( $this, 'fire_menu_hook' ), 12 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_head', array( $this, 'menu_icon_style' ) );
 		add_action( 'admin_post_tunet_save_settings', array( $this, 'handle_save_settings' ) );
@@ -397,6 +398,24 @@ class Tunet_Core_Admin {
 			self::CAPABILITY,
 			'admin.php?page=' . self::MENU_SLUG
 		);
+	}
+
+	/**
+	 * Fires after Tunet Core registered its own submenus. Premium themes hook
+	 * here to add screens (e.g. License) under the Tunet Core menu.
+	 *
+	 * Hooked at `admin_menu` priority 12 — after Settings/Tools (priority 10,
+	 * `register_menu`) and Demo (priority 11) but before Themes (priority 13) —
+	 * so the menu order stays Settings · Tools · Demo · (theme screens) · Themes.
+	 */
+	public function fire_menu_hook() {
+		/**
+		 * Fires after Tunet Core registered its own submenus. Premium themes hook
+		 * here to add screens (e.g. License) under the Tunet Core menu.
+		 *
+		 * @param string $parent_slug The Tunet Core menu slug.
+		 */
+		do_action( 'tunet_core_admin_menu', self::MENU_SLUG );
 	}
 
 	/**

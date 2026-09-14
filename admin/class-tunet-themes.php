@@ -33,12 +33,13 @@ class Tunet_Core_Themes {
 	 * Hooks.
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'register_menu' ), 12 );
+		add_action( 'admin_menu', array( $this, 'register_menu' ), 13 );
 		add_action( 'admin_post_tunet_themes_refresh', array( $this, 'handle_refresh' ) );
 	}
 
 	/**
-	 * Submenu under Tunet Core, after Demo.
+	 * Submenu under Tunet Core, after Demo and the `tunet_core_admin_menu` hook
+	 * (priority 13: Settings/Tools → Demo → theme screens → Themes).
 	 */
 	public function register_menu() {
 		add_submenu_page(

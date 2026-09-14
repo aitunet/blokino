@@ -1377,8 +1377,15 @@ class Tunet_Core_Demo {
 
 	/**
 	 * Register the Demo submenu under the Tunet Core menu.
+	 *
+	 * The Demo screen only exists for themes that ship a manifest (premium
+	 * Tunet themes). Any other theme keeps the menu clean (§12).
 	 */
 	public function register_menu() {
+		if ( empty( self::manifest() ) ) {
+			return;
+		}
+
 		add_submenu_page(
 			Tunet_Core_Admin::MENU_SLUG,
 			__( 'Demo', 'tunet-core' ),
