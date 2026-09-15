@@ -987,6 +987,7 @@ class Tunet_Core_Demo {
 	 *     // or per extra page — key = EDD setting; title / slug / content|pattern:
 	 *     'pages'          => array( 'login_page' => array( 'title' => 'Log in', 'slug' => 'login' ) ),
 	 *     'login_redirect' => true,   // after login → Order history (only if unset)
+	 *     'login_redirect' => 'account', // …or a page slug/path from 'pages' (a dashboard page), only if unset
 	 *     'settings'       => array( 'show_agree_to_terms' => 1, 'agree_label' => 'I agree to the <a href="…">Terms</a>' ),
 	 *     'categories'     => array( array( 'name' => 'WordPress themes', 'slug' => 'wordpress-themes', 'description' => '…' ) ),
 	 *   )
@@ -1063,14 +1064,19 @@ class Tunet_Core_Demo {
 			edd_update_option( $key, (int) $id ); // Keeps EDD's in-memory options in sync too.
 		}
 
-		// 3) After logging in, land on Order history (only when nothing is set).
+		// 3) After logging in, land on Order history — or on the page the manifest names
+		//    (a slug/path such as 'account', created by step_pages) — only when nothing is set.
 		if ( ! empty( $cfg['login_redirect'] ) ) {
 			$settings = (array) get_option( 'edd_settings', array() );
-			$history  = isset( $settings['purchase_history_page'] ) ? (int) $settings['purchase_history_page'] : 0;
+			$target   = isset( $settings['purchase_history_page'] ) ? (int) $settings['purchase_history_page'] : 0;
+			if ( is_string( $cfg['login_redirect'] ) ) {
+				$page   = get_page_by_path( ltrim( $cfg['login_redirect'], '/' ) );
+				$target = $page instanceof WP_Post && 'publish' === $page->post_status ? (int) $page->ID : 0;
+			}
 			$redirect = isset( $settings['login_redirect_page'] ) ? (int) $settings['login_redirect_page'] : 0;
-			if ( $history && ! $redirect ) {
+			if ( $target && ! $redirect ) {
 				$prev['login_redirect_page'] = array_key_exists( 'login_redirect_page', $settings ) ? $settings['login_redirect_page'] : null;
-				edd_update_option( 'login_redirect_page', $history );
+				edd_update_option( 'login_redirect_page', $target );
 			}
 		}
 

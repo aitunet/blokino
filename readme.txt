@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.46
+Stable tag: 0.1.47
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+= 0.1.47 =
+* Demo importer: a store manifest can send buyers to a page of its own after logging in (`login_redirect` accepts a page slug, e.g. an account dashboard) instead of EDD's Order History; existing settings are never overwritten.
+
 = 0.1.46 =
 * Theme updates: the guard that hides false "update available" notices for premium themes now drops only entries that come from the WordPress.org directory, so a theme's own updater (Update URI on its vendor's host) works as intended.
 
