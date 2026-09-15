@@ -873,7 +873,23 @@ class Tunet_Core_Demo {
 			if ( empty( $page['slug'] ) || empty( $page['pattern'] ) || empty( $page['title'] ) ) {
 				continue; // Skip incomplete manifest entries (no warnings).
 			}
-			if ( $this->slug_exists( $page['slug'], 'page' ) ) {
+			// 'parent' => 'docs' (or a deeper path 'docs/tunet-core'): the page is a
+			// child of that page — declare the parent EARLIER in the manifest, or
+			// have it exist already (an existing page is adopted, never recreated).
+			// A child's slug only has to be unique under its parent, so existence
+			// is checked by full path; a top-level page keeps the plain slug check.
+			$parent_id = 0;
+			if ( ! empty( $page['parent'] ) ) {
+				$parent_path = trim( (string) $page['parent'], '/' );
+				$parent      = get_page_by_path( $parent_path, OBJECT, 'page' );
+				if ( ! $parent instanceof WP_Post ) {
+					continue; // No parent, no orphan: skip (no warnings).
+				}
+				$parent_id = (int) $parent->ID;
+				if ( get_page_by_path( $parent_path . '/' . $page['slug'], OBJECT, 'page' ) instanceof WP_Post ) {
+					continue;
+				}
+			} elseif ( $this->slug_exists( $page['slug'], 'page' ) ) {
 				continue;
 			}
 			$content = $this->expand_pattern( $page['pattern'] );
@@ -891,6 +907,7 @@ class Tunet_Core_Demo {
 					'post_title'   => wp_slash( $page['title'] ),
 					'post_name'    => wp_slash( $page['slug'] ),
 					'post_content' => wp_slash( $content ),
+					'post_parent'  => $parent_id,
 				),
 				true
 			);
