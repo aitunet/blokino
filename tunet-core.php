@@ -3,7 +3,7 @@
  * Plugin Name:       Tunet Core
  * Plugin URI:        https://tunetdesign.com/tunet-core
  * Description:       Engine of the Tunet ecosystem. Provides the shared infrastructure (native block extensions with tf* effects, custom blocks, the effects runtime and an options panel). Presentation lives in each theme; this plugin never hardcodes styles. Not sold separately.
- * Version:           0.1.45
+ * Version:           0.1.46
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            TUNET Design
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * Constantes del plugin
  * ---------------------------------------------------------------------- */
-define( 'TUNET_CORE_VERSION', '0.1.45' );
+define( 'TUNET_CORE_VERSION', '0.1.46' );
 define( 'TUNET_CORE_FILE', __FILE__ );
 define( 'TUNET_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'TUNET_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -278,8 +278,11 @@ add_action( 'wp_head', 'tunet_core_meta_description', 1 );
  * WordPress compara cada theme instalado con el directorio de wp.org POR SLUG;
  * como existen themes públicos llamados "aurora", "ember", etc., wp.org ofrece
  * "su" versión como update. Los themes Tunet PREMIUM son ajenos a wp.org y se
- * actualizan por EDD Software Licensing (CLAUDE.md §12); quitamos del transient
- * de updates cualquier theme marcado como premium.
+ * actualizan por EDD Software Licensing vía su propio updater (`update_themes_
+ * <host>`, lib/license-client/class-tunet-license-updater.php; CLAUDE.md §12);
+ * de la transient de updates solo quitamos la entrada FALSA que pone wp.org
+ * (se detecta porque su `package`/`url` resuelve a un host wordpress.org), nunca
+ * la que produjo el updater propio del theme (apunta a la tienda/EDD).
  *
  * Vive en el motor (no en cada theme) a propósito: el motor SIEMPRE está activo,
  * así cubre también los themes Tunet INACTIVOS —cuyo functions.php no se carga—
@@ -298,7 +301,7 @@ function tunet_core_suppress_theme_updates( $value ) {
 	if ( ! isset( $value->response ) || ! is_array( $value->response ) ) {
 		return $value;
 	}
-	foreach ( array_keys( $value->response ) as $slug ) {
+	foreach ( $value->response as $slug => $entry ) {
 		$theme = wp_get_theme( $slug );
 		if ( ! $theme->exists() ) {
 			continue;
@@ -306,7 +309,20 @@ function tunet_core_suppress_theme_updates( $value ) {
 		// Only themes that update from tunetdesign.com (premium, EDD). A theme
 		// hosted on wordpress.org (Tunet Starter) has no Update URI → keep it.
 		$update_uri = (string) $theme->get( 'UpdateURI' );
-		if ( '' !== $update_uri && false !== stripos( $update_uri, 'tunetdesign.com' ) ) {
+		if ( '' === $update_uri || false === stripos( $update_uri, 'tunetdesign.com' ) ) {
+			continue;
+		}
+		// Drop only what came from the directory (a public theme sharing the slug);
+		// an entry the theme's own updater produced points elsewhere and stays.
+		$entry = (array) $entry;
+		$from  = '';
+		foreach ( array( 'package', 'url' ) as $field ) {
+			if ( ! empty( $entry[ $field ] ) ) {
+				$from = (string) wp_parse_url( (string) $entry[ $field ], PHP_URL_HOST );
+				break;
+			}
+		}
+		if ( '' === $from || preg_match( '/(^|\.)wordpress\.org$/i', $from ) ) {
 			unset( $value->response[ $slug ] );
 		}
 	}
