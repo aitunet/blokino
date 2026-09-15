@@ -276,29 +276,41 @@ class Tunet_Core_Admin {
 	}
 
 	/**
-	 * La forma de la marca: el núcleo con la T en contraforma.
+	 * La marca: "tC · corte" (elegida 2026-09-14).
 	 *
-	 * Un solo sitio con el `d` del path, para que el data-URI del menú y la máscara
-	 * de menu_icon_style() no puedan divergir. La fuente legible, con el porqué del
-	 * diseño y las mediciones de color, está en admin/img/icon-tunet-core.svg; aquí
-	 * va en línea porque add_menu_page() necesita el valor al registrar el menú y
-	 * leer el archivo en cada carga del admin sería una lectura de disco por página
-	 * para 300 bytes.
+	 * La t del logo cortada por una diagonal paralela al bisel del asta: la parte de
+	 * arriba a la izquierda (asta, brazo izquierdo, medio cruce) es la t; la de abajo a
+	 * la derecha (brazo derecho, medio cruce, palo, gancho) es la C que la letra ya
+	 * contenía. El hueco entre las dos es VACÍO: la diagonal desplazada ±4,5 y cada
+	 * forma recortada por su desplazamiento (sin línea encima, sin trazos).
+	 *
+	 * Dos paths en el espacio de la letra (bbox 66–194 × 42–216, viewBox cuadrado
+	 * "43 42 174 174"). Un solo sitio con la geometría para que el data-URI del menú y
+	 * las máscaras de menu_icon_style() no puedan divergir; la fuente documentada está
+	 * en admin/img/icon-tunet-core.svg y el generador de todos los assets en
+	 * wporg-assets/build-icon.mjs. Va en línea porque add_menu_page() necesita el valor
+	 * al registrar el menú y leer el archivo en cada carga del admin sería una lectura
+	 * de disco por página para 300 bytes.
 	 */
-	const ICON_PATH = 'M7.5 2.5h9a5 5 0 0 1 5 5v9a5 5 0 0 1-5 5h-9a5 5 0 0 1-5-5v-9a5 5 0 0 1 5-5zM6.8 6.6h10.4v3.3h-3.6v8.7h-3.2V9.9H6.8z';
+	const ICON_VIEWBOX = '43 42 174 174';
+	const ICON_PATH_T  = 'M104 60 L154 42 V86.1 L97 134 H66 V92 H104 Z';
+	const ICON_PATH_C  = 'M161 92 H190 V134 H154 V160 C154 176 164 182 180 182 H194 V216 H168 C126 216 104 194 104 158 V139.9 Z';
+	const ICON_SIGNAL  = '#00BBDB';
 
 	/**
-	 * La marca como data-URI para add_menu_page().
+	 * La marca como data-URI para add_menu_page(): las dos partes en blanco.
 	 *
-	 * El color va clavado al gris del menú de WP (#a7aaad) porque un icono pasado por
-	 * data-URI se pinta como background-image y WP NO lo recolorea: ese hex es el
-	 * estado de reposo. El activo/hover lo resuelve menu_icon_style().
+	 * Es el estado de reposo Y el fallback: un icono pasado por data-URI se pinta como
+	 * background-image y WP no lo recolorea. En un navegador con máscaras CSS,
+	 * menu_icon_style() lo reemplaza por las dos máscaras (t blanca, C blanca que pasa a
+	 * Signal con el ratón encima o con la pantalla activa); sin máscaras, se queda este.
 	 *
 	 * @return string
 	 */
 	private static function menu_icon_data_uri() {
-		$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">'
-			. '<path fill-rule="evenodd" fill="#a7aaad" d="' . self::ICON_PATH . '"/>'
+		$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' . self::ICON_VIEWBOX . '">'
+			. '<path fill="#fff" d="' . self::ICON_PATH_C . '"/>'
+			. '<path fill="#fff" d="' . self::ICON_PATH_T . '"/>'
 			. '</svg>';
 		// base64 y no percent-encoding: es la convención de WP para iconos de menú y
 		// evita tener que acertar con el escapado de #, <, > y las comillas.
@@ -306,54 +318,63 @@ class Tunet_Core_Admin {
 	}
 
 	/**
-	 * Hace que el icono del menú siga el esquema de color del admin.
+	 * Una parte de la marca como máscara CSS (url data-URI, percent-encoded).
 	 *
-	 * Un icono de menú pasado como data-URI se pinta con background-image y WordPress
-	 * no lo recolorea: se queda gris cuando el ítem está activo o con el ratón encima,
-	 * mientras la etiqueta se pone blanca. Se ve descuidado, y es la razón por la que
-	 * tantos plugins tienen el icono apagado en su propia pantalla.
+	 * @param string $d Path de la parte.
+	 * @return string
+	 */
+	private static function menu_icon_mask( $d ) {
+		return "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='" . self::ICON_VIEWBOX . "'%3E%3Cpath fill='%23000' d='" . $d . "'/%3E%3C/svg%3E\")";
+	}
+
+	/**
+	 * Pinta el icono del menú en dos tonos.
 	 *
-	 * Solución: repintarlo con una máscara sobre `currentColor`, que sí hereda el
-	 * color del ítem (gris → blanco). Va detrás de un @supports y solo entonces se
-	 * oculta el background, de modo que un navegador sin máscaras conserva el icono
-	 * original en lugar de quedarse sin ninguno.
+	 * La t siempre blanca; la C blanca en reposo y Signal cuando el ítem tiene el ratón
+	 * encima, el foco, o es la pantalla activa (decisión del usuario, 2026-09-14). Un
+	 * icono por data-URI no puede hacer eso (WP no lo recolorea), así que cada parte
+	 * es un pseudo-elemento con su máscara y su background-color. Va detrás de un
+	 * @supports y solo entonces se oculta el background, de modo que un navegador sin
+	 * máscaras conserva el icono blanco de menu_icon_data_uri() en lugar de quedarse sin
+	 * ninguno.
 	 *
-	 * Se emite en admin_head y no en admin.css porque ese archivo solo se encola en
-	 * las pantallas del plugin, y el icono del menú sale en TODAS.
+	 * Sin margin vertical: WP ya centra los iconos del menú con padding 7px 0 sobre
+	 * 34px (7+20+7); un margen propio se sumaría y bajaría la marca respecto a los
+	 * dashicons vecinos (medido en la versión anterior).
 	 */
 	public function menu_icon_style() {
-		// La máscara usa el alfa, así que el color del path da igual: negro = opaco.
-		$mask = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' fill='%23000' d='"
-			. self::ICON_PATH . "'/%3E%3C/svg%3E\")";
-		$sel  = '#adminmenu #toplevel_page_' . self::MENU_SLUG . ' .wp-menu-image';
+		$mask_t = self::menu_icon_mask( self::ICON_PATH_T );
+		$mask_c = self::menu_icon_mask( self::ICON_PATH_C );
+		$item   = '#adminmenu #toplevel_page_' . self::MENU_SLUG;
+		$img    = $item . ' .wp-menu-image';
+		$lit    = $item . ':hover .wp-menu-image::after, ' . $item . '.current .wp-menu-image::after, ' . $item . '.wp-has-current-submenu .wp-menu-image::after, ' . $item . ' a:focus .wp-menu-image::after';
 		?>
 		<style id="tunet-core-menu-icon">
-			@supports ((-webkit-mask-image: <?php echo $mask; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>) or (mask-image: <?php echo $mask; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>)) {
-				<?php echo esc_html( $sel ); ?> { background-image: none !important; }
-				<?php echo esc_html( $sel ); ?>::before {
+			@supports ((-webkit-mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>) or (mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>)) {
+				<?php echo esc_html( $img ); ?> { position: relative; background-image: none !important; }
+				<?php echo esc_html( $img ); ?>::before,
+				<?php echo esc_html( $img ); ?>::after {
 					content: "";
-					display: block;
-					width: 20px;
-					height: 20px;
-					/*
-					 * SIN margin vertical: WP ya centra los iconos del menú con
-					 * `padding: 7px 0` sobre un contenedor de 34px (7+20+7=34, centro
-					 * exacto), y esa regla también aplica aquí. Un margen propio SE SUMA
-					 * a ese padding y baja la marca respecto a todos los dashicons
-					 * vecinos — medido: con `margin-top:6px` el centro salía a 23px
-					 * cuando el de los demás está a 17px. Solo `auto` horizontal.
-					 */
-					margin: 0 auto;
-					background-color: currentColor;
-					-webkit-mask-image: <?php echo $mask; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
-					mask-image: <?php echo $mask; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
+					position: absolute;
+					inset: 0;
+					background-color: #fff;
 					-webkit-mask-repeat: no-repeat;
 					mask-repeat: no-repeat;
 					-webkit-mask-position: center;
 					mask-position: center;
 					-webkit-mask-size: 20px 20px;
 					mask-size: 20px 20px;
+					transition: background-color .15s ease;
 				}
+				<?php echo esc_html( $img ); ?>::before {
+					-webkit-mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
+					mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
+				}
+				<?php echo esc_html( $img ); ?>::after {
+					-webkit-mask-image: <?php echo $mask_c; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
+					mask-image: <?php echo $mask_c; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
+				}
+				<?php echo esc_html( $lit ); ?> { background-color: <?php echo esc_html( self::ICON_SIGNAL ); ?>; }
 			}
 		</style>
 		<?php

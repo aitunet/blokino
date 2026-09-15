@@ -1,28 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" role="img" aria-label="Tunet Core">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="43 42 174 174" width="24" height="24" role="img" aria-label="Tunet Core">
 	<!--
-		Marca de Tunet Core: el núcleo con la T en contraforma.
+		Marca de Tunet Core: "tC · corte" (elegida 2026-09-14).
 
-		Dice las dos cosas del nombre a la vez — la T de Tunet y el núcleo de "Core",
-		que es lo que el plugin es: el motor compartido por todos los themes.
+		La t del logo cortada por una diagonal paralela al bisel del asta. La parte de
+		arriba a la izquierda (asta, brazo izquierdo, medio cruce) es la t; la de abajo a
+		la derecha (brazo derecho, medio cruce, palo, gancho) es la C que la letra ya
+		contenía. El hueco entre las dos es VACÍO (desplazamiento ±4,5 de la diagonal y
+		recorte de cada forma; sin línea encima, sin trazos): se ve lo que hay detrás.
 
-		POR QUÉ MACIZA, saliéndose del estilo de trazo de los 78 iconos de
-		blocks/icon/icons.php: esos son iconos de CONTENIDO para el front y deben
-		heredar peso del texto que los rodea. Esto es una MARCA, y hace otro trabajo.
-		Ser macizo es justo lo que la hace leer como logo y no como un glifo más de
-		interfaz. Se probaron las alternativas de trazo (T con nodo en la unión, T
-		dentro de un círculo, punto con órbita, T pelada) renderizadas a 20px, que es
-		el tamaño del menú del admin: a ese tamaño el trazo fino pierde —la T con nodo
-		parece un alfiler, y WordPress ya usa un alfiler para Entradas— mientras la
-		masa sólida con la contraforma aguanta. Decidido mirándolo, no calculándolo.
-
-		El radio (5 sobre 24) conversa con el lenguaje --tnt-radius-* de los themes.
-
-		COLOR: currentColor a propósito, NO el cian de marca (#00bbdc). Medido contra
-		los 9 esquemas de color del admin: el cian falla el 3.0 de WCAG 1.4.11 sobre
-		el ítem activo en los NUEVE (WordPress lo pinta con su propio azul: 2.25 en el
-		esquema por defecto) y falla también sobre el fondo del menú en 4 de 9 (Light
-		1.82, Blue 1.12, Ocean 1.51, Sunrise 1.95). El cian va donde controlamos el
-		fondo: pantallas del plugin, docs, portada de la guía, icono de wp.org.
+		Espacio de la letra (bbox 66–194 × 42–216). En wp-admin el motor pinta las dos
+		partes con máscaras CSS: la t siempre blanca, la C blanca y Signal (#00BBDB) al
+		pasar el ratón o con la pantalla activa. Fuente única de la geometría:
+		wporg-assets/build-icon.mjs.
 	-->
-	<path fill-rule="evenodd" fill="currentColor" d="M7.5 2.5h9a5 5 0 0 1 5 5v9a5 5 0 0 1-5 5h-9a5 5 0 0 1-5-5v-9a5 5 0 0 1 5-5zM6.8 6.6h10.4v3.3h-3.6v8.7h-3.2V9.9H6.8z"/>
+	<path id="t" d="M104 60 L154 42 V86.1 L97 134 H66 V92 H104 Z" fill="currentColor"/>
+	<path id="c" d="M161 92 H190 V134 H154 V160 C154 176 164 182 180 182 H194 V216 H168 C126 216 104 194 104 158 V139.9 Z" fill="currentColor"/>
 </svg>

@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.44
+Stable tag: 0.1.45
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,9 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+= 0.1.45 =
+* New brand mark in the admin menu: the Tunet t with the C it already contains cut out along a diagonal — white at rest, the C turns cyan on hover and on the active screen (CSS masks, with a static fallback).
+
 = 0.1.44 =
 * Demo importer: manifest pages accept `parent` (a slug or a path such as `docs/tunet-core`) to nest pages; the parent must exist or be declared earlier, and a child only needs a slug unique under its parent.
 
