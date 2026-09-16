@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.47
+Stable tag: 0.1.48
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ Tunet Core is the shared engine of the Tunet ecosystem. It adds motion and inter
 
 * **Effects on native blocks (tf* attributes).** A "Tunet Effects" panel is added to Group, Columns, Cover, Image, Heading, Paragraph and Buttons. Choose an entrance animation (fade-up, clip-reveal, mask-up, blur-in, scale-in, slide, text-stagger), a hover effect (lift, glow, tilt, magnetic, image-zoom, underline-grow), a scroll effect (parallax, sticky-pin, reveal, progress), blend modes and animated borders. A block with no effect attribute stays completely clean.
 * **Custom blocks where the core falls short.** Section (advanced backgrounds: video, gradient, mesh, overlay, shape dividers), Marquee (infinite band), Counter (animated number on scroll), Before/After (image comparator), Slider and Testimonials (Swiper-powered), Brand, Icon and Badge.
-* **A lightweight effects runtime.** Effects are detected per page and their assets are enqueued only when a block on the page uses them. Reveal uses the native IntersectionObserver; heavier libraries load on demand. `prefers-reduced-motion` is always respected.
+* **A lightweight effects runtime.** Effects are detected per page and their assets are enqueued only when a block on the page uses them. Reveal uses the native IntersectionObserver and scroll effects run on requestAnimationFrame — no third-party animation library. Swiper (MIT) is the only bundled library, loaded solely on pages with a slider. `prefers-reduced-motion` is always respected.
 * **An options panel + demo importer.** Global settings, JSON import/export, sidebar layout controls, and a per-theme demo importer with a progress bar and one-click rollback.
 * **A Themes screen.** The premium themes designed for this engine, listed from the tunetdesign.com catalog with live previews — open it when you want it; it never nags.
 * **A Get started screen.** Site status, the three steps to a finished site (theme → demo → effects) and the doors to the documentation.
@@ -57,11 +57,21 @@ Yes. The runtime honors `prefers-reduced-motion: reduce`, disabling motion while
 
 = Does the plugin send any data anywhere? =
 
-No. Nothing is tracked or sent. The only outbound request is made when you open *Tunet Core → Themes*: a GET to tunetdesign.com for the public theme catalog (name, price, images), cached for 12 hours and sent with a neutral user agent — no site URL, no user data. Nothing runs in the background.
+No. Nothing is tracked or sent, and nothing runs in the background. The plugin talks to exactly two external services, both listed below under *External services*: the tunetdesign.com theme catalog (only when you open *Tunet Core → Themes*) and Google Fonts (only if you pick a Google font in *Settings → Typography*).
 
 = Is it accessible and performant? =
 
-Effects load conditionally (only when a page uses them) and heavy libraries load on demand. The plugin follows WordPress standards for escaping, sanitization, nonces and internationalization.
+Effects load conditionally (only when a page uses them); the runtime is vanilla JavaScript and the only bundled library, Swiper, is enqueued on pages with a slider. The plugin follows WordPress standards for escaping, sanitization, nonces and internationalization.
+
+== External services ==
+
+Tunet Core works fully offline. It connects to a third-party service only in the two cases below, never in the background and never with personal data.
+
+**tunetdesign.com theme catalog** — When you open *Tunet Core → Themes* in wp-admin, the plugin sends one GET request to `https://tunetdesign.com/wp-json/tunet/v1/themes` to list the themes designed for this engine (name, tagline, price, preview image, demo link). The request carries no site URL, no user data and a neutral user agent; the response is cached for 12 hours. The screen is optional — if you never open it, the request is never made. Service by TUNET Design: terms https://tunetdesign.com/terms/ · privacy https://tunetdesign.com/privacy/
+
+**Google Fonts** — Only if you choose a Google font family in *Tunet Core → Settings → Typography*, the front end and the editor load that family's stylesheet from `https://fonts.googleapis.com` (and the font files from `fonts.gstatic.com`), like most themes and page builders do. Visitors' browsers request the files directly from Google; the plugin sends nothing itself. Leave the typography setting on your theme's fonts and no request to Google is made. Google Fonts terms https://developers.google.com/fonts/terms · privacy https://policies.google.com/privacy
+
+**Bundled library** — Swiper 11 (MIT, https://github.com/nolimits4web/swiper) is included as a minified file and enqueued only on pages that contain a slider; its readable source lives in that repository. The plugin's own JavaScript is shipped unminified. Full source: https://github.com/aitunet/tunet-core
 
 == Screenshots ==
 
@@ -72,6 +82,11 @@ Effects load conditionally (only when a page uses them) and heavy libraries load
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+= 0.1.48 =
+* Removed the bundled GSAP library (its licence is not GPL-compatible); the cinematic-zoom scroll effect is now a vanilla requestAnimationFrame scrub with the same range and easing. The runtime has no third-party animation dependency.
+* Demo importer rollback restores Easy Digital Downloads settings through EDD's own API.
+* readme: External services section (theme catalog, Google Fonts) and bundled-library notes for the WordPress.org review.
+
 = 0.1.47 =
 * Demo importer: a store manifest can send buyers to a page of its own after logging in (`login_redirect` accepts a page slug, e.g. an account dashboard) instead of EDD's Order History; existing settings are never overwritten.
 

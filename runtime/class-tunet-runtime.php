@@ -6,8 +6,9 @@
  *  - Nada se carga "por si acaso". El runtime se ENCOLA solo si la página
  *    contiene al menos un block con un efecto tf* activo.
  *  - El CSS de efectos es agnóstico: lee los tokens --tnt-* del theme activo.
- *  - GSAP queda PREPARADO (window.tunetCore.loadGSAP) pero NO se usa en FASE A:
- *    fade-up es solo IntersectionObserver + CSS.
+ *  - Sin librerías de animación de terceros: todo el runtime es vanilla
+ *    (IntersectionObserver + rAF + CSS). GSAP se retiró (licencia no GPL,
+ *    incompatible con wordpress.org); cinematic-zoom es un scrub propio.
  *
  * Patrón de carga (no bloquea el render):
  *  - <head>: SOLO un snippet inline mínimo (sin red) que añade la clase
@@ -53,7 +54,7 @@ class Tunet_Core_Runtime {
 	/** Efectos hover válidos (LOTE 2). */
 	const HOVERS = array( 'lift', 'glow', 'tilt', 'magnetic', 'underline-grow', 'image-zoom' );
 
-	/** Efectos en scroll válidos (LOTE 3). 'cinematic-zoom' = scrub GSAP bajo demanda. */
+	/** Efectos en scroll válidos (LOTE 3). 'cinematic-zoom' = scrub suavizado en rAF (vanilla). */
 	const SCROLLS = array( 'parallax', 'sticky-pin', 'reveal-on-scroll', 'progress', 'zoom', 'cinematic-zoom' );
 
 	/** Modos de mezcla válidos (LOTE 3). */
@@ -191,14 +192,6 @@ class Tunet_Core_Runtime {
 			array(),
 			self::asset_version( 'runtime/carousel.js' ),
 			array( 'in_footer' => true )
-		);
-
-		// Base URL del GSAP vendorizado (carga bajo demanda desde el runtime,
-		// nunca CDN). El runtime la lee solo si una sección pide cinematic-zoom.
-		wp_add_inline_script(
-			self::SCRIPT_HANDLE,
-			'window.tunetCore=window.tunetCore||{};window.tunetCore.gsapBase=' . wp_json_encode( TUNET_CORE_URL . 'runtime/vendor/gsap/' ) . ';',
-			'before'
 		);
 	}
 

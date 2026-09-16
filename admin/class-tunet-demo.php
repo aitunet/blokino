@@ -1270,17 +1270,24 @@ class Tunet_Core_Demo {
 			wp_delete_post( (int) $id, true );
 		}
 		if ( ! empty( $r['prev_edd'] ) && is_array( $r['prev_edd'] ) ) {
+			// Through EDD's own API so its per-request options cache stays in sync;
+			// plain option writes as a fallback when EDD is no longer active.
 			$settings = (array) get_option( 'edd_settings', array() );
 			foreach ( $r['prev_edd'] as $key => $value ) {
 				if ( null === $value ) {
+					if ( function_exists( 'edd_delete_option' ) ) {
+						edd_delete_option( $key );
+					}
 					unset( $settings[ $key ] );
 				} else {
+					if ( function_exists( 'edd_update_option' ) ) {
+						edd_update_option( $key, $value );
+					}
 					$settings[ $key ] = $value;
 				}
 			}
-			update_option( 'edd_settings', $settings );
-			if ( isset( $GLOBALS['edd_options'] ) ) {
-				$GLOBALS['edd_options'] = $settings; // EDD caches its settings in this global for the request.
+			if ( ! function_exists( 'edd_update_option' ) ) {
+				update_option( 'edd_settings', $settings );
 			}
 		}
 

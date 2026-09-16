@@ -16,7 +16,7 @@
     "@wordpress/scripts": "^30.0.0"
   },
   "comment": "PIEZA 2+: cada block propio y el bundle de extensiones tf* se compilarán de src/ a build/. block.json declarará viewScript/style por block para que should_load_separate_core_block_assets (ya activado en PHP) cargue solo lo presente en la página.",
-  "homepage": "https://tunetdesign.com/tunet-core",
+  "homepage": "https://tunetdesign.com/docs/tunet-core/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aitunet/tunet-core.git"

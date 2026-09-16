@@ -361,40 +361,78 @@
 	}
 
 	/* --------------------------------------------------------------------
-	 * CINEMATIC ZOOM (firma del theme) — scrub suavizado con GSAP cargado
-	 * BAJO DEMANDA. Solo se ejecuta si hay un elemento que lo pida y no hay
-	 * reduce-motion. La imagen escala con el scroll dentro de su marco
-	 * (recortado por overflow), dando la sensación cinemática tipo Stargaze.
-	 * Si GSAP no carga, la imagen queda estática (degradación con gracia).
+	 * CINEMATIC ZOOM (firma del theme) — scrub suavizado, vanilla.
+	 * La imagen escala de 1 a --tf-zoom-to (1.26 por defecto) mientras el
+	 * elemento recorre el viewport: empieza cuando su borde superior entra al
+	 * 85 % de la altura y termina cuando su borde inferior sale por arriba
+	 * (el mismo tramo que antes hacía GSAP ScrollTrigger). El valor objetivo
+	 * se persigue con un lerp por frame (≈ el "scrub: 1" de GSAP), así el
+	 * zoom flota tras el scroll en vez de clavarse en él. Solo se ejecuta si
+	 * hay un elemento que lo pida y no hay reduce-motion.
+	 *
+	 * DECISIÓN 2026-09-15: GSAP se retiró del motor. Su licencia (GreenSock
+	 * Standard License, no GPL) impide publicar el plugin en wordpress.org;
+	 * el único efecto que lo usaba era este, y cabe en 40 líneas.
 	 * ------------------------------------------------------------------ */
 	function initCinematicZoom() {
 		if ( reduceMotion ) {
 			return;
 		}
-		var nodes = document.querySelectorAll( '[data-tf-scroll="cinematic-zoom"]' );
+		var nodes = Array.prototype.slice.call( document.querySelectorAll( '[data-tf-scroll="cinematic-zoom"]' ) );
 		if ( ! nodes.length ) {
 			return;
 		}
-		window.tunetCore.loadGSAP().then( function ( gsap ) {
-			Array.prototype.forEach.call( nodes, function ( el ) {
-				var target = 'IMG' === el.tagName ? el : ( el.querySelector( 'img' ) || el );
-				var scaleTo = parseFloat( el.getAttribute( 'data-tf-zoom-to' ) ) || 1.26;
-				gsap.fromTo(
-					target,
-					{ scale: 1 },
-					{
-						scale: scaleTo,
-						ease: 'none',
-						scrollTrigger: {
-							trigger: el,
-							start: 'top 85%',
-							end: 'bottom top',
-							scrub: 1,
-						},
-					}
-				);
+		var items = nodes.map( function ( el ) {
+			var target = 'IMG' === el.tagName ? el : ( el.querySelector( 'img' ) || el );
+			target.style.willChange = 'transform';
+			return {
+				el: el,
+				target: target,
+				to: parseFloat( el.getAttribute( 'data-tf-zoom-to' ) ) || 1.26,
+				goal: 0,
+				current: -1, // fuerza el primer pintado
+			};
+		} );
+		var raf = 0;
+
+		function measure() {
+			var vh = window.innerHeight;
+			var start = vh * 0.85;
+			items.forEach( function ( it ) {
+				var rect = it.el.getBoundingClientRect();
+				var p = ( start - rect.top ) / ( start + rect.height );
+				it.goal = p < 0 ? 0 : ( p > 1 ? 1 : p );
 			} );
-		} ).catch( function () { /* sin GSAP → imagen estática */ } );
+			if ( ! raf ) {
+				raf = window.requestAnimationFrame( tick );
+			}
+		}
+
+		function tick() {
+			var busy = false;
+			items.forEach( function ( it ) {
+				var diff = it.goal - it.current;
+				if ( Math.abs( diff ) < 0.0005 ) {
+					if ( it.current !== it.goal ) {
+						it.current = it.goal;
+						paint( it );
+					}
+					return;
+				}
+				it.current = it.current < 0 ? it.goal : it.current + diff * 0.12;
+				paint( it );
+				busy = true;
+			} );
+			raf = busy ? window.requestAnimationFrame( tick ) : 0;
+		}
+
+		function paint( it ) {
+			it.target.style.transform = 'scale(' + ( 1 + ( it.to - 1 ) * it.current ).toFixed( 4 ) + ')';
+		}
+
+		window.addEventListener( 'scroll', measure, { passive: true } );
+		window.addEventListener( 'resize', measure, { passive: true } );
+		measure();
 	}
 
 	function onReady() {
@@ -402,61 +440,6 @@
 		initHover();
 		initScroll();
 		initCinematicZoom();
-	}
-
-	/* --------------------------------------------------------------------
-	 * Carga de GSAP BAJO DEMANDA — desde la copia vendorizada local del motor
-	 * (runtime/vendor/gsap), nunca CDN (§3). Se inyectan gsap + ScrollTrigger
-	 * como scripts clásicos (exponen globales), se registra el plugin y se
-	 * resuelve con la instancia. Idempotente: una sola carga por página.
-	 * La base la expone PHP en window.tunetCore.gsapBase.
-	 *
-	 * OJO: se define ANTES del arranque. Con strategy "defer" el script corre
-	 * con readyState !== "loading", así que onReady() se ejecuta de inmediato;
-	 * si loadGSAP se definiera después, initCinematicZoom no la encontraría.
-	 * ------------------------------------------------------------------ */
-	window.tunetCore.loadGSAP = function () {
-		if ( window.tunetCore._gsapPromise ) {
-			return window.tunetCore._gsapPromise;
-		}
-		var base = ( window.tunetCore && window.tunetCore.gsapBase ) || '';
-
-		window.tunetCore._gsapPromise = new Promise( function ( resolve, reject ) {
-			if ( ! base ) {
-				reject( new Error( 'Tunet Core: window.tunetCore.gsapBase no definido.' ) );
-				return;
-			}
-			if ( window.gsap && window.ScrollTrigger ) {
-				window.gsap.registerPlugin( window.ScrollTrigger );
-				resolve( window.gsap );
-				return;
-			}
-			injectScript( base + 'gsap.min.js' )
-				.then( function () { return injectScript( base + 'ScrollTrigger.min.js' ); } )
-				.then( function () {
-					if ( window.gsap && window.ScrollTrigger ) {
-						window.gsap.registerPlugin( window.ScrollTrigger );
-						resolve( window.gsap );
-					} else {
-						reject( new Error( 'Tunet Core: GSAP no disponible tras la carga.' ) );
-					}
-				} )
-				.catch( reject );
-		} );
-		window.tunetCore._gsapPromise.catch( function () {} );
-		return window.tunetCore._gsapPromise;
-	};
-
-	// Inyecta un <script> clásico y resuelve al cargar (async=false preserva orden).
-	function injectScript( src ) {
-		return new Promise( function ( res, rej ) {
-			var s = document.createElement( 'script' );
-			s.src = src;
-			s.async = false;
-			s.onload = function () { res(); };
-			s.onerror = function () { rej( new Error( 'Tunet Core: no se pudo cargar ' + src ) ); };
-			document.head.appendChild( s );
-		} );
 	}
 
 	/* Arranque (al final: todo lo que usa onReady ya está definido). */
