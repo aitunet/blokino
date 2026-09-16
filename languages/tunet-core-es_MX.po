@@ -10,11 +10,11 @@ msgstr ""
 "X-Generator: Claude Code\n"
 "X-Domain: tunet-core\n"
 
-#: admin/class-tunet-demo.php:1541
+#: admin/class-tunet-demo.php:1572
 msgid "%s does not ship a demo manifest. Activate a Tunet theme to unlock its designed demo."
 msgstr "%s no incluye un manifiesto de demo. Activa un theme de Tunet para desbloquear su demo diseñada."
 
-#: admin/class-tunet-demo.php:1561
+#: admin/class-tunet-demo.php:1592
 msgid "%s preview"
 msgstr "Vista previa de %s"
 
@@ -46,15 +46,15 @@ msgstr "0 = usa la duración del tema (--tnt-dur-base)."
 msgid "A CSS gradient over the image (for a directional scrim)."
 msgstr "Un degradado CSS sobre la imagen (para un velo direccional)."
 
-#: admin/class-tunet-demo.php:1593
+#: admin/class-tunet-demo.php:1624
 msgid "A demo is already imported. Re-importing replaces it; Undo removes it."
 msgstr "Ya hay una demo importada. Volver a importar la reemplaza; Deshacer la elimina."
 
-#: admin/class-tunet-admin.php:592 admin/class-tunet-admin.php:634
+#: admin/class-tunet-admin.php:613 admin/class-tunet-admin.php:655
 msgid "Accent"
 msgstr "Acento"
 
-#: admin/class-tunet-admin.php:593 admin/class-tunet-admin.php:635
+#: admin/class-tunet-admin.php:614 admin/class-tunet-admin.php:656
 msgid "Accent 2"
 msgstr "Acento 2"
 
@@ -66,15 +66,19 @@ msgstr "Palabras acentuadas (índices, p. ej. «2,5»)"
 msgid "Accessibility label"
 msgstr "Etiqueta de accesibilidad"
 
-#: admin/class-tunet-admin.php:472
+#: admin/class-tunet-admin.php:493 admin/class-tunet-themes.php:231
 msgid "Activate"
 msgstr "Activar"
 
-#: admin/class-tunet-admin.php:473 admin/class-tunet-themes.php:237
+#: admin/class-tunet-welcome.php:260
+msgid "Activate Tunet Starter"
+msgstr "Activar Tunet Starter"
+
+#: admin/class-tunet-admin.php:494 admin/class-tunet-themes.php:214 admin/class-tunet-themes.php:298
 msgid "Active"
 msgstr "Activo"
 
-#: admin/class-tunet-admin.php:611
+#: admin/class-tunet-admin.php:632
 msgid "Active: %s. While these are set, switching the style variation will not change them."
 msgstr "Activos: %s. Mientras estén definidos, cambiar de variación de estilo no los modificará."
 
@@ -94,7 +98,7 @@ msgstr "Añadir nuevo proyecto"
 msgid "Add item"
 msgstr "Añadir elemento"
 
-#: admin/class-tunet-welcome.php:274
+#: admin/class-tunet-welcome.php:282
 msgid "Add motion to any block"
 msgstr "Añade movimiento a cualquier bloque"
 
@@ -130,7 +134,7 @@ msgstr "Listado de %s"
 msgid "All Projects"
 msgstr "Todos los proyectos"
 
-#: admin/class-tunet-admin.php:477
+#: admin/class-tunet-admin.php:498
 msgid "All set — continue to the import."
 msgstr "Todo listo — continúa con la importación."
 
@@ -138,11 +142,11 @@ msgstr "Todo listo — continúa con la importación."
 msgid "Alternative"
 msgstr "Alternativo"
 
-#: admin/class-tunet-admin.php:559
+#: admin/class-tunet-admin.php:580
 msgid "Alternative logo (dark backgrounds)"
 msgstr "Logo alternativo (fondos oscuros)"
 
-#: admin/class-tunet-admin.php:466
+#: admin/class-tunet-admin.php:487
 msgid "An error occurred."
 msgstr "Ocurrió un error."
 
@@ -154,7 +158,7 @@ msgstr "Animar el degradado"
 msgid "Animated border"
 msgstr "Borde animado"
 
-#: admin/class-tunet-welcome.php:278
+#: admin/class-tunet-welcome.php:286
 msgid "Animation"
 msgstr "Animación"
 
@@ -166,7 +170,7 @@ msgstr "Cualquier theme funciona: los efectos usan los valores por defecto del m
 msgid "Any theme works. A theme made for this engine also brings its own design tokens, block patterns and a one-click demo."
 msgstr "Cualquier theme funciona. Un theme hecho para este motor trae además sus tokens de diseño, patrones de bloques y un demo de un clic."
 
-#: admin/class-tunet-admin.php:537
+#: admin/class-tunet-admin.php:558
 msgid "Appearance & styles"
 msgstr "Apariencia y estilos"
 
@@ -190,11 +194,11 @@ msgstr "La opción automática muestra el logo alternativo en las paletas y vari
 msgid "Autoplay"
 msgstr "Reproducción automática"
 
-#: admin/class-tunet-demo.php:1599
+#: admin/class-tunet-demo.php:1630
 msgid "Back"
 msgstr "Atrás"
 
-#: admin/class-tunet-admin.php:594 admin/class-tunet-admin.php:636 blocks/section/edit.js:209
+#: admin/class-tunet-admin.php:615 admin/class-tunet-admin.php:657 blocks/section/edit.js:209
 msgid "Background"
 msgstr "Fondo"
 
@@ -218,7 +222,7 @@ msgstr "El vídeo de fondo se reproduce siempre sin sonido y con un control de p
 msgid "Badge"
 msgstr "Distintivo"
 
-#: admin/class-tunet-admin.php:573
+#: admin/class-tunet-admin.php:594
 msgid "Base size"
 msgstr "Tamaño base"
 
@@ -230,11 +234,11 @@ msgstr "Etiqueta de «antes»"
 msgid "Blend mode"
 msgstr "Modo de fusión"
 
-#: admin/class-tunet-welcome.php:291
+#: admin/class-tunet-welcome.php:299
 msgid "Blocks the editor lacks"
 msgstr "Bloques que el editor no trae"
 
-#: admin/class-tunet-admin.php:673
+#: admin/class-tunet-admin.php:694
 msgid "Blog & archives"
 msgstr "Blog y archivos"
 
@@ -242,11 +246,11 @@ msgstr "Blog y archivos"
 msgid "Blur in"
 msgstr "Aparecer desenfocado"
 
-#: admin/class-tunet-admin.php:571
+#: admin/class-tunet-admin.php:592
 msgid "Body"
 msgstr "Cuerpo"
 
-#: admin/class-tunet-admin.php:658
+#: admin/class-tunet-admin.php:679
 msgid "Bold (slow)"
 msgstr "Intenso (lento)"
 
@@ -282,23 +286,23 @@ msgstr "Marca"
 msgid "Brand / Social"
 msgstr "Marca / Redes"
 
-#: admin/class-tunet-admin.php:553
+#: admin/class-tunet-admin.php:574
 msgid "Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic)."
 msgstr "Recursos de marca que se mantienen entre themes. El logo principal se sincroniza con el Logo del sitio nativo. Sube alta resolución (retina es automático)."
 
-#: admin/class-tunet-admin.php:577
+#: admin/class-tunet-admin.php:598
 msgid "Brand colors"
 msgstr "Colores de marca"
 
-#: admin/class-tunet-admin.php:607
+#: admin/class-tunet-admin.php:628
 msgid "Brand colors are overriding this theme."
 msgstr "Los colores de marca están anulando este theme."
 
-#: admin/class-tunet-admin.php:552
+#: admin/class-tunet-admin.php:573
 msgid "Brand logos"
 msgstr "Logos de marca"
 
-#: admin/class-tunet-admin.php:565
+#: admin/class-tunet-admin.php:586
 msgid "Branding"
 msgstr "Identidad de marca"
 
@@ -310,15 +314,15 @@ msgstr "Miga de pan"
 msgid "Breadcrumbs"
 msgstr "Migas de pan"
 
-#: admin/class-tunet-demo.php:1545
+#: admin/class-tunet-demo.php:1576
 msgid "Browse Tunet themes →"
 msgstr "Ver los themes de Tunet →"
 
-#: admin/class-tunet-themes.php:209
+#: admin/class-tunet-themes.php:270
 msgid "Browse the themes on tunetdesign.com ↗"
 msgstr "Ver los themes en tunetdesign.com ↗"
 
-#: admin/class-tunet-welcome.php:257
+#: admin/class-tunet-welcome.php:264
 msgid "Browse themes"
 msgstr "Ver themes"
 
@@ -330,7 +334,7 @@ msgstr "Llamada a la acción"
 msgid "Cadence between words. 0 = default cadence."
 msgstr "Cadencia entre palabras. 0 = cadencia por defecto."
 
-#: admin/class-tunet-demo.php:1582
+#: admin/class-tunet-demo.php:1613
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -362,7 +366,7 @@ msgstr "Cambiar la imagen «después»"
 msgid "Change before image"
 msgstr "Cambiar la imagen «antes»"
 
-#: admin/class-tunet-admin.php:859
+#: admin/class-tunet-admin.php:880
 msgid "Choose / change"
 msgstr "Elegir / cambiar"
 
@@ -386,7 +390,7 @@ msgstr "Elige las imágenes de antes y después para comparar."
 msgid "Choose video"
 msgstr "Elegir vídeo"
 
-#: admin/class-tunet-admin.php:623
+#: admin/class-tunet-admin.php:644
 msgid "Clear all brand colors"
 msgstr "Vaciar todos los colores de marca"
 
@@ -406,7 +410,7 @@ msgstr "Color"
 msgid "Columns"
 msgstr "Columnas"
 
-#: admin/class-tunet-admin.php:573
+#: admin/class-tunet-admin.php:594
 msgid "Compact"
 msgstr "Compacto"
 
@@ -434,7 +438,7 @@ msgstr "Carrusel de contenido"
 msgid "Content alignment (slide)"
 msgstr "Alineación del contenido (diapositiva)"
 
-#: admin/class-tunet-admin.php:664
+#: admin/class-tunet-admin.php:685
 msgid "Content layout"
 msgstr "Disposición del contenido"
 
@@ -442,15 +446,15 @@ msgstr "Disposición del contenido"
 msgid "Content width"
 msgstr "Ancho del contenido"
 
-#: admin/class-tunet-admin.php:475 admin/class-tunet-demo.php:1585
+#: admin/class-tunet-admin.php:496 admin/class-tunet-demo.php:1616
 msgid "Continue"
 msgstr "Continuar"
 
-#: admin/class-tunet-admin.php:645
+#: admin/class-tunet-admin.php:666
 msgid "Corner radius (px)"
 msgstr "Radio de las esquinas (px)"
 
-#: admin/class-tunet-demo.php:1406
+#: admin/class-tunet-demo.php:1437
 msgid "Could not reach the plugin directory."
 msgstr "No se pudo acceder al directorio de plugins."
 
@@ -462,7 +466,7 @@ msgstr "Contador"
 msgid "Cover (fill)"
 msgstr "Cubrir (rellenar)"
 
-#: admin/class-tunet-demo.php:1591
+#: admin/class-tunet-demo.php:1622
 msgid "Creates the demo as native, editable blocks — pages, content and settings. You can undo it with one click."
 msgstr "Crea la demo como bloques nativos y editables — páginas, contenido y ajustes. Puedes deshacerla con un solo clic."
 
@@ -510,19 +514,19 @@ msgstr "Por defecto, el color de tinta del tema."
 msgid "Delay (ms)"
 msgstr "Retardo (ms)"
 
-#: admin/class-tunet-demo.php:1446 admin/class-tunet-demo.php:1447 admin/class-tunet-welcome.php:222
+#: admin/class-tunet-demo.php:1477 admin/class-tunet-demo.php:1478 admin/class-tunet-welcome.php:222
 msgid "Demo"
 msgstr "Demo"
 
-#: admin/class-tunet-demo.php:1568
+#: admin/class-tunet-demo.php:1599
 msgid "Demo for %s"
 msgstr "Demo de %s"
 
-#: admin/class-tunet-admin.php:464 admin/class-tunet-welcome.php:265
+#: admin/class-tunet-admin.php:485 admin/class-tunet-welcome.php:273
 msgid "Demo imported."
 msgstr "Demo importada."
 
-#: admin/class-tunet-welcome.php:293
+#: admin/class-tunet-welcome.php:301
 msgid "Demo importer"
 msgstr "Importador de demo"
 
@@ -534,9 +538,13 @@ msgstr "Descripción"
 msgid "Description alignment"
 msgstr "Alineación de la descripción"
 
-#: admin/class-tunet-welcome.php:292
+#: admin/class-tunet-welcome.php:300
 msgid "Design tokens"
 msgstr "Tokens de diseño"
+
+#: admin/class-tunet-themes.php:235
+msgid "Details ↗"
+msgstr "Detalles ↗"
 
 #: blocks/section/edit.js:82
 msgid "Diagonal"
@@ -550,7 +558,7 @@ msgstr "Dirección"
 msgid "Dismiss"
 msgstr "Descartar"
 
-#: admin/class-tunet-admin.php:570
+#: admin/class-tunet-admin.php:591
 msgid "Display"
 msgstr "Display"
 
@@ -566,7 +574,7 @@ msgstr "Color del divisor"
 msgid "Divider height (px)"
 msgstr "Altura del divisor (px)"
 
-#: admin/class-tunet-welcome.php:300
+#: admin/class-tunet-welcome.php:308
 msgid "Documentation"
 msgstr "Documentación"
 
@@ -574,7 +582,7 @@ msgstr "Documentación"
 msgid "Dot"
 msgstr "Punto"
 
-#: admin/class-tunet-admin.php:718
+#: admin/class-tunet-admin.php:739
 msgid "Download the current settings as a JSON file."
 msgstr "Descarga los ajustes actuales como archivo JSON."
 
@@ -582,7 +590,7 @@ msgstr "Descarga los ajustes actuales como archivo JSON."
 msgid "Duration (ms)"
 msgstr "Duración (ms)"
 
-#: admin/class-tunet-welcome.php:279
+#: admin/class-tunet-welcome.php:287
 msgid "Easing"
 msgstr "Curva"
 
@@ -602,15 +610,15 @@ msgstr "Editar proyecto"
 msgid "Effects"
 msgstr "Efectos"
 
-#: admin/class-tunet-welcome.php:290
+#: admin/class-tunet-welcome.php:298
 msgid "Effects on native blocks"
 msgstr "Efectos en bloques nativos"
 
-#: admin/class-tunet-admin.php:579
+#: admin/class-tunet-admin.php:600
 msgid "Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation."
 msgstr "Vacío = decide el theme. Un valor aquí anula el token del theme en todo el sitio, en todas las variaciones de estilo."
 
-#: admin/class-tunet-admin.php:648
+#: admin/class-tunet-admin.php:669
 msgid "Empty = theme. Rounding for Tunet blocks/components that use the radius tokens. 0 = sharp."
 msgstr "Vacío = theme. Redondeo para los bloques/componentes de Tunet que usan los tokens de radio. 0 = recto."
 
@@ -618,7 +626,7 @@ msgstr "Vacío = theme. Redondeo para los bloques/componentes de Tunet que usan 
 msgid "Enable overlay"
 msgstr "Activar la superposición"
 
-#: admin/class-tunet-admin.php:683
+#: admin/class-tunet-admin.php:704
 msgid "Enable the effects engine (tf*) on the front-end"
 msgstr "Activar el motor de efectos (tf*) en el front-end"
 
@@ -634,15 +642,15 @@ msgstr "Valor final"
 msgid "Entrance animation"
 msgstr "Animación de entrada"
 
-#: admin/class-tunet-admin.php:717
+#: admin/class-tunet-admin.php:738
 msgid "Export"
 msgstr "Exportar"
 
-#: admin/class-tunet-admin.php:722
+#: admin/class-tunet-admin.php:743
 msgid "Export settings (.json)"
 msgstr "Exportar ajustes (.json)"
 
-#: admin/class-tunet-welcome.php:302
+#: admin/class-tunet-welcome.php:310
 msgid "FAQ"
 msgstr "Preguntas frecuentes"
 
@@ -658,27 +666,35 @@ msgstr "Relleno"
 msgid "Finishing…"
 msgstr "Finalizando…"
 
+#: admin/class-tunet-themes.php:218 admin/class-tunet-themes.php:224
+msgid "Free"
+msgstr "Gratis"
+
 #: blocks/section/edit.js:251
 msgid "Full"
 msgstr "Completo"
 
-#: admin/class-tunet-admin.php:669
+#: admin/class-tunet-admin.php:690
 msgid "Full width (no sidebar)"
 msgstr "Ancho completo (sin barra lateral)"
 
-#: admin/class-tunet-admin.php:680 blocks/icon/edit.js:20 blocks/marquee/edit.js:75
+#: admin/class-tunet-admin.php:701 blocks/icon/edit.js:20 blocks/marquee/edit.js:75
 msgid "General"
 msgstr "General"
 
-#: admin/class-tunet-admin.php:379 admin/class-tunet-admin.php:380 admin/class-tunet-welcome.php:157 admin/class-tunet-welcome.php:207
+#: admin/class-tunet-welcome.php:262
+msgid "Get Tunet Starter — free"
+msgstr "Conseguir Tunet Starter (gratis)"
+
+#: admin/class-tunet-admin.php:400 admin/class-tunet-admin.php:401 admin/class-tunet-welcome.php:157 admin/class-tunet-welcome.php:207
 msgid "Get started"
 msgstr "Primeros pasos"
 
-#: admin/class-tunet-themes.php:252
+#: admin/class-tunet-themes.php:313
 msgid "Get the theme ↗"
 msgstr "Conseguir el theme ↗"
 
-#: admin/class-tunet-welcome.php:301
+#: admin/class-tunet-welcome.php:309
 msgid "Getting started guide"
 msgstr "Guía de primeros pasos"
 
@@ -694,7 +710,7 @@ msgstr "Degradado"
 msgid "Grid"
 msgstr "Rejilla"
 
-#: admin/class-tunet-welcome.php:298
+#: admin/class-tunet-welcome.php:306
 msgid "Help"
 msgstr "Ayuda"
 
@@ -706,7 +722,7 @@ msgstr "Inicio"
 msgid "Home label"
 msgstr "Rótulo del inicio"
 
-#: admin/class-tunet-welcome.php:280
+#: admin/class-tunet-welcome.php:288
 msgid "Hover"
 msgstr "Hover"
 
@@ -718,7 +734,7 @@ msgstr "Efecto al pasar el ratón"
 msgid "Icon"
 msgstr "Icono"
 
-#: admin/class-tunet-demo.php:1502 blocks/section/edit.js:147
+#: admin/class-tunet-demo.php:1533 blocks/section/edit.js:147
 msgid "Image"
 msgid_plural "Images"
 msgstr[0] "Imagen"
@@ -732,23 +748,23 @@ msgstr "Zoom de imagen"
 msgid "Images"
 msgstr "Imágenes"
 
-#: admin/class-tunet-admin.php:728 admin/class-tunet-demo.php:1553
+#: admin/class-tunet-admin.php:749 admin/class-tunet-demo.php:1584
 msgid "Import"
 msgstr "Importar"
 
-#: admin/class-tunet-demo.php:1601
+#: admin/class-tunet-demo.php:1632
 msgid "Import demo"
 msgstr "Importar demo"
 
-#: admin/class-tunet-admin.php:734
+#: admin/class-tunet-admin.php:755
 msgid "Import settings"
 msgstr "Importar ajustes"
 
-#: admin/class-tunet-demo.php:1590 admin/class-tunet-themes.php:250 admin/class-tunet-welcome.php:262
+#: admin/class-tunet-demo.php:1621 admin/class-tunet-themes.php:311 admin/class-tunet-welcome.php:270
 msgid "Import the demo"
 msgstr "Importar la demo"
 
-#: admin/class-tunet-admin.php:465 admin/class-tunet-demo.php:1333
+#: admin/class-tunet-admin.php:486 admin/class-tunet-demo.php:1364
 msgid "Import undone."
 msgstr "Importación deshecha."
 
@@ -760,7 +776,7 @@ msgstr "Importado"
 msgid "Importing media…"
 msgstr "Importando archivos multimedia…"
 
-#: admin/class-tunet-admin.php:463
+#: admin/class-tunet-admin.php:484
 msgid "Importing…"
 msgstr "Importando…"
 
@@ -776,23 +792,27 @@ msgstr "Bucle infinito"
 msgid "Inherit"
 msgstr "Heredar"
 
-#: admin/class-tunet-admin.php:470 admin/class-tunet-demo.php:1584
+#: admin/class-tunet-admin.php:491 admin/class-tunet-demo.php:1615
 msgid "Install & activate"
 msgstr "Instalar y activar"
 
-#: admin/class-tunet-demo.php:1412
+#: admin/class-tunet-demo.php:1443
 msgid "Install failed — install it manually."
 msgstr "La instalación falló — instálalo manualmente."
 
-#: admin/class-tunet-admin.php:480
+#: admin/class-tunet-themes.php:233
+msgid "Install from WordPress.org"
+msgstr "Instalar desde WordPress.org"
+
+#: admin/class-tunet-admin.php:501
 msgid "Install manually"
 msgstr "Instalar manualmente"
 
-#: admin/class-tunet-themes.php:239
+#: admin/class-tunet-themes.php:216 admin/class-tunet-themes.php:300
 msgid "Installed"
 msgstr "Instalado"
 
-#: admin/class-tunet-admin.php:471
+#: admin/class-tunet-admin.php:492
 msgid "Installing…"
 msgstr "Instalando…"
 
@@ -808,13 +828,13 @@ msgstr "Elemento"
 msgid "Items"
 msgstr "Elementos"
 
-#: admin/class-tunet-demo.php:1478
+#: admin/class-tunet-demo.php:1509
 msgid "Journal post"
 msgid_plural "Journal posts"
 msgstr[0] "Entrada del diario"
 msgstr[1] "Entradas del diario"
 
-#: admin/class-tunet-admin.php:573
+#: admin/class-tunet-admin.php:594
 msgid "Large"
 msgstr "Grande"
 
@@ -854,7 +874,7 @@ msgstr "URL del enlace"
 msgid "Link to Home"
 msgstr "Enlazar al inicio"
 
-#: admin/class-tunet-themes.php:255
+#: admin/class-tunet-themes.php:316
 msgid "Live preview ↗"
 msgstr "Vista previa ↗"
 
@@ -862,7 +882,7 @@ msgstr "Vista previa ↗"
 msgid "Loads only on pages that use an effect"
 msgstr "Solo carga en las páginas que usan un efecto"
 
-#: admin/class-tunet-demo.php:1008
+#: admin/class-tunet-demo.php:1027
 msgid "Log in"
 msgstr "Iniciar sesión"
 
@@ -882,11 +902,11 @@ msgstr "Magnético"
 msgid "Main"
 msgstr "Principal"
 
-#: admin/class-tunet-admin.php:558
+#: admin/class-tunet-admin.php:579
 msgid "Main logo"
 msgstr "Logo principal"
 
-#: admin/class-tunet-welcome.php:265
+#: admin/class-tunet-welcome.php:273
 msgid "Manage"
 msgstr "Gestionar"
 
@@ -926,11 +946,11 @@ msgstr "Malla — color 3"
 msgid "Minimum height (vh)"
 msgstr "Altura mínima (vh)"
 
-#: admin/class-tunet-admin.php:572
+#: admin/class-tunet-admin.php:593
 msgid "Monospace"
 msgstr "Monoespaciada"
 
-#: admin/class-tunet-admin.php:654
+#: admin/class-tunet-admin.php:675
 msgid "Motion"
 msgstr "Movimiento"
 
@@ -938,7 +958,7 @@ msgstr "Movimiento"
 msgid "Motion for your blocks, on your terms."
 msgstr "Movimiento para tus bloques, a tu manera."
 
-#: admin/class-tunet-admin.php:658
+#: admin/class-tunet-admin.php:679
 msgid "Motion intensity"
 msgstr "Intensidad del movimiento"
 
@@ -982,11 +1002,11 @@ msgstr "No se encontraron %s"
 msgid "No demo for this theme"
 msgstr "Este theme no trae demo"
 
-#: admin/class-tunet-demo.php:1536
+#: admin/class-tunet-demo.php:1567
 msgid "No demo to import for the active theme."
 msgstr "No hay ninguna demo para importar en el theme activo."
 
-#: admin/class-tunet-admin.php:478
+#: admin/class-tunet-admin.php:499
 msgid "No extra plugins needed for this demo — continue to the import."
 msgstr "No se necesitan plugins adicionales para esta demo — continúa con la importación."
 
@@ -1002,7 +1022,7 @@ msgstr "No se encontraron proyectos"
 msgid "No repeat"
 msgstr "Sin repetición"
 
-#: admin/class-tunet-themes.php:218
+#: admin/class-tunet-themes.php:279
 msgid "No themes listed yet."
 msgstr "Aún no hay themes en la lista."
 
@@ -1022,7 +1042,7 @@ msgstr "No se encontró"
 msgid "Opacity (%)"
 msgstr "Opacidad (%)"
 
-#: admin/class-tunet-admin.php:541
+#: admin/class-tunet-admin.php:562
 msgid "Open Styles in the Site Editor"
 msgstr "Abrir Estilos en el editor del sitio"
 
@@ -1030,17 +1050,25 @@ msgstr "Abrir Estilos en el editor del sitio"
 msgid "Open in new tab"
 msgstr "Abrir en una pestaña nueva"
 
-#: admin/class-tunet-welcome.php:267
+#: admin/class-tunet-welcome.php:275
 msgid "Open the Demo importer"
 msgstr "Abrir el importador de demo"
 
-#: admin/class-tunet-welcome.php:282
+#: admin/class-tunet-themes.php:229
+msgid "Open the Site Editor"
+msgstr "Abrir el Editor del sitio"
+
+#: admin/class-tunet-welcome.php:290
 msgid "Open the editor"
 msgstr "Abrir el editor"
 
-#: admin/class-tunet-admin.php:476
+#: admin/class-tunet-admin.php:497
 msgid "Optional"
 msgstr "Opcional"
+
+#: admin/class-tunet-themes.php:226
+msgid "Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates — and every effect of this engine."
+msgstr "Nuestro theme de bloques gratis en WordPress.org: una portada diseñada desde que lo activas, tres estilos, plantillas de blog y de página, y todos los efectos de este motor."
 
 #: blocks/content-slider/edit.js:31 extensions/effects-editor.js:144
 msgid "Outline"
@@ -1070,13 +1098,13 @@ msgstr "Degradado de la superposición"
 msgid "Overlay type"
 msgstr "Tipo de superposición"
 
-#: admin/class-tunet-demo.php:1468
+#: admin/class-tunet-demo.php:1499
 msgid "Page"
 msgid_plural "Pages"
 msgstr[0] "Página"
 msgstr[1] "Páginas"
 
-#: admin/class-tunet-welcome.php:263
+#: admin/class-tunet-welcome.php:271
 msgid "Pages, patterns, images and settings, wired to your Media Library so you can edit or replace anything — with a one-click rollback."
 msgstr "Páginas, patrones, imágenes y ajustes, enlazados a tu Biblioteca de medios para que edites o reemplaces lo que quieras, con deshacer de un clic."
 
@@ -1104,7 +1132,7 @@ msgstr "Pausar el vídeo de fondo"
 msgid "Pause on hover"
 msgstr "Pausar al pasar el ratón"
 
-#: admin/class-tunet-admin.php:948 admin/class-tunet-admin.php:982 admin/class-tunet-admin.php:1004 admin/class-tunet-demo.php:1298 admin/class-tunet-demo.php:1330 admin/class-tunet-demo.php:1384 admin/class-tunet-themes.php:141 admin/class-tunet-welcome.php:169
+#: admin/class-tunet-admin.php:969 admin/class-tunet-admin.php:1003 admin/class-tunet-admin.php:1025 admin/class-tunet-demo.php:1329 admin/class-tunet-demo.php:1361 admin/class-tunet-demo.php:1415 admin/class-tunet-themes.php:144 admin/class-tunet-welcome.php:169
 msgid "Permission denied."
 msgstr "Permiso denegado."
 
@@ -1136,7 +1164,7 @@ msgstr "Reproducir automáticamente"
 msgid "Play background video"
 msgstr "Reproducir el vídeo de fondo"
 
-#: admin/class-tunet-demo.php:1552
+#: admin/class-tunet-demo.php:1583
 msgid "Plugins"
 msgstr "Plugins"
 
@@ -1152,19 +1180,19 @@ msgstr "Imagen de póster"
 msgid "Prefix"
 msgstr "Prefijo"
 
-#: admin/class-tunet-themes.php:200
-msgid "Premium themes designed for this engine: bespoke design tokens, block patterns and a one-click demo you import from this plugin. Tunet Core stays free and works with any theme."
-msgstr "Themes premium diseñados para este motor: tokens de diseño a medida, patrones de bloques y un demo que importas desde este plugin con un clic. Tunet Core sigue siendo gratis y funciona con cualquier theme."
+#: admin/class-tunet-themes.php:263
+msgid "Premium themes"
+msgstr "Themes premium"
 
 #: admin/class-tunet-demo.php:191
 msgid "Preparing…"
 msgstr "Preparando…"
 
-#: admin/class-tunet-admin.php:591 admin/class-tunet-admin.php:633
+#: admin/class-tunet-admin.php:612 admin/class-tunet-admin.php:654
 msgid "Primary"
 msgstr "Primario"
 
-#: admin/class-tunet-demo.php:1483
+#: admin/class-tunet-demo.php:1514
 msgid "Product"
 msgid_plural "Products"
 msgstr[0] "Producto"
@@ -1174,7 +1202,7 @@ msgstr[1] "Productos"
 msgid "Progress bar"
 msgstr "Barra de progreso"
 
-#: admin/class-tunet-demo.php:1473
+#: admin/class-tunet-demo.php:1504
 msgid "Project"
 msgid_plural "Projects"
 msgstr[0] "Proyecto"
@@ -1200,11 +1228,11 @@ msgstr "Valoración (0–5)"
 msgid "Ready to import"
 msgstr "Listo para importar"
 
-#: admin/class-tunet-admin.php:469 admin/class-tunet-demo.php:1577
+#: admin/class-tunet-admin.php:490 admin/class-tunet-demo.php:1608
 msgid "Recommended plugins"
 msgstr "Plugins recomendados"
 
-#: admin/class-tunet-themes.php:268
+#: admin/class-tunet-themes.php:329
 msgid "Refresh the list"
 msgstr "Actualizar la lista"
 
@@ -1216,7 +1244,7 @@ msgstr "Reforzar en pantallas pequeñas"
 msgid "Remove"
 msgstr "Quitar"
 
-#: admin/class-tunet-admin.php:860
+#: admin/class-tunet-admin.php:881
 msgid "Remove logo"
 msgstr "Quitar logo"
 
@@ -1244,15 +1272,15 @@ msgstr "Reemplazar el avatar"
 msgid "Replace image"
 msgstr "Reemplazar la imagen"
 
-#: admin/class-tunet-admin.php:474
+#: admin/class-tunet-admin.php:495
 msgid "Required"
 msgstr "Obligatorio"
 
-#: admin/class-tunet-admin.php:826
+#: admin/class-tunet-admin.php:847
 msgid "Reset to theme color"
 msgstr "Restablecer al color del theme"
 
-#: admin/class-tunet-admin.php:729
+#: admin/class-tunet-admin.php:750
 msgid "Restore settings from a previously exported JSON file."
 msgstr "Restaura los ajustes desde un archivo JSON exportado previamente."
 
@@ -1284,7 +1312,7 @@ msgstr "Cónico giratorio"
 msgid "Runtime active"
 msgstr "Runtime activo"
 
-#: admin/class-tunet-admin.php:688
+#: admin/class-tunet-admin.php:709
 msgid "Save settings"
 msgstr "Guardar ajustes"
 
@@ -1324,15 +1352,15 @@ msgstr "Buscar…"
 msgid "Seconds per turn"
 msgstr "Segundos por vuelta"
 
-#: admin/class-tunet-welcome.php:291
+#: admin/class-tunet-welcome.php:299
 msgid "Section, Slider, Marquee, Counter, Before/After, Testimonials, Brand, Icon, Badge."
 msgstr "Sección, Slider, Marquesina, Contador, Antes/Después, Testimonios, Marca, Icono, Insignia."
 
-#: admin/class-tunet-welcome.php:275
+#: admin/class-tunet-welcome.php:283
 msgid "Select a Group, Image, Heading, Paragraph, Cover or Buttons block and open the Tunet Effects panel in the sidebar: entrance animation, hover, scroll. Leave it empty and the block stays exactly as it is."
 msgstr "Selecciona un bloque Grupo, Imagen, Encabezado, Párrafo, Fondo o Botones y abre el panel Tunet Effects en la barra lateral: animación de entrada, hover, scroll. Si lo dejas vacío, el bloque queda exactamente igual."
 
-#: admin/class-tunet-admin.php:467
+#: admin/class-tunet-admin.php:488
 msgid "Select logo"
 msgstr "Seleccionar logo"
 
@@ -1360,19 +1388,19 @@ msgstr "Configurando la marca…"
 msgid "Setting up the store pages…"
 msgstr "Configurando las páginas de la tienda…"
 
-#: admin/class-tunet-admin.php:388 admin/class-tunet-admin.php:389 blocks/before-after/edit.js:77
+#: admin/class-tunet-admin.php:409 admin/class-tunet-admin.php:410 blocks/before-after/edit.js:77
 msgid "Settings"
 msgstr "Ajustes"
 
-#: admin/class-tunet-admin.php:881
+#: admin/class-tunet-admin.php:902
 msgid "Settings imported successfully."
 msgstr "Ajustes importados correctamente."
 
-#: admin/class-tunet-admin.php:879
+#: admin/class-tunet-admin.php:900
 msgid "Settings saved."
 msgstr "Ajustes guardados."
 
-#: admin/class-tunet-admin.php:641 blocks/marquee/edit.js:154
+#: admin/class-tunet-admin.php:662 blocks/marquee/edit.js:154
 msgid "Shape"
 msgstr "Forma"
 
@@ -1380,7 +1408,7 @@ msgstr "Forma"
 msgid "Shape dividers"
 msgstr "Divisores de forma"
 
-#: admin/class-tunet-admin.php:665
+#: admin/class-tunet-admin.php:686
 msgid "Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor."
 msgstr "Muestra una barra lateral —o usa el ancho completo— en las entradas del blog y los archivos. Las páginas no se ven afectadas aquí: usan plantillas por página (p. ej. Estrecha, Con barra lateral) que se eligen en el editor de páginas."
 
@@ -1388,7 +1416,7 @@ msgstr "Muestra una barra lateral —o usa el ancho completo— en las entradas 
 msgid "Show current page"
 msgstr "Mostrar la página actual"
 
-#: admin/class-tunet-admin.php:672
+#: admin/class-tunet-admin.php:693
 msgid "Single posts"
 msgstr "Entradas individuales"
 
@@ -1444,7 +1472,7 @@ msgstr "Color del velo en pantallas pequeñas"
 msgid "Solid (default)"
 msgstr "Sólido (por defecto)"
 
-#: admin/class-tunet-welcome.php:304
+#: admin/class-tunet-welcome.php:312
 msgid "Source on GitHub"
 msgstr "Código en GitHub"
 
@@ -1460,7 +1488,7 @@ msgstr "Espaciado (rem)"
 msgid "Speed (s per loop)"
 msgstr "Velocidad (s por vuelta)"
 
-#: admin/class-tunet-admin.php:655
+#: admin/class-tunet-admin.php:676
 msgid "Speed of all Tunet effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic."
 msgstr "Velocidad de todos los efectos de Tunet (entrada, hover, scroll). Sutil = más rápido y ajustado; Intenso = más lento y dramático."
 
@@ -1476,6 +1504,10 @@ msgstr "Escalona la entrada de los hijos directos. 0 = sin escalonado."
 msgid "Start color (empty = theme accent)"
 msgstr "Color inicial (vacío = acento del tema)"
 
+#: admin/class-tunet-welcome.php:257
+msgid "Start free with Tunet Starter, our theme on WordPress.org — or pick a premium one."
+msgstr "Empieza gratis con Tunet Starter, nuestro theme en WordPress.org, o elige uno premium."
+
 #: blocks/before-after/edit.js:79
 msgid "Start position (%)"
 msgstr "Posición inicial (%)"
@@ -1488,7 +1520,7 @@ msgstr "Valor inicial"
 msgid "Sticky pin"
 msgstr "Fijar al desplazar"
 
-#: admin/class-tunet-demo.php:1489
+#: admin/class-tunet-demo.php:1520
 msgid "Store pages (EDD)"
 msgstr "Páginas de la tienda (EDD)"
 
@@ -1520,7 +1552,7 @@ msgstr "Alineación del subtítulo"
 msgid "Subtitle before title"
 msgstr "Subtítulo antes del título"
 
-#: admin/class-tunet-admin.php:658
+#: admin/class-tunet-admin.php:679
 msgid "Subtle (fast)"
 msgstr "Sutil (rápido)"
 
@@ -1528,11 +1560,11 @@ msgstr "Sutil (rápido)"
 msgid "Suffix"
 msgstr "Sufijo"
 
-#: admin/class-tunet-welcome.php:303
+#: admin/class-tunet-welcome.php:311
 msgid "Support"
 msgstr "Soporte"
 
-#: admin/class-tunet-admin.php:538
+#: admin/class-tunet-admin.php:559
 msgid "Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them."
 msgstr "Cambia el aspecto del theme activo —sus variaciones de estilo de color (p. ej. claro / oscuro)— en el editor del sitio. Las variaciones vienen con el theme; el editor es donde las previsualizas y aplicas."
 
@@ -1544,7 +1576,7 @@ msgstr "Testimonio"
 msgid "Testimonials"
 msgstr "Testimonios"
 
-#: admin/class-tunet-admin.php:595 admin/class-tunet-admin.php:637 blocks/content-slider/edit.js:32 blocks/content-slider/edit.js:82
+#: admin/class-tunet-admin.php:616 admin/class-tunet-admin.php:658 blocks/content-slider/edit.js:32 blocks/content-slider/edit.js:82
 msgid "Text"
 msgstr "Texto"
 
@@ -1560,19 +1592,19 @@ msgstr "Texto escalonado"
 msgid "The band only scrolls on the front end — here the items wrap so you can edit them. Visitors who ask for reduced motion see it still, with a play control."
 msgstr "La banda solo se desplaza en el front end; aquí los elementos se reparten en varias líneas para que puedas editarlos. Quien pide movimiento reducido la ve quieta, con un control de reproducción."
 
-#: admin/class-tunet-themes.php:207
+#: admin/class-tunet-themes.php:268
 msgid "The catalog could not be loaded."
 msgstr "No se pudo cargar el catálogo."
 
-#: admin/class-tunet-admin.php:883
+#: admin/class-tunet-admin.php:904
 msgid "The file is not a valid settings JSON."
 msgstr "El archivo no es un JSON de ajustes válido."
 
-#: admin/class-tunet-themes.php:90 admin/class-tunet-themes.php:104
+#: admin/class-tunet-themes.php:93 admin/class-tunet-themes.php:107
 msgid "The theme catalog is not available right now."
 msgstr "El catálogo de themes no está disponible ahora mismo."
 
-#: admin/class-tunet-admin.php:529
+#: admin/class-tunet-admin.php:550
 msgid "The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens)."
 msgstr "El theme proporciona los valores por defecto. Lo que dejes vacío usa el theme; lo que definas lo sobrescribe globalmente (tokens --tnt-*)."
 
@@ -1580,7 +1612,7 @@ msgstr "El theme proporciona los valores por defecto. Lo que dejes vacío usa el
 msgid "Theme"
 msgstr "Theme"
 
-#: admin/class-tunet-admin.php:573 admin/class-tunet-admin.php:658 admin/class-tunet-admin.php:756
+#: admin/class-tunet-admin.php:594 admin/class-tunet-admin.php:679 admin/class-tunet-admin.php:777
 msgid "Theme default"
 msgstr "Valor del theme"
 
@@ -1588,23 +1620,27 @@ msgstr "Valor del theme"
 msgid "Theme default (expo)"
 msgstr "Por defecto del tema (expo)"
 
-#: admin/class-tunet-themes.php:47 admin/class-tunet-themes.php:48
+#: admin/class-tunet-themes.php:50 admin/class-tunet-themes.php:51
 msgid "Themes"
 msgstr "Themes"
 
-#: admin/class-tunet-themes.php:266
+#: admin/class-tunet-themes.php:327
 msgid "Themes are sold on %1$s and come as parent + child theme with a license key for updates and support. %2$s"
 msgstr "Los themes se venden en %1$s e incluyen theme padre + child y una clave de licencia para actualizaciones y soporte. %2$s"
 
-#: admin/class-tunet-admin.php:676
+#: admin/class-tunet-themes.php:256
+msgid "Themes designed for this engine — Tunet Starter is free on WordPress.org, the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. Tunet Core stays free and works with any theme."
+msgstr "Themes diseñados para este motor: Tunet Starter es gratis en WordPress.org; los premium traen tokens de diseño a medida, patrones de bloques y un demo que importas desde este plugin con un clic. Tunet Core sigue siendo gratis y funciona con cualquier theme."
+
+#: admin/class-tunet-admin.php:697
 msgid "Themes that ship a sidebar area react automatically. A theme without one simply stays full width."
 msgstr "Los temas que incluyen una barra lateral reaccionan automáticamente. Un tema sin ella simplemente se queda a ancho completo."
 
-#: admin/class-tunet-admin.php:625
+#: admin/class-tunet-admin.php:646
 msgid "Then press Save changes."
 msgstr "Después pulsa Guardar cambios."
 
-#: admin/class-tunet-demo.php:1578
+#: admin/class-tunet-demo.php:1609
 msgid "These add optional parts of the demo (forms, shop…). Pick any you want and install & activate them, or just continue without them."
 msgstr "Estos añaden partes opcionales de la demo (formularios, tienda…). Elige los que quieras e instálalos y actívalos, o simplemente continúa sin ellos."
 
@@ -1612,7 +1648,7 @@ msgstr "Estos añaden partes opcionales de la demo (formularios, tienda…). Eli
 msgid "These words fill to the brand accent instead of ink. 1-based."
 msgstr "Estas palabras se rellenan con el acento de la marca en vez de con la tinta. Se cuenta desde 1."
 
-#: admin/class-tunet-welcome.php:269
+#: admin/class-tunet-welcome.php:277
 msgid "This theme ships no demo. Build with the block patterns of your theme, or pick one made for this engine."
 msgstr "Este theme no incluye demo. Construye con los patrones de bloques de tu theme o elige uno hecho para este motor."
 
@@ -1636,7 +1672,7 @@ msgstr "Título"
 msgid "Title alignment"
 msgstr "Alineación del título"
 
-#: admin/class-tunet-admin.php:397 admin/class-tunet-admin.php:398
+#: admin/class-tunet-admin.php:418 admin/class-tunet-admin.php:419
 msgid "Tools"
 msgstr "Herramientas"
 
@@ -1660,7 +1696,7 @@ msgstr "Arriba a la izquierda"
 msgid "Top right"
 msgstr "Arriba a la derecha"
 
-#: admin/class-tunet-themes.php:210
+#: admin/class-tunet-themes.php:271
 msgid "Try again"
 msgstr "Reintentar"
 
@@ -1668,11 +1704,11 @@ msgstr "Reintentar"
 msgid "Tunet Before / After"
 msgstr "Tunet Antes / Después"
 
-#: admin/class-tunet-admin.php:367 admin/class-tunet-admin.php:368 admin/class-tunet-admin.php:407 admin/class-tunet-admin.php:408 admin/class-tunet-admin.php:528 admin/class-tunet-welcome.php:211
+#: admin/class-tunet-admin.php:388 admin/class-tunet-admin.php:389 admin/class-tunet-admin.php:428 admin/class-tunet-admin.php:429 admin/class-tunet-admin.php:549 admin/class-tunet-welcome.php:211
 msgid "Tunet Core"
 msgstr "Tunet Core"
 
-#: tunet-core.php:338
+#: tunet-core.php:354
 msgid "Tunet Core activation"
 msgstr "Activación de Tunet Core"
 
@@ -1684,23 +1720,23 @@ msgstr "Tunet Core añade efectos de entrada, hover y scroll a los bloques que y
 msgid "Tunet Core is ready."
 msgstr "Tunet Core está listo."
 
-#: tunet-core.php:333
+#: tunet-core.php:349
 msgid "Tunet Core requires WordPress %1$s or newer and PHP %2$s or newer."
 msgstr "Tunet Core requiere WordPress %1$s o superior y PHP %2$s o superior."
 
-#: admin/class-tunet-demo.php:1530
+#: admin/class-tunet-demo.php:1561
 msgid "Tunet Core · Demo"
 msgstr "Tunet Core · Demo"
 
-#: admin/class-tunet-themes.php:198
+#: admin/class-tunet-themes.php:254
 msgid "Tunet Core · Themes"
 msgstr "Tunet Core · Themes"
 
-#: admin/class-tunet-admin.php:709
+#: admin/class-tunet-admin.php:730
 msgid "Tunet Core · Tools"
 msgstr "Tunet Core · Herramientas"
 
-#: admin/class-tunet-welcome.php:277 extensions/effects-editor.js:386
+#: admin/class-tunet-welcome.php:285 extensions/effects-editor.js:386
 msgid "Tunet Effects"
 msgstr "Efectos Tunet"
 
@@ -1708,7 +1744,7 @@ msgstr "Efectos Tunet"
 msgid "Types"
 msgstr "Tipos"
 
-#: admin/class-tunet-admin.php:567
+#: admin/class-tunet-admin.php:588
 msgid "Typography (Google Fonts)"
 msgstr "Tipografía (Google Fonts)"
 
@@ -1716,11 +1752,11 @@ msgstr "Tipografía (Google Fonts)"
 msgid "Underline grow"
 msgstr "Subrayado que crece"
 
-#: admin/class-tunet-demo.php:1602
+#: admin/class-tunet-demo.php:1633
 msgid "Undo import"
 msgstr "Deshacer importación"
 
-#: admin/class-tunet-demo.php:1390
+#: admin/class-tunet-demo.php:1421
 msgid "Unknown plugin."
 msgstr "Plugin desconocido."
 
@@ -1728,7 +1764,7 @@ msgstr "Plugin desconocido."
 msgid "Update %s"
 msgstr "Actualizar %s"
 
-#: admin/class-tunet-admin.php:468
+#: admin/class-tunet-admin.php:489
 msgid "Use this logo"
 msgstr "Usar este logo"
 
@@ -1752,15 +1788,15 @@ msgstr "Ver %s"
 msgid "View Project"
 msgstr "Ver proyecto"
 
-#: admin/class-tunet-themes.php:252
+#: admin/class-tunet-themes.php:313
 msgid "View on tunetdesign.com ↗"
 msgstr "Ver en tunetdesign.com ↗"
 
-#: admin/class-tunet-admin.php:479 admin/class-tunet-demo.php:1597
+#: admin/class-tunet-admin.php:500 admin/class-tunet-demo.php:1628
 msgid "View site"
 msgstr "Ver el sitio"
 
-#: admin/class-tunet-themes.php:219
+#: admin/class-tunet-themes.php:280
 msgid "Visit tunetdesign.com ↗"
 msgstr "Visitar tunetdesign.com ↗"
 
@@ -1772,15 +1808,15 @@ msgstr "Onda"
 msgid "Website"
 msgstr "Sitio web"
 
-#: admin/class-tunet-welcome.php:288
+#: admin/class-tunet-welcome.php:296
 msgid "What Tunet Core adds"
 msgstr "Qué añade Tunet Core"
 
-#: admin/class-tunet-welcome.php:310
+#: admin/class-tunet-welcome.php:318
 msgid "What’s new in %s"
 msgstr "Novedades de %s"
 
-#: admin/class-tunet-admin.php:685
+#: admin/class-tunet-admin.php:706
 msgid "When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging)."
 msgstr "Cuando está desactivado, el runtime no se carga y los bloques se muestran limpios (útil para depurar el rendimiento)."
 
@@ -1788,11 +1824,11 @@ msgstr "Cuando está desactivado, el runtime no se carga y los bloques se muestr
 msgid "Wide"
 msgstr "Ancho"
 
-#: admin/class-tunet-admin.php:670
+#: admin/class-tunet-admin.php:691
 msgid "With sidebar"
 msgstr "Con barra lateral"
 
-#: admin/class-tunet-admin.php:555
+#: admin/class-tunet-admin.php:576
 msgid "With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo."
 msgstr "Con el bloque Marca en Automático, el logo alternativo se usa en paletas oscuras y en variaciones de estilo oscuras, y el principal en el resto. Déjalo vacío para usar siempre el logo principal."
 
@@ -1804,7 +1840,7 @@ msgstr "Trabajo"
 msgid "Year"
 msgstr "Año"
 
-#: admin/class-tunet-admin.php:618
+#: admin/class-tunet-admin.php:639
 msgid "You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable."
 msgstr "Has puesto un fondo pero no un color de texto: en un theme cuyo color de texto cambia con la variación, esa pareja puede quedar ilegible."
 
@@ -2142,15 +2178,15 @@ msgstr "Tunet Testimonios"
 msgid "e.g. +, %, K, M"
 msgstr "p. ej. +, %, K, M"
 
-#: admin/class-tunet-welcome.php:290
+#: admin/class-tunet-welcome.php:298
 msgid "entrance, hover and scroll, per block, opt-in."
 msgstr "entrada, hover y scroll, por bloque, opcionales."
 
-#: admin/class-tunet-welcome.php:292
+#: admin/class-tunet-welcome.php:300
 msgid "every effect reads its colors and curves from the active theme; style variations recolor everything."
 msgstr "cada efecto lee sus colores y curvas del theme activo; las variaciones de estilo recolorean todo."
 
-#: admin/class-tunet-welcome.php:293
+#: admin/class-tunet-welcome.php:301
 msgid "per theme, with progress and rollback."
 msgstr "por theme, con progreso y deshacer."
 

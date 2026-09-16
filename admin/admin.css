@@ -304,6 +304,10 @@
 .tunet-theme-card__tagline { margin: 0; color: #50575e; font-size: 13px; line-height: 1.5; }
 .tunet-theme-card__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 .tunet-themes__foot { max-width: 72ch; margin-top: 18px; }
+/* The free theme (Tunet Starter) sits alone above the premium grid. */
+.tunet-themes__grid--free { margin-bottom: 28px; }
+.tunet-themes__h2 { margin: 0 0 14px; font-size: 16px; font-weight: 600; }
+.tunet-theme-card__price--free { color: #007a94; }
 
 /* ==========================================================================
  * Get started screen — the landing behind the Tunet Core menu entry

@@ -28,6 +28,9 @@ class Tunet_Core_Themes {
 	const ENDPOINT   = 'https://tunetdesign.com/wp-json/tunet/v1/themes';
 	const STORE_URL  = 'https://tunetdesign.com/downloads/';
 	const TTL        = 12 * HOUR_IN_SECONDS;
+	/** The free theme, published on WordPress.org — always listed first, no network needed. */
+	const FREE_THEME     = 'tunet-starter';
+	const FREE_THEME_URL = 'https://wordpress.org/themes/tunet-starter/';
 
 	/**
 	 * Hooks.
@@ -172,7 +175,7 @@ class Tunet_Core_Themes {
 	 * @param string $slug Theme directory slug.
 	 * @return string
 	 */
-	private static function local_state( $slug ) {
+	public static function local_state( $slug ) {
 		if ( '' === $slug ) {
 			return '';
 		}
@@ -181,6 +184,59 @@ class Tunet_Core_Themes {
 			return 'active';
 		}
 		return wp_get_theme( $slug )->exists() ? 'installed' : '';
+	}
+
+	/**
+	 * Where a click on "Install" goes: WordPress's own theme installer, opened
+	 * on the free theme (the directory serves the ZIP; nothing is downloaded by
+	 * this plugin).
+	 *
+	 * @return string
+	 */
+	public static function free_theme_install_url() {
+		return admin_url( 'theme-install.php?theme=' . self::FREE_THEME );
+	}
+
+	/**
+	 * The free theme's card — Tunet Starter from WordPress.org. Rendered from
+	 * plugin data (no request), so it shows even when the store catalog is down,
+	 * and a visitor who only installed the plugin learns there is a free theme
+	 * made for it.
+	 */
+	private static function render_free_card() {
+		$state = self::local_state( self::FREE_THEME );
+		$shot  = TUNET_CORE_URL . 'admin/img/tunet-starter.webp';
+		?>
+		<article class="tunet-theme-card tunet-theme-card--free<?php echo $state ? ' is-' . esc_attr( $state ) : ''; ?>">
+			<a class="tunet-theme-card__shot" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+				<img src="<?php echo esc_url( $shot ); ?>" alt="" loading="lazy" />
+				<?php if ( 'active' === $state ) : ?>
+					<span class="tunet-theme-card__badge tunet-theme-card__badge--active"><?php esc_html_e( 'Active', 'tunet-core' ); ?></span>
+				<?php elseif ( 'installed' === $state ) : ?>
+					<span class="tunet-theme-card__badge"><?php esc_html_e( 'Installed', 'tunet-core' ); ?></span>
+				<?php else : ?>
+					<span class="tunet-theme-card__badge"><?php esc_html_e( 'Free', 'tunet-core' ); ?></span>
+				<?php endif; ?>
+			</a>
+			<div class="tunet-theme-card__body">
+				<div class="tunet-theme-card__head">
+					<h2>Tunet Starter</h2>
+					<span class="tunet-theme-card__price tunet-theme-card__price--free"><?php esc_html_e( 'Free', 'tunet-core' ); ?></span>
+				</div>
+				<p class="tunet-theme-card__tagline"><?php esc_html_e( 'Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates — and every effect of this engine.', 'tunet-core' ); ?></p>
+				<div class="tunet-theme-card__actions">
+					<?php if ( 'active' === $state ) : ?>
+						<a class="button button-primary" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Open the Site Editor', 'tunet-core' ); ?></a>
+					<?php elseif ( 'installed' === $state ) : ?>
+						<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'themes.php?action=activate&stylesheet=' . self::FREE_THEME ), 'switch-theme_' . self::FREE_THEME ) ); ?>"><?php esc_html_e( 'Activate', 'tunet-core' ); ?></a>
+					<?php else : ?>
+						<a class="button button-primary" href="<?php echo esc_url( self::free_theme_install_url() ); ?>"><?php esc_html_e( 'Install from WordPress.org', 'tunet-core' ); ?></a>
+					<?php endif; ?>
+					<a class="button" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Details ↗', 'tunet-core' ); ?></a>
+				</div>
+			</div>
+		</article>
+		<?php
 	}
 
 	/**
@@ -197,9 +253,14 @@ class Tunet_Core_Themes {
 		<div class="wrap tunet-admin tunet-themes">
 			<h1><?php esc_html_e( 'Tunet Core · Themes', 'tunet-core' ); ?></h1>
 			<p class="description tunet-themes__lede">
-				<?php esc_html_e( 'Premium themes designed for this engine: bespoke design tokens, block patterns and a one-click demo you import from this plugin. Tunet Core stays free and works with any theme.', 'tunet-core' ); ?>
+				<?php esc_html_e( 'Themes designed for this engine — Tunet Starter is free on WordPress.org, the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. Tunet Core stays free and works with any theme.', 'tunet-core' ); ?>
 			</p>
 
+			<div class="tunet-themes__grid tunet-themes__grid--free">
+				<?php self::render_free_card(); ?>
+			</div>
+
+			<h2 class="tunet-themes__h2"><?php esc_html_e( 'Premium themes', 'tunet-core' ); ?></h2>
 			<?php if ( is_wp_error( $catalog ) ) : ?>
 				<div class="tunet-demo-empty">
 					<span class="dashicons dashicons-cloud" aria-hidden="true"></span>

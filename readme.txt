@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.49
+Stable tag: 0.1.50
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ Tunet Core is the shared engine of the Tunet ecosystem. It adds motion and inter
 * **Custom blocks where the core falls short.** Section (advanced backgrounds: video, gradient, mesh, overlay, shape dividers), Marquee (infinite band), Counter (animated number on scroll), Before/After (image comparator), Slider and Testimonials (Swiper-powered), Brand, Icon and Badge.
 * **A lightweight effects runtime.** Effects are detected per page and their assets are enqueued only when a block on the page uses them. Reveal uses the native IntersectionObserver and scroll effects run on requestAnimationFrame — no third-party animation library. Swiper (MIT) is the only bundled library, loaded solely on pages with a slider. `prefers-reduced-motion` is always respected.
 * **An options panel + demo importer.** Global settings, JSON import/export, sidebar layout controls, and a per-theme demo importer with a progress bar and one-click rollback.
-* **A Themes screen.** The premium themes designed for this engine, listed from the tunetdesign.com catalog with live previews — open it when you want it; it never nags.
+* **A free theme to start with.** Tunet Starter, our block theme on WordPress.org, is built for this engine: a designed home the moment you activate it, three looks, blog and page templates. The Themes screen links to it, and to the premium themes from the tunetdesign.com catalog — open it when you want it; it never nags.
 * **A Get started screen.** Site status, the three steps to a finished site (theme → demo → effects) and the doors to the documentation.
 
 **Design principles**
@@ -49,7 +49,7 @@ No. Every effect is opt-in per block. Installing and activating the plugin appli
 
 = Do I need a Tunet theme? =
 
-No. The engine ships default design-token values so effects and blocks look good under any theme. Tunet premium themes provide bespoke tokens and patterns, but the plugin is theme-agnostic.
+No. The engine ships default design-token values so effects and blocks look good under any theme — the plugin is theme-agnostic. If you want a theme made for it, Tunet Starter is free on WordPress.org (Appearance → Themes → Add New, search "Tunet Starter"), and the premium themes add bespoke tokens, patterns and a one-click demo.
 
 = Does it respect reduced-motion preferences? =
 
@@ -82,6 +82,9 @@ Tunet Core works fully offline. It connects to a third-party service only in the
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+= 0.1.50 =
+* Themes screen and Get started: Tunet Starter, the free theme on WordPress.org, is now listed first with a one-click install/activate link — no network request needed.
+
 = 0.1.49 =
 * Demo importer: a manifest page can ship as a draft (`'status' => 'draft'`), the same flag projects and posts already accept — for guides that are written but not published yet.
 

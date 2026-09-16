@@ -254,7 +254,15 @@ class Tunet_Core_Welcome {
 							?>
 						</p>
 					<?php elseif ( $themes_url ) : ?>
-						<p><a class="button button-primary" href="<?php echo esc_url( $themes_url ); ?>"><?php esc_html_e( 'Browse themes', 'tunet-core' ); ?></a></p>
+						<p><?php esc_html_e( 'Start free with Tunet Starter, our theme on WordPress.org — or pick a premium one.', 'tunet-core' ); ?></p>
+						<p>
+							<?php if ( class_exists( 'Tunet_Core_Themes' ) && 'installed' === Tunet_Core_Themes::local_state( Tunet_Core_Themes::FREE_THEME ) ) : ?>
+								<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'themes.php?action=activate&stylesheet=' . Tunet_Core_Themes::FREE_THEME ), 'switch-theme_' . Tunet_Core_Themes::FREE_THEME ) ); ?>"><?php esc_html_e( 'Activate Tunet Starter', 'tunet-core' ); ?></a>
+							<?php elseif ( class_exists( 'Tunet_Core_Themes' ) ) : ?>
+								<a class="button button-primary" href="<?php echo esc_url( Tunet_Core_Themes::free_theme_install_url() ); ?>"><?php esc_html_e( 'Get Tunet Starter — free', 'tunet-core' ); ?></a>
+							<?php endif; ?>
+							<a class="button" href="<?php echo esc_url( $themes_url ); ?>"><?php esc_html_e( 'Browse themes', 'tunet-core' ); ?></a>
+						</p>
 					<?php endif; ?>
 				</li>
 				<li class="tunet-welcome__step<?php echo 'imported' === $demo ? ' is-done' : ''; ?>">
