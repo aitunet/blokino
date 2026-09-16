@@ -903,7 +903,8 @@ class Tunet_Core_Demo {
 			$id = wp_insert_post(
 				array(
 					'post_type'    => 'page',
-					'post_status'  => 'publish',
+					// 'status' => 'draft' ships a page with the demo but keeps it unpublished.
+					'post_status'  => $this->post_status( $page ),
 					'post_title'   => wp_slash( $page['title'] ),
 					'post_name'    => wp_slash( $page['slug'] ),
 					'post_content' => wp_slash( $content ),

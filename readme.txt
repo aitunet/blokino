@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.48
+Stable tag: 0.1.49
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,9 @@ Tunet Core works fully offline. It connects to a third-party service only in the
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+= 0.1.49 =
+* Demo importer: a manifest page can ship as a draft (`'status' => 'draft'`), the same flag projects and posts already accept — for guides that are written but not published yet.
+
 = 0.1.48 =
 * Removed the bundled GSAP library (its licence is not GPL-compatible); the cinematic-zoom scroll effect is now a vanilla requestAnimationFrame scrub with the same range and easing. The runtime has no third-party animation dependency.
 * Demo importer rollback restores Easy Digital Downloads settings through EDD's own API.
