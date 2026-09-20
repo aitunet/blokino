@@ -3,7 +3,7 @@
  * Plugin Name:       Tunet Core
  * Plugin URI:        https://tunetdesign.com/docs/tunet-core/
  * Description:       Engine of the Tunet ecosystem. Provides the shared infrastructure (native block extensions with tf* effects, custom blocks, the effects runtime and an options panel). Presentation lives in each theme; this plugin never hardcodes styles. Not sold separately.
- * Version:           0.1.51
+ * Version:           0.1.52
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            TUNET Design
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * Constantes del plugin
  * ---------------------------------------------------------------------- */
-define( 'TUNET_CORE_VERSION', '0.1.51' );
+define( 'TUNET_CORE_VERSION', '0.1.52' );
 define( 'TUNET_CORE_FILE', __FILE__ );
 define( 'TUNET_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'TUNET_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -241,6 +241,43 @@ function tunet_core_render_shortcode_blocks( $content, $block ) {
 	return $content;
 }
 add_filter( 'render_block', 'tunet_core_render_shortcode_blocks', 10, 2 );
+
+/**
+ * Root-relative links follow a subdirectory install.
+ *
+ * Block themes ship their navigation, buttons and pattern links as
+ * home-relative paths (href="/contact/"): fine at the domain root, broken when
+ * the site lives in a folder (example.com/blog/ → /contact/ resolves against
+ * the domain root). Template parts and templates cannot run PHP to build the
+ * URL, so on such sites every rendered block gets its root-relative hrefs
+ * prefixed with the home path. Left alone: protocol-relative (//host), paths
+ * already under the home path, and /wp-* (wp-admin, wp-login, wp-json… hang
+ * off siteurl). Registered only when the home path is not "/", so a root
+ * install pays nothing.
+ *
+ * @param string $content Rendered block HTML.
+ * @return string
+ */
+function tunet_core_render_subdir_links( $content ) {
+	static $base = null, $re = '';
+	if ( null === $base ) {
+		$base = untrailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
+		$re   = '~href="/(?!/|wp-|' . preg_quote( ltrim( $base, '/' ), '~' ) . '(?:/|"|\?|#))~';
+	}
+	if ( '' === $base || false === strpos( (string) $content, 'href="/' ) ) {
+		return $content;
+	}
+	return (string) preg_replace( $re, 'href="' . $base . '/', (string) $content );
+}
+add_action(
+	'init',
+	function () {
+		$path = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+		if ( '' !== $path && '/' !== $path ) {
+			add_filter( 'render_block', 'tunet_core_render_subdir_links', 20 );
+		}
+	}
+);
 
 /**
  * Meta description de fallback en <head> cuando ningún plugin SEO la gestiona:

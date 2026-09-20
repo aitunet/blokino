@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.51
+Stable tag: 0.1.52
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,10 @@ Tunet Core works fully offline. It connects to a third-party service only in the
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+= 0.1.52 =
+* Subdirectory installs: root-relative links a block theme ships in its navigation, buttons and patterns (href="/contact/") now follow the site's home path at render time (example.com/blog/contact/), so menus and pages work when WordPress lives in a folder. Registered only when the home path is not "/".
+* Demo importer: links inside imported pages, projects and posts are stored as absolute URLs of the site (home_url), like links written in the editor.
+
 = 0.1.51 =
 * Demo importer: the media step now works in short chunks that fit a host's time limit (default 8 s per request, halved on each retry) and resumes where it stopped, so demos with many photos import on shared hosting instead of dying mid-way as an HTML error page. A dead request no longer leaves orphan attachments. The wizard validates every response, retries a cut request by itself and, if the host keeps failing, shows the HTTP status with a Retry button that resumes the step.
 

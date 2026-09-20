@@ -561,7 +561,27 @@ class Tunet_Core_Demo {
 	 * @return string
 	 */
 	public function expand_pattern( $slug ) {
-		return $this->wire_media( $this->expand_pattern_raw( $slug, array() ) );
+		return $this->absolutize_links( $this->wire_media( $this->expand_pattern_raw( $slug, array() ) ) );
+	}
+
+	/**
+	 * Point root-relative links at the site's home URL.
+	 *
+	 * Theme patterns link with home-relative paths (`href="/contact/"`,
+	 * `"url":"/work/"`): right for a site at the domain root, broken in a
+	 * subdirectory install (…/blog/ → the browser resolves /contact/ against the
+	 * domain root). Imported content therefore gets absolute URLs, like any link
+	 * written in the editor; a domain move is the usual search-replace. Skips
+	 * protocol-relative (//host) and /wp-* paths (those hang off siteurl, not
+	 * home). Template parts cannot run PHP, so on a subdirectory site the front
+	 * end is also covered at render time by tunet_core_render_subdir_links().
+	 *
+	 * @param string $content Block markup.
+	 * @return string
+	 */
+	public function absolutize_links( $content ) {
+		$home = untrailingslashit( home_url() );
+		return (string) preg_replace( '#(href="|"url":")/(?!/|wp-)#', '$1' . $home . '/', (string) $content );
 	}
 
 	/**
@@ -898,7 +918,7 @@ class Tunet_Core_Demo {
 					// Project content goes through wire_media() too: a gallery or a
 					// board inside a case study must point at the Media Library copies,
 					// exactly like a page pattern does (§4.4).
-					'post_content' => wp_slash( $this->wire_media( (string) ( $p['content'] ?? '' ) ) ),
+					'post_content' => wp_slash( $this->absolutize_links( $this->wire_media( (string) ( $p['content'] ?? '' ) ) ) ),
 				) + $this->post_date_args( $p ),
 				true
 			);
@@ -935,7 +955,7 @@ class Tunet_Core_Demo {
 					'post_status'  => $this->post_status( $p ),
 					'post_title'   => wp_slash( $p['title'] ),
 					'post_name'    => wp_slash( $p['slug'] ),
-					'post_content' => wp_slash( $this->wire_media( (string) ( $p['content'] ?? '' ) ) ),
+					'post_content' => wp_slash( $this->absolutize_links( $this->wire_media( (string) ( $p['content'] ?? '' ) ) ) ),
 				) + $this->post_date_args( $p ),
 				true
 			);
