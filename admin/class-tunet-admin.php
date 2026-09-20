@@ -91,6 +91,8 @@ class Tunet_Core_Admin {
 			'brand_accent_2'  => '',
 			'brand_bg'        => '',
 			'brand_text'      => '',
+			'brand_ink'       => '',
+			'brand_on_ink'    => '',
 			'radius'          => '',
 			'motion'          => '',
 			'logo_main_id'    => 0,
@@ -179,17 +181,31 @@ class Tunet_Core_Admin {
 			$d[] = '--tnt-text-base:' . $base[ $s['text_base'] ];
 		}
 
+		/*
+		 * Each brand color overrides its --tnt-color-* token at :root (after the
+		 * theme's tokens.css, so it wins over style variations). It is ALSO emitted
+		 * as --tnt-brand-<name>, set only while overridden: a theme that locks a
+		 * band's palette to fixed tokens (§13.1 — dark bands over photos keep their
+		 * own colors so a light variation never makes them unreadable) can let an
+		 * explicit brand choice through where it makes sense, e.g.
+		 * --tnt-color-ink-primary: var( --tnt-brand-primary, #CDB891 ).
+		 * "Dark bands" (ink / on-ink) are the two tokens every band lock resolves
+		 * to, so setting them recolors those bands directly.
+		 */
 		$colors = array(
-			'brand_primary'  => '--tnt-color-primary',
-			'brand_accent'   => '--tnt-color-accent',
-			'brand_accent_2' => '--tnt-color-accent-2',
-			'brand_bg'       => '--tnt-color-bg',
-			'brand_text'     => '--tnt-color-text',
+			'brand_primary'  => array( '--tnt-color-primary', '--tnt-brand-primary' ),
+			'brand_accent'   => array( '--tnt-color-accent', '--tnt-brand-accent' ),
+			'brand_accent_2' => array( '--tnt-color-accent-2', '--tnt-brand-accent-2' ),
+			'brand_bg'       => array( '--tnt-color-bg', '--tnt-brand-bg' ),
+			'brand_text'     => array( '--tnt-color-text', '--tnt-brand-text' ),
+			'brand_ink'      => array( '--tnt-color-ink', '--tnt-brand-ink' ),
+			'brand_on_ink'   => array( '--tnt-color-on-ink', '--tnt-brand-on-ink' ),
 		);
-		foreach ( $colors as $key => $var ) {
+		foreach ( $colors as $key => $vars ) {
 			$hex = isset( $s[ $key ] ) ? sanitize_hex_color( $s[ $key ] ) : '';
 			if ( $hex ) {
-				$d[] = $var . ':' . $hex;
+				$d[] = $vars[0] . ':' . $hex;
+				$d[] = $vars[1] . ':' . $hex;
 			}
 		}
 
@@ -533,6 +549,36 @@ class Tunet_Core_Admin {
 	}
 
 	/**
+	 * Fixed --tnt-color-<name> values from the active theme's tokens.css (the
+	 * tokens theme.json's palette does not carry, such as ink / on-ink), used as
+	 * placeholders. Child first, then parent; empty when the theme ships no
+	 * tokens.css or the token is not a literal hex.
+	 *
+	 * @param string[] $names Token names without the --tnt-color- prefix.
+	 * @return array<string,string> name => #hex.
+	 */
+	private function theme_tokens( $names ) {
+		$out = array();
+		$css = '';
+		foreach ( array( get_stylesheet_directory(), get_template_directory() ) as $dir ) {
+			$file = $dir . '/assets/css/tokens.css';
+			if ( file_exists( $file ) ) {
+				$css = (string) file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- theme file on disk.
+				break;
+			}
+		}
+		if ( '' === $css ) {
+			return $out;
+		}
+		foreach ( $names as $name ) {
+			if ( preg_match( '/--tnt-color-' . preg_quote( $name, '/' ) . '\s*:\s*(#[0-9a-fA-F]{3,8})\s*;/', $css, $m ) ) {
+				$out[ $name ] = sanitize_hex_color( $m[1] ) ? $m[1] : '';
+			}
+		}
+		return $out;
+	}
+
+	/**
 	 * Render the Settings page (sections: Logos → Branding → General).
 	 */
 	public function render_settings_page() {
@@ -619,6 +665,8 @@ class Tunet_Core_Admin {
 						'brand_accent_2' => __( 'Accent 2', 'tunet-core' ),
 						'brand_bg'       => __( 'Background', 'tunet-core' ),
 						'brand_text'     => __( 'Text', 'tunet-core' ),
+						'brand_ink'      => __( 'Dark bands', 'tunet-core' ),
+						'brand_on_ink'   => __( 'Text on dark bands', 'tunet-core' ),
 					);
 					$brand_active = array();
 					foreach ( $brand_keys as $bk => $blabel ) {
@@ -644,6 +692,11 @@ class Tunet_Core_Admin {
 									<?php esc_html_e( 'You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable.', 'tunet-core' ); ?>
 								</p>
 							<?php endif; ?>
+							<?php if ( ! empty( $s['brand_ink'] ) && empty( $s['brand_on_ink'] ) ) : ?>
+								<p>
+									<?php esc_html_e( 'You set the dark bands but not their text color: make sure the theme\'s text on dark bands still reads on your new background.', 'tunet-core' ); ?>
+								</p>
+							<?php endif; ?>
 							<p>
 								<button type="button" class="button" id="tunet-brand-clear-all">
 									<?php esc_html_e( 'Clear all brand colors', 'tunet-core' ); ?>
@@ -661,6 +714,16 @@ class Tunet_Core_Admin {
 						$this->row_color( __( 'Accent 2', 'tunet-core' ), 'brand_accent_2', $s['brand_accent_2'], $palette['accent-2'] ?? '' );
 						$this->row_color( __( 'Background', 'tunet-core' ), 'brand_bg', $s['brand_bg'], $palette['bg'] ?? '' );
 						$this->row_color( __( 'Text', 'tunet-core' ), 'brand_text', $s['brand_text'], $palette['text'] ?? '' );
+						?>
+					</table>
+					<p class="description">
+						<?php esc_html_e( 'Dark bands are the sections the theme draws over a photo or on its ink color (a hero, a closing call to action, the footer). They keep their own colors so they stay readable in every style variation — Background and Text above do not reach them. Set these two to recolor them as well.', 'tunet-core' ); ?>
+					</p>
+					<table class="form-table tunet-brand-colors" role="presentation">
+						<?php
+						$tokens = $this->theme_tokens( array( 'ink', 'on-ink' ) );
+						$this->row_color( __( 'Dark bands', 'tunet-core' ), 'brand_ink', $s['brand_ink'], $tokens['ink'] ?? '' );
+						$this->row_color( __( 'Text on dark bands', 'tunet-core' ), 'brand_on_ink', $s['brand_on_ink'], $tokens['on-ink'] ?? '' );
 						?>
 					</table>
 
@@ -957,6 +1020,8 @@ class Tunet_Core_Admin {
 			'brand_accent_2'  => $color( $src['brand_accent_2'] ?? '' ),
 			'brand_bg'        => $color( $src['brand_bg'] ?? '' ),
 			'brand_text'      => $color( $src['brand_text'] ?? '' ),
+			'brand_ink'       => $color( $src['brand_ink'] ?? '' ),
+			'brand_on_ink'    => $color( $src['brand_on_ink'] ?? '' ),
 			'radius'          => ( isset( $src['radius'] ) && '' !== $src['radius'] && is_numeric( $src['radius'] ) ) ? (string) max( 0, min( 64, (int) $src['radius'] ) ) : '',
 			'motion'          => $enum( $src['motion'] ?? '', array( 'subtle', 'bold' ) ),
 			'logo_main_id'    => isset( $src['logo_main_id'] ) ? absint( $src['logo_main_id'] ) : 0,

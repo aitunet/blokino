@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.52
+Stable tag: 0.1.53
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,10 @@ Tunet Core works fully offline. It connects to a third-party service only in the
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+= 0.1.53 =
+* Brand colors: two new fields, "Dark bands" and "Text on dark bands" (the --tnt-color-ink / --tnt-color-on-ink tokens), so the sections a theme draws over photos or on its ink color — which keep their own colors to stay readable in every style variation — can be recolored too.
+* Every brand color is also emitted as --tnt-brand-<name> while set, so a theme can let an explicit brand choice through a locked band where it makes sense (a hero's call-to-action following Primary).
+
 = 0.1.52 =
 * Subdirectory installs: root-relative links a block theme ships in its navigation, buttons and patterns (href="/contact/") now follow the site's home path at render time (example.com/blog/contact/), so menus and pages work when WordPress lives in a folder. Registered only when the home path is not "/".
 * Demo importer: links inside imported pages, projects and posts are stored as absolute URLs of the site (home_url), like links written in the editor.

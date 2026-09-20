@@ -78,9 +78,8 @@
 	var clearAll = document.getElementById( 'tunet-brand-clear-all' );
 	if ( clearAll ) {
 		clearAll.addEventListener( 'click', function () {
-			var table = document.querySelector( '.tunet-brand-colors' );
-			if ( ! table ) { return; }
-			Array.prototype.forEach.call( table.querySelectorAll( '.tunet-color-text' ), function ( t ) {
+			// Both brand tables: site colors and the dark-band pair.
+			Array.prototype.forEach.call( document.querySelectorAll( '.tunet-brand-colors .tunet-color-text' ), function ( t ) {
 				t.value = '';
 			} );
 			clearAll.disabled = true;
