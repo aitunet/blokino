@@ -499,6 +499,11 @@ class Tunet_Core_Admin {
 					'noPlugins'    => __( 'No extra plugins needed for this demo — continue to the import.', 'tunet-core' ),
 					'viewSite'     => __( 'View site', 'tunet-core' ),
 					'installManually' => __( 'Install manually', 'tunet-core' ),
+					/* translators: %s: what the server answered, e.g. "HTTP 504". */
+					'serverError'  => __( 'The server did not answer with JSON (%s). The request was probably cut short by a time limit.', 'tunet-core' ),
+					'retrying'     => __( 'Connection hiccup — retrying…', 'tunet-core' ),
+					'retryHint'    => __( 'Click Retry to resume from this step.', 'tunet-core' ),
+					'retry'        => __( 'Retry', 'tunet-core' ),
 				),
 			)
 		);

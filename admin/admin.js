@@ -101,12 +101,32 @@
 	function $( sel ) { return root.querySelector( sel ); }
 	function $all( sel, ctx ) { return Array.prototype.slice.call( ( ctx || root ).querySelectorAll( sel ) ); }
 
+	/**
+	 * POST to admin-ajax and resolve with the parsed JSON.
+	 *
+	 * Never `r.json()` blindly: a request the host kills (PHP time limit, proxy
+	 * timeout, WAF) comes back as an HTML error page, and parsing it threw
+	 * "Unexpected token '<'" with the wizard frozen and no message. Now a
+	 * non-JSON body rejects with an Error carrying the HTTP status and a snippet,
+	 * so the caller can show it and retry.
+	 */
 	function post( action, data ) {
 		var body = new URLSearchParams();
 		body.set( 'action', action );
 		body.set( 'nonce', cfg.nonce );
 		Object.keys( data || {} ).forEach( function ( k ) { body.set( k, data[ k ] ); } );
-		return fetch( cfg.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: body } ).then( function ( r ) { return r.json(); } );
+		return fetch( cfg.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: body } ).then( function ( r ) {
+			return r.text().then( function ( text ) {
+				try {
+					return JSON.parse( text );
+				} catch ( e ) {
+					var err = new Error( 'Non-JSON response' );
+					err.status  = r.status;
+					err.snippet = String( text ).replace( /<[^>]*>/g, ' ' ).replace( /\s+/g, ' ' ).trim().slice( 0, 120 );
+					throw err;
+				}
+			} );
+		} );
 	}
 
 	/* ---- Step navigation ---- */
@@ -179,6 +199,11 @@
 			if ( ! plugins.length && msgEl ) {
 				msgEl.textContent = i18n.noPlugins || 'No extra plugins needed for this demo — continue to the import.';
 			}
+		} ).catch( function ( err ) {
+			// Could not even list the plugins: say so, and let the import proceed.
+			if ( msgEl ) { msgEl.textContent = describe( err ); }
+			plugins = [];
+			syncUI();
 		} );
 	}
 
@@ -215,6 +240,10 @@
 					}
 				}
 				next();
+			} ).catch( function ( err ) {
+				// Installing/activating a plugin can also outlive a tight host limit.
+				if ( stateEl ) { stateEl.innerHTML = '<span class="tunet-err">' + describe( err ) + '</span>'; }
+				next();
 			} );
 		}
 		next();
@@ -230,21 +259,66 @@
 	function setStatus( t ) { if ( statusEl ) { statusEl.textContent = t || ''; } }
 	function setBar( pct ) { if ( progress ) { progress.hidden = false; } if ( bar ) { bar.style.width = pct + '%'; } }
 
+	// Step to resume from after a failure (null = start over). Every step is
+	// safe to re-run: media resumes from its cursor, content dedupes by slug.
+	var resumeStep = null;
+	var importLabel = importBtn ? importBtn.innerHTML : '';
+	var RETRIES = 3;
+
+	function describe( err ) {
+		var what = err && err.status ? ( 'HTTP ' + err.status ) : ( ( err && err.message ) || 'network' );
+		var msg  = ( i18n.serverError || 'The server did not answer with JSON (%s). The request was probably cut short by a time limit.' ).replace( '%s', what );
+		if ( err && err.snippet ) { msg += ' — “' + err.snippet + '”'; }
+		return msg;
+	}
+
+	function failImport( n, err ) {
+		resumeStep = n;
+		setStatus( describe( err ) + ' ' + ( i18n.retryHint || 'Click Retry to resume from this step.' ) );
+		if ( progress ) { progress.classList.add( 'is-error' ); }
+		importBtn.innerHTML = i18n.retry || 'Retry';
+		importBtn.disabled  = false;
+	}
+
 	function runImport() {
-		importBtn.disabled = true;
+		var from = resumeStep || 0;
+		resumeStep = null;
+		importBtn.disabled  = true;
+		importBtn.innerHTML = importLabel;
+		if ( progress ) { progress.classList.remove( 'is-error' ); }
 		if ( doneEl ) { doneEl.hidden = true; }
-		setStatus( i18n.importing ); setBar( 0 );
-		function step( n ) {
-			post( 'tunet_demo_step', { step: n } ).then( function ( res ) {
-				if ( ! res || ! res.success ) { setStatus( i18n.error ); importBtn.disabled = false; return; }
+		setStatus( i18n.importing );
+		if ( ! from ) { setBar( 0 ); }
+		// fails: consecutive dead requests on this step (reset on success).
+		// level: how much the server should shrink the step's per-request work —
+		// kept while the same step continues, so a host with a tight limit does
+		// not pay a kill + retry for every chunk.
+		function step( n, fails, level ) {
+			post( 'tunet_demo_step', { step: n, retry: level } ).then( function ( res ) {
+				if ( ! res || ! res.success ) {
+					setStatus( ( res && res.data && res.data.message ) || i18n.error );
+					importBtn.disabled = false;
+					return;
+				}
 				setBar( res.data.progress );
 				if ( res.data.label ) { setStatus( res.data.label ); }
-				if ( res.data.done ) { finishImport(); } else { step( res.data.next ); }
+				if ( res.data.done ) { finishImport(); return; }
+				step( res.data.next, 0, res.data.next === n ? level : 0 );
+			} ).catch( function ( err ) {
+				// The request died (non-JSON body or network). Retry the SAME step a
+				// few times with a pause — a resumable step picks up where it stopped.
+				if ( fails < RETRIES ) {
+					setStatus( ( i18n.retrying || 'Connection hiccup — retrying…' ) + ' (' + ( fails + 1 ) + '/' + RETRIES + ')' );
+					window.setTimeout( function () { step( n, fails + 1, Math.min( 3, level + 1 ) ); }, 1500 * ( fails + 1 ) );
+					return;
+				}
+				failImport( n, err );
 			} );
 		}
-		step( 0 );
+		step( from, 0, 0 );
 	}
 	function finishImport() {
+		resumeStep = null;
 		setStatus( i18n.done );
 		if ( undoBtn ) { undoBtn.disabled = false; }
 		if ( doneEl ) { doneEl.hidden = false; }
@@ -261,9 +335,13 @@
 		undoBtn.addEventListener( 'click', function () {
 			undoBtn.disabled = true; setStatus( i18n.importing );
 			post( 'tunet_demo_rollback', {} ).then( function () {
+				resumeStep = null;
 				setStatus( i18n.rollback ); setBar( 0 );
-				if ( importBtn ) { importBtn.disabled = false; }
+				if ( importBtn ) { importBtn.disabled = false; importBtn.innerHTML = importLabel; }
 				if ( doneEl ) { doneEl.hidden = true; }
+			} ).catch( function ( err ) {
+				setStatus( describe( err ) );
+				undoBtn.disabled = false;
 			} );
 		} );
 	}

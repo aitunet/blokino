@@ -88,6 +88,14 @@ class Tunet_Core_Demo {
 	}
 
 	/**
+	 * Failed attempts the wizard reports for the step being run (0–3). Steps
+	 * that work within a time budget shrink it accordingly (see step_media).
+	 *
+	 * @var int
+	 */
+	private $retry = 0;
+
+	/**
 	 * Wire hooks.
 	 */
 	public function __construct() {
@@ -139,6 +147,8 @@ class Tunet_Core_Demo {
 				'cf7'          => 0,
 				'images_map'   => array(),
 				'url_map'      => array(),
+				'media_by_rel' => array(), // step_media cursor: relpath => id as soon as the row exists.
+				'media_done'   => array(), // step_media cursor: relpath => true once its sizes were generated.
 			),
 			false // Import scratch data (incl. url_map) — never autoload it.
 		);
@@ -168,6 +178,20 @@ class Tunet_Core_Demo {
 	public function set_record( $key, $value ) {
 		$r         = self::get_record();
 		$r[ $key ] = $value;
+		update_option( self::RECORD, $r, false );
+	}
+
+	/**
+	 * Store several record keys in ONE option write (the media step persists its
+	 * cursor after every image; three writes per image add up on slow hosts).
+	 *
+	 * @param array $pairs key => value.
+	 */
+	public function set_records( array $pairs ) {
+		$r = self::get_record();
+		foreach ( $pairs as $key => $value ) {
+			$r[ $key ] = $value;
+		}
 		update_option( self::RECORD, $r, false );
 	}
 
@@ -224,10 +248,15 @@ class Tunet_Core_Demo {
 	/**
 	 * Copy a theme-relative file into the media library.
 	 *
-	 * @param string $relpath e.g. 'assets/img/work/fintech.webp'.
+	 * @param string        $relpath   e.g. 'assets/img/work/fintech.webp'.
+	 * @param callable|null $on_insert Called with the new attachment ID as soon as
+	 *                                 its row exists — BEFORE the thumbnails are
+	 *                                 generated, which is the slow part a host
+	 *                                 may kill. Lets the caller record the ID so a
+	 *                                 dead request leaves no orphan in the library.
 	 * @return int Attachment ID (0 on failure).
 	 */
-	public function sideload_image( $relpath ) {
+	public function sideload_image( $relpath, $on_insert = null ) {
 		$src = get_theme_file_path( $relpath );
 		if ( ! file_exists( $src ) ) {
 			return 0;
@@ -297,6 +326,9 @@ class Tunet_Core_Demo {
 		if ( is_wp_error( $att_id ) || ! $att_id ) {
 			return 0;
 		}
+		if ( is_callable( $on_insert ) ) {
+			call_user_func( $on_insert, (int) $att_id );
+		}
 		wp_update_attachment_metadata( $att_id, wp_generate_attachment_metadata( $att_id, $dest ) );
 		return (int) $att_id;
 	}
@@ -339,7 +371,21 @@ class Tunet_Core_Demo {
 	 * - `url_map` (theme-file URL → [id,url]): used by `wire_media()` to point the
 	 *   patterns' inline images at the imported attachments (editable by the buyer).
 	 *
+	 * CHUNKED AND RESUMABLE. Sideloading an image also generates every registered
+	 * size (6+ resizes each), so a demo with many photos runs for tens of seconds
+	 * in one request: TUNET's 68 images took 28 s on a fast dev box, i.e. well past
+	 * the 30 s PHP limit / 60 s proxy timeout of a cheap host. The killed request
+	 * came back as the host's HTML error page, the wizard tried to parse it as
+	 * JSON and hung. So this step works within a wall-clock budget per request
+	 * (`tunet_core_demo_media_budget`, seconds) and, when it runs out, returns
+	 * `continue` so `ajax_step()` asks the wizard to call it again. Progress lives
+	 * in the record (`media_by_rel`: relpath => attachment id, 0 = failed;
+	 * `media_done`: relpath => true once its sizes exist), which also makes a
+	 * retry after a dead request resume instead of re-importing.
 	 * Every file is imported once (dedup) and tracked so rollback removes it.
+	 *
+	 * @return array|null `array( 'continue' => true, 'done' => n, 'total' => N )`
+	 *                    while there is work left; null when the step is complete.
 	 */
 	public function step_media() {
 		$manifest_images = self::manifest()['images'] ?? array(); // key => relpath.
@@ -351,35 +397,98 @@ class Tunet_Core_Demo {
 				$relpaths[] = $rel;
 			}
 		}
+		$relpaths = array_values( array_unique( $relpaths ) );
+		$total    = count( $relpaths );
 
-		$by_rel  = array(); // relpath => id (import each file once).
-		$url_map = array(); // theme-file URL => [ id, url ].
+		/**
+		 * Seconds of image work per request before the step yields. Keep each
+		 * request comfortably under the strictest common limit (30 s), leaving
+		 * room for the image that is in flight when the budget runs out. When the
+		 * wizard is retrying this step after a dead request (`$this->retry`), the
+		 * host's real limit is evidently below the budget: halve it per failure
+		 * (8 → 4 → 2 → 1 s) so the retry fits instead of dying the same way.
+		 *
+		 * @param float $seconds Default 8, halved per retry.
+		 * @param int   $retry   Consecutive failed attempts on this step (0–3).
+		 */
+		$budget = (float) apply_filters( 'tunet_core_demo_media_budget', 8 / pow( 2, $this->retry ), $this->retry );
+		$start  = microtime( true );
+
+		$record   = self::get_record();
+		$by_rel   = ( isset( $record['media_by_rel'] ) && is_array( $record['media_by_rel'] ) ) ? $record['media_by_rel'] : array(); // relpath => id (0 = failed).
+		$finished = ( isset( $record['media_done'] ) && is_array( $record['media_done'] ) ) ? $record['media_done'] : array();     // relpath => true once its sizes were generated (or tried).
+		$url_map  = ( isset( $record['url_map'] ) && is_array( $record['url_map'] ) ) ? $record['url_map'] : array();               // theme-file URL => [ id, url ].
+
+		$done     = 0;
+		$this_run = 0;
 		foreach ( $relpaths as $rel ) {
-			if ( isset( $by_rel[ $rel ] ) ) {
+			$id = array_key_exists( $rel, $by_rel ) ? (int) $by_rel[ $rel ] : -1;
+
+			// Imported earlier and finished (or tried and failed) → nothing to do.
+			// A tracked attachment NOT marked finished is one whose request died
+			// while the thumbnails were being generated: complete it below, once.
+			if ( 0 === $id || isset( $finished[ $rel ] ) ) {
+				++$done;
 				continue;
 			}
-			$id = $this->sideload_image( $rel );
-			if ( ! $id ) {
+
+			// Always make progress (at least one image per request); yield once
+			// the budget is spent so the request never outgrows the host's limits.
+			if ( $this_run > 0 && ( microtime( true ) - $start ) >= $budget ) {
+				return array( 'continue' => true, 'done' => $done, 'total' => $total );
+			}
+			++$this_run;
+
+			if ( $id > 0 ) {
+				// Heal: the file is in place, only the sizes may be missing. Marked
+				// finished whatever the outcome, so a host that cannot resize this
+				// file does not make every resume retry it.
+				$file = get_attached_file( $id );
+				if ( $file && file_exists( $file ) ) {
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+					wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
+				}
+				$finished[ $rel ] = true;
+				$this->set_records( array( 'media_done' => $finished ) );
+				++$done;
 				continue;
 			}
-			$by_rel[ $rel ] = $id;
-			$this->track( 'attachments', $id );
-			$url_map[ get_theme_file_uri( $rel ) ] = array(
-				'id'  => $id,
-				'url' => wp_get_attachment_url( $id ),
+
+			// New image. Record it the moment its row exists (before the slow
+			// resizing) so a request killed mid-way leaves no orphan and the next
+			// request resumes from here instead of importing it twice.
+			$id = $this->sideload_image(
+				$rel,
+				function ( $att_id ) use ( $rel, &$by_rel, &$url_map ) {
+					$by_rel[ $rel ]                        = $att_id;
+					$url_map[ get_theme_file_uri( $rel ) ] = array(
+						'id'  => $att_id,
+						'url' => wp_get_attachment_url( $att_id ),
+					);
+					$this->track( 'attachments', $att_id );
+					$this->set_records( array( 'media_by_rel' => $by_rel, 'url_map' => $url_map ) );
+				}
 			);
+			++$done;
+			if ( ! $id ) {
+				// Unusable file (not an image, copy failed…): remember so it is not
+				// retried on every resume; the rest of the import tolerates gaps.
+				$by_rel[ $rel ] = 0;
+			}
+			$finished[ $rel ] = true;
+			$this->set_records( array( 'media_by_rel' => $by_rel, 'media_done' => $finished ) );
 		}
 
 		// key => id, for images referenced by key (featured images / products).
 		$images_map = array();
 		foreach ( $manifest_images as $key => $rel ) {
-			if ( isset( $by_rel[ $rel ] ) ) {
-				$images_map[ $key ] = $by_rel[ $rel ];
+			if ( ! empty( $by_rel[ $rel ] ) ) {
+				$images_map[ $key ] = (int) $by_rel[ $rel ];
 			}
 		}
 
-		$this->set_record( 'images_map', $images_map );
-		$this->set_record( 'url_map', $url_map );
+		$this->set_records( array( 'images_map' => $images_map, 'url_map' => $url_map ) );
+		return null;
 	}
 
 	/**
@@ -402,6 +511,12 @@ class Tunet_Core_Demo {
 		}
 		$cfg   = self::manifest()['cf7'] ?? array();
 		$title = $cfg['title'] ?? 'Contact';
+
+		// Already created by an earlier (retried) run of this step.
+		$existing = (int) ( self::get_record()['cf7'] ?? 0 );
+		if ( $existing && get_post( $existing ) ) {
+			return;
+		}
 
 		$form_markup = "<label>" . __( 'Your name', 'tunet-core' ) . "\n    [text* your-name]</label>\n\n"
 			. "<label>" . __( 'Your email', 'tunet-core' ) . "\n    [email* your-email]</label>\n\n"
@@ -751,9 +866,12 @@ class Tunet_Core_Demo {
 		if ( $main || $alt ) {
 			update_option( 'tunet_core_settings', $settings );
 		}
-		$record               = self::get_record();
-		$record['prev_brand'] = $prev;
-		update_option( self::RECORD, $record );
+		$record = self::get_record();
+		// A retried step must not overwrite the original values with the demo's.
+		if ( empty( $record['prev_brand'] ) ) {
+			$record['prev_brand'] = $prev;
+			update_option( self::RECORD, $record, false );
+		}
 	}
 
 	/**
@@ -1332,22 +1450,42 @@ class Tunet_Core_Demo {
 		$steps = $this->import_steps();
 		$total = count( $steps );
 		$step  = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 0;
+		// How many times this step's request already died (the wizard retries the
+		// same step); budgeted steps use it to shrink their work per request.
+		$this->retry = isset( $_POST['retry'] ) ? min( 3, absint( $_POST['retry'] ) ) : 0;
 
+		$result = null;
 		if ( $step < $total && is_callable( $steps[ $step ]['cb'] ) ) {
 			// Buffer (and discard) any stray output a step might trigger (plugin
 			// notices, sideload warnings…) so it can't corrupt the JSON response.
 			ob_start();
-			call_user_func( $steps[ $step ]['cb'] );
+			$result = call_user_func( $steps[ $step ]['cb'] );
 			ob_end_clean();
 		}
 
-		$next = $step + 1;
+		// A step may return array( 'continue' => true, 'done' => n, 'total' => N )
+		// when it stopped early to keep the request short (see step_media): the
+		// wizard then calls the SAME step again, with the bar advancing inside it.
+		$again = is_array( $result ) && ! empty( $result['continue'] );
+		$next  = $again ? $step : $step + 1;
+		$part  = 0;
+		$label = $next < $total ? $steps[ $next ]['label'] : '';
+		if ( $again ) {
+			$n = isset( $result['done'] ) ? (int) $result['done'] : 0;
+			$t = isset( $result['total'] ) ? (int) $result['total'] : 0;
+			if ( $t > 0 ) {
+				$part = min( 1, $n / $t );
+				/* translators: 1: step label, 2: items done, 3: items total. */
+				$label = sprintf( __( '%1$s %2$d/%3$d', 'tunet-core' ), $steps[ $step ]['label'], $n, $t );
+			}
+		}
+
 		wp_send_json_success(
 			array(
 				'done'     => ( $next >= $total ),
 				'next'     => $next,
-				'label'    => $next < $total ? $steps[ $next ]['label'] : '',
-				'progress' => (int) round( ( $next / $total ) * 100 ),
+				'label'    => $label,
+				'progress' => (int) round( ( ( $again ? $step + $part : $next ) / $total ) * 100 ),
 			)
 		);
 	}

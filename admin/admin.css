@@ -259,6 +259,9 @@
 .tunet-done { margin: 6px 0 0; }
 .tunet-step .tunet-progress { height: 8px; background: #e2e4e7; border-radius: 999px; overflow: hidden; margin: 4px 0 8px; }
 .tunet-step .tunet-progress__bar { height: 100%; width: 0; background: linear-gradient( 90deg, #2271b1, #72aee6 ); transition: width .25s ease; }
+/* A step's request died (host time limit, proxy, WAF): bar turns red, status explains, button reads Retry. */
+.tunet-progress.is-error .tunet-progress__bar { background: linear-gradient( 90deg, #b32d2e, #d63638 ); }
+.tunet-progress.is-error + .tunet-progress__status { color: #b32d2e; font-style: normal; }
 
 /* ==========================================================================
  * Themes screen — the premium themes for this engine, from the store catalog
