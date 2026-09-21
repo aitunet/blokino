@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Motor del ecosistema Tunet: extensiones tf*, blocks propios y runtime de efectos. Build con @wordpress/scripts y assets condicionales por block.",
-  "author": "TUNET Design <ai@tunetdesign.com>",
+  "author": "TUNET Design <info@tunetdesign.com>",
   "license": "GPL-2.0-or-later",
   "scripts": {
     "build": "wp-scripts build",
@@ -23,6 +23,6 @@
   },
   "bugs": {
     "url": "https://github.com/aitunet/tunet-core/issues",
-    "email": "ai@tunetdesign.com"
+    "email": "info@tunetdesign.com"
   }
 }

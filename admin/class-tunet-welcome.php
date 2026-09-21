@@ -23,7 +23,7 @@ class Tunet_Core_Welcome {
 	const CAPABILITY = 'manage_options';
 	const OPTION     = 'tunet_core_welcome_seen';
 	const DOCS_URL   = 'https://tunetdesign.com/docs/';
-	const SUPPORT    = 'ai@tunetdesign.com';
+	const SUPPORT    = 'info@tunetdesign.com';
 	const GITHUB     = 'https://github.com/aitunet/tunet-core';
 
 	/**

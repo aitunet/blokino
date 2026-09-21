@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.53
+Stable tag: 0.1.54
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Tunet Core is the shared engine of the Tunet ecosystem. It adds motion and inter
 
 **Who makes it**
 
-Developed and maintained by TUNET Design (https://tunetdesign.com). Source and issue tracker: https://github.com/aitunet. Support: ai@tunetdesign.com
+Developed and maintained by TUNET Design (https://tunetdesign.com). Source and issue tracker: https://github.com/aitunet. Support: info@tunetdesign.com
 
 == Installation ==
 
@@ -82,6 +82,9 @@ Tunet Core works fully offline. It connects to a third-party service only in the
 5. Themes can ship a demo. The importer creates it as native, editable blocks, copies every image into your Media Library, and undoes the whole thing with one click.
 
 == Changelog ==
+= 0.1.54 =
+* Support address on the Get started screen and in this readme is now info@tunetdesign.com.
+
 = 0.1.53 =
 * Brand colors: two new fields, "Dark bands" and "Text on dark bands" (the --tnt-color-ink / --tnt-color-on-ink tokens), so the sections a theme draws over photos or on its ink color — which keep their own colors to stay readable in every style variation — can be recolored too.
 * Every brand color is also emitted as --tnt-brand-<name> while set, so a theme can let an explicit brand choice through a locked band where it makes sense (a hero's call-to-action following Primary).
