@@ -1,18 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="43 42 174 174" width="24" height="24" role="img" aria-label="Blokino">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="56 56 144 144" width="24" height="24" role="img" aria-label="Blokino">
 	<!--
-		Marca de Blokino: "tC · corte" (elegida 2026-09-14).
+		Marca de Blokino: "Encaje volteado · 2 bloques" (elegida 2026-09-23).
 
-		La t del logo cortada por una diagonal paralela al bisel del asta. La parte de
-		arriba a la izquierda (asta, brazo izquierdo, medio cruce) es la t; la de abajo a
-		la derecha (brazo derecho, medio cruce, palo, gancho) es la C que la letra ya
-		contenía. El hueco entre las dos es VACÍO (desplazamiento ±4,5 de la diagonal y
-		recorte de cada forma; sin línea encima, sin trazos): se ve lo que hay detrás.
+		Un bloque cortado en tres piezas con huecos de 9: la b (asta + vientre cuadrado) y
+		los dos bloques que la encajan hasta formar el cuadrado (barra de arriba y columna
+		de la derecha). Esquinas salientes r6; la esquina interior de la b, recta.
 
-		Espacio de la letra (bbox 66–194 × 42–216). En wp-admin el motor pinta las dos
-		partes con máscaras CSS: la t siempre blanca, la C blanca y Signal (#00BBDB) al
-		pasar el ratón o con la pantalla activa. Fuente única de la geometría:
-		wporg-assets/build-icon.mjs.
+		En wp-admin el motor pinta las partes con máscaras CSS: la b siempre blanca, los
+		bloques blancos y Signal (#00BBDB) al pasar el ratón o con la pantalla activa.
+		Fuente única de la geometría: wporg-assets/build-icon.mjs.
 	-->
-	<path id="t" d="M104 60 L154 42 V86.1 L97 134 H66 V92 H104 Z" fill="currentColor"/>
-	<path id="c" d="M161 92 H190 V134 H154 V160 C154 176 164 182 180 182 H194 V216 H168 C126 216 104 194 104 158 V139.9 Z" fill="currentColor"/>
+	<path id="b" d="M66 60 H93 A6 6 0 0 1 99 66 V113 H137 A6 6 0 0 1 143 119 V190 A6 6 0 0 1 137 196 H66 A6 6 0 0 1 60 190 V66 A6 6 0 0 1 66 60 Z" fill="currentColor"/>
+	<path id="blocks" d="M114 60 H190 A6 6 0 0 1 196 66 V98 A6 6 0 0 1 190 104 H114 A6 6 0 0 1 108 98 V66 A6 6 0 0 1 114 60 Z M158 113 H190 A6 6 0 0 1 196 119 V190 A6 6 0 0 1 190 196 H158 A6 6 0 0 1 152 190 V119 A6 6 0 0 1 158 113 Z" fill="currentColor"/>
 </svg>

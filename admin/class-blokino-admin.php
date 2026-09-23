@@ -285,48 +285,47 @@ class Blokino_Admin {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_menu', array( $this, 'fire_menu_hook' ), 12 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-		add_action( 'admin_head', array( $this, 'menu_icon_style' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'menu_icon_style' ) );
 		add_action( 'admin_post_blokino_save_settings', array( $this, 'handle_save_settings' ) );
 		add_action( 'admin_post_blokino_export', array( $this, 'handle_export' ) );
 		add_action( 'admin_post_blokino_import', array( $this, 'handle_import' ) );
 	}
 
 	/**
-	 * La marca: "tC · corte" (elegida 2026-09-14).
+	 * La marca: "Encaje volteado · 2 bloques" (elegida 2026-09-23).
 	 *
-	 * La t del logo cortada por una diagonal paralela al bisel del asta: la parte de
-	 * arriba a la izquierda (asta, brazo izquierdo, medio cruce) es la t; la de abajo a
-	 * la derecha (brazo derecho, medio cruce, palo, gancho) es la C que la letra ya
-	 * contenía. El hueco entre las dos es VACÍO: la diagonal desplazada ±4,5 y cada
-	 * forma recortada por su desplazamiento (sin línea encima, sin trazos).
+	 * Un bloque cortado en tres piezas con huecos de 9: la b (asta + vientre cuadrado) y
+	 * los dos bloques que la encajan hasta formar el cuadrado (barra de arriba y columna
+	 * de la derecha). Esquinas salientes r6; la esquina interior de la b, recta.
 	 *
-	 * Dos paths en el espacio de la letra (bbox 66–194 × 42–216, viewBox cuadrado
-	 * "43 42 174 174"). Un solo sitio con la geometría para que el data-URI del menú y
-	 * las máscaras de menu_icon_style() no puedan divergir; la fuente documentada está
-	 * en admin/img/icon-blokino.svg y el generador de todos los assets en
-	 * wporg-assets/build-icon.mjs. Va en línea porque add_menu_page() necesita el valor
-	 * al registrar el menú y leer el archivo en cada carga del admin sería una lectura
-	 * de disco por página para 300 bytes.
+	 * Dos paths en un espacio de 256 (el bloque ocupa 60–196, viewBox "56 56 144 144"
+	 * con 4 de margen): la b y los dos bloques juntos. Un solo sitio con la geometría
+	 * para que el data-URI del menú y las máscaras de menu_icon_style() no puedan
+	 * divergir; la fuente documentada está en admin/img/icon-blokino.svg y el generador
+	 * de todos los assets en wporg-assets/build-icon.mjs. Va en línea porque
+	 * add_menu_page() necesita el valor al registrar el menú y leer el archivo en cada
+	 * carga del admin sería una lectura de disco por página para 400 bytes.
 	 */
-	const ICON_VIEWBOX = '43 42 174 174';
-	const ICON_PATH_T  = 'M104 60 L154 42 V86.1 L97 134 H66 V92 H104 Z';
-	const ICON_PATH_C  = 'M161 92 H190 V134 H154 V160 C154 176 164 182 180 182 H194 V216 H168 C126 216 104 194 104 158 V139.9 Z';
-	const ICON_SIGNAL  = '#00BBDB';
+	const ICON_VIEWBOX     = '56 56 144 144';
+	const ICON_PATH_B      = 'M66 60 H93 A6 6 0 0 1 99 66 V113 H137 A6 6 0 0 1 143 119 V190 A6 6 0 0 1 137 196 H66 A6 6 0 0 1 60 190 V66 A6 6 0 0 1 66 60 Z';
+	const ICON_PATH_BLOCKS = 'M114 60 H190 A6 6 0 0 1 196 66 V98 A6 6 0 0 1 190 104 H114 A6 6 0 0 1 108 98 V66 A6 6 0 0 1 114 60 Z M158 113 H190 A6 6 0 0 1 196 119 V190 A6 6 0 0 1 190 196 H158 A6 6 0 0 1 152 190 V119 A6 6 0 0 1 158 113 Z';
+	const ICON_SIGNAL      = '#00BBDB';
 
 	/**
-	 * La marca como data-URI para add_menu_page(): las dos partes en blanco.
+	 * La marca como data-URI para add_menu_page(): las piezas en blanco.
 	 *
 	 * Es el estado de reposo Y el fallback: un icono pasado por data-URI se pinta como
 	 * background-image y WP no lo recolorea. En un navegador con máscaras CSS,
-	 * menu_icon_style() lo reemplaza por las dos máscaras (t blanca, C blanca que pasa a
-	 * Signal con el ratón encima o con la pantalla activa); sin máscaras, se queda este.
+	 * menu_icon_style() lo reemplaza por las dos máscaras (b blanca, bloques blancos que
+	 * pasan a Signal con el ratón encima o con la pantalla activa); sin máscaras, se
+	 * queda este.
 	 *
 	 * @return string
 	 */
 	private static function menu_icon_data_uri() {
 		$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' . self::ICON_VIEWBOX . '">'
-			. '<path fill="#fff" d="' . self::ICON_PATH_C . '"/>'
-			. '<path fill="#fff" d="' . self::ICON_PATH_T . '"/>'
+			. '<path fill="#fff" d="' . self::ICON_PATH_B . '"/>'
+			. '<path fill="#fff" d="' . self::ICON_PATH_BLOCKS . '"/>'
 			. '</svg>';
 		// base64 y no percent-encoding: es la convención de WP para iconos de menú y
 		// evita tener que acertar con el escapado de #, <, > y las comillas.
@@ -346,54 +345,45 @@ class Blokino_Admin {
 	/**
 	 * Pinta el icono del menú en dos tonos.
 	 *
-	 * La t siempre blanca; la C blanca en reposo y Signal cuando el ítem tiene el ratón
-	 * encima, el foco, o es la pantalla activa (decisión del usuario, 2026-09-14). Un
-	 * icono por data-URI no puede hacer eso (WP no lo recolorea), así que cada parte
-	 * es un pseudo-elemento con su máscara y su background-color. Va detrás de un
-	 * @supports y solo entonces se oculta el background, de modo que un navegador sin
-	 * máscaras conserva el icono blanco de menu_icon_data_uri() en lugar de quedarse sin
-	 * ninguno.
+	 * La b siempre blanca; los bloques blancos en reposo y Signal cuando el ítem tiene el
+	 * ratón encima, el foco, o es la pantalla activa (decisión del usuario, 2026-09-14,
+	 * mantenida con la marca de Blokino). Un icono por data-URI no puede hacer eso (WP no
+	 * lo recolorea), así que cada parte es un pseudo-elemento con su máscara y su
+	 * background-color. Va detrás de un @supports y solo entonces se oculta el
+	 * background, de modo que un navegador sin máscaras conserva el icono blanco de
+	 * menu_icon_data_uri() en lugar de quedarse sin ninguno.
+	 *
+	 * Se encola con wp_add_inline_style() sobre un handle sin archivo (pedido del review
+	 * de wp.org: nada de <style> impreso a mano). El menú sale en todas las pantallas del
+	 * admin, así que se encola en todas; son ~2 KB de CSS.
 	 *
 	 * Sin margin vertical: WP ya centra los iconos del menú con padding 7px 0 sobre
 	 * 34px (7+20+7); un margen propio se sumaría y bajaría la marca respecto a los
 	 * dashicons vecinos (medido en la versión anterior).
 	 */
 	public function menu_icon_style() {
-		$mask_t = self::menu_icon_mask( self::ICON_PATH_T );
-		$mask_c = self::menu_icon_mask( self::ICON_PATH_C );
-		$item   = '#adminmenu #toplevel_page_' . self::MENU_SLUG;
-		$img    = $item . ' .wp-menu-image';
-		$lit    = $item . ':hover .wp-menu-image::after, ' . $item . '.current .wp-menu-image::after, ' . $item . '.wp-has-current-submenu .wp-menu-image::after, ' . $item . ' a:focus .wp-menu-image::after';
-		?>
-		<style id="blokino-menu-icon">
-			@supports ((-webkit-mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>) or (mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>)) {
-				<?php echo esc_html( $img ); ?> { position: relative; background-image: none !important; }
-				<?php echo esc_html( $img ); ?>::before,
-				<?php echo esc_html( $img ); ?>::after {
-					content: "";
-					position: absolute;
-					inset: 0;
-					background-color: #fff;
-					-webkit-mask-repeat: no-repeat;
-					mask-repeat: no-repeat;
-					-webkit-mask-position: center;
-					mask-position: center;
-					-webkit-mask-size: 20px 20px;
-					mask-size: 20px 20px;
-					transition: background-color .15s ease;
-				}
-				<?php echo esc_html( $img ); ?>::before {
-					-webkit-mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
-					mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
-				}
-				<?php echo esc_html( $img ); ?>::after {
-					-webkit-mask-image: <?php echo $mask_c; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
-					mask-image: <?php echo $mask_c; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>;
-				}
-				<?php echo esc_html( $lit ); ?> { background-color: <?php echo esc_html( self::ICON_SIGNAL ); ?>; }
-			}
-		</style>
-		<?php
+		$mask_b      = self::menu_icon_mask( self::ICON_PATH_B );
+		$mask_blocks = self::menu_icon_mask( self::ICON_PATH_BLOCKS );
+		$item        = '#adminmenu #toplevel_page_' . self::MENU_SLUG;
+		$img         = $item . ' .wp-menu-image';
+		$lit         = $item . ':hover .wp-menu-image::after, ' . $item . '.current .wp-menu-image::after, ' . $item . '.wp-has-current-submenu .wp-menu-image::after, ' . $item . ' a:focus .wp-menu-image::after';
+
+		$css = '@supports ((-webkit-mask-image: ' . $mask_b . ') or (mask-image: ' . $mask_b . ')) {'
+			. $img . ' { position: relative; background-image: none !important; }'
+			. $img . '::before, ' . $img . '::after {'
+			. 'content: ""; position: absolute; inset: 0; background-color: #fff;'
+			. '-webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;'
+			. '-webkit-mask-position: center; mask-position: center;'
+			. '-webkit-mask-size: 20px 20px; mask-size: 20px 20px;'
+			. 'transition: background-color .15s ease; }'
+			. $img . '::before { -webkit-mask-image: ' . $mask_b . '; mask-image: ' . $mask_b . '; }'
+			. $img . '::after { -webkit-mask-image: ' . $mask_blocks . '; mask-image: ' . $mask_blocks . '; }'
+			. $lit . ' { background-color: ' . self::ICON_SIGNAL . '; }'
+			. '}';
+
+		wp_register_style( 'blokino-menu-icon', false, array(), BLOKINO_VERSION );
+		wp_enqueue_style( 'blokino-menu-icon' );
+		wp_add_inline_style( 'blokino-menu-icon', $css );
 	}
 
 	/**
