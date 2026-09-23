@@ -257,6 +257,12 @@
 .blokino-demo-note { display: flex; align-items: center; gap: 6px; margin: 0 0 14px; color: #1e7e34; }
 .blokino-demo-note .dashicons { color: #1e7e34; }
 .blokino-done { margin: 6px 0 0; }
+/* In-page confirmation before Import / Undo import (no browser confirm()). */
+.blokino-confirm { margin: 14px 0 0; padding: 14px 16px; background: #fcf9e8; border: 1px solid #f0e2a8; border-left: 4px solid #dba617; border-radius: 4px; max-width: 60ch; }
+.blokino-confirm:focus { outline: none; }
+.blokino-confirm__title { margin: 0 0 4px; font-weight: 600; color: #1d2327; }
+.blokino-confirm__text { margin: 0 0 12px; color: #3c434a; }
+.blokino-confirm__actions { display: flex; gap: 8px; justify-content: flex-end; }
 .blokino-step .blokino-progress { height: 8px; background: #e2e4e7; border-radius: 999px; overflow: hidden; margin: 4px 0 8px; }
 .blokino-step .blokino-progress__bar { height: 100%; width: 0; background: linear-gradient( 90deg, #2271b1, #72aee6 ); transition: width .25s ease; }
 /* A step's request died (host time limit, proxy, WAF): bar turns red, status explains, button reads Retry. */

@@ -263,6 +263,49 @@
 	var resumeStep = null;
 	var importLabel = importBtn ? importBtn.innerHTML : '';
 	var RETRIES = 3;
+	var hasDemo = root.getAttribute( 'data-has-demo' ) === '1';
+
+	/* ---- In-page confirmation (Import / Undo) ---- */
+	var confirmEl = $( '.blokino-confirm' );
+	var confirmYes = confirmEl && confirmEl.querySelector( '.blokino-confirm__yes' );
+	var confirmNo = confirmEl && confirmEl.querySelector( '.blokino-confirm__no' );
+	var onConfirm = null, confirmOpener = null, wasDisabled = [];
+
+	function closeConfirm( restoreFocus ) {
+		if ( ! confirmEl || confirmEl.hidden ) { return; }
+		confirmEl.hidden = true;
+		onConfirm = null;
+		// Back to how the buttons were before the question.
+		if ( importBtn ) { importBtn.disabled = wasDisabled[ 0 ]; }
+		if ( undoBtn ) { undoBtn.disabled = wasDisabled[ 1 ]; }
+		if ( restoreFocus && confirmOpener ) { confirmOpener.focus(); }
+		confirmOpener = null;
+	}
+	function askConfirm( title, text, yes, fn ) {
+		if ( ! confirmEl ) { fn(); return; }
+		confirmOpener = document.activeElement;
+		confirmEl.querySelector( '.blokino-confirm__title' ).textContent = title;
+		confirmEl.querySelector( '.blokino-confirm__text' ).textContent = text;
+		confirmYes.textContent = yes;
+		onConfirm = fn;
+		// Both actions wait while the question is open.
+		wasDisabled = [ !! ( importBtn && importBtn.disabled ), !! ( undoBtn && undoBtn.disabled ) ];
+		if ( importBtn ) { importBtn.disabled = true; }
+		if ( undoBtn ) { undoBtn.disabled = true; }
+		confirmEl.hidden = false;
+		confirmNo.focus();
+	}
+	if ( confirmEl ) {
+		confirmYes.addEventListener( 'click', function () {
+			var fn = onConfirm;
+			closeConfirm( false );
+			if ( fn ) { fn(); }
+		} );
+		confirmNo.addEventListener( 'click', function () { closeConfirm( true ); } );
+		confirmEl.addEventListener( 'keydown', function ( e ) {
+			if ( e.key === 'Escape' ) { e.preventDefault(); closeConfirm( true ); }
+		} );
+	}
 
 	function describe( err ) {
 		var what = err && err.status ? ( 'HTTP ' + err.status ) : ( ( err && err.message ) || 'network' );
@@ -318,6 +361,7 @@
 	}
 	function finishImport() {
 		resumeStep = null;
+		hasDemo = true;
 		setStatus( i18n.done );
 		if ( undoBtn ) { undoBtn.disabled = false; }
 		if ( doneEl ) { doneEl.hidden = false; }
@@ -329,19 +373,36 @@
 	$all( '.blokino-back' ).forEach( function ( b ) {
 		b.addEventListener( 'click', function () { goStep( b.getAttribute( 'data-to' ) || 'plugins' ); } );
 	} );
-	if ( importBtn ) { importBtn.addEventListener( 'click', runImport ); }
+	// Import and Undo both delete or overwrite content, so each asks first — in
+	// the page, not a browser confirm() (which blocks the tab and can be
+	// suppressed). Retry resumes an import already confirmed: no second ask.
+	if ( importBtn ) {
+		importBtn.addEventListener( 'click', function () {
+			if ( resumeStep ) { runImport(); return; }
+			askConfirm(
+				i18n.confirmImportTitle,
+				hasDemo ? i18n.confirmReimport : i18n.confirmImport,
+				i18n.confirmImportYes,
+				runImport
+			);
+		} );
+	}
 	if ( undoBtn ) {
 		undoBtn.addEventListener( 'click', function () {
-			undoBtn.disabled = true; setStatus( i18n.importing );
-			post( 'blokino_demo_rollback', {} ).then( function () {
-				resumeStep = null;
-				setStatus( i18n.rollback ); setBar( 0 );
-				if ( importBtn ) { importBtn.disabled = false; importBtn.innerHTML = importLabel; }
-				if ( doneEl ) { doneEl.hidden = true; }
-			} ).catch( function ( err ) {
-				setStatus( describe( err ) );
-				undoBtn.disabled = false;
-			} );
+			askConfirm( i18n.confirmUndoTitle, i18n.confirmUndo, i18n.confirmUndoYes, runUndo );
+		} );
+	}
+	function runUndo() {
+		undoBtn.disabled = true; setStatus( i18n.importing );
+		post( 'blokino_demo_rollback', {} ).then( function () {
+			resumeStep = null;
+			hasDemo = false;
+			setStatus( i18n.rollback ); setBar( 0 );
+			if ( importBtn ) { importBtn.disabled = false; importBtn.innerHTML = importLabel; }
+			if ( doneEl ) { doneEl.hidden = true; }
+		} ).catch( function ( err ) {
+			setStatus( describe( err ) );
+			undoBtn.disabled = false;
 		} );
 	}
 

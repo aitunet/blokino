@@ -1784,6 +1784,14 @@ class Blokino_Demo {
 							<div class="blokino-progress" hidden><div class="blokino-progress__bar"></div></div>
 							<p class="blokino-progress__status" aria-live="polite"></p>
 							<p class="blokino-done" hidden><a class="button button-primary button-hero" href="<?php echo esc_url( $home ); ?>"><?php esc_html_e( 'View site', 'blokino' ); ?></a></p>
+							<div class="blokino-confirm" role="group" aria-labelledby="blokino-confirm-title" tabindex="-1" hidden>
+								<p class="blokino-confirm__title" id="blokino-confirm-title"></p>
+								<p class="blokino-confirm__text"></p>
+								<div class="blokino-confirm__actions">
+									<button type="button" class="button blokino-confirm__no"><?php esc_html_e( 'Cancel', 'blokino' ); ?></button>
+									<button type="button" class="button button-primary blokino-confirm__yes"></button>
+								</div>
+							</div>
 							<div class="blokino-step__actions">
 								<button type="button" class="button blokino-back" data-to="plugins">&larr; <?php esc_html_e( 'Back', 'blokino' ); ?></button>
 								<span class="blokino-step__spacer"></span>

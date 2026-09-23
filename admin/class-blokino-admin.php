@@ -510,6 +510,13 @@ class Blokino_Admin {
 					'retrying'     => __( 'Connection hiccup — retrying…', 'blokino' ),
 					'retryHint'    => __( 'Click Retry to resume from this step.', 'blokino' ),
 					'retry'        => __( 'Retry', 'blokino' ),
+					'confirmImportTitle'  => __( 'Import the demo?', 'blokino' ),
+					'confirmImport'       => __( 'This adds the demo pages, posts and images to your site and changes the site title, logo and front page. Your existing content is kept.', 'blokino' ),
+					'confirmReimport'     => __( 'The demo already imported will be removed first — including any changes you made to its pages, posts and images — and imported again.', 'blokino' ),
+					'confirmImportYes'    => __( 'Yes, import', 'blokino' ),
+					'confirmUndoTitle'    => __( 'Undo the import?', 'blokino' ),
+					'confirmUndo'         => __( 'This permanently deletes the pages, posts and images the demo created — including any changes you made to them — and restores your previous site title, logo and front page. Content you created yourself is kept.', 'blokino' ),
+					'confirmUndoYes'      => __( 'Yes, undo import', 'blokino' ),
 				),
 			)
 		);
