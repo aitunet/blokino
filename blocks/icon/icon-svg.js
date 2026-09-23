@@ -1,14 +1,14 @@
 /* ==========================================================================
- * BloqUIX · Helper compartido del editor: window.bloquixIconSvg
+ * Blokino · Helper compartido del editor: window.blokinoIconSvg
  * --------------------------------------------------------------------------
- * Fuente ÚNICA del <svg> en el editor (espejo de bloquix_icon_svg en PHP).
+ * Fuente ÚNICA del <svg> en el editor (espejo de blokino_icon_svg en PHP).
  * La usan icon/edit.js y marquee/edit.js. Ramifica por `mode` (stroke|fill).
- * Lee window.bloquixIcons (localize). Sin JSX ni build.
+ * Lee window.blokinoIcons (localize). Sin JSX ni build.
  * ========================================================================== */
 ( function () {
 	'use strict';
-	window.bloquixIconSvg = function ( name, opts ) {
-		var ICONS = window.bloquixIcons || {};
+	window.blokinoIconSvg = function ( name, opts ) {
+		var ICONS = window.blokinoIcons || {};
 		var ic = ICONS[ name ];
 		if ( ! ic ) {
 			return '';

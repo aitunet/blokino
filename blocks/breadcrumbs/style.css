@@ -1,12 +1,12 @@
 /*
- * bloquix/breadcrumbs — presentación mínima y theme-agnóstica.
+ * blokino/breadcrumbs — presentación mínima y theme-agnóstica.
  *
  * Solo estructura: separador, envoltura y estados. Todo el color y la métrica
  * salen de los tokens --tnt-*, así que el rastro se ve como el theme activo
  * quiera sin que el motor imponga nada (CLAUDE.md §8, "nada hardcodeado").
  */
 
-.bloquix-breadcrumbs__list {
+.blokino-breadcrumbs__list {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: baseline;
@@ -16,7 +16,7 @@
 	list-style: none;
 }
 
-.bloquix-breadcrumbs__item {
+.blokino-breadcrumbs__item {
 	display: flex;
 	align-items: baseline;
 	gap: var( --tnt-space-2, 0.5rem );
@@ -27,21 +27,21 @@
  * El separador es decorativo y va en ::before, no en el marcado: si fuera texto
  * real, un lector de pantalla leería "barra" entre cada eslabón.
  */
-.bloquix-breadcrumbs__item + .bloquix-breadcrumbs__item::before {
+.blokino-breadcrumbs__item + .blokino-breadcrumbs__item::before {
 	content: var( --tnt-breadcrumb-sep, "/" );
 	opacity: 0.45;
 }
 
-.bloquix-breadcrumbs__current {
+.blokino-breadcrumbs__current {
 	opacity: 0.65;
 }
 
-.bloquix-breadcrumbs__link {
+.blokino-breadcrumbs__link {
 	color: inherit;
 	text-decoration: none;
 }
 
-.bloquix-breadcrumbs__link:hover,
-.bloquix-breadcrumbs__link:focus-visible {
+.blokino-breadcrumbs__link:hover,
+.blokino-breadcrumbs__link:focus-visible {
 	text-decoration: underline;
 }

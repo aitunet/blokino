@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "bloquix/section",
+	"name": "blokino/section",
 	"version": "0.4.1",
-	"title": "BloqUIX Section",
+	"title": "Blokino Section",
 	"category": "design",
 	"icon": "cover-image",
 	"description": "Section with advanced backgrounds (animated gradient, mesh, image, video), overlay and shape dividers. The base for premium heroes.",
@@ -15,7 +15,7 @@
 		"gradient",
 		"divider"
 	],
-	"textdomain": "bloquix",
+	"textdomain": "blokino",
 	"supports": {
 		"html": false,
 		"anchor": true,

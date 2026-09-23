@@ -1,9 +1,9 @@
 <?php
 /**
- * BloqUIX · Set de iconos del block bloquix/icon.
+ * Blokino · Set de iconos del block blokino/icon.
  *
  * Fuente ÚNICA del markup de iconos: la usa render.php (front) + el separador-icono
- * de bloquix/marquee, y se expone al editor (picker) por localize (window.bloquixIcons).
+ * de blokino/marquee, y se expone al editor (picker) por localize (window.blokinoIcons).
  * Solo el markup INTERNO del <svg> (paths/shapes); el <svg> lo arma el helper.
  *
  * Cada icono declara `mode` ('stroke'|'fill') y `category`
@@ -17,18 +17,18 @@
  * marca son marcas registradas de sus respectivos dueños; se incluyen solo con
  * fines de identificación/enlace, sin afiliación ni respaldo implícito.
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! function_exists( 'bloquix_icon_set' ) ) {
+if ( ! function_exists( 'blokino_icon_set' ) ) {
 	/**
 	 * @return array<string,array{label:string,svg:string,mode:string,category:string}>
 	 */
-	function bloquix_icon_set() {
+	function blokino_icon_set() {
 		static $set = null;
 		if ( null !== $set ) {
 			return $set;
@@ -138,7 +138,7 @@ if ( ! function_exists( 'bloquix_icon_set' ) ) {
 		 *
 		 * @param array<string,array{label:string,svg:string,mode:string,category:string}> $core Set del nucleo.
 		 */
-		$filtered = apply_filters( 'bloquix_icon_set', $core );
+		$filtered = apply_filters( 'blokino_icon_set', $core );
 
 		$extra = array();
 		if ( is_array( $filtered ) ) {
@@ -162,16 +162,16 @@ if ( ! function_exists( 'bloquix_icon_set' ) ) {
 	}
 }
 
-if ( ! function_exists( 'bloquix_icon_svg' ) ) {
+if ( ! function_exists( 'blokino_icon_svg' ) ) {
 	/**
 	 * Arma un <svg> inline desde el set curado, ramificando por `mode`.
 	 *
-	 * @param string $slug Nombre del icono en bloquix_icon_set().
+	 * @param string $slug Nombre del icono en blokino_icon_set().
 	 * @param array  $args size(int,24;0=sin dims) · stroke(float,2; ignorado en fill) · class · label('' = decorativo).
 	 * @return string <svg>…</svg> o '' si el slug no existe.
 	 */
-	function bloquix_icon_svg( $slug, $args = array() ) {
-		$set  = bloquix_icon_set();
+	function blokino_icon_svg( $slug, $args = array() ) {
+		$set  = blokino_icon_set();
 		$slug = sanitize_key( (string) $slug );
 		if ( ! isset( $set[ $slug ] ) ) {
 			return '';

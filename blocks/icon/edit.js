@@ -1,8 +1,8 @@
 /* ==========================================================================
- * BloqUIX · Block bloquix/icon — editor
+ * Blokino · Block blokino/icon — editor
  * --------------------------------------------------------------------------
  * Sin JSX (globales wp.*). Block dinámico: save devuelve null, lo pinta
- * render.php. El set de iconos llega en window.bloquixIcons (localize).
+ * render.php. El set de iconos llega en window.blokinoIcons (localize).
  * ========================================================================== */
 ( function ( wp ) {
 	'use strict';
@@ -17,22 +17,22 @@
 	var c = wp.components;
 
 	var CATS = [
-		{ key: 'general', label: __( 'General', 'bloquix' ) },
-		{ key: 'nav',     label: __( 'Nav / UI', 'bloquix' ) },
-		{ key: 'contact', label: __( 'Contact', 'bloquix' ) },
-		{ key: 'brand',   label: __( 'Brand / Social', 'bloquix' ) }
+		{ key: 'general', label: __( 'General', 'blokino' ) },
+		{ key: 'nav',     label: __( 'Nav / UI', 'blokino' ) },
+		{ key: 'contact', label: __( 'Contact', 'blokino' ) },
+		{ key: 'brand',   label: __( 'Brand / Social', 'blokino' ) }
 	];
 
-	registerBlockType( 'bloquix/icon', {
+	registerBlockType( 'blokino/icon', {
 		edit: function ( props ) {
 			var a = props.attributes;
 			var set = props.setAttributes;
 			var state = useState( '' );
 			var query = state[ 0 ];
 			var setQuery = state[ 1 ];
-			var blockProps = useBlockProps( { className: 'bloquix-icon' } );
-			var ICONS = window.bloquixIcons || {};
-			var selMode = ( ( window.bloquixIcons || {} )[ a.icon ] || {} ).mode || 'stroke';
+			var blockProps = useBlockProps( { className: 'blokino-icon' } );
+			var ICONS = window.blokinoIcons || {};
+			var selMode = ( ( window.blokinoIcons || {} )[ a.icon ] || {} ).mode || 'stroke';
 
 			var q = query ? query.toLowerCase() : '';
 			var matches = function ( n ) {
@@ -43,11 +43,11 @@
 				return el( 'button', {
 					key: n,
 					type: 'button',
-					className: 'bloquix-icon-picker__item' + ( n === a.icon ? ' is-active' : '' ),
+					className: 'blokino-icon-picker__item' + ( n === a.icon ? ' is-active' : '' ),
 					'aria-label': ICONS[ n ].label || n,
 					title: ICONS[ n ].label || n,
 					onClick: function () { set( { icon: n } ); },
-					dangerouslySetInnerHTML: { __html: window.bloquixIconSvg( n, { stroke: 2, size: 24 } ) }
+					dangerouslySetInnerHTML: { __html: window.blokinoIconSvg( n, { stroke: 2, size: 24 } ) }
 				} );
 			};
 			var allNames = Object.keys( ICONS );
@@ -55,19 +55,19 @@
 			if ( q ) {
 				var flat = allNames.filter( matches );
 				pickerChildren = flat.length
-					? [ el( 'div', { className: 'bloquix-icon-picker__grid', key: 'flat' }, flat.map( iconButton ) ) ]
-					: [ el( 'p', { className: 'bloquix-icon-picker__empty', key: 'empty' }, __( 'No icons match.', 'bloquix' ) ) ];
+					? [ el( 'div', { className: 'blokino-icon-picker__grid', key: 'flat' }, flat.map( iconButton ) ) ]
+					: [ el( 'p', { className: 'blokino-icon-picker__empty', key: 'empty' }, __( 'No icons match.', 'blokino' ) ) ];
 			} else {
 				pickerChildren = CATS.map( function ( cat ) {
 					var inCat = allNames.filter( function ( n ) { return ( ICONS[ n ].category || 'general' ) === cat.key; } );
 					if ( ! inCat.length ) { return null; }
 					return el( Fragment, { key: cat.key },
-						el( 'p', { className: 'bloquix-icon-picker__cat' }, cat.label ),
-						el( 'div', { className: 'bloquix-icon-picker__grid' }, inCat.map( iconButton ) )
+						el( 'p', { className: 'blokino-icon-picker__cat' }, cat.label ),
+						el( 'div', { className: 'blokino-icon-picker__grid' }, inCat.map( iconButton ) )
 					);
 				} ).filter( Boolean );
 			}
-			var picker = el( 'div', { className: 'bloquix-icon-picker' }, pickerChildren );
+			var picker = el( 'div', { className: 'blokino-icon-picker' }, pickerChildren );
 
 			return el(
 				Fragment,
@@ -77,21 +77,21 @@
 					{},
 					el(
 						c.PanelBody,
-						{ title: __( 'Icon', 'bloquix' ), initialOpen: true },
+						{ title: __( 'Icon', 'blokino' ), initialOpen: true },
 						el( c.SearchControl, {
 							value: query,
 							onChange: setQuery,
-							label: __( 'Search icons', 'bloquix' ),
-							placeholder: __( 'Search…', 'bloquix' ),
+							label: __( 'Search icons', 'blokino' ),
+							placeholder: __( 'Search…', 'blokino' ),
 							__nextHasNoMarginBottom: true
 						} ),
 						picker
 					),
 					el(
 						c.PanelBody,
-						{ title: __( 'Size & label', 'bloquix' ), initialOpen: false },
+						{ title: __( 'Size & label', 'blokino' ), initialOpen: false },
 						el( c.RangeControl, {
-							label: __( 'Size (px)', 'bloquix' ),
+							label: __( 'Size (px)', 'blokino' ),
 							value: a.size || 24,
 							min: 12,
 							max: 96,
@@ -102,7 +102,7 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						'fill' !== selMode ? el( c.RangeControl, {
-							label: __( 'Stroke width', 'bloquix' ),
+							label: __( 'Stroke width', 'blokino' ),
 							value: a.strokeWidth || 2,
 							min: 1,
 							max: 3,
@@ -113,8 +113,8 @@
 							__nextHasNoMarginBottom: true
 						} ) : null,
 						el( c.TextControl, {
-							label: __( 'Accessibility label', 'bloquix' ),
-							help: __( 'Leave empty if the icon is purely decorative.', 'bloquix' ),
+							label: __( 'Accessibility label', 'blokino' ),
+							help: __( 'Leave empty if the icon is purely decorative.', 'blokino' ),
 							value: a.label || '',
 							onChange: function ( v ) {
 								set( { label: v } );
@@ -124,7 +124,7 @@
 					)
 				),
 				el( 'span', Object.assign( {}, blockProps, {
-					dangerouslySetInnerHTML: { __html: window.bloquixIconSvg( a.icon, { stroke: a.strokeWidth, size: a.size } ) }
+					dangerouslySetInnerHTML: { __html: window.blokinoIconSvg( a.icon, { stroke: a.strokeWidth, size: a.size } ) }
 				} ) )
 			);
 		},

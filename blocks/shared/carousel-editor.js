@@ -1,17 +1,17 @@
 /* ==========================================================================
- * BloqUIX · Preview de CARRUSEL en el EDITOR (Swiper real sobre el SSR)
+ * Blokino · Preview de CARRUSEL en el EDITOR (Swiper real sobre el SSR)
  * --------------------------------------------------------------------------
- * `window.bloquix.CarouselPreview` envuelve un ServerSideRender (el markup lo sigue
+ * `window.blokino.CarouselPreview` envuelve un ServerSideRender (el markup lo sigue
  * generando render.php — DRY) y corre **Swiper de verdad** dentro del iframe del
  * canvas, para que un slider se vea y se comporte como slider en el editor y no
  * como una pila vertical de slides.
  *
  * Mitigaciones (el preview es SSR → se re-renderiza al editar):
- *  - Re-inicializa cuando el SSR reemplaza el subárbol (aparece un `.bloquix-carousel`
+ *  - Re-inicializa cuando el SSR reemplaza el subárbol (aparece un `.blokino-carousel`
  *    nuevo), detectado por un MutationObserver de `childList`.
  *  - **Preserva la slide activa** entre re-inicializaciones (no salta al slide 1).
  *  - **Autoplay SIEMPRE off** en el editor (no distrae mientras se edita).
- *  - Grid (testimonials sin `.bloquix-carousel`) → no-op: queda estático.
+ *  - Grid (testimonials sin `.blokino-carousel`) → no-op: queda estático.
  *
  * Contexto: este script corre en la ventana EXTERNA del editor, pero el markup del
  * SSR vive en el IFRAME del canvas. Por eso se opera sobre `ref.ownerDocument`
@@ -26,7 +26,7 @@
 		return;
 	}
 
-	window.bloquix = window.bloquix || {};
+	window.blokino = window.blokino || {};
 
 	var el = wp.element.createElement;
 	var useRef = wp.element.useRef;
@@ -47,11 +47,11 @@
 		var win = doc.defaultView || window;
 
 		// CSS del carrusel (flechas / paginación / layout / fallback) en el iframe.
-		if ( window.bloquix.carouselCssUrl && ! doc.getElementById( 'tnt-carousel-css' ) ) {
+		if ( window.blokino.carouselCssUrl && ! doc.getElementById( 'tnt-carousel-css' ) ) {
 			var chrome = doc.createElement( 'link' );
 			chrome.id = 'tnt-carousel-css';
 			chrome.rel = 'stylesheet';
-			chrome.href = window.bloquix.carouselCssUrl;
+			chrome.href = window.blokino.carouselCssUrl;
 			doc.head.appendChild( chrome );
 		}
 
@@ -132,7 +132,7 @@
 
 	/**
 	 * Componente: renderiza el SSR y gestiona el ciclo de vida de Swiper sobre él.
-	 * Props: { block: 'bloquix/…', attributes: {…} }.
+	 * Props: { block: 'blokino/…', attributes: {…} }.
 	 */
 	function CarouselPreview( props ) {
 		var ref = useRef( null );
@@ -155,7 +155,7 @@
 			if ( ! doc.getElementById( 'tnt-carousel-editor-guard' ) ) {
 				var guardStyle = doc.createElement( 'style' );
 				guardStyle.id = 'tnt-carousel-editor-guard';
-				guardStyle.textContent = '.bloquix-carousel-editor a{pointer-events:none;cursor:default}';
+				guardStyle.textContent = '.blokino-carousel-editor a{pointer-events:none;cursor:default}';
 				( doc.head || doc.documentElement ).appendChild( guardStyle );
 			}
 
@@ -176,7 +176,7 @@
 			}
 
 			function build() {
-				var elc = container.querySelector( '.bloquix-carousel' );
+				var elc = container.querySelector( '.blokino-carousel' );
 				if ( ! elc ) {
 					// SSR sin contenido todavía, o layout grid (sin carrusel): no-op.
 					return;
@@ -253,10 +253,10 @@
 
 		return el(
 			'div',
-			{ ref: ref, className: 'bloquix-carousel-editor' },
+			{ ref: ref, className: 'blokino-carousel-editor' },
 			el( ServerSideRender, { block: props.block, attributes: props.attributes } )
 		);
 	}
 
-	window.bloquix.CarouselPreview = CarouselPreview;
+	window.blokino.CarouselPreview = CarouselPreview;
 } )( window.wp );

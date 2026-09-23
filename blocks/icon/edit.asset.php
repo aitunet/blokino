@@ -1,8 +1,8 @@
 <?php
 /**
- * Dependencias y versión del editorScript del block bloquix/icon.
+ * Dependencias y versión del editorScript del block blokino/icon.
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 return array(
@@ -12,7 +12,7 @@ return array(
 		'wp-block-editor',
 		'wp-components',
 		'wp-i18n',
-		'bloquix-icon-svg',
+		'blokino-icon-svg',
 	),
 	'version'      => '0.2.0',
 );

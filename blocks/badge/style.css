@@ -1,6 +1,6 @@
-/* BloqUIX Badge — botón circular con texto en anillo giratorio + flecha. */
+/* Blokino Badge — botón circular con texto en anillo giratorio + flecha. */
 /* Nombre accesible: self-contained (no depende del .screen-reader-text del theme; §12 regla 1). */
-.bloquix-badge .bloquix-sr-only {
+.blokino-badge .blokino-sr-only {
 	position: absolute;
 	inline-size: 1px;
 	block-size: 1px;
@@ -11,7 +11,7 @@
 	white-space: nowrap;
 	border: 0;
 }
-.bloquix-badge {
+.blokino-badge {
 	position: relative;
 	display: inline-grid;
 	place-items: center;
@@ -22,20 +22,20 @@
 	text-decoration: none;
 	background: transparent;
 }
-.bloquix-badge__ring {
+.blokino-badge__ring {
 	position: absolute;
 	inset: 0;
-	animation: bloquix-badge-spin var( --tnt-badge-speed, 18s ) linear infinite;
+	animation: blokino-badge-spin var( --tnt-badge-speed, 18s ) linear infinite;
 }
-.bloquix-badge.is-reverse .bloquix-badge__ring { animation-direction: reverse; }
-.bloquix-badge__ring text {
+.blokino-badge.is-reverse .blokino-badge__ring { animation-direction: reverse; }
+.blokino-badge__ring text {
 	font-family: var( --tnt-font-mono, monospace );
 	font-size: 8.1px;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
 	fill: currentColor;
 }
-.bloquix-badge__arrow {
+.blokino-badge__arrow {
 	display: grid;
 	place-items: center;
 	inline-size: 38%;
@@ -45,10 +45,10 @@
 	color: var( --tnt-color-on-ink, #fff );
 	transition: transform var( --tnt-dur-fast, 250ms ) var( --tnt-ease-spring, ease );
 }
-.bloquix-badge__arrow svg { inline-size: 46%; }
-.bloquix-badge:hover .bloquix-badge__arrow { transform: scale( 1.08 ); }
-@keyframes bloquix-badge-spin { to { transform: rotate( 360deg ); } }
+.blokino-badge__arrow svg { inline-size: 46%; }
+.blokino-badge:hover .blokino-badge__arrow { transform: scale( 1.08 ); }
+@keyframes blokino-badge-spin { to { transform: rotate( 360deg ); } }
 @media ( prefers-reduced-motion: reduce ) {
-	.bloquix-badge__ring { animation: none !important; }
-	.bloquix-badge:hover .bloquix-badge__arrow { transform: none; }
+	.blokino-badge__ring { animation: none !important; }
+	.blokino-badge:hover .blokino-badge__arrow { transform: none; }
 }

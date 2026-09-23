@@ -1,8 +1,8 @@
 <?php
 /**
- * Dependencias y versión del editorScript del block bloquix/brand.
+ * Dependencias y versión del editorScript del block blokino/brand.
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 return array(

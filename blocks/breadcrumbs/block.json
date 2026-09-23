@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "bloquix/breadcrumbs",
+  "name": "blokino/breadcrumbs",
   "version": "0.1.0",
-  "title": "BloqUIX Breadcrumbs",
+  "title": "Blokino Breadcrumbs",
   "category": "theme",
   "icon": "arrow-right-alt2",
   "description": "Trail from the site home to the current page. Server-rendered, no plugin required, and it emits BreadcrumbList structured data.",
   "keywords": ["breadcrumb", "trail", "navigation", "seo"],
-  "textdomain": "bloquix",
+  "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,

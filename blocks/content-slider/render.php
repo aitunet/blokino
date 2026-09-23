@@ -1,30 +1,30 @@
 <?php
 /**
- * Render del block bloquix/content-slider (dinámico).
+ * Render del block blokino/content-slider (dinámico).
  *
  * Itera $attributes['items'] (repeater del sidebar) y arma slides estructurados
  * (imagen + grupo de contenido + CTAs) dentro del runtime Swiper COMPARTIDO
- * (.bloquix-carousel). Todo por tokens; escape estricto.
+ * (.blokino-carousel). Todo por tokens; escape estricto.
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$bloquix_items = ( isset( $attributes['items'] ) && is_array( $attributes['items'] ) ) ? $attributes['items'] : array();
-if ( empty( $bloquix_items ) ) {
+$blokino_items = ( isset( $attributes['items'] ) && is_array( $attributes['items'] ) ) ? $attributes['items'] : array();
+if ( empty( $blokino_items ) ) {
 	return;
 }
 
 /**
  * Devuelve la clase text-align para un valor de campo (inherit = sin clase).
  */
-$bloquix_align_class = function ( $value ) {
+$blokino_align_class = function ( $value ) {
 	$value = is_string( $value ) ? $value : '';
 	if ( in_array( $value, array( 'left', 'center', 'right' ), true ) ) {
-		return ' bloquix-cslide__text--' . $value;
+		return ' blokino-cslide__text--' . $value;
 	}
 	return '';
 };
@@ -32,7 +32,7 @@ $bloquix_align_class = function ( $value ) {
 /**
  * Renderiza los CTAs de un slide.
  */
-$bloquix_render_ctas = function ( $ctas ) {
+$blokino_render_ctas = function ( $ctas ) {
 	if ( ! is_array( $ctas ) ) {
 		return '';
 	}
@@ -46,142 +46,142 @@ $bloquix_render_ctas = function ( $ctas ) {
 		$style = isset( $cta['style'] ) && in_array( $cta['style'], array( 'filled', 'outline', 'text' ), true ) ? $cta['style'] : 'filled';
 		$target = ! empty( $cta['newTab'] ) ? ' target="_blank" rel="noopener noreferrer"' : '';
 		$href   = '' !== $url ? ' href="' . $url . '"' : '';
-		$html  .= '<a class="bloquix-cslide__cta bloquix-cslide__cta--' . esc_attr( $style ) . '"' . $href . $target . '>' . esc_html( $text ) . '</a>';
+		$html  .= '<a class="blokino-cslide__cta blokino-cslide__cta--' . esc_attr( $style ) . '"' . $href . $target . '>' . esc_html( $text ) . '</a>';
 	}
-	return '' !== $html ? '<div class="bloquix-cslide__ctas">' . $html . '</div>' : '';
+	return '' !== $html ? '<div class="blokino-cslide__ctas">' . $html . '</div>' : '';
 };
 
-$bloquix_slides = '';
-foreach ( $bloquix_items as $bloquix_item ) {
+$blokino_slides = '';
+foreach ( $blokino_items as $blokino_item ) {
 	// Imagen de FONDO del slide (background + overlay) con controles de posición
 	// (foco), tamaño (cover/contain/auto) y repetición. El contenido va encima.
-	$bloquix_img_id  = isset( $bloquix_item['imageId'] ) ? absint( $bloquix_item['imageId'] ) : 0;
-	$bloquix_img_url = isset( $bloquix_item['imageUrl'] ) ? esc_url_raw( $bloquix_item['imageUrl'] ) : '';
-	$bloquix_bg_url  = '';
-	if ( $bloquix_img_id ) {
+	$blokino_img_id  = isset( $blokino_item['imageId'] ) ? absint( $blokino_item['imageId'] ) : 0;
+	$blokino_img_url = isset( $blokino_item['imageUrl'] ) ? esc_url_raw( $blokino_item['imageUrl'] ) : '';
+	$blokino_bg_url  = '';
+	if ( $blokino_img_id ) {
 		// A CSS background gets no srcset; request a bounded size (not 'full') so
 		// mobiles don't download an oversized hero image. Falls back to full.
-		$bloquix_bg_url = wp_get_attachment_image_url( $bloquix_img_id, '2048x2048' );
-		if ( ! $bloquix_bg_url ) {
-			$bloquix_bg_url = wp_get_attachment_image_url( $bloquix_img_id, 'full' );
+		$blokino_bg_url = wp_get_attachment_image_url( $blokino_img_id, '2048x2048' );
+		if ( ! $blokino_bg_url ) {
+			$blokino_bg_url = wp_get_attachment_image_url( $blokino_img_id, 'full' );
 		}
 	}
-	if ( ! $bloquix_bg_url && '' !== $bloquix_img_url ) {
-		$bloquix_bg_url = $bloquix_img_url;
+	if ( ! $blokino_bg_url && '' !== $blokino_img_url ) {
+		$blokino_bg_url = $blokino_img_url;
 	}
 
-	$bloquix_bg = '';
-	if ( $bloquix_bg_url ) {
+	$blokino_bg = '';
+	if ( $blokino_bg_url ) {
 		// Posición por palabra clave (lista blanca de background-position válidas).
-		$bloquix_positions = array( 'left top', 'center top', 'right top', 'left center', 'center center', 'right center', 'left bottom', 'center bottom', 'right bottom' );
-		$bloquix_bg_pos  = isset( $bloquix_item['bgPosition'] ) && in_array( $bloquix_item['bgPosition'], $bloquix_positions, true ) ? $bloquix_item['bgPosition'] : 'center center';
-		$bloquix_bg_size = isset( $bloquix_item['bgSize'] ) && in_array( $bloquix_item['bgSize'], array( 'cover', 'contain', 'auto' ), true ) ? $bloquix_item['bgSize'] : 'cover';
-		$bloquix_bg_rep  = isset( $bloquix_item['bgRepeat'] ) && in_array( $bloquix_item['bgRepeat'], array( 'no-repeat', 'repeat', 'repeat-x', 'repeat-y' ), true ) ? $bloquix_item['bgRepeat'] : 'no-repeat';
-		$bloquix_bg_style = 'background-image:url(' . esc_url( $bloquix_bg_url ) . ');'
-			. 'background-position:' . $bloquix_bg_pos . ';'
-			. 'background-size:' . $bloquix_bg_size . ';'
-			. 'background-repeat:' . $bloquix_bg_rep . ';';
-		$bloquix_bg = '<div class="bloquix-cslide__bg" style="' . esc_attr( $bloquix_bg_style ) . '"></div>';
+		$blokino_positions = array( 'left top', 'center top', 'right top', 'left center', 'center center', 'right center', 'left bottom', 'center bottom', 'right bottom' );
+		$blokino_bg_pos  = isset( $blokino_item['bgPosition'] ) && in_array( $blokino_item['bgPosition'], $blokino_positions, true ) ? $blokino_item['bgPosition'] : 'center center';
+		$blokino_bg_size = isset( $blokino_item['bgSize'] ) && in_array( $blokino_item['bgSize'], array( 'cover', 'contain', 'auto' ), true ) ? $blokino_item['bgSize'] : 'cover';
+		$blokino_bg_rep  = isset( $blokino_item['bgRepeat'] ) && in_array( $blokino_item['bgRepeat'], array( 'no-repeat', 'repeat', 'repeat-x', 'repeat-y' ), true ) ? $blokino_item['bgRepeat'] : 'no-repeat';
+		$blokino_bg_style = 'background-image:url(' . esc_url( $blokino_bg_url ) . ');'
+			. 'background-position:' . $blokino_bg_pos . ';'
+			. 'background-size:' . $blokino_bg_size . ';'
+			. 'background-repeat:' . $blokino_bg_rep . ';';
+		$blokino_bg = '<div class="blokino-cslide__bg" style="' . esc_attr( $blokino_bg_style ) . '"></div>';
 
 		// Overlay para legibilidad del texto sobre la imagen: color configurable (hex
 		// del control; por defecto la tinta del theme) + opacidad (0–90).
-		$bloquix_ov = isset( $bloquix_item['bgOverlay'] ) ? max( 0, min( 90, (int) $bloquix_item['bgOverlay'] ) ) : 40;
-		if ( $bloquix_ov > 0 ) {
-			$bloquix_ov_type  = isset( $bloquix_item['bgOverlayType'] ) ? sanitize_key( $bloquix_item['bgOverlayType'] ) : 'color';
+		$blokino_ov = isset( $blokino_item['bgOverlay'] ) ? max( 0, min( 90, (int) $blokino_item['bgOverlay'] ) ) : 40;
+		if ( $blokino_ov > 0 ) {
+			$blokino_ov_type  = isset( $blokino_item['bgOverlayType'] ) ? sanitize_key( $blokino_item['bgOverlayType'] ) : 'color';
 				/*
 				 * Overlay en gradiente (scrim direccional). Este style se emite A MANO,
 				 * solo con esc_attr(), así que NO pasa por safecss_filter_attr(): aquí
 				 * no hay red de WordPress debajo y la validación es la única defensa.
 				 * Antes bastaba con quitar los ';' y encontrar un 'gradient(' en
 				 * cualquier parte de la cadena; ahora se exige que el valor ENTERO sea
-				 * una función de gradiente, con el MISMO helper que usa bloquix/section:
+				 * una función de gradiente, con el MISMO helper que usa blokino/section:
 				 * un solo criterio para los dos sitios, en vez de uno flojo y otro
 				 * estricto según por dónde saliera el valor.
 				 */
-				$bloquix_ov_grad = '';
-				if ( 'gradient' === $bloquix_ov_type && ! empty( $bloquix_item['bgOverlayGradient'] ) ) {
-					$bloquix_ov_grad = bloquix_safe_css_gradient( $bloquix_item['bgOverlayGradient'] );
+				$blokino_ov_grad = '';
+				if ( 'gradient' === $blokino_ov_type && ! empty( $blokino_item['bgOverlayGradient'] ) ) {
+					$blokino_ov_grad = blokino_safe_css_gradient( $blokino_item['bgOverlayGradient'] );
 				}
 					/*
 					 * `sanitize_hex_color()` devolvía '' con cualquier rgba(), y el color
 					 * elegido se cambiaba en silencio por la tinta del fallback — pero el
 					 * control del sidebar lleva enableAlpha, así que en cuanto el comprador
 					 * tocaba la transparencia perdía su color. Se normaliza a hex de 8
-					 * dígitos, que conserva el alpha (mismo helper que bloquix/section).
+					 * dígitos, que conserva el alpha (mismo helper que blokino/section).
 					 */
-					$bloquix_ov_color = isset( $bloquix_item['bgOverlayColor'] ) && is_string( $bloquix_item['bgOverlayColor'] ) ? bloquix_safe_css_color( $bloquix_item['bgOverlayColor'] ) : '';
-			$bloquix_ov_bg    = $bloquix_ov_grad ? $bloquix_ov_grad : ( $bloquix_ov_color ? $bloquix_ov_color : 'var(--tnt-color-ink,#0b0b0f)' );
-			$bloquix_bg .= '<div class="bloquix-cslide__overlay" style="opacity:' . number_format( $bloquix_ov / 100, 2, '.', '' ) . ';background:' . esc_attr( $bloquix_ov_bg ) . ';"></div>';
+					$blokino_ov_color = isset( $blokino_item['bgOverlayColor'] ) && is_string( $blokino_item['bgOverlayColor'] ) ? blokino_safe_css_color( $blokino_item['bgOverlayColor'] ) : '';
+			$blokino_ov_bg    = $blokino_ov_grad ? $blokino_ov_grad : ( $blokino_ov_color ? $blokino_ov_color : 'var(--tnt-color-ink,#0b0b0f)' );
+			$blokino_bg .= '<div class="blokino-cslide__overlay" style="opacity:' . number_format( $blokino_ov / 100, 2, '.', '' ) . ';background:' . esc_attr( $blokino_ov_bg ) . ';"></div>';
 		}
 	}
 
 	// Textos.
-	$bloquix_title = ( isset( $bloquix_item['title'] ) && is_string( $bloquix_item['title'] ) ) ? trim( wp_strip_all_tags( $bloquix_item['title'] ) ) : '';
-	$bloquix_sub   = ( isset( $bloquix_item['subtitle'] ) && is_string( $bloquix_item['subtitle'] ) ) ? trim( wp_strip_all_tags( $bloquix_item['subtitle'] ) ) : '';
-	$bloquix_desc  = ( isset( $bloquix_item['description'] ) && is_string( $bloquix_item['description'] ) ) ? wp_kses_post( $bloquix_item['description'] ) : '';
+	$blokino_title = ( isset( $blokino_item['title'] ) && is_string( $blokino_item['title'] ) ) ? trim( wp_strip_all_tags( $blokino_item['title'] ) ) : '';
+	$blokino_sub   = ( isset( $blokino_item['subtitle'] ) && is_string( $blokino_item['subtitle'] ) ) ? trim( wp_strip_all_tags( $blokino_item['subtitle'] ) ) : '';
+	$blokino_desc  = ( isset( $blokino_item['description'] ) && is_string( $blokino_item['description'] ) ) ? wp_kses_post( $blokino_item['description'] ) : '';
 
-	$bloquix_title_html = '' !== $bloquix_title ? '<h3 class="bloquix-cslide__title' . $bloquix_align_class( isset( $bloquix_item['titleAlign'] ) ? $bloquix_item['titleAlign'] : '' ) . '">' . esc_html( $bloquix_title ) . '</h3>' : '';
-	$bloquix_sub_html   = '' !== $bloquix_sub ? '<p class="bloquix-cslide__subtitle' . $bloquix_align_class( isset( $bloquix_item['subtitleAlign'] ) ? $bloquix_item['subtitleAlign'] : '' ) . '">' . esc_html( $bloquix_sub ) . '</p>' : '';
-	$bloquix_desc_html  = '' !== $bloquix_desc ? '<div class="bloquix-cslide__desc' . $bloquix_align_class( isset( $bloquix_item['descAlign'] ) ? $bloquix_item['descAlign'] : '' ) . '">' . $bloquix_desc . '</div>' : '';
+	$blokino_title_html = '' !== $blokino_title ? '<h3 class="blokino-cslide__title' . $blokino_align_class( isset( $blokino_item['titleAlign'] ) ? $blokino_item['titleAlign'] : '' ) . '">' . esc_html( $blokino_title ) . '</h3>' : '';
+	$blokino_sub_html   = '' !== $blokino_sub ? '<p class="blokino-cslide__subtitle' . $blokino_align_class( isset( $blokino_item['subtitleAlign'] ) ? $blokino_item['subtitleAlign'] : '' ) . '">' . esc_html( $blokino_sub ) . '</p>' : '';
+	$blokino_desc_html  = '' !== $blokino_desc ? '<div class="blokino-cslide__desc' . $blokino_align_class( isset( $blokino_item['descAlign'] ) ? $blokino_item['descAlign'] : '' ) . '">' . $blokino_desc . '</div>' : '';
 
 	// Orden subtítulo/título.
-	$bloquix_head = ! empty( $bloquix_item['subtitleFirst'] ) ? ( $bloquix_sub_html . $bloquix_title_html ) : ( $bloquix_title_html . $bloquix_sub_html );
+	$blokino_head = ! empty( $blokino_item['subtitleFirst'] ) ? ( $blokino_sub_html . $blokino_title_html ) : ( $blokino_title_html . $blokino_sub_html );
 
 	// Alineación de contenido (grupo).
-	$bloquix_content_align = isset( $bloquix_item['contentAlign'] ) && in_array( $bloquix_item['contentAlign'], array( 'left', 'center', 'right' ), true ) ? $bloquix_item['contentAlign'] : 'left';
+	$blokino_content_align = isset( $blokino_item['contentAlign'] ) && in_array( $blokino_item['contentAlign'], array( 'left', 'center', 'right' ), true ) ? $blokino_item['contentAlign'] : 'left';
 
-	$bloquix_content = '<div class="bloquix-cslide__content bloquix-cslide__content--' . esc_attr( $bloquix_content_align ) . '">'
-		. $bloquix_head . $bloquix_desc_html
-		. $bloquix_render_ctas( isset( $bloquix_item['ctas'] ) ? $bloquix_item['ctas'] : array() )
+	$blokino_content = '<div class="blokino-cslide__content blokino-cslide__content--' . esc_attr( $blokino_content_align ) . '">'
+		. $blokino_head . $blokino_desc_html
+		. $blokino_render_ctas( isset( $blokino_item['ctas'] ) ? $blokino_item['ctas'] : array() )
 		. '</div>';
 
 	// Modificador según haya imagen de fondo: con media = slide con capa de imagen +
 	// overlay y contenido superpuesto; solo texto = slide plano por tokens del theme.
-	$bloquix_cslide_class = 'bloquix-cslide' . ( '' !== $bloquix_bg ? ' bloquix-cslide--media' : ' bloquix-cslide--text' );
-	$bloquix_slides .= '<div class="swiper-slide"><div class="' . $bloquix_cslide_class . '">' . $bloquix_bg . $bloquix_content . '</div></div>';
+	$blokino_cslide_class = 'blokino-cslide' . ( '' !== $blokino_bg ? ' blokino-cslide--media' : ' blokino-cslide--text' );
+	$blokino_slides .= '<div class="swiper-slide"><div class="' . $blokino_cslide_class . '">' . $blokino_bg . $blokino_content . '</div></div>';
 }
 
-if ( '' === $bloquix_slides ) {
+if ( '' === $blokino_slides ) {
 	return;
 }
 
-if ( class_exists( 'Bloquix_Runtime' ) ) {
-	Bloquix_Runtime::enqueue_carousel();
+if ( class_exists( 'Blokino_Runtime' ) ) {
+	Blokino_Runtime::enqueue_carousel();
 }
 
-$bloquix_effect = isset( $attributes['effect'] ) ? sanitize_key( $attributes['effect'] ) : 'slide';
-$bloquix_spv    = isset( $attributes['slidesPerView'] ) ? (float) $attributes['slidesPerView'] : 1;
-$bloquix_space  = isset( $attributes['spaceBetween'] ) ? max( 0, (int) $attributes['spaceBetween'] ) : 24;
-$bloquix_speed  = isset( $attributes['speed'] ) ? max( 0, (int) $attributes['speed'] ) : 600;
-$bloquix_delay  = isset( $attributes['autoplayDelay'] ) ? max( 0, (int) $attributes['autoplayDelay'] ) : 5000;
-$bloquix_loop   = ! empty( $attributes['loop'] );
-$bloquix_auto   = ! empty( $attributes['autoplay'] );
-$bloquix_pag    = ! isset( $attributes['pagination'] ) || ! empty( $attributes['pagination'] );
-$bloquix_nav    = ! isset( $attributes['navigation'] ) || ! empty( $attributes['navigation'] );
-$bloquix_arrows_out = $bloquix_nav && ! empty( $attributes['arrowsOutside'] );
-$bloquix_pspv   = in_array( $bloquix_effect, array( 'fade', 'cards' ), true ) ? 1 : max( 1, $bloquix_spv );
+$blokino_effect = isset( $attributes['effect'] ) ? sanitize_key( $attributes['effect'] ) : 'slide';
+$blokino_spv    = isset( $attributes['slidesPerView'] ) ? (float) $attributes['slidesPerView'] : 1;
+$blokino_space  = isset( $attributes['spaceBetween'] ) ? max( 0, (int) $attributes['spaceBetween'] ) : 24;
+$blokino_speed  = isset( $attributes['speed'] ) ? max( 0, (int) $attributes['speed'] ) : 600;
+$blokino_delay  = isset( $attributes['autoplayDelay'] ) ? max( 0, (int) $attributes['autoplayDelay'] ) : 5000;
+$blokino_loop   = ! empty( $attributes['loop'] );
+$blokino_auto   = ! empty( $attributes['autoplay'] );
+$blokino_pag    = ! isset( $attributes['pagination'] ) || ! empty( $attributes['pagination'] );
+$blokino_nav    = ! isset( $attributes['navigation'] ) || ! empty( $attributes['navigation'] );
+$blokino_arrows_out = $blokino_nav && ! empty( $attributes['arrowsOutside'] );
+$blokino_pspv   = in_array( $blokino_effect, array( 'fade', 'cards' ), true ) ? 1 : max( 1, $blokino_spv );
 
-$bloquix_wrapper = get_block_wrapper_attributes(
+$blokino_wrapper = get_block_wrapper_attributes(
 	array(
-		'class'               => 'bloquix-content-slider bloquix-carousel swiper' . ( $bloquix_arrows_out ? ' bloquix-carousel--nav-outside' : '' ),
-		'style'               => '--tnt-carousel-spv:' . $bloquix_pspv . ';',
-		'data-swiper-base'    => esc_url( BLOQUIX_URL . 'runtime/vendor/swiper/' ),
-		'data-effect'         => $bloquix_effect,
-		'data-spv'            => (string) $bloquix_spv,
-		'data-space'          => (string) $bloquix_space,
-		'data-speed'          => (string) $bloquix_speed,
-		'data-loop'           => $bloquix_loop ? '1' : '0',
-		'data-autoplay'       => $bloquix_auto ? '1' : '0',
-		'data-autoplay-delay' => (string) $bloquix_delay,
-		'data-pagination'     => $bloquix_pag ? '1' : '0',
-		'data-navigation'     => $bloquix_nav ? '1' : '0',
+		'class'               => 'blokino-content-slider blokino-carousel swiper' . ( $blokino_arrows_out ? ' blokino-carousel--nav-outside' : '' ),
+		'style'               => '--tnt-carousel-spv:' . $blokino_pspv . ';',
+		'data-swiper-base'    => esc_url( BLOKINO_URL . 'runtime/vendor/swiper/' ),
+		'data-effect'         => $blokino_effect,
+		'data-spv'            => (string) $blokino_spv,
+		'data-space'          => (string) $blokino_space,
+		'data-speed'          => (string) $blokino_speed,
+		'data-loop'           => $blokino_loop ? '1' : '0',
+		'data-autoplay'       => $blokino_auto ? '1' : '0',
+		'data-autoplay-delay' => (string) $blokino_delay,
+		'data-pagination'     => $blokino_pag ? '1' : '0',
+		'data-navigation'     => $blokino_nav ? '1' : '0',
 	)
 );
 ?>
-<div <?php echo $bloquix_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
+<div <?php echo $blokino_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
 	<div class="swiper-wrapper">
-		<?php echo $bloquix_slides; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup escapado arriba. ?>
+		<?php echo $blokino_slides; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- markup escapado arriba. ?>
 	</div>
-	<?php if ( $bloquix_pag ) : ?><div class="swiper-pagination"></div><?php endif; ?>
-	<?php if ( $bloquix_nav ) : ?><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><?php endif; ?>
+	<?php if ( $blokino_pag ) : ?><div class="swiper-pagination"></div><?php endif; ?>
+	<?php if ( $blokino_nav ) : ?><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><?php endif; ?>
 </div>

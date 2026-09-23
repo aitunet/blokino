@@ -3,13 +3,13 @@
  * Extensiones tf* sobre blocks NATIVOS — FASE A (tfAnimation = "fade-up").
  *
  * Vía principal del motor (CLAUDE.md §4.1): se EXTIENDEN los blocks del core,
- * no se recrean. El lado editor (atributos, panel "BloqUIX Effects", inyección en
+ * no se recrean. El lado editor (atributos, panel "Blokino Effects", inyección en
  * el save) vive en extensions/effects-editor.js. Esta clase solo lo encola.
  *
  * La inyección PHP equivalente para blocks DINÁMICOS vive en
- * Bloquix_Runtime::render_block_effects() (paso 4 del §4.1).
+ * Blokino_Runtime::render_block_effects() (paso 4 del §4.1).
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,9 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Encola las extensiones de efectos del editor.
  */
-class Bloquix_Extensions {
+class Blokino_Extensions {
 
-	const EDITOR_HANDLE = 'bloquix-effects-editor';
+	const EDITOR_HANDLE = 'blokino-effects-editor';
 
 	/**
 	 * Cablea los hooks de las extensiones.
@@ -35,12 +35,12 @@ class Bloquix_Extensions {
 	 */
 	public function enqueue_editor_assets() {
 		$rel  = 'extensions/effects-editor.js';
-		$path = BLOQUIX_PATH . $rel;
-		$ver  = file_exists( $path ) ? (string) filemtime( $path ) : BLOQUIX_VERSION;
+		$path = BLOKINO_PATH . $rel;
+		$ver  = file_exists( $path ) ? (string) filemtime( $path ) : BLOKINO_VERSION;
 
 		wp_enqueue_script(
 			self::EDITOR_HANDLE,
-			BLOQUIX_URL . $rel,
+			BLOKINO_URL . $rel,
 			array(
 				'wp-blocks',
 				'wp-hooks',
@@ -54,9 +54,9 @@ class Bloquix_Extensions {
 			true
 		);
 
-		// i18n del lado JS (cadenas con dominio 'bloquix').
+		// i18n del lado JS (cadenas con dominio 'blokino').
 		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( self::EDITOR_HANDLE, 'bloquix', BLOQUIX_PATH . 'languages' );
+			wp_set_script_translations( self::EDITOR_HANDLE, 'blokino', BLOKINO_PATH . 'languages' );
 		}
 	}
 }

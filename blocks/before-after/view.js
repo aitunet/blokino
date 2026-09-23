@@ -1,5 +1,5 @@
 /* ==========================================================================
- * BloqUIX · Block bloquix/before-after — runtime de frontend (vanilla)
+ * Blokino · Block blokino/before-after — runtime de frontend (vanilla)
  * --------------------------------------------------------------------------
  * Arrastre del divisor (pointer events) + teclado (flechas) sobre el slider.
  * Sin dependencias. Se carga solo si el block está en la página.
@@ -17,7 +17,7 @@
 	}
 
 	function setup( el ) {
-		var handle = el.querySelector( '.bloquix-ba__handle' );
+		var handle = el.querySelector( '.blokino-ba__handle' );
 		var dragging = false;
 
 		function setPos( clientX ) {
@@ -80,7 +80,7 @@
 	}
 
 	function init() {
-		var nodes = document.querySelectorAll( '.bloquix-ba' );
+		var nodes = document.querySelectorAll( '.blokino-ba' );
 		for ( var i = 0; i < nodes.length; i++ ) {
 			setup( nodes[ i ] );
 		}

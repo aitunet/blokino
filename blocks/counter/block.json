@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "bloquix/counter",
+  "name": "blokino/counter",
   "version": "0.2.0",
-  "title": "BloqUIX Counter",
+  "title": "Blokino Counter",
   "category": "design",
   "icon": "chart-bar",
   "description": "Number that counts up to its value when it enters the viewport. Great for metrics and social proof.",
   "keywords": ["counter", "number", "metric", "stats"],
-  "textdomain": "bloquix",
+  "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,

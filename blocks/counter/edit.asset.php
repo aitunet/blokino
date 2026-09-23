@@ -1,8 +1,8 @@
 <?php
 /**
- * Dependencias y versión del editorScript del block bloquix/counter.
+ * Dependencias y versión del editorScript del block blokino/counter.
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 return array(

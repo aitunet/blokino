@@ -1,5 +1,5 @@
 /* ==========================================================================
- * BloqUIX · Block bloquix/counter — runtime de frontend (vanilla)
+ * Blokino · Block blokino/counter — runtime de frontend (vanilla)
  * --------------------------------------------------------------------------
  * Anima el número de `start` a `end` al entrar en viewport (IntersectionObserver
  * + requestAnimationFrame, easing easeOutExpo). Sin dependencias.
@@ -34,7 +34,7 @@
 	}
 
 	function animate( el ) {
-		var num = el.querySelector( '.bloquix-counter__num' );
+		var num = el.querySelector( '.blokino-counter__num' );
 		if ( ! num ) {
 			return;
 		}

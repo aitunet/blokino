@@ -1,6 +1,6 @@
 <?php
 /**
- * BloqUIX · Módulo de CONTENIDO — framework declarativo de tipos de contenido.
+ * Blokino · Módulo de CONTENIDO — framework declarativo de tipos de contenido.
  *
  * La funcionalidad (registrar CPTs/taxonomías/meta) vive en el motor (§2); la
  * PRESENTACIÓN (plantillas, patterns, estilos) la pone cada theme. Así el
@@ -10,7 +10,7 @@
  * como DATOS y los registra en bloque, de modo que un theme o un plugin pueda
  * declarar los suyos —`service`, `testimonial`, lo que sea— sin editar el motor:
  *
- *     bloquix_register_content_type(
+ *     blokino_register_content_type(
  *         'service',
  *         array(
  *             'labels' => array( 'singular' => 'Service', 'plural' => 'Services' ),
@@ -19,7 +19,7 @@
  *         )
  *     );
  *
- * ...o con el filtro `bloquix_content_types` para modificar los ajenos.
+ * ...o con el filtro `blokino_content_types` para modificar los ajenos.
  *
  * El motor sigue trayendo de serie:
  *  - CPT `project` (portfolio) con archivo en /work, soporte de bloques (REST),
@@ -28,7 +28,7 @@
  *  - Meta de caso de estudio (client/year/role/website) expuesta a REST para
  *    poder enlazarla con Block Bindings desde el theme (editable, no hardcode).
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Registra los tipos de contenido del motor y los declarados desde fuera.
  */
-class Bloquix_Content {
+class Blokino_Content {
 
 	const CPT      = 'project';
 	const TAXONOMY = 'project_type';
@@ -46,10 +46,10 @@ class Bloquix_Content {
 	/**
 	 * Opción con la huella de las reglas de reescritura ya volcadas.
 	 */
-	const SIGNATURE_OPTION = 'bloquix_content_signature';
+	const SIGNATURE_OPTION = 'blokino_content_signature';
 
 	/**
-	 * Tipos declarados desde fuera vía bloquix_register_content_type().
+	 * Tipos declarados desde fuera vía blokino_register_content_type().
 	 *
 	 * @var array<string,array>
 	 */
@@ -127,7 +127,7 @@ class Bloquix_Content {
 		 * Permite a un theme o plugin AMPLIAR o modificar los tipos de contenido.
 		 *
 		 * Recibe el mapa ya compuesto (núcleo + los declarados con
-		 * `bloquix_register_content_type()`) y devuelve el mapa final. Cada
+		 * `blokino_register_content_type()`) y devuelve el mapa final. Cada
 		 * entrada se valida y las inválidas se descartan en silencio, para que un
 		 * filtro mal escrito no tumbe el registro entero.
 		 *
@@ -142,7 +142,7 @@ class Bloquix_Content {
 		 *
 		 * @param array<string,array> $candidates Mapa de definiciones.
 		 */
-		$filtered = apply_filters( 'bloquix_content_types', $candidates );
+		$filtered = apply_filters( 'blokino_content_types', $candidates );
 
 		$types = array();
 		if ( is_array( $filtered ) ) {
@@ -543,21 +543,21 @@ class Bloquix_Content {
 			'name'          => $plural,
 			'singular_name' => $singular,
 			'menu_name'     => $menu,
-			'add_new'       => __( 'Add New', 'bloquix' ),
+			'add_new'       => __( 'Add New', 'blokino' ),
 			/* translators: %s: singular name of the content type. */
-			'add_new_item'  => sprintf( __( 'Add New %s', 'bloquix' ), $singular ),
+			'add_new_item'  => sprintf( __( 'Add New %s', 'blokino' ), $singular ),
 			/* translators: %s: singular name of the content type. */
-			'edit_item'     => sprintf( __( 'Edit %s', 'bloquix' ), $singular ),
+			'edit_item'     => sprintf( __( 'Edit %s', 'blokino' ), $singular ),
 			/* translators: %s: singular name of the content type. */
-			'new_item'      => sprintf( __( 'New %s', 'bloquix' ), $singular ),
+			'new_item'      => sprintf( __( 'New %s', 'blokino' ), $singular ),
 			/* translators: %s: singular name of the content type. */
-			'view_item'     => sprintf( __( 'View %s', 'bloquix' ), $singular ),
+			'view_item'     => sprintf( __( 'View %s', 'blokino' ), $singular ),
 			/* translators: %s: plural name of the content type. */
-			'search_items'  => sprintf( __( 'Search %s', 'bloquix' ), $plural ),
+			'search_items'  => sprintf( __( 'Search %s', 'blokino' ), $plural ),
 			/* translators: %s: plural name of the content type. */
-			'not_found'     => sprintf( __( 'No %s found', 'bloquix' ), $plural ),
+			'not_found'     => sprintf( __( 'No %s found', 'blokino' ), $plural ),
 			/* translators: %s: plural name of the content type. */
-			'all_items'     => sprintf( __( 'All %s', 'bloquix' ), $plural ),
+			'all_items'     => sprintf( __( 'All %s', 'blokino' ), $plural ),
 		);
 	}
 
@@ -578,19 +578,19 @@ class Bloquix_Content {
 			'singular_name' => $singular,
 			'menu_name'     => $menu,
 			/* translators: %s: plural name of the taxonomy. */
-			'all_items'     => sprintf( __( 'All %s', 'bloquix' ), $plural ),
+			'all_items'     => sprintf( __( 'All %s', 'blokino' ), $plural ),
 			/* translators: %s: singular name of the taxonomy. */
-			'edit_item'     => sprintf( __( 'Edit %s', 'bloquix' ), $singular ),
+			'edit_item'     => sprintf( __( 'Edit %s', 'blokino' ), $singular ),
 			/* translators: %s: singular name of the taxonomy. */
-			'update_item'   => sprintf( __( 'Update %s', 'bloquix' ), $singular ),
+			'update_item'   => sprintf( __( 'Update %s', 'blokino' ), $singular ),
 			/* translators: %s: singular name of the taxonomy. */
-			'add_new_item'  => sprintf( __( 'Add New %s', 'bloquix' ), $singular ),
+			'add_new_item'  => sprintf( __( 'Add New %s', 'blokino' ), $singular ),
 			/* translators: %s: singular name of the taxonomy. */
-			'new_item_name' => sprintf( __( 'New %s Name', 'bloquix' ), $singular ),
+			'new_item_name' => sprintf( __( 'New %s Name', 'blokino' ), $singular ),
 			/* translators: %s: plural name of the taxonomy. */
-			'search_items'  => sprintf( __( 'Search %s', 'bloquix' ), $plural ),
+			'search_items'  => sprintf( __( 'Search %s', 'blokino' ), $plural ),
 			/* translators: %s: plural name of the taxonomy. */
-			'not_found'     => sprintf( __( 'No %s found', 'bloquix' ), $plural ),
+			'not_found'     => sprintf( __( 'No %s found', 'blokino' ), $plural ),
 		);
 	}
 
@@ -608,17 +608,17 @@ class Bloquix_Content {
 			self::CPT => array(
 				'args'       => array(
 					'labels'        => array(
-						'name'          => _x( 'Projects', 'post type general name', 'bloquix' ),
-						'singular_name' => _x( 'Project', 'post type singular name', 'bloquix' ),
-						'menu_name'     => _x( 'Work', 'admin menu', 'bloquix' ),
-						'add_new'       => __( 'Add New', 'bloquix' ),
-						'add_new_item'  => __( 'Add New Project', 'bloquix' ),
-						'edit_item'     => __( 'Edit Project', 'bloquix' ),
-						'new_item'      => __( 'New Project', 'bloquix' ),
-						'view_item'     => __( 'View Project', 'bloquix' ),
-						'search_items'  => __( 'Search Projects', 'bloquix' ),
-						'not_found'     => __( 'No projects found', 'bloquix' ),
-						'all_items'     => __( 'All Projects', 'bloquix' ),
+						'name'          => _x( 'Projects', 'post type general name', 'blokino' ),
+						'singular_name' => _x( 'Project', 'post type singular name', 'blokino' ),
+						'menu_name'     => _x( 'Work', 'admin menu', 'blokino' ),
+						'add_new'       => __( 'Add New', 'blokino' ),
+						'add_new_item'  => __( 'Add New Project', 'blokino' ),
+						'edit_item'     => __( 'Edit Project', 'blokino' ),
+						'new_item'      => __( 'New Project', 'blokino' ),
+						'view_item'     => __( 'View Project', 'blokino' ),
+						'search_items'  => __( 'Search Projects', 'blokino' ),
+						'not_found'     => __( 'No projects found', 'blokino' ),
+						'all_items'     => __( 'All Projects', 'blokino' ),
 					),
 					'public'        => true,
 					'has_archive'   => 'work',
@@ -636,9 +636,9 @@ class Bloquix_Content {
 					self::TAXONOMY => array(
 						'args' => array(
 							'labels'            => array(
-								'name'          => _x( 'Project Types', 'taxonomy general name', 'bloquix' ),
-								'singular_name' => _x( 'Project Type', 'taxonomy singular name', 'bloquix' ),
-								'menu_name'     => __( 'Types', 'bloquix' ),
+								'name'          => _x( 'Project Types', 'taxonomy general name', 'blokino' ),
+								'singular_name' => _x( 'Project Type', 'taxonomy singular name', 'blokino' ),
+								'menu_name'     => __( 'Types', 'blokino' ),
 							),
 							'public'            => true,
 							'hierarchical'      => true,
@@ -652,17 +652,17 @@ class Bloquix_Content {
 					),
 				),
 				'meta'       => array(
-					'bloquix_project_client'  => array(
-						'label' => __( 'Client', 'bloquix' ),
+					'blokino_project_client'  => array(
+						'label' => __( 'Client', 'blokino' ),
 					),
-					'bloquix_project_year'    => array(
-						'label' => __( 'Year', 'bloquix' ),
+					'blokino_project_year'    => array(
+						'label' => __( 'Year', 'blokino' ),
 					),
-					'bloquix_project_role'    => array(
-						'label' => __( 'Role', 'bloquix' ),
+					'blokino_project_role'    => array(
+						'label' => __( 'Role', 'blokino' ),
 					),
-					'bloquix_project_website' => array(
-						'label'             => __( 'Website', 'bloquix' ),
+					'blokino_project_website' => array(
+						'label'             => __( 'Website', 'blokino' ),
 						// The website field is a URL → sanitize as one, the rest as text.
 						'sanitize_callback' => 'sanitize_url',
 					),

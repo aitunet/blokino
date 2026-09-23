@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "bloquix/content-slider",
+  "name": "blokino/content-slider",
   "version": "0.2.0",
-  "title": "BloqUIX Content Slider",
+  "title": "Blokino Content Slider",
   "category": "design",
   "icon": "images-alt",
   "description": "A structured slider: each slide has an image, title, subtitle, description and CTAs — edited in the sidebar.",
   "keywords": ["slider", "carousel", "hero", "content"],
-  "textdomain": "bloquix",
+  "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,

@@ -1,7 +1,7 @@
 /* ==========================================================================
- * BloqUIX · Runtime de carrusel COMPARTIDO (Swiper lazy)
+ * Blokino · Runtime de carrusel COMPARTIDO (Swiper lazy)
  * --------------------------------------------------------------------------
- * Escanea cualquier .bloquix-carousel (bloquix/testimonials, bloquix/content-slider…),
+ * Escanea cualquier .blokino-carousel (blokino/testimonials, blokino/content-slider…),
  * carga Swiper (vendorizado en runtime/vendor/swiper) de forma LAZY (solo cerca
  * del viewport) e inicializa con las opciones de sus data-attributes. Sin red
  * en runtime (copia local). prefers-reduced-motion → autoplay off. Si Swiper no
@@ -108,7 +108,7 @@
 	}
 
 	function init() {
-		var carousels = document.querySelectorAll( '.bloquix-carousel' );
+		var carousels = document.querySelectorAll( '.blokino-carousel' );
 		if ( ! carousels.length ) {
 			return;
 		}

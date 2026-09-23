@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "bloquix/before-after",
+  "name": "blokino/before-after",
   "version": "0.1.0",
-  "title": "BloqUIX Before / After",
+  "title": "Blokino Before / After",
   "category": "design",
   "icon": "image-flip-horizontal",
   "description": "Image comparison with a draggable divider (before / after).",
   "keywords": ["before", "after", "comparison", "slider"],
-  "textdomain": "bloquix",
+  "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,

@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "bloquix/icon",
+  "name": "blokino/icon",
   "version": "0.2.0",
-  "title": "BloqUIX Icon",
+  "title": "Blokino Icon",
   "category": "design",
   "icon": "star-filled",
   "description": "An inline SVG icon from a curated stroke set. Inherits color (currentColor), so it's theme-token friendly — no raw HTML needed.",
   "keywords": ["icon", "svg", "symbol", "glyph"],
-  "textdomain": "bloquix",
+  "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,

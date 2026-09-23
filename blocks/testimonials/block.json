@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "bloquix/testimonials",
+  "name": "blokino/testimonials",
   "version": "0.1.3",
-  "title": "BloqUIX Testimonials",
+  "title": "Blokino Testimonials",
   "category": "design",
   "icon": "testimonial",
   "description": "Typed testimonials in a carousel or grid. Each item has an avatar, star rating, quote, name and role.",
   "keywords": ["testimonials", "reviews", "quotes", "carousel"],
-  "textdomain": "bloquix",
+  "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,

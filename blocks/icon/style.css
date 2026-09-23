@@ -1,10 +1,10 @@
-/* BloqUIX · block bloquix/icon — estilos base (mínimos; el "badge" o el tamaño
+/* Blokino · block blokino/icon — estilos base (mínimos; el "badge" o el tamaño
  * fino los pone el consumidor con su clase, p.ej. .aurora-bento__icon). */
-.bloquix-icon {
+.blokino-icon {
 	display: inline-flex;
 	line-height: 0;
 	color: currentColor;
 }
-.bloquix-icon svg {
+.blokino-icon svg {
 	display: block;
 }

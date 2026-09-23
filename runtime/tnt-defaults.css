@@ -1,7 +1,7 @@
 /* ==========================================================================
- * BloqUIX · Defaults del contrato de tokens (--tnt-*)
+ * Blokino · Defaults del contrato de tokens (--tnt-*)
  * --------------------------------------------------------------------------
- * BloqUIX va a wp.org y DEBE ser útil por sí solo (CLAUDE.md §12, regla 1):
+ * Blokino va a wp.org y DEBE ser útil por sí solo (CLAUDE.md §12, regla 1):
  * sin un theme Tunet activo, los efectos y bloques del motor seguirían leyendo
  * --tnt-* sin valor. Aquí definimos un baseline NEUTRAL y theme-agnóstico para
  * que todo "degrade con dignidad" en cualquier theme.
@@ -93,7 +93,7 @@
 		--tnt-dur-base: 550ms;
 		--tnt-dur-slow: 900ms;
 
-		/* ---- MARCA: qué variante de logo se ve (block bloquix/brand en 'auto') ----
+		/* ---- MARCA: qué variante de logo se ve (block blokino/brand en 'auto') ----
 		   El baseline es el comportamiento histórico: solo el logo principal. Un theme
 		   Tunet las voltea desde tokens.css / su style variation para que las paletas
 		   oscuras usen el logo claro; un theme cualquiera de wp.org no nota nada. */

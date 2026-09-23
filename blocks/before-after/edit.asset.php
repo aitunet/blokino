@@ -1,8 +1,8 @@
 <?php
 /**
- * Dependencias y versión del editorScript del block bloquix/before-after.
+ * Dependencias y versión del editorScript del block blokino/before-after.
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 return array(

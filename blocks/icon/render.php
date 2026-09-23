@@ -1,11 +1,11 @@
 <?php
 /**
- * Render del block bloquix/icon (dinámico).
+ * Render del block blokino/icon (dinámico).
  *
  * Pinta un <svg> inline desde el set curado (icons.php) vía el helper compartido
- * bloquix_icon_svg(). El color viene de `currentColor` (theme-token friendly).
+ * blokino_icon_svg(). El color viene de `currentColor` (theme-token friendly).
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,29 +14,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/icons.php';
 
-$bloquix_set  = bloquix_icon_set();
-$bloquix_name = isset( $attributes['icon'] ) ? sanitize_key( $attributes['icon'] ) : '';
-if ( ! isset( $bloquix_set[ $bloquix_name ] ) ) {
-	$bloquix_keys = array_keys( $bloquix_set );
-	$bloquix_name = isset( $bloquix_keys[0] ) ? $bloquix_keys[0] : '';
+$blokino_set  = blokino_icon_set();
+$blokino_name = isset( $attributes['icon'] ) ? sanitize_key( $attributes['icon'] ) : '';
+if ( ! isset( $blokino_set[ $blokino_name ] ) ) {
+	$blokino_keys = array_keys( $blokino_set );
+	$blokino_name = isset( $blokino_keys[0] ) ? $blokino_keys[0] : '';
 }
-if ( '' === $bloquix_name ) {
+if ( '' === $blokino_name ) {
 	return;
 }
 
-$bloquix_size   = isset( $attributes['size'] ) ? (int) $attributes['size'] : 24;
-$bloquix_stroke = isset( $attributes['strokeWidth'] ) ? (float) $attributes['strokeWidth'] : 2;
-$bloquix_label  = isset( $attributes['label'] ) ? trim( (string) $attributes['label'] ) : '';
+$blokino_size   = isset( $attributes['size'] ) ? (int) $attributes['size'] : 24;
+$blokino_stroke = isset( $attributes['strokeWidth'] ) ? (float) $attributes['strokeWidth'] : 2;
+$blokino_label  = isset( $attributes['label'] ) ? trim( (string) $attributes['label'] ) : '';
 
-$bloquix_svg = bloquix_icon_svg(
-	$bloquix_name,
+$blokino_svg = blokino_icon_svg(
+	$blokino_name,
 	array(
-		'size'   => $bloquix_size,
-		'stroke' => $bloquix_stroke,
-		'label'  => $bloquix_label,
+		'size'   => $blokino_size,
+		'stroke' => $blokino_stroke,
+		'label'  => $blokino_label,
 	)
 );
 
-$bloquix_wrapper = get_block_wrapper_attributes( array( 'class' => 'bloquix-icon' ) );
+$blokino_wrapper = get_block_wrapper_attributes( array( 'class' => 'blokino-icon' ) );
 ?>
-<span <?php echo $bloquix_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>><?php echo $bloquix_svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG curado del motor (icons.php), no entrada de usuario. ?></span>
+<span <?php echo $blokino_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>><?php echo $blokino_svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG curado del motor (icons.php), no entrada de usuario. ?></span>

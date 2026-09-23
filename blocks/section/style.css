@@ -1,5 +1,5 @@
 /* ==========================================================================
- * BloqUIX · Block bloquix/section — fondos avanzados + dividers
+ * Blokino · Block blokino/section — fondos avanzados + dividers
  * --------------------------------------------------------------------------
  * Capas: __bg (z0) → __overlay (z1) → __inner (z2) → __divider (z3).
  * Estética 100% desde tokens --tnt-*; los valores por block llegan como CSS
@@ -7,7 +7,7 @@
  * desactivadas con prefers-reduced-motion.
  * ========================================================================== */
 
-.bloquix-section {
+.blokino-section {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -22,19 +22,19 @@
 
 /* width:100% + padding-inline en __inner exige border-box; sin él, el padding
    se suma al 100% y la sección desborda el viewport (visible en móvil). */
-.bloquix-section,
-.bloquix-section__inner,
-.bloquix-section__bg,
-.bloquix-section__overlay {
+.blokino-section,
+.blokino-section__inner,
+.blokino-section__bg,
+.blokino-section__overlay {
 	box-sizing: border-box;
 }
 
-.bloquix-section.is-valign-top    { justify-content: flex-start; }
-.bloquix-section.is-valign-center { justify-content: center; }
-.bloquix-section.is-valign-bottom { justify-content: flex-end; }
+.blokino-section.is-valign-top    { justify-content: flex-start; }
+.blokino-section.is-valign-center { justify-content: center; }
+.blokino-section.is-valign-bottom { justify-content: flex-end; }
 
 /* --- Contenido --- */
-.bloquix-section__inner {
+.blokino-section__inner {
 	position: relative;
 	z-index: 2;
 	width: 100%;
@@ -44,19 +44,19 @@
 
 /* Ancho del contenido (independiente del ancho de la sección):
    constrained = content-size · wide = wide-size · full = sin límite. */
-.bloquix-section.is-content-constrained .bloquix-section__inner {
+.blokino-section.is-content-constrained .blokino-section__inner {
 	max-width: var( --wp--style--global--content-size, 44rem );
 }
-.bloquix-section.is-content-wide .bloquix-section__inner {
+.blokino-section.is-content-wide .blokino-section__inner {
 	max-width: var( --wp--style--global--wide-size, 76rem );
 }
-.bloquix-section.is-content-full .bloquix-section__inner {
+.blokino-section.is-content-full .blokino-section__inner {
 	max-width: none;
 	padding-inline: 0;
 }
 
 /* --- Capa de fondo --- */
-.bloquix-section__bg {
+.blokino-section__bg {
 	position: absolute;
 	inset: 0;
 	z-index: 0;
@@ -66,40 +66,40 @@
 	pointer-events: none;
 }
 
-.is-bg-color .bloquix-section__bg {
+.is-bg-color .blokino-section__bg {
 	background: var( --tf-sec-bg, var( --tnt-color-surface ) );
 }
 
-.is-bg-gradient .bloquix-section__bg {
+.is-bg-gradient .blokino-section__bg {
 	background: var( --tf-sec-gradient, linear-gradient( 135deg, var( --tnt-color-primary ), var( --tnt-color-accent ) ) );
 	background-size: 200% 200%;
 }
-.is-bg-gradient.is-animated .bloquix-section__bg {
-	animation: bloquix-section-pan 16s linear infinite alternate;
+.is-bg-gradient.is-animated .blokino-section__bg {
+	animation: blokino-section-pan 16s linear infinite alternate;
 }
 
-.is-bg-mesh .bloquix-section__bg {
+.is-bg-mesh .blokino-section__bg {
 	background-color: var( --tnt-color-bg );
 	background-image:
 		radial-gradient( at 18% 24%, var( --tf-mesh-1, color-mix( in srgb, var( --tnt-color-primary ) 70%, transparent ) ) 0px, transparent 45% ),
 		radial-gradient( at 82% 18%, var( --tf-mesh-2, color-mix( in srgb, var( --tnt-color-accent ) 70%, transparent ) ) 0px, transparent 45% ),
 		radial-gradient( at 50% 82%, var( --tf-mesh-3, color-mix( in srgb, var( --tnt-color-accent-2 ) 70%, transparent ) ) 0px, transparent 50% );
 	background-size: 180% 180%;
-	animation: bloquix-section-mesh 22s ease-in-out infinite alternate;
+	animation: blokino-section-mesh 22s ease-in-out infinite alternate;
 }
 
-.is-bg-image .bloquix-section__bg {
+.is-bg-image .blokino-section__bg {
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 }
 
-.is-bg-video .bloquix-section__bg {
+.is-bg-video .blokino-section__bg {
 	object-fit: cover;
 }
 
 /* --- Overlay --- */
-.bloquix-section__overlay {
+.blokino-section__overlay {
 	position: absolute;
 	inset: 0;
 	z-index: 1;
@@ -112,7 +112,7 @@
    Capa aparte del overlay (no lo pisa: el valor que eligió el comprador sigue
    intacto y editable). Nace invisible y solo entra bajo el breakpoint móvil de
    WP, así que una sección sin el ajuste activado no cambia en nada. */
-.bloquix-section__scrim {
+.blokino-section__scrim {
 	position: absolute;
 	inset: 0;
 	z-index: 1;
@@ -121,13 +121,13 @@
 	opacity: 0;
 }
 @media ( max-width: 781px ) {
-	.bloquix-section.has-mobile-scrim .bloquix-section__scrim {
+	.blokino-section.has-mobile-scrim .blokino-section__scrim {
 		opacity: var( --tf-sec-scrim-m-op, 0.55 );
 	}
 }
 
 /* --- Shape dividers --- */
-.bloquix-section__divider {
+.blokino-section__divider {
 	position: absolute;
 	left: 0;
 	width: 100%;
@@ -137,24 +137,24 @@
 	pointer-events: none;
 	color: var( --tf-sec-divider-color, var( --tnt-color-bg ) );
 }
-.bloquix-section__divider--top {
+.blokino-section__divider--top {
 	top: 0;
 	transform: rotate( 180deg );
 }
-.bloquix-section__divider--bottom {
+.blokino-section__divider--bottom {
 	bottom: 0;
 }
-.bloquix-section__divider svg {
+.blokino-section__divider svg {
 	display: block;
 	width: 100%;
 	height: 100%;
 }
-.bloquix-section__divider path {
+.blokino-section__divider path {
 	fill: currentColor;
 }
 
 /* --- Control de pausa/play del vídeo de fondo (WCAG 2.2.2) — discreto, esquina. --- */
-.bloquix-section__video-toggle {
+.blokino-section__video-toggle {
 	position: absolute;
 	inset-block-end: var( --tnt-space-3, 0.75rem );
 	inset-inline-end: var( --tnt-space-3, 0.75rem );
@@ -174,20 +174,20 @@
 	transition: opacity var( --tnt-dur-fast, 250ms ) var( --tnt-ease-expo, ease ),
 		transform var( --tnt-dur-fast, 250ms ) var( --tnt-ease-expo, ease );
 }
-.bloquix-section:hover .bloquix-section__video-toggle,
-.bloquix-section__video-toggle:focus-visible { opacity: 1; }
-.bloquix-section__video-toggle:focus-visible {
+.blokino-section:hover .blokino-section__video-toggle,
+.blokino-section__video-toggle:focus-visible { opacity: 1; }
+.blokino-section__video-toggle:focus-visible {
 	outline: 2px solid #fff;
 	outline-offset: 2px;
 }
-.bloquix-section__video-toggle:hover { transform: scale( 1.08 ); }
+.blokino-section__video-toggle:hover { transform: scale( 1.08 ); }
 /* Icono: dos barras (pausa) → triángulo (play) cuando el vídeo está pausado. */
-.bloquix-section__video-toggle-icon {
+.blokino-section__video-toggle-icon {
 	inline-size: 0.55rem;
 	block-size: 0.65rem;
 	border-inline: 0.18rem solid currentColor;
 }
-.bloquix-section.is-video-paused .bloquix-section__video-toggle-icon {
+.blokino-section.is-video-paused .blokino-section__video-toggle-icon {
 	inline-size: 0;
 	block-size: 0;
 	border: 0.34rem solid transparent;
@@ -196,15 +196,15 @@
 }
 
 /* --- Animaciones (loop continuo) --- */
-@keyframes bloquix-section-pan {
+@keyframes blokino-section-pan {
 	to { background-position: 100% 50%; }
 }
-@keyframes bloquix-section-mesh {
+@keyframes blokino-section-mesh {
 	to { background-position: 100% 100%; }
 }
 
 @media ( prefers-reduced-motion: reduce ) {
-	.bloquix-section__bg {
+	.blokino-section__bg {
 		animation: none !important;
 	}
 }

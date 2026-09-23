@@ -1,5 +1,5 @@
 /* ==========================================================================
- * BloqUIX · Block bloquix/brand — editor
+ * Blokino · Block blokino/brand — editor
  * --------------------------------------------------------------------------
  * Sin JSX. Block dinámico (save → null). El preview usa wp.serverSideRender:
  * renderiza el render.php real, así el editor muestra el logo/título verdadero
@@ -18,7 +18,7 @@
 	var c = wp.components;
 	var ServerSideRender = wp.serverSideRender;
 
-	registerBlockType( 'bloquix/brand', {
+	registerBlockType( 'blokino/brand', {
 		edit: function ( props ) {
 			var a = props.attributes;
 			var set = props.setAttributes;
@@ -32,14 +32,14 @@
 					{},
 					el(
 						c.PanelBody,
-						{ title: __( 'Brand', 'bloquix' ), initialOpen: true },
+						{ title: __( 'Brand', 'blokino' ), initialOpen: true },
 						el( c.SelectControl, {
-							label: __( 'Variant', 'bloquix' ),
+							label: __( 'Variant', 'blokino' ),
 							value: a.variant,
 							options: [
-								{ label: __( 'Automatic (follows the palette)', 'bloquix' ), value: 'auto' },
-								{ label: __( 'Main', 'bloquix' ), value: 'main' },
-								{ label: __( 'Alternative', 'bloquix' ), value: 'alt' }
+								{ label: __( 'Automatic (follows the palette)', 'blokino' ), value: 'auto' },
+								{ label: __( 'Main', 'blokino' ), value: 'main' },
+								{ label: __( 'Alternative', 'blokino' ), value: 'alt' }
 							],
 							onChange: function ( v ) { set( { variant: v } ); },
 							__nextHasNoMarginBottom: true
@@ -48,11 +48,11 @@
 						// oscura: hasta ahora no pasaba y parecia un fallo del theme.
 						el(
 							'p',
-							{ className: 'bloquix-editor-note' },
-							__( 'Automatic shows the alternative logo on dark palettes and style variations, and the main one otherwise. Set both in BloqUIX → Logos.', 'bloquix' )
+							{ className: 'blokino-editor-note' },
+							__( 'Automatic shows the alternative logo on dark palettes and style variations, and the main one otherwise. Set both in Blokino → Logos.', 'blokino' )
 						),
 						el( c.RangeControl, {
-							label: __( 'Max width (px)', 'bloquix' ),
+							label: __( 'Max width (px)', 'blokino' ),
 							value: a.maxWidth,
 							min: 40,
 							max: 320,
@@ -61,7 +61,7 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.ToggleControl, {
-							label: __( 'Link to Home', 'bloquix' ),
+							label: __( 'Link to Home', 'blokino' ),
 							checked: !! a.linkToHome,
 							onChange: function ( v ) { set( { linkToHome: !! v } ); },
 							__nextHasNoMarginBottom: true
@@ -71,8 +71,8 @@
 							{ style: { marginTop: '4px' } },
 							el(
 								c.ExternalLink,
-								{ href: 'admin.php?page=bloquix-settings' },
-								__( 'Manage logo in BloqUIX → Logos', 'bloquix' )
+								{ href: 'admin.php?page=blokino-settings' },
+								__( 'Manage logo in Blokino → Logos', 'blokino' )
 							)
 						)
 					)
@@ -86,9 +86,9 @@
 					// navigating; the front-end anchor is unaffected.
 					el(
 						'div',
-						{ className: 'bloquix-brand__ssr', style: { pointerEvents: 'none' } },
+						{ className: 'blokino-brand__ssr', style: { pointerEvents: 'none' } },
 						el( ServerSideRender, {
-							block: 'bloquix/brand',
+							block: 'blokino/brand',
 							attributes: a
 						} )
 					)

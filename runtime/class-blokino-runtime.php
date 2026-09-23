@@ -12,7 +12,7 @@
  *
  * Patrón de carga (no bloquea el render):
  *  - <head>: SOLO un snippet inline mínimo (sin red) que añade la clase
- *    .bloquix-tf-ready a <html>. Es el gate anti-FOUC: el estado oculto del CSS
+ *    .blokino-tf-ready a <html>. Es el gate anti-FOUC: el estado oculto del CSS
  *    depende de esa clase, así que el contenido arranca oculto desde el primer
  *    paint sin necesidad de descargar el runtime.
  *  - footer: el runtime real (IntersectionObserver) con strategy "defer", que
@@ -26,7 +26,7 @@
  * singulares); en ese caso el snippet inline puede no llegar al <head> y la
  * clase la añade defensivamente el propio runtime.
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,14 +36,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Gestiona los assets del runtime de efectos y la inyección server-side.
  */
-class Bloquix_Runtime {
+class Blokino_Runtime {
 
-	const STYLE_HANDLE  = 'bloquix-effects';
-	const SCRIPT_HANDLE = 'bloquix-runtime';
-	const TOKENS_HANDLE = 'bloquix-tokens';
+	const STYLE_HANDLE  = 'blokino-effects';
+	const SCRIPT_HANDLE = 'blokino-runtime';
+	const TOKENS_HANDLE = 'blokino-tokens';
 
-	const CAROUSEL_STYLE  = 'bloquix-carousel';
-	const CAROUSEL_SCRIPT = 'bloquix-carousel';
+	const CAROUSEL_STYLE  = 'blokino-carousel';
+	const CAROUSEL_SCRIPT = 'blokino-carousel';
 
 	/** Curvas de easing válidas (mapean a tokens --tnt-ease-*). */
 	const EASINGS = array( 'expo', 'power3', 'spring', 'circ' );
@@ -111,7 +111,7 @@ class Bloquix_Runtime {
 	public function enqueue_token_defaults() {
 		wp_enqueue_style(
 			self::TOKENS_HANDLE,
-			BLOQUIX_URL . 'runtime/tnt-defaults.css',
+			BLOKINO_URL . 'runtime/tnt-defaults.css',
 			array(),
 			self::asset_version( 'runtime/tnt-defaults.css' )
 		);
@@ -125,27 +125,27 @@ class Bloquix_Runtime {
 	 * en el front como en el iframe del editor.
 	 */
 	public function enqueue_branding() {
-		if ( ! class_exists( 'Bloquix_Admin' ) ) {
+		if ( ! class_exists( 'Blokino_Admin' ) ) {
 			return;
 		}
 
-		$settings = Bloquix_Admin::get_settings();
+		$settings = Blokino_Admin::get_settings();
 
-		$fonts_url = Bloquix_Admin::fonts_url( $settings );
+		$fonts_url = Blokino_Admin::fonts_url( $settings );
 		if ( $fonts_url ) {
-			wp_enqueue_style( 'bloquix-fonts', $fonts_url, array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- URL versionada por Google.
+			wp_enqueue_style( 'blokino-fonts', $fonts_url, array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- URL versionada por Google.
 		}
 
-		$css = Bloquix_Admin::branding_css( $settings );
+		$css = Blokino_Admin::branding_css( $settings );
 		if ( $css ) {
-			if ( ! wp_style_is( 'bloquix-branding', 'registered' ) ) {
+			if ( ! wp_style_is( 'blokino-branding', 'registered' ) ) {
 				// Handle sin fuente: solo transporta el wp_add_inline_style de abajo.
 				// La versión no cambia nada aquí, pero se declara porque un registro
 				// sin versión es un aviso de los estándares y no merece una excepción.
-				wp_register_style( 'bloquix-branding', false, array(), BLOQUIX_VERSION );
+				wp_register_style( 'blokino-branding', false, array(), BLOKINO_VERSION );
 			}
-			wp_enqueue_style( 'bloquix-branding' );
-			wp_add_inline_style( 'bloquix-branding', $css );
+			wp_enqueue_style( 'blokino-branding' );
+			wp_add_inline_style( 'blokino-branding', $css );
 		}
 	}
 
@@ -164,14 +164,14 @@ class Bloquix_Runtime {
 	public function register_assets() {
 		wp_register_style(
 			self::STYLE_HANDLE,
-			BLOQUIX_URL . 'runtime/effects.css',
+			BLOKINO_URL . 'runtime/effects.css',
 			array(),
 			self::asset_version( 'runtime/effects.css' )
 		);
 
 		wp_register_script(
 			self::SCRIPT_HANDLE,
-			BLOQUIX_URL . 'runtime/effects.js',
+			BLOKINO_URL . 'runtime/effects.js',
 			array(),
 			self::asset_version( 'runtime/effects.js' ),
 			array(
@@ -182,13 +182,13 @@ class Bloquix_Runtime {
 
 		wp_register_style(
 			self::CAROUSEL_STYLE,
-			BLOQUIX_URL . 'runtime/carousel.css',
+			BLOKINO_URL . 'runtime/carousel.css',
 			array(),
 			self::asset_version( 'runtime/carousel.css' )
 		);
 		wp_register_script(
 			self::CAROUSEL_SCRIPT,
-			BLOQUIX_URL . 'runtime/carousel.js',
+			BLOKINO_URL . 'runtime/carousel.js',
 			array(),
 			self::asset_version( 'runtime/carousel.js' ),
 			array( 'in_footer' => true )
@@ -196,7 +196,7 @@ class Bloquix_Runtime {
 	}
 
 	/**
-	 * Imprime el bootstrap inline en el <head>: añade .bloquix-tf-ready a <html>.
+	 * Imprime el bootstrap inline en el <head>: añade .blokino-tf-ready a <html>.
 	 *
 	 * Mínimo y síncrono, sin red. Solo se emite si el runtime está activo en
 	 * esta página (carga condicional). Es lo único del runtime que toca el
@@ -209,7 +209,7 @@ class Bloquix_Runtime {
 			return;
 		}
 
-		echo "<script id=\"bloquix-tf-bootstrap\">document.documentElement.classList.add('bloquix-tf-ready');</script>\n";
+		echo "<script id=\"blokino-tf-bootstrap\">document.documentElement.classList.add('blokino-tf-ready');</script>\n";
 	}
 
 	/**
@@ -218,7 +218,7 @@ class Bloquix_Runtime {
 	 *
 	 * Los efectos también pueden vivir en la plantilla FSE (héroes de single/
 	 * archive) o sus parts, que `post_content` no cubre. Si no se pre-encola, el
-	 * gate anti-FOUC `.bloquix-tf-ready` y el `effects.css` no llegan al <head> a
+	 * gate anti-FOUC `.blokino-tf-ready` y el `effects.css` no llegan al <head> a
 	 * tiempo → parpadeo. La plantilla resuelta ya está disponible aquí: WP la fija
 	 * en `$_wp_current_template_content` (locate_block_template) durante el
 	 * template-loader, ANTES de incluir el canvas donde corre wp_head. (§4.3/§10.)
@@ -288,14 +288,14 @@ class Bloquix_Runtime {
 		}
 
 		if ( ! wp_style_is( self::STYLE_HANDLE, 'registered' ) ) {
-			wp_register_style( self::STYLE_HANDLE, BLOQUIX_URL . 'runtime/effects.css', array(), BLOQUIX_VERSION );
+			wp_register_style( self::STYLE_HANDLE, BLOKINO_URL . 'runtime/effects.css', array(), BLOKINO_VERSION );
 		}
 		if ( ! wp_script_is( self::SCRIPT_HANDLE, 'registered' ) ) {
 			wp_register_script(
 				self::SCRIPT_HANDLE,
-				BLOQUIX_URL . 'runtime/effects.js',
+				BLOKINO_URL . 'runtime/effects.js',
 				array(),
-				BLOQUIX_VERSION,
+				BLOKINO_VERSION,
 				array(
 					'in_footer' => true,
 					'strategy'  => 'defer',
@@ -311,7 +311,7 @@ class Bloquix_Runtime {
 
 	/**
 	 * Encola el runtime de carrusel COMPARTIDO (Swiper). Lo llaman en su render
-	 * los blocks de carrusel (bloquix/testimonials, bloquix/content-slider) → carga
+	 * los blocks de carrusel (blokino/testimonials, blokino/content-slider) → carga
 	 * condicional: solo si un carrusel aparece en la página. Registro perezoso
 	 * por si un render corre antes de register_assets().
 	 */
@@ -319,7 +319,7 @@ class Bloquix_Runtime {
 		if ( ! wp_style_is( self::CAROUSEL_STYLE, 'registered' ) ) {
 			wp_register_style(
 				self::CAROUSEL_STYLE,
-				BLOQUIX_URL . 'runtime/carousel.css',
+				BLOKINO_URL . 'runtime/carousel.css',
 				array(),
 				self::asset_version( 'runtime/carousel.css' )
 			);
@@ -327,7 +327,7 @@ class Bloquix_Runtime {
 		if ( ! wp_script_is( self::CAROUSEL_SCRIPT, 'registered' ) ) {
 			wp_register_script(
 				self::CAROUSEL_SCRIPT,
-				BLOQUIX_URL . 'runtime/carousel.js',
+				BLOKINO_URL . 'runtime/carousel.js',
 				array(),
 				self::asset_version( 'runtime/carousel.js' ),
 				array( 'in_footer' => true )
@@ -390,8 +390,8 @@ class Bloquix_Runtime {
 	 * @return bool
 	 */
 	private static function effects_enabled() {
-		if ( class_exists( 'Bloquix_Admin' ) ) {
-			return Bloquix_Admin::effects_enabled();
+		if ( class_exists( 'Blokino_Admin' ) ) {
+			return Blokino_Admin::effects_enabled();
 		}
 		return true;
 	}
@@ -619,7 +619,7 @@ class Bloquix_Runtime {
 	 * @return string
 	 */
 	private static function asset_version( $relative_path ) {
-		$abs = BLOQUIX_PATH . $relative_path;
-		return file_exists( $abs ) ? (string) filemtime( $abs ) : BLOQUIX_VERSION;
+		$abs = BLOKINO_PATH . $relative_path;
+		return file_exists( $abs ) ? (string) filemtime( $abs ) : BLOKINO_VERSION;
 	}
 }

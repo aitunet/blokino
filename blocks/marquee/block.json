@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "bloquix/marquee",
+  "name": "blokino/marquee",
   "version": "0.1.4",
-  "title": "BloqUIX Marquee",
+  "title": "Blokino Marquee",
   "category": "design",
   "icon": "controls-repeat",
   "description": "Infinite scrolling band of text or images (logos, claims, metrics). Content is inner blocks; duplicated for a seamless loop.",
   "keywords": ["marquee", "band", "logos", "ticker", "scroll"],
-  "textdomain": "bloquix",
+  "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,

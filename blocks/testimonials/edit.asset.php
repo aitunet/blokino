@@ -7,8 +7,8 @@ return array(
 		'wp-components',
 		'wp-i18n',
 		'wp-server-side-render',
-		'bloquix-repeater-control',
-		'bloquix-carousel-editor',
+		'blokino-repeater-control',
+		'blokino-carousel-editor',
 	),
 	'version' => '0.2.4',
 );

@@ -1,16 +1,16 @@
 /* ==========================================================================
- * BloqUIX · Admin — tabs, selector de logos y colores.
+ * Blokino · Admin — tabs, selector de logos y colores.
  * ========================================================================== */
 ( function () {
 	'use strict';
 
-	var cfg = window.bloquixAdmin || {};
+	var cfg = window.blokinoAdmin || {};
 
 	/* --- Selector de logos (wp.media) --- */
 	function previewFor( targetId ) {
-		return document.querySelector( '.bloquix-logo-preview[data-for="' + targetId + '"]' );
+		return document.querySelector( '.blokino-logo-preview[data-for="' + targetId + '"]' );
 	}
-	Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-logo-pick' ), function ( btn ) {
+	Array.prototype.forEach.call( document.querySelectorAll( '.blokino-logo-pick' ), function ( btn ) {
 		btn.addEventListener( 'click', function ( e ) {
 			e.preventDefault();
 			if ( ! window.wp || ! window.wp.media ) {
@@ -40,7 +40,7 @@
 			frame.open();
 		} );
 	} );
-	Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-logo-remove' ), function ( btn ) {
+	Array.prototype.forEach.call( document.querySelectorAll( '.blokino-logo-remove' ), function ( btn ) {
 		btn.addEventListener( 'click', function () {
 			var targetId = btn.getAttribute( 'data-target' );
 			var input = document.getElementById( targetId );
@@ -52,13 +52,13 @@
 
 	/* --- Color rows --- */
 	function swatchFor( id ) {
-		return document.querySelector( '.bloquix-color-swatch[data-target="' + id + '"]' );
+		return document.querySelector( '.blokino-color-swatch[data-target="' + id + '"]' );
 	}
-	Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-color-swatch' ), function ( sw ) {
+	Array.prototype.forEach.call( document.querySelectorAll( '.blokino-color-swatch' ), function ( sw ) {
 		var target = document.getElementById( sw.getAttribute( 'data-target' ) );
 		if ( target ) { sw.addEventListener( 'input', function () { target.value = sw.value; } ); }
 	} );
-	Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-color-text' ), function ( txt ) {
+	Array.prototype.forEach.call( document.querySelectorAll( '.blokino-color-text' ), function ( txt ) {
 		txt.addEventListener( 'input', function () {
 			var sw = swatchFor( txt.id );
 			if ( sw && /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test( txt.value ) ) {
@@ -66,7 +66,7 @@
 			}
 		} );
 	} );
-	Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-color-clear' ), function ( btn ) {
+	Array.prototype.forEach.call( document.querySelectorAll( '.blokino-color-clear' ), function ( btn ) {
 		btn.addEventListener( 'click', function () {
 			var t = document.getElementById( btn.getAttribute( 'data-target' ) );
 			if ( t ) { t.value = ''; }
@@ -75,11 +75,11 @@
 
 	/* Vaciar TODOS los brand colors de golpe (aviso de override activo). No
 	   guarda: deja el formulario listo y el usuario pulsa "Save changes". */
-	var clearAll = document.getElementById( 'bloquix-brand-clear-all' );
+	var clearAll = document.getElementById( 'blokino-brand-clear-all' );
 	if ( clearAll ) {
 		clearAll.addEventListener( 'click', function () {
 			// Both brand tables: site colors and the dark-band pair.
-			Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-brand-colors .bloquix-color-text' ), function ( t ) {
+			Array.prototype.forEach.call( document.querySelectorAll( '.blokino-brand-colors .blokino-color-text' ), function ( t ) {
 				t.value = '';
 			} );
 			clearAll.disabled = true;
@@ -89,13 +89,13 @@
 } )();
 
 /* ==========================================================================
- * BloqUIX · Demo wizard — stepper (Plugins → Import).
+ * Blokino · Demo wizard — stepper (Plugins → Import).
  * ========================================================================== */
 ( function () {
 	'use strict';
-	var root = document.getElementById( 'bloquix-wizard' );
-	if ( ! root || ! window.bloquixAdmin ) { return; }
-	var cfg = window.bloquixAdmin, i18n = cfg.i18n || {};
+	var root = document.getElementById( 'blokino-wizard' );
+	if ( ! root || ! window.blokinoAdmin ) { return; }
+	var cfg = window.blokinoAdmin, i18n = cfg.i18n || {};
 
 	function $( sel ) { return root.querySelector( sel ); }
 	function $all( sel, ctx ) { return Array.prototype.slice.call( ( ctx || root ).querySelectorAll( sel ) ); }
@@ -129,8 +129,8 @@
 	}
 
 	/* ---- Step navigation ---- */
-	var stepEls = $all( '.bloquix-stepper__item' );
-	var stepPanels = $all( '.bloquix-step' );
+	var stepEls = $all( '.blokino-stepper__item' );
+	var stepPanels = $all( '.blokino-step' );
 	function goStep( name ) {
 		stepPanels.forEach( function ( p ) { p.hidden = ( p.getAttribute( 'data-panel' ) !== name ); } );
 		var idx = ( name === 'import' ) ? 1 : 0;
@@ -141,10 +141,10 @@
 	}
 
 	/* ---- Step 1: plugins ---- */
-	var listEl = $( '#bloquix-plugins-list' );
-	var msgEl = $( '.bloquix-plugins__msg' );
-	var installBtn = $( '#bloquix-plugins-install' );
-	var continueBtn = $( '#bloquix-plugins-continue' );
+	var listEl = $( '#blokino-plugins-list' );
+	var msgEl = $( '.blokino-plugins__msg' );
+	var installBtn = $( '#blokino-plugins-install' );
+	var continueBtn = $( '#blokino-plugins-continue' );
 	var plugins = [];
 
 	function requiredSatisfied() {
@@ -156,10 +156,10 @@
 		if ( installBtn ) { installBtn.disabled = ! pending; installBtn.hidden = ! pending; }
 	}
 	function badge( p ) {
-		if ( p.state === 'active' ) { return '<span class="bloquix-plugin__badge is-ok">' + ( i18n.active || 'Active' ) + '</span>'; }
+		if ( p.state === 'active' ) { return '<span class="blokino-plugin__badge is-ok">' + ( i18n.active || 'Active' ) + '</span>'; }
 		return p.optional
-			? '<span class="bloquix-plugin__badge is-opt">' + ( i18n.optional || 'Optional' ) + '</span>'
-			: '<span class="bloquix-plugin__badge is-req">' + ( i18n.required || 'Required' ) + '</span>';
+			? '<span class="blokino-plugin__badge is-opt">' + ( i18n.optional || 'Optional' ) + '</span>'
+			: '<span class="blokino-plugin__badge is-req">' + ( i18n.required || 'Required' ) + '</span>';
 	}
 	function renderPlugins() {
 		listEl.innerHTML = '';
@@ -169,15 +169,15 @@
 			p._on = active ? true : ( p.optional ? !! p._on : true );
 			var locked = active || ! p.optional;
 			var li = document.createElement( 'li' );
-			li.className = 'bloquix-plugin' + ( active ? ' is-active' : '' );
+			li.className = 'blokino-plugin' + ( active ? ' is-active' : '' );
 			li.innerHTML =
-				'<label class="bloquix-switch' + ( locked ? ' is-locked' : '' ) + '">' +
+				'<label class="blokino-switch' + ( locked ? ' is-locked' : '' ) + '">' +
 					'<input type="checkbox" data-i="' + i + '"' + ( p._on ? ' checked' : '' ) + ( locked ? ' disabled' : '' ) + '>' +
-					'<span class="bloquix-switch__track"><span class="bloquix-switch__dot"></span></span>' +
+					'<span class="blokino-switch__track"><span class="blokino-switch__dot"></span></span>' +
 				'</label>' +
-				'<span class="bloquix-plugin__name">' + p.label + '</span>' +
+				'<span class="blokino-plugin__name">' + p.label + '</span>' +
 				badge( p ) +
-				'<span class="bloquix-plugin__state" data-i="' + i + '"></span>';
+				'<span class="blokino-plugin__state" data-i="' + i + '"></span>';
 			listEl.appendChild( li );
 		} );
 		$all( 'input[type=checkbox]', listEl ).forEach( function ( cb ) {
@@ -190,7 +190,7 @@
 	}
 
 	function loadPlugins() {
-		post( 'bloquix_demo_plugins', {} ).then( function ( res ) {
+		post( 'blokino_demo_plugins', {} ).then( function ( res ) {
 			if ( ! res || ! res.success ) { goStep( 'import' ); return; }
 			plugins = res.data.plugins || [];
 			renderPlugins();
@@ -212,7 +212,7 @@
 		installBtn.disabled = true;
 		installBtn.setAttribute( 'aria-busy', 'true' );
 		var installLabel = installBtn.innerHTML;
-		installBtn.innerHTML = '<span class="bloquix-spin" aria-hidden="true"></span> ' + ( i18n.installing || 'Installing…' );
+		installBtn.innerHTML = '<span class="blokino-spin" aria-hidden="true"></span> ' + ( i18n.installing || 'Installing…' );
 		msgEl.textContent = '';
 		var i = 0;
 		function next() {
@@ -224,24 +224,24 @@
 				return;
 			}
 			var p = queue[ i++ ];
-			var stateEl = $( '.bloquix-plugin__state[data-i="' + plugins.indexOf( p ) + '"]' );
+			var stateEl = $( '.blokino-plugin__state[data-i="' + plugins.indexOf( p ) + '"]' );
 			// Spinner de carga mientras instala/activa (más agradable que "…").
-			if ( stateEl ) { stateEl.innerHTML = '<span class="bloquix-spin" aria-hidden="true"></span>'; }
-			post( 'bloquix_demo_install', { slug: p.slug } ).then( function ( res ) {
+			if ( stateEl ) { stateEl.innerHTML = '<span class="blokino-spin" aria-hidden="true"></span>'; }
+			post( 'blokino_demo_install', { slug: p.slug } ).then( function ( res ) {
 				if ( res && res.success ) {
 					p.state = 'active';
 					if ( stateEl ) { stateEl.innerHTML = '<span class="dashicons dashicons-yes"></span>'; }
 				} else {
 					var url = res && res.data && res.data.install_url;
 					if ( stateEl ) {
-						stateEl.innerHTML = '<span class="bloquix-err">' + ( ( res && res.data && res.data.message ) || i18n.error ) +
+						stateEl.innerHTML = '<span class="blokino-err">' + ( ( res && res.data && res.data.message ) || i18n.error ) +
 							( url ? ' <a href="' + url + '" target="_blank" rel="noopener">' + i18n.installManually + '</a>' : '' ) + '</span>';
 					}
 				}
 				next();
 			} ).catch( function ( err ) {
 				// Installing/activating a plugin can also outlive a tight host limit.
-				if ( stateEl ) { stateEl.innerHTML = '<span class="bloquix-err">' + describe( err ) + '</span>'; }
+				if ( stateEl ) { stateEl.innerHTML = '<span class="blokino-err">' + describe( err ) + '</span>'; }
 				next();
 			} );
 		}
@@ -249,12 +249,12 @@
 	}
 
 	/* ---- Step 2: import ---- */
-	var importBtn = $( '#bloquix-demo-import' );
-	var undoBtn = $( '#bloquix-demo-rollback' );
-	var progress = $( '.bloquix-progress' );
-	var bar = $( '.bloquix-progress__bar' );
-	var statusEl = $( '.bloquix-progress__status' );
-	var doneEl = $( '.bloquix-done' );
+	var importBtn = $( '#blokino-demo-import' );
+	var undoBtn = $( '#blokino-demo-rollback' );
+	var progress = $( '.blokino-progress' );
+	var bar = $( '.blokino-progress__bar' );
+	var statusEl = $( '.blokino-progress__status' );
+	var doneEl = $( '.blokino-done' );
 	function setStatus( t ) { if ( statusEl ) { statusEl.textContent = t || ''; } }
 	function setBar( pct ) { if ( progress ) { progress.hidden = false; } if ( bar ) { bar.style.width = pct + '%'; } }
 
@@ -293,7 +293,7 @@
 		// kept while the same step continues, so a host with a tight limit does
 		// not pay a kill + retry for every chunk.
 		function step( n, fails, level ) {
-			post( 'bloquix_demo_step', { step: n, retry: level } ).then( function ( res ) {
+			post( 'blokino_demo_step', { step: n, retry: level } ).then( function ( res ) {
 				if ( ! res || ! res.success ) {
 					setStatus( ( res && res.data && res.data.message ) || i18n.error );
 					importBtn.disabled = false;
@@ -326,14 +326,14 @@
 	/* ---- Wire ---- */
 	if ( installBtn ) { installBtn.addEventListener( 'click', installSelected ); }
 	if ( continueBtn ) { continueBtn.addEventListener( 'click', function () { goStep( 'import' ); } ); }
-	$all( '.bloquix-back' ).forEach( function ( b ) {
+	$all( '.blokino-back' ).forEach( function ( b ) {
 		b.addEventListener( 'click', function () { goStep( b.getAttribute( 'data-to' ) || 'plugins' ); } );
 	} );
 	if ( importBtn ) { importBtn.addEventListener( 'click', runImport ); }
 	if ( undoBtn ) {
 		undoBtn.addEventListener( 'click', function () {
 			undoBtn.disabled = true; setStatus( i18n.importing );
-			post( 'bloquix_demo_rollback', {} ).then( function () {
+			post( 'blokino_demo_rollback', {} ).then( function () {
 				resumeStep = null;
 				setStatus( i18n.rollback ); setBar( 0 );
 				if ( importBtn ) { importBtn.disabled = false; importBtn.innerHTML = importLabel; }

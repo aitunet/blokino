@@ -1,12 +1,12 @@
 /* ==========================================================================
- * BloqUIX · Block bloquix/counter
+ * Blokino · Block blokino/counter
  * --------------------------------------------------------------------------
  * Número grande de display. Estética 100% desde tokens --tnt-*; el tamaño es
  * sobreescribible por el control de tipografía del block.
  * tabular-nums evita el "salto" de ancho mientras cuenta.
  * ========================================================================== */
 
-.bloquix-counter {
+.blokino-counter {
 	display: flex;
 	align-items: baseline;
 	flex-wrap: wrap;
@@ -21,7 +21,7 @@
 	color: var( --tnt-color-text );
 }
 
-.bloquix-counter__num {
+.blokino-counter__num {
 	font-variant-numeric: tabular-nums;
 	font-feature-settings: "tnum" 1;
 	white-space: nowrap; /* el número nunca se parte (p. ej. 24,000). */
@@ -48,7 +48,7 @@
  * Un theme que quiera el afijo en su acento —es una decisión de presentación, y
  * por tanto suya (§1)— pone `--tnt-counter-affix-color: var( --tnt-color-accent )`.
  * El token es el contrato público: así un theme de terceros no tiene que escribir
- * un selector contra `.bloquix-counter__affix`, que son nuestras tripas.
+ * un selector contra `.blokino-counter__affix`, que son nuestras tripas.
  *
  * ★★ OJO DÓNDE SE DECLARA — no es indiferente. Un `var()` dentro del valor de una
  * custom property se sustituye al calcular ESA propiedad, en el elemento donde se
@@ -56,11 +56,11 @@
  * declararlo en `:root` CONGELA el acento del root y se salta los locks de paleta
  * de banda (los de Atrio en su dev-hero, los de Vector en la tarjeta de cristal):
  * el afijo se quedaría con el acento global en una banda que redefine el acento.
- * Hay que declararlo DENTRO del ámbito, sobre `.bloquix-counter` o su sección, para
+ * Hay que declararlo DENTRO del ámbito, sobre `.blokino-counter` o su sección, para
  * que la sustitución vea el lock. Es la diferencia entre respetar la paleta de la
  * banda y pisarla sin enterarte.
  */
-.bloquix-counter__affix {
+.blokino-counter__affix {
 	font-family: var( --tnt-font-body );
 	font-size: 0.45em;
 	font-weight: 600;

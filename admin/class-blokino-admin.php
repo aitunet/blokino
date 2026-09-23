@@ -7,13 +7,13 @@
  * --tnt-* tokens; this panel only stores overrides, which the runtime injects
  * as :root{--tnt-*}. Fonts load from Google Fonts (CDN). Logos are engine-level
  * brand assets (they persist across theme switches); the theme decides where to
- * place them (bloquix/brand block or the native Site Logo block).
+ * place them (blokino/brand block or the native Site Logo block).
  *
  * Reads/builders are STATIC so the runtime can use them on the front-end.
  *
- * Default UI language is English; strings are translatable (text domain 'bloquix').
+ * Default UI language is English; strings are translatable (text domain 'blokino').
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,21 +23,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Engine administration.
  */
-class Bloquix_Admin {
+class Blokino_Admin {
 
-	const OPTION     = 'bloquix_settings';
-	const MENU_SLUG  = 'bloquix';          // top-level entry = the Get started screen
-	const SETTINGS_SLUG = 'bloquix-settings';
-	const TOOLS_SLUG  = 'bloquix-tools';
+	const OPTION     = 'blokino_settings';
+	const MENU_SLUG  = 'blokino';          // top-level entry = the Get started screen
+	const SETTINGS_SLUG = 'blokino-settings';
+	const TOOLS_SLUG  = 'blokino-tools';
 	const CAPABILITY  = 'manage_options';
 
 	/* ---------------------------------------------------------------------
 	 * Catalogs (curated Google Fonts)
 	 * ------------------------------------------------------------------ */
 
-	/** Sans/serif fonts (display/body) → weights. Themes/plugins extend it with the bloquix_fonts_text filter. */
+	/** Sans/serif fonts (display/body) → weights. Themes/plugins extend it with the blokino_fonts_text filter. */
 	public static function fonts_text() {
-		return apply_filters( 'bloquix_fonts_text', array(
+		return apply_filters( 'blokino_fonts_text', array(
 			'Inter'             => '400;500;600;700',
 			'Sora'              => '400;600;700;800',
 			'Space Grotesk'     => '400;500;700',
@@ -56,7 +56,7 @@ class Bloquix_Admin {
 
 	/** Monospace fonts → weights. */
 	public static function fonts_mono() {
-		return apply_filters( 'bloquix_fonts_mono', array(
+		return apply_filters( 'blokino_fonts_mono', array(
 			'JetBrains Mono' => '400;500;700',
 			'Space Mono'     => '400;700',
 			'IBM Plex Mono'  => '400;500;600',
@@ -286,9 +286,9 @@ class Bloquix_Admin {
 		add_action( 'admin_menu', array( $this, 'fire_menu_hook' ), 12 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_head', array( $this, 'menu_icon_style' ) );
-		add_action( 'admin_post_bloquix_save_settings', array( $this, 'handle_save_settings' ) );
-		add_action( 'admin_post_bloquix_export', array( $this, 'handle_export' ) );
-		add_action( 'admin_post_bloquix_import', array( $this, 'handle_import' ) );
+		add_action( 'admin_post_blokino_save_settings', array( $this, 'handle_save_settings' ) );
+		add_action( 'admin_post_blokino_export', array( $this, 'handle_export' ) );
+		add_action( 'admin_post_blokino_import', array( $this, 'handle_import' ) );
 	}
 
 	/**
@@ -303,7 +303,7 @@ class Bloquix_Admin {
 	 * Dos paths en el espacio de la letra (bbox 66–194 × 42–216, viewBox cuadrado
 	 * "43 42 174 174"). Un solo sitio con la geometría para que el data-URI del menú y
 	 * las máscaras de menu_icon_style() no puedan divergir; la fuente documentada está
-	 * en admin/img/icon-bloquix.svg y el generador de todos los assets en
+	 * en admin/img/icon-blokino.svg y el generador de todos los assets en
 	 * wporg-assets/build-icon.mjs. Va en línea porque add_menu_page() necesita el valor
 	 * al registrar el menú y leer el archivo en cada carga del admin sería una lectura
 	 * de disco por página para 300 bytes.
@@ -365,7 +365,7 @@ class Bloquix_Admin {
 		$img    = $item . ' .wp-menu-image';
 		$lit    = $item . ':hover .wp-menu-image::after, ' . $item . '.current .wp-menu-image::after, ' . $item . '.wp-has-current-submenu .wp-menu-image::after, ' . $item . ' a:focus .wp-menu-image::after';
 		?>
-		<style id="bloquix-menu-icon">
+		<style id="blokino-menu-icon">
 			@supports ((-webkit-mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>) or (mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>)) {
 				<?php echo esc_html( $img ); ?> { position: relative; background-image: none !important; }
 				<?php echo esc_html( $img ); ?>::before,
@@ -401,11 +401,11 @@ class Bloquix_Admin {
 	 */
 	public function register_menu() {
 		add_menu_page(
-			__( 'BloqUIX', 'bloquix' ),
-			__( 'BloqUIX', 'bloquix' ),
+			__( 'Blokino', 'blokino' ),
+			__( 'Blokino', 'blokino' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
-			array( 'Bloquix_Welcome', 'render_page' ),
+			array( 'Blokino_Welcome', 'render_page' ),
 			self::menu_icon_data_uri(),
 			59
 		);
@@ -413,17 +413,17 @@ class Bloquix_Admin {
 		// The parent's own entry is the first submenu: Get started.
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Get started', 'bloquix' ),
-			__( 'Get started', 'bloquix' ),
+			__( 'Get started', 'blokino' ),
+			__( 'Get started', 'blokino' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
-			array( 'Bloquix_Welcome', 'render_page' )
+			array( 'Blokino_Welcome', 'render_page' )
 		);
 
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Settings', 'bloquix' ),
-			__( 'Settings', 'bloquix' ),
+			__( 'Settings', 'blokino' ),
+			__( 'Settings', 'blokino' ),
 			self::CAPABILITY,
 			self::SETTINGS_SLUG,
 			array( $this, 'render_settings_page' )
@@ -431,8 +431,8 @@ class Bloquix_Admin {
 
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Tools', 'bloquix' ),
-			__( 'Tools', 'bloquix' ),
+			__( 'Tools', 'blokino' ),
+			__( 'Tools', 'blokino' ),
 			self::CAPABILITY,
 			self::TOOLS_SLUG,
 			array( $this, 'render_tools_page' )
@@ -441,16 +441,16 @@ class Bloquix_Admin {
 		// Direct link under Appearance → settings page.
 		add_submenu_page(
 			'themes.php',
-			__( 'BloqUIX', 'bloquix' ),
-			__( 'BloqUIX', 'bloquix' ),
+			__( 'Blokino', 'blokino' ),
+			__( 'Blokino', 'blokino' ),
 			self::CAPABILITY,
 			'admin.php?page=' . self::SETTINGS_SLUG
 		);
 	}
 
 	/**
-	 * Fires after BloqUIX registered its own submenus. Premium themes hook
-	 * here to add screens (e.g. License) under the BloqUIX menu.
+	 * Fires after Blokino registered its own submenus. Premium themes hook
+	 * here to add screens (e.g. License) under the Blokino menu.
 	 *
 	 * Hooked at `admin_menu` priority 12 — after Settings/Tools (priority 10,
 	 * `register_menu`) and Demo (priority 11) but before Themes (priority 13) —
@@ -458,12 +458,12 @@ class Bloquix_Admin {
 	 */
 	public function fire_menu_hook() {
 		/**
-		 * Fires after BloqUIX registered its own submenus. Premium themes hook
-		 * here to add screens (e.g. License) under the BloqUIX menu.
+		 * Fires after Blokino registered its own submenus. Premium themes hook
+		 * here to add screens (e.g. License) under the Blokino menu.
 		 *
-		 * @param string $parent_slug The BloqUIX menu slug.
+		 * @param string $parent_slug The Blokino menu slug.
 		 */
-		do_action( 'bloquix_admin_menu', self::MENU_SLUG );
+		do_action( 'blokino_admin_menu', self::MENU_SLUG );
 	}
 
 	/**
@@ -475,8 +475,8 @@ class Bloquix_Admin {
 		$is_welcome  = ( 'toplevel_page_' . self::MENU_SLUG === $hook );
 		$is_settings = ( false !== strpos( $hook, self::SETTINGS_SLUG ) );
 		$is_tools    = ( false !== strpos( $hook, self::TOOLS_SLUG ) );
-		$is_demo     = ( false !== strpos( $hook, Bloquix_Demo::MENU_SLUG ) );
-		$is_themes   = ( false !== strpos( $hook, Bloquix_Themes::MENU_SLUG ) );
+		$is_demo     = ( false !== strpos( $hook, Blokino_Demo::MENU_SLUG ) );
+		$is_themes   = ( false !== strpos( $hook, Blokino_Themes::MENU_SLUG ) );
 
 		if ( ! $is_welcome && ! $is_settings && ! $is_tools && ! $is_demo && ! $is_themes ) {
 			return;
@@ -486,40 +486,40 @@ class Bloquix_Admin {
 			wp_enqueue_media();
 		}
 
-		wp_enqueue_style( 'bloquix-admin', BLOQUIX_URL . 'admin/admin.css', array(), (string) filemtime( BLOQUIX_PATH . 'admin/admin.css' ) );
-		wp_enqueue_script( 'bloquix-admin', BLOQUIX_URL . 'admin/admin.js', array(), (string) filemtime( BLOQUIX_PATH . 'admin/admin.js' ), true );
+		wp_enqueue_style( 'blokino-admin', BLOKINO_URL . 'admin/admin.css', array(), (string) filemtime( BLOKINO_PATH . 'admin/admin.css' ) );
+		wp_enqueue_script( 'blokino-admin', BLOKINO_URL . 'admin/admin.js', array(), (string) filemtime( BLOKINO_PATH . 'admin/admin.js' ), true );
 
 		wp_localize_script(
-			'bloquix-admin',
-			'bloquixAdmin',
+			'blokino-admin',
+			'blokinoAdmin',
 			array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 				'homeUrl' => home_url( '/' ),
-				'nonce'   => wp_create_nonce( 'bloquix_demo' ),
+				'nonce'   => wp_create_nonce( 'blokino_demo' ),
 				'i18n'    => array(
-					'importing'    => __( 'Importing…', 'bloquix' ),
-					'done'         => __( 'Demo imported.', 'bloquix' ),
-					'rollback'     => __( 'Import undone.', 'bloquix' ),
-					'error'        => __( 'An error occurred.', 'bloquix' ),
-					'chooseLogo'   => __( 'Select logo', 'bloquix' ),
-					'useLogo'      => __( 'Use this logo', 'bloquix' ),
-					'pluginsTitle' => __( 'Recommended plugins', 'bloquix' ),
-					'installAct'   => __( 'Install & activate', 'bloquix' ),
-					'installing'   => __( 'Installing…', 'bloquix' ),
-					'activate'     => __( 'Activate', 'bloquix' ),
-					'active'       => __( 'Active', 'bloquix' ),
-					'required'     => __( 'Required', 'bloquix' ),
-					'continue'     => __( 'Continue', 'bloquix' ),
-					'optional'     => __( 'Optional', 'bloquix' ),
-					'pluginsReady' => __( 'All set — continue to the import.', 'bloquix' ),
-					'noPlugins'    => __( 'No extra plugins needed for this demo — continue to the import.', 'bloquix' ),
-					'viewSite'     => __( 'View site', 'bloquix' ),
-					'installManually' => __( 'Install manually', 'bloquix' ),
+					'importing'    => __( 'Importing…', 'blokino' ),
+					'done'         => __( 'Demo imported.', 'blokino' ),
+					'rollback'     => __( 'Import undone.', 'blokino' ),
+					'error'        => __( 'An error occurred.', 'blokino' ),
+					'chooseLogo'   => __( 'Select logo', 'blokino' ),
+					'useLogo'      => __( 'Use this logo', 'blokino' ),
+					'pluginsTitle' => __( 'Recommended plugins', 'blokino' ),
+					'installAct'   => __( 'Install & activate', 'blokino' ),
+					'installing'   => __( 'Installing…', 'blokino' ),
+					'activate'     => __( 'Activate', 'blokino' ),
+					'active'       => __( 'Active', 'blokino' ),
+					'required'     => __( 'Required', 'blokino' ),
+					'continue'     => __( 'Continue', 'blokino' ),
+					'optional'     => __( 'Optional', 'blokino' ),
+					'pluginsReady' => __( 'All set — continue to the import.', 'blokino' ),
+					'noPlugins'    => __( 'No extra plugins needed for this demo — continue to the import.', 'blokino' ),
+					'viewSite'     => __( 'View site', 'blokino' ),
+					'installManually' => __( 'Install manually', 'blokino' ),
 					/* translators: %s: what the server answered, e.g. "HTTP 504". */
-					'serverError'  => __( 'The server did not answer with JSON (%s). The request was probably cut short by a time limit.', 'bloquix' ),
-					'retrying'     => __( 'Connection hiccup — retrying…', 'bloquix' ),
-					'retryHint'    => __( 'Click Retry to resume from this step.', 'bloquix' ),
-					'retry'        => __( 'Retry', 'bloquix' ),
+					'serverError'  => __( 'The server did not answer with JSON (%s). The request was probably cut short by a time limit.', 'blokino' ),
+					'retrying'     => __( 'Connection hiccup — retrying…', 'blokino' ),
+					'retryHint'    => __( 'Click Retry to resume from this step.', 'blokino' ),
+					'retry'        => __( 'Retry', 'blokino' ),
 				),
 			)
 		);
@@ -592,63 +592,63 @@ class Bloquix_Admin {
 		// está detrás de current_user_can(), y el valor pasa por sanitize_key() y
 		// luego por un lookup contra una lista cerrada en notice_text().
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$notice   = isset( $_GET['bloquix_notice'] ) ? sanitize_key( wp_unslash( $_GET['bloquix_notice'] ) ) : '';
+		$notice   = isset( $_GET['blokino_notice'] ) ? sanitize_key( wp_unslash( $_GET['blokino_notice'] ) ) : '';
 		$post_url = admin_url( 'admin-post.php' );
 		$palette  = $this->theme_palette();
 		?>
-		<div class="wrap bloquix-admin">
-			<h1><?php esc_html_e( 'BloqUIX', 'bloquix' ); ?></h1>
-			<p class="description"><?php esc_html_e( 'The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens).', 'bloquix' ); ?></p>
+		<div class="wrap blokino-admin">
+			<h1><?php esc_html_e( 'Blokino', 'blokino' ); ?></h1>
+			<p class="description"><?php esc_html_e( 'The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens).', 'blokino' ); ?></p>
 
 			<?php if ( $notice ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $this->notice_text( $notice ) ); ?></p></div>
 			<?php endif; ?>
 
 			<?php if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) : ?>
-				<div class="card bloquix-section-card">
-					<h2><?php esc_html_e( 'Appearance & styles', 'bloquix' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them.', 'bloquix' ); ?></p>
+				<div class="card blokino-section-card">
+					<h2><?php esc_html_e( 'Appearance & styles', 'blokino' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them.', 'blokino' ); ?></p>
 					<p>
 						<a class="button button-secondary" href="<?php echo esc_url( admin_url( 'site-editor.php?path=%2Fwp_global_styles' ) ); ?>">
-							<?php esc_html_e( 'Open Styles in the Site Editor', 'bloquix' ); ?>
+							<?php esc_html_e( 'Open Styles in the Site Editor', 'blokino' ); ?>
 						</a>
 					</p>
 				</div>
 			<?php endif; ?>
 
 			<form method="post" action="<?php echo esc_url( $post_url ); ?>">
-				<input type="hidden" name="action" value="bloquix_save_settings" />
-				<?php wp_nonce_field( 'bloquix_save_settings' ); ?>
+				<input type="hidden" name="action" value="blokino_save_settings" />
+				<?php wp_nonce_field( 'blokino_save_settings' ); ?>
 
-				<div class="card bloquix-section-card">
-					<h2><?php esc_html_e( 'Brand logos', 'bloquix' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic).', 'bloquix' ); ?></p>
+				<div class="card blokino-section-card">
+					<h2><?php esc_html_e( 'Brand logos', 'blokino' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic).', 'blokino' ); ?></p>
 					<?php /* El campo ya se llamaba "dark backgrounds" pero nada lo aplicaba solo: el logo alternativo se quedaba sin usar y el header oscuro mostraba el oscuro. Ahora sí conmuta, y conviene decirlo aquí. */ ?>
-					<p class="description"><?php esc_html_e( 'With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo.', 'bloquix' ); ?></p>
+					<p class="description"><?php esc_html_e( 'With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo.', 'blokino' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
-						$this->row_logo( __( 'Main logo', 'bloquix' ), 'logo_main_id', (int) $s['logo_main_id'] );
-						$this->row_logo( __( 'Alternative logo (dark backgrounds)', 'bloquix' ), 'logo_alt_id', (int) $s['logo_alt_id'], true );
+						$this->row_logo( __( 'Main logo', 'blokino' ), 'logo_main_id', (int) $s['logo_main_id'] );
+						$this->row_logo( __( 'Alternative logo (dark backgrounds)', 'blokino' ), 'logo_alt_id', (int) $s['logo_alt_id'], true );
 						?>
 					</table>
 				</div>
 
-				<div class="card bloquix-section-card">
-					<h2><?php esc_html_e( 'Branding', 'bloquix' ); ?></h2>
+				<div class="card blokino-section-card">
+					<h2><?php esc_html_e( 'Branding', 'blokino' ); ?></h2>
 
-					<h3><?php esc_html_e( 'Typography (Google Fonts)', 'bloquix' ); ?></h3>
+					<h3><?php esc_html_e( 'Typography (Google Fonts)', 'blokino' ); ?></h3>
 					<table class="form-table" role="presentation">
 						<?php
-						$this->row_font( __( 'Display', 'bloquix' ), 'font_display', $s['font_display'], self::fonts_text() );
-						$this->row_font( __( 'Body', 'bloquix' ), 'font_body', $s['font_body'], self::fonts_text() );
-						$this->row_font( __( 'Monospace', 'bloquix' ), 'font_mono', $s['font_mono'], self::fonts_mono() );
-						$this->row_select( __( 'Base size', 'bloquix' ), 'text_base', $s['text_base'], array( '' => __( 'Theme default', 'bloquix' ), 'sm' => __( 'Compact', 'bloquix' ), 'lg' => __( 'Large', 'bloquix' ) ) );
+						$this->row_font( __( 'Display', 'blokino' ), 'font_display', $s['font_display'], self::fonts_text() );
+						$this->row_font( __( 'Body', 'blokino' ), 'font_body', $s['font_body'], self::fonts_text() );
+						$this->row_font( __( 'Monospace', 'blokino' ), 'font_mono', $s['font_mono'], self::fonts_mono() );
+						$this->row_select( __( 'Base size', 'blokino' ), 'text_base', $s['text_base'], array( '' => __( 'Theme default', 'blokino' ), 'sm' => __( 'Compact', 'blokino' ), 'lg' => __( 'Large', 'blokino' ) ) );
 						?>
 					</table>
 
-					<h3><?php esc_html_e( 'Brand colors', 'bloquix' ); ?></h3>
+					<h3><?php esc_html_e( 'Brand colors', 'blokino' ); ?></h3>
 					<p class="description">
-						<?php esc_html_e( 'Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation.', 'bloquix' ); ?>
+						<?php esc_html_e( 'Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation.', 'blokino' ); ?>
 					</p>
 					<?php
 					/*
@@ -660,13 +660,13 @@ class Bloquix_Admin {
 					 * Se avisa en vez de prohibirlo: el override explicito es la funcion.
 					 */
 					$brand_keys   = array(
-						'brand_primary'  => __( 'Primary', 'bloquix' ),
-						'brand_accent'   => __( 'Accent', 'bloquix' ),
-						'brand_accent_2' => __( 'Accent 2', 'bloquix' ),
-						'brand_bg'       => __( 'Background', 'bloquix' ),
-						'brand_text'     => __( 'Text', 'bloquix' ),
-						'brand_ink'      => __( 'Dark bands', 'bloquix' ),
-						'brand_on_ink'   => __( 'Text on dark bands', 'bloquix' ),
+						'brand_primary'  => __( 'Primary', 'blokino' ),
+						'brand_accent'   => __( 'Accent', 'blokino' ),
+						'brand_accent_2' => __( 'Accent 2', 'blokino' ),
+						'brand_bg'       => __( 'Background', 'blokino' ),
+						'brand_text'     => __( 'Text', 'blokino' ),
+						'brand_ink'      => __( 'Dark bands', 'blokino' ),
+						'brand_on_ink'   => __( 'Text on dark bands', 'blokino' ),
 					);
 					$brand_active = array();
 					foreach ( $brand_keys as $bk => $blabel ) {
@@ -676,105 +676,105 @@ class Bloquix_Admin {
 					}
 					if ( $brand_active ) :
 						?>
-						<div class="notice notice-warning inline bloquix-brand-warning">
+						<div class="notice notice-warning inline blokino-brand-warning">
 							<p>
-								<strong><?php esc_html_e( 'Brand colors are overriding this theme.', 'bloquix' ); ?></strong>
+								<strong><?php esc_html_e( 'Brand colors are overriding this theme.', 'blokino' ); ?></strong>
 								<?php
 								printf(
 									/* translators: %s: comma-separated list of overridden color names with their hex value. */
-									esc_html__( 'Active: %s. While these are set, switching the style variation will not change them.', 'bloquix' ),
+									esc_html__( 'Active: %s. While these are set, switching the style variation will not change them.', 'blokino' ),
 									esc_html( implode( ', ', $brand_active ) )
 								);
 								?>
 							</p>
 							<?php if ( ! empty( $s['brand_bg'] ) && empty( $s['brand_text'] ) ) : ?>
 								<p>
-									<?php esc_html_e( 'You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable.', 'bloquix' ); ?>
+									<?php esc_html_e( 'You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable.', 'blokino' ); ?>
 								</p>
 							<?php endif; ?>
 							<?php if ( ! empty( $s['brand_ink'] ) && empty( $s['brand_on_ink'] ) ) : ?>
 								<p>
-									<?php esc_html_e( 'You set the dark bands but not their text color: make sure the theme\'s text on dark bands still reads on your new background.', 'bloquix' ); ?>
+									<?php esc_html_e( 'You set the dark bands but not their text color: make sure the theme\'s text on dark bands still reads on your new background.', 'blokino' ); ?>
 								</p>
 							<?php endif; ?>
 							<p>
-								<button type="button" class="button" id="bloquix-brand-clear-all">
-									<?php esc_html_e( 'Clear all brand colors', 'bloquix' ); ?>
+								<button type="button" class="button" id="blokino-brand-clear-all">
+									<?php esc_html_e( 'Clear all brand colors', 'blokino' ); ?>
 								</button>
-								<span class="description"><?php esc_html_e( 'Then press Save changes.', 'bloquix' ); ?></span>
+								<span class="description"><?php esc_html_e( 'Then press Save changes.', 'blokino' ); ?></span>
 							</p>
 						</div>
 						<?php
 					endif;
 					?>
-					<table class="form-table bloquix-brand-colors" role="presentation">
+					<table class="form-table blokino-brand-colors" role="presentation">
 						<?php
-						$this->row_color( __( 'Primary', 'bloquix' ), 'brand_primary', $s['brand_primary'], $palette['primary'] ?? '' );
-						$this->row_color( __( 'Accent', 'bloquix' ), 'brand_accent', $s['brand_accent'], $palette['accent'] ?? '' );
-						$this->row_color( __( 'Accent 2', 'bloquix' ), 'brand_accent_2', $s['brand_accent_2'], $palette['accent-2'] ?? '' );
-						$this->row_color( __( 'Background', 'bloquix' ), 'brand_bg', $s['brand_bg'], $palette['bg'] ?? '' );
-						$this->row_color( __( 'Text', 'bloquix' ), 'brand_text', $s['brand_text'], $palette['text'] ?? '' );
+						$this->row_color( __( 'Primary', 'blokino' ), 'brand_primary', $s['brand_primary'], $palette['primary'] ?? '' );
+						$this->row_color( __( 'Accent', 'blokino' ), 'brand_accent', $s['brand_accent'], $palette['accent'] ?? '' );
+						$this->row_color( __( 'Accent 2', 'blokino' ), 'brand_accent_2', $s['brand_accent_2'], $palette['accent-2'] ?? '' );
+						$this->row_color( __( 'Background', 'blokino' ), 'brand_bg', $s['brand_bg'], $palette['bg'] ?? '' );
+						$this->row_color( __( 'Text', 'blokino' ), 'brand_text', $s['brand_text'], $palette['text'] ?? '' );
 						?>
 					</table>
 					<p class="description">
-						<?php esc_html_e( 'Dark bands are the sections the theme draws over a photo or on its ink color (a hero, a closing call to action, the footer). They keep their own colors so they stay readable in every style variation — Background and Text above do not reach them. Set these two to recolor them as well.', 'bloquix' ); ?>
+						<?php esc_html_e( 'Dark bands are the sections the theme draws over a photo or on its ink color (a hero, a closing call to action, the footer). They keep their own colors so they stay readable in every style variation — Background and Text above do not reach them. Set these two to recolor them as well.', 'blokino' ); ?>
 					</p>
-					<table class="form-table bloquix-brand-colors" role="presentation">
+					<table class="form-table blokino-brand-colors" role="presentation">
 						<?php
 						$tokens = $this->theme_tokens( array( 'ink', 'on-ink' ) );
-						$this->row_color( __( 'Dark bands', 'bloquix' ), 'brand_ink', $s['brand_ink'], $tokens['ink'] ?? '' );
-						$this->row_color( __( 'Text on dark bands', 'bloquix' ), 'brand_on_ink', $s['brand_on_ink'], $tokens['on-ink'] ?? '' );
+						$this->row_color( __( 'Dark bands', 'blokino' ), 'brand_ink', $s['brand_ink'], $tokens['ink'] ?? '' );
+						$this->row_color( __( 'Text on dark bands', 'blokino' ), 'brand_on_ink', $s['brand_on_ink'], $tokens['on-ink'] ?? '' );
 						?>
 					</table>
 
-					<h3><?php esc_html_e( 'Shape', 'bloquix' ); ?></h3>
+					<h3><?php esc_html_e( 'Shape', 'blokino' ); ?></h3>
 					<table class="form-table" role="presentation">
 						<?php
 						$this->row_number(
-							__( 'Corner radius (px)', 'bloquix' ),
+							__( 'Corner radius (px)', 'blokino' ),
 							'radius',
 							$s['radius'],
-							__( 'Empty = theme. Rounding for BloqUIX blocks/components that use the radius tokens. 0 = sharp.', 'bloquix' ),
+							__( 'Empty = theme. Rounding for Blokino blocks/components that use the radius tokens. 0 = sharp.', 'blokino' ),
 							64
 						);
 						?>
 					</table>
 
-					<h3><?php esc_html_e( 'Motion', 'bloquix' ); ?></h3>
-					<p class="description"><?php esc_html_e( 'Speed of all BloqUIX effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic.', 'bloquix' ); ?></p>
+					<h3><?php esc_html_e( 'Motion', 'blokino' ); ?></h3>
+					<p class="description"><?php esc_html_e( 'Speed of all Blokino effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic.', 'blokino' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
-						$this->row_select( __( 'Motion intensity', 'bloquix' ), 'motion', $s['motion'], array( '' => __( 'Theme default', 'bloquix' ), 'subtle' => __( 'Subtle (fast)', 'bloquix' ), 'bold' => __( 'Bold (slow)', 'bloquix' ) ) );
+						$this->row_select( __( 'Motion intensity', 'blokino' ), 'motion', $s['motion'], array( '' => __( 'Theme default', 'blokino' ), 'subtle' => __( 'Subtle (fast)', 'blokino' ), 'bold' => __( 'Bold (slow)', 'blokino' ) ) );
 						?>
 					</table>
 				</div>
 
-				<div class="card bloquix-section-card">
-					<h2><?php esc_html_e( 'Content layout', 'bloquix' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor.', 'bloquix' ); ?></p>
+				<div class="card blokino-section-card">
+					<h2><?php esc_html_e( 'Content layout', 'blokino' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor.', 'blokino' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
 						$layout_opts = array(
-							''        => __( 'Full width (no sidebar)', 'bloquix' ),
-							'sidebar' => __( 'With sidebar', 'bloquix' ),
+							''        => __( 'Full width (no sidebar)', 'blokino' ),
+							'sidebar' => __( 'With sidebar', 'blokino' ),
 						);
-						$this->row_select( __( 'Single posts', 'bloquix' ), 'layout_post_single', $s['layout_post_single'], $layout_opts );
-						$this->row_select( __( 'Blog & archives', 'bloquix' ), 'layout_archive', $s['layout_archive'], $layout_opts );
+						$this->row_select( __( 'Single posts', 'blokino' ), 'layout_post_single', $s['layout_post_single'], $layout_opts );
+						$this->row_select( __( 'Blog & archives', 'blokino' ), 'layout_archive', $s['layout_archive'], $layout_opts );
 						?>
 					</table>
-					<p class="description"><?php esc_html_e( 'Themes that ship a sidebar area react automatically. A theme without one simply stays full width.', 'bloquix' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Themes that ship a sidebar area react automatically. A theme without one simply stays full width.', 'blokino' ); ?></p>
 				</div>
 
-				<div class="card bloquix-section-card">
-					<h2><?php esc_html_e( 'General', 'bloquix' ); ?></h2>
+				<div class="card blokino-section-card">
+					<h2><?php esc_html_e( 'General', 'blokino' ); ?></h2>
 					<p><label>
 						<input type="checkbox" name="effects_enabled" value="1" <?php checked( ! empty( $s['effects_enabled'] ) ); ?> />
-						<?php esc_html_e( 'Enable the effects engine (tf*) on the front-end', 'bloquix' ); ?>
+						<?php esc_html_e( 'Enable the effects engine (tf*) on the front-end', 'blokino' ); ?>
 					</label></p>
-					<p class="description"><?php esc_html_e( 'When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging).', 'bloquix' ); ?></p>
+					<p class="description"><?php esc_html_e( 'When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging).', 'blokino' ); ?></p>
 				</div>
 
-				<?php submit_button( __( 'Save settings', 'bloquix' ) ); ?>
+				<?php submit_button( __( 'Save settings', 'blokino' ) ); ?>
 			</form>
 		</div>
 		<?php
@@ -791,36 +791,36 @@ class Bloquix_Admin {
 		// procesa nada, la página ya exigió la capacidad, y el valor se sanea y se
 		// resuelve contra una lista cerrada.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$notice   = isset( $_GET['bloquix_notice'] ) ? sanitize_key( wp_unslash( $_GET['bloquix_notice'] ) ) : '';
+		$notice   = isset( $_GET['blokino_notice'] ) ? sanitize_key( wp_unslash( $_GET['blokino_notice'] ) ) : '';
 		$post_url = admin_url( 'admin-post.php' );
 		?>
-		<div class="wrap bloquix-admin">
-			<h1><?php esc_html_e( 'BloqUIX · Tools', 'bloquix' ); ?></h1>
+		<div class="wrap blokino-admin">
+			<h1><?php esc_html_e( 'Blokino · Tools', 'blokino' ); ?></h1>
 
 			<?php if ( $notice ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $this->notice_text( $notice ) ); ?></p></div>
 			<?php endif; ?>
 
-			<div class="bloquix-admin__grid">
+			<div class="blokino-admin__grid">
 				<div class="card">
-					<h2><?php esc_html_e( 'Export', 'bloquix' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Download the current settings as a JSON file.', 'bloquix' ); ?></p>
+					<h2><?php esc_html_e( 'Export', 'blokino' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Download the current settings as a JSON file.', 'blokino' ); ?></p>
 					<p>
-						<a class="button button-secondary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'bloquix_export', $post_url ), 'bloquix_export' ) ); ?>">
+						<a class="button button-secondary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'blokino_export', $post_url ), 'blokino_export' ) ); ?>">
 							<span class="dashicons dashicons-download" aria-hidden="true" style="vertical-align:text-bottom"></span>
-							<?php esc_html_e( 'Export settings (.json)', 'bloquix' ); ?>
+							<?php esc_html_e( 'Export settings (.json)', 'blokino' ); ?>
 						</a>
 					</p>
 				</div>
 
 				<div class="card">
-					<h2><?php esc_html_e( 'Import', 'bloquix' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Restore settings from a previously exported JSON file.', 'bloquix' ); ?></p>
+					<h2><?php esc_html_e( 'Import', 'blokino' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Restore settings from a previously exported JSON file.', 'blokino' ); ?></p>
 					<form method="post" action="<?php echo esc_url( $post_url ); ?>" enctype="multipart/form-data">
-						<input type="hidden" name="action" value="bloquix_import" />
-						<?php wp_nonce_field( 'bloquix_import' ); ?>
-						<p><input type="file" name="bloquix_import_file" accept="application/json,.json" required /></p>
-						<?php submit_button( __( 'Import settings', 'bloquix' ), 'secondary' ); ?>
+						<input type="hidden" name="action" value="blokino_import" />
+						<?php wp_nonce_field( 'blokino_import' ); ?>
+						<p><input type="file" name="blokino_import_file" accept="application/json,.json" required /></p>
+						<?php submit_button( __( 'Import settings', 'blokino' ), 'secondary' ); ?>
 					</form>
 				</div>
 
@@ -842,7 +842,7 @@ class Bloquix_Admin {
 	 * @param array  $fonts   family => weights map.
 	 */
 	private function row_font( $label, $name, $current, $fonts ) {
-		$options = array( '' => __( 'Theme default', 'bloquix' ) );
+		$options = array( '' => __( 'Theme default', 'blokino' ) );
 		foreach ( $fonts as $family => $weights ) {
 			$options[ $family ] = $family;
 		}
@@ -860,9 +860,9 @@ class Bloquix_Admin {
 	private function row_select( $label, $name, $current, $options ) {
 		?>
 		<tr>
-			<th scope="row"><label for="bloquix-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
+			<th scope="row"><label for="blokino-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
 			<td>
-				<select id="bloquix-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>">
+				<select id="blokino-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>">
 					<?php foreach ( $options as $value => $opt_label ) : ?>
 						<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $current, $value ); ?>><?php echo esc_html( $opt_label ); ?></option>
 					<?php endforeach; ?>
@@ -884,9 +884,9 @@ class Bloquix_Admin {
 	private function row_number( $label, $name, $current, $help = '', $max = 100 ) {
 		?>
 		<tr>
-			<th scope="row"><label for="bloquix-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
+			<th scope="row"><label for="blokino-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
 			<td>
-				<input type="number" id="bloquix-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" min="0" max="<?php echo esc_attr( $max ); ?>" step="1" class="small-text" />
+				<input type="number" id="blokino-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" min="0" max="<?php echo esc_attr( $max ); ?>" step="1" class="small-text" />
 				<?php if ( $help ) : ?>
 					<p class="description"><?php echo esc_html( $help ); ?></p>
 				<?php endif; ?>
@@ -908,11 +908,11 @@ class Bloquix_Admin {
 		$placeholder = $placeholder ? $placeholder : '#000000';
 		?>
 		<tr>
-			<th scope="row"><label for="bloquix-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
-			<td class="bloquix-color-row">
-				<input type="color" value="<?php echo esc_attr( $current ? $current : $placeholder ); ?>" data-target="bloquix-<?php echo esc_attr( $name ); ?>" class="bloquix-color-swatch" aria-hidden="true" tabindex="-1" />
-				<input type="text" id="bloquix-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" placeholder="<?php echo esc_attr( $placeholder . ' (theme)' ); ?>" class="bloquix-color-text regular-text" pattern="#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})" />
-				<button type="button" class="button bloquix-icon-btn bloquix-color-clear" data-target="bloquix-<?php echo esc_attr( $name ); ?>" title="<?php esc_attr_e( 'Reset to theme color', 'bloquix' ); ?>" aria-label="<?php esc_attr_e( 'Reset to theme color', 'bloquix' ); ?>">
+			<th scope="row"><label for="blokino-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
+			<td class="blokino-color-row">
+				<input type="color" value="<?php echo esc_attr( $current ? $current : $placeholder ); ?>" data-target="blokino-<?php echo esc_attr( $name ); ?>" class="blokino-color-swatch" aria-hidden="true" tabindex="-1" />
+				<input type="text" id="blokino-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" placeholder="<?php echo esc_attr( $placeholder . ' (theme)' ); ?>" class="blokino-color-text regular-text" pattern="#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})" />
+				<button type="button" class="button blokino-icon-btn blokino-color-clear" data-target="blokino-<?php echo esc_attr( $name ); ?>" title="<?php esc_attr_e( 'Reset to theme color', 'blokino' ); ?>" aria-label="<?php esc_attr_e( 'Reset to theme color', 'blokino' ); ?>">
 					<span class="dashicons dashicons-image-rotate" aria-hidden="true"></span>
 				</button>
 			</td>
@@ -932,21 +932,21 @@ class Bloquix_Admin {
 	 */
 	private function row_logo( $label, $name, $current, $dark = false ) {
 		$img = $current ? wp_get_attachment_image_url( $current, 'medium' ) : '';
-		$id  = 'bloquix-' . $name;
+		$id  = 'blokino-' . $name;
 		?>
 		<tr>
 			<th scope="row"><?php echo esc_html( $label ); ?></th>
 			<td>
-				<div class="bloquix-logo-field">
-					<div class="bloquix-logo-preview<?php echo $dark ? ' bloquix-logo-preview--dark' : ''; ?>" data-for="<?php echo esc_attr( $id ); ?>">
+				<div class="blokino-logo-field">
+					<div class="blokino-logo-preview<?php echo $dark ? ' blokino-logo-preview--dark' : ''; ?>" data-for="<?php echo esc_attr( $id ); ?>">
 						<?php if ( $img ) : ?>
 							<img src="<?php echo esc_url( $img ); ?>" alt="" />
 						<?php endif; ?>
 					</div>
 					<input type="hidden" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" />
-					<p class="bloquix-logo-actions">
-						<button type="button" class="button bloquix-logo-pick" data-target="<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Choose / change', 'bloquix' ); ?></button>
-						<button type="button" class="button bloquix-icon-btn bloquix-logo-remove" data-target="<?php echo esc_attr( $id ); ?>" title="<?php esc_attr_e( 'Remove logo', 'bloquix' ); ?>" aria-label="<?php esc_attr_e( 'Remove logo', 'bloquix' ); ?>">
+					<p class="blokino-logo-actions">
+						<button type="button" class="button blokino-logo-pick" data-target="<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Choose / change', 'blokino' ); ?></button>
+						<button type="button" class="button blokino-icon-btn blokino-logo-remove" data-target="<?php echo esc_attr( $id ); ?>" title="<?php esc_attr_e( 'Remove logo', 'blokino' ); ?>" aria-label="<?php esc_attr_e( 'Remove logo', 'blokino' ); ?>">
 							<span class="dashicons dashicons-trash" aria-hidden="true"></span>
 						</button>
 					</p>
@@ -965,11 +965,11 @@ class Bloquix_Admin {
 	private function notice_text( $key ) {
 		switch ( $key ) {
 			case 'saved':
-				return __( 'Settings saved.', 'bloquix' );
+				return __( 'Settings saved.', 'blokino' );
 			case 'imported':
-				return __( 'Settings imported successfully.', 'bloquix' );
+				return __( 'Settings imported successfully.', 'blokino' );
 			case 'import_error':
-				return __( 'The file is not a valid settings JSON.', 'bloquix' );
+				return __( 'The file is not a valid settings JSON.', 'blokino' );
 			default:
 				return '';
 		}
@@ -1036,15 +1036,15 @@ class Bloquix_Admin {
 	 */
 	public function handle_save_settings() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'bloquix' ) );
+			wp_die( esc_html__( 'Permission denied.', 'blokino' ) );
 		}
-		check_admin_referer( 'bloquix_save_settings' );
+		check_admin_referer( 'blokino_save_settings' );
 
 		$clean = $this->sanitize_settings( wp_unslash( $_POST ) );
 		update_option( self::OPTION, $clean );
 		$this->sync_custom_logo( $clean );
 
-		wp_safe_redirect( add_query_arg( 'bloquix_notice', 'saved', admin_url( 'admin.php?page=' . self::SETTINGS_SLUG ) ) );
+		wp_safe_redirect( add_query_arg( 'blokino_notice', 'saved', admin_url( 'admin.php?page=' . self::SETTINGS_SLUG ) ) );
 		exit;
 	}
 
@@ -1070,19 +1070,19 @@ class Bloquix_Admin {
 	 */
 	public function handle_export() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'bloquix' ) );
+			wp_die( esc_html__( 'Permission denied.', 'blokino' ) );
 		}
-		check_admin_referer( 'bloquix_export' );
+		check_admin_referer( 'blokino_export' );
 
 		$payload = array(
-			'_type'    => 'bloquix-settings',
-			'_version' => BLOQUIX_VERSION,
+			'_type'    => 'blokino-settings',
+			'_version' => BLOKINO_VERSION,
 			'settings' => self::get_settings(),
 		);
 
 		nocache_headers();
 		header( 'Content-Type: application/json; charset=utf-8' );
-		header( 'Content-Disposition: attachment; filename=bloquix-settings.json' );
+		header( 'Content-Disposition: attachment; filename=blokino-settings.json' );
 		echo wp_json_encode( $payload, JSON_PRETTY_PRINT );
 		exit;
 	}
@@ -1092,9 +1092,9 @@ class Bloquix_Admin {
 	 */
 	public function handle_import() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'bloquix' ) );
+			wp_die( esc_html__( 'Permission denied.', 'blokino' ) );
 		}
-		check_admin_referer( 'bloquix_import' );
+		check_admin_referer( 'blokino_import' );
 
 		$notice = 'import_error';
 
@@ -1103,8 +1103,8 @@ class Bloquix_Admin {
 		// pasa por sanitize_text_field antes de tocarla, porque un tmp_name no
 		// contiene nada que ese filtro pueda estropear y así la comprobación queda
 		// explícita en el código en vez de argumentada en un phpcs:ignore.
-		$tmp = isset( $_FILES['bloquix_import_file']['tmp_name'] )
-			? sanitize_text_field( wp_unslash( $_FILES['bloquix_import_file']['tmp_name'] ) )
+		$tmp = isset( $_FILES['blokino_import_file']['tmp_name'] )
+			? sanitize_text_field( wp_unslash( $_FILES['blokino_import_file']['tmp_name'] ) )
 			: '';
 
 		if ( '' !== $tmp && is_uploaded_file( $tmp ) ) {
@@ -1118,7 +1118,7 @@ class Bloquix_Admin {
 			}
 		}
 
-		wp_safe_redirect( add_query_arg( 'bloquix_notice', $notice, admin_url( 'admin.php?page=' . self::TOOLS_SLUG ) ) );
+		wp_safe_redirect( add_query_arg( 'blokino_notice', $notice, admin_url( 'admin.php?page=' . self::TOOLS_SLUG ) ) );
 		exit;
 	}
 

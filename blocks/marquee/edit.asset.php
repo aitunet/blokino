@@ -6,7 +6,7 @@
  * registra el script con estas dependencias. Sin él, edit.js cargaría sin
  * garantizar que wp.blockEditor / wp.components estén disponibles.
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 return array(
@@ -16,7 +16,7 @@ return array(
 		'wp-block-editor',
 		'wp-components',
 		'wp-i18n',
-		'bloquix-icon-svg',
+		'blokino-icon-svg',
 	),
 	'version'      => '0.1.4',
 );

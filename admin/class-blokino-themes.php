@@ -1,8 +1,8 @@
 <?php
 /**
- * BloqUIX · Themes screen — the premium themes built for this engine.
+ * Blokino · Themes screen — the premium themes built for this engine.
  *
- * A dedicated submenu (BloqUIX → Themes) that lists the themes sold on
+ * A dedicated submenu (Blokino → Themes) that lists the themes sold on
  * tunetdesign.com from the store's public catalog endpoint, so the list grows
  * with the store and never needs a plugin release (CLAUDE.md §12). Built to the
  * wordpress.org guidelines: no notices, no dashboard widgets, no nags — the only
@@ -10,7 +10,7 @@
  * hours, with a neutral user agent (nothing about this site is sent); and the
  * plugin keeps every feature whether or not a Tunet theme is active.
  *
- * @package Bloquix
+ * @package Blokino
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,11 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Themes screen.
  */
-class Bloquix_Themes {
+class Blokino_Themes {
 
-	const MENU_SLUG  = 'bloquix-themes';
+	const MENU_SLUG  = 'blokino-themes';
 	const CAPABILITY = 'manage_options';
-	const TRANSIENT  = 'bloquix_themes_catalog';
+	const TRANSIENT  = 'blokino_themes_catalog';
 	const ENDPOINT   = 'https://tunetdesign.com/wp-json/tunet/v1/themes';
 	const STORE_URL  = 'https://tunetdesign.com/downloads/';
 	const TTL        = 12 * HOUR_IN_SECONDS;
@@ -37,18 +37,18 @@ class Bloquix_Themes {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_menu' ), 13 );
-		add_action( 'admin_post_bloquix_themes_refresh', array( $this, 'handle_refresh' ) );
+		add_action( 'admin_post_blokino_themes_refresh', array( $this, 'handle_refresh' ) );
 	}
 
 	/**
-	 * Submenu under BloqUIX, after Demo and the `bloquix_admin_menu` hook
+	 * Submenu under Blokino, after Demo and the `blokino_admin_menu` hook
 	 * (priority 13: Settings/Tools → Demo → theme screens → Themes).
 	 */
 	public function register_menu() {
 		add_submenu_page(
-			Bloquix_Admin::MENU_SLUG,
-			__( 'Themes', 'bloquix' ),
-			__( 'Themes', 'bloquix' ),
+			Blokino_Admin::MENU_SLUG,
+			__( 'Themes', 'blokino' ),
+			__( 'Themes', 'blokino' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
 			array( $this, 'render_page' )
@@ -66,12 +66,12 @@ class Bloquix_Themes {
 
 	/**
 	 * Catalog endpoint. Filterable so a staging or local store can be pointed at
-	 * (`add_filter( 'bloquix_themes_endpoint', fn() => 'http://tunet.local/wp-json/tunet/v1/themes' )`).
+	 * (`add_filter( 'blokino_themes_endpoint', fn() => 'http://tunet.local/wp-json/tunet/v1/themes' )`).
 	 *
 	 * @return string
 	 */
 	public static function endpoint() {
-		return (string) apply_filters( 'bloquix_themes_endpoint', self::ENDPOINT );
+		return (string) apply_filters( 'blokino_themes_endpoint', self::ENDPOINT );
 	}
 
 	/**
@@ -90,21 +90,21 @@ class Bloquix_Themes {
 			// A failed fetch is remembered for a few minutes so a site without outbound
 			// access does not wait for the timeout on every visit ("Try again" bypasses it).
 			if ( get_transient( self::TRANSIENT . '_fail' ) ) {
-				return new WP_Error( 'bloquix_themes_offline', __( 'The theme catalog is not available right now.', 'bloquix' ) );
+				return new WP_Error( 'blokino_themes_offline', __( 'The theme catalog is not available right now.', 'blokino' ) );
 			}
 		}
 		$response = wp_remote_get(
 			self::endpoint(),
 			array(
 				'timeout'    => 8,
-				'user-agent' => 'BloqUIX/' . ( defined( 'BLOQUIX_VERSION' ) ? BLOQUIX_VERSION : '0' ), // Neutral: WP's default UA carries the site URL.
+				'user-agent' => 'Blokino/' . ( defined( 'BLOKINO_VERSION' ) ? BLOKINO_VERSION : '0' ), // Neutral: WP's default UA carries the site URL.
 				'headers'    => array( 'Accept' => 'application/json' ),
 			)
 		);
 		$items = is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ? null : json_decode( wp_remote_retrieve_body( $response ), true );
 		if ( ! is_array( $items ) ) {
 			set_transient( self::TRANSIENT . '_fail', 1, 10 * MINUTE_IN_SECONDS );
-			return is_wp_error( $response ) ? $response : new WP_Error( 'bloquix_themes_http', __( 'The theme catalog is not available right now.', 'bloquix' ) );
+			return is_wp_error( $response ) ? $response : new WP_Error( 'blokino_themes_http', __( 'The theme catalog is not available right now.', 'blokino' ) );
 		}
 		delete_transient( self::TRANSIENT . '_fail' );
 		$clean = array();
@@ -141,9 +141,9 @@ class Bloquix_Themes {
 	 */
 	public function handle_refresh() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'bloquix' ) );
+			wp_die( esc_html__( 'Permission denied.', 'blokino' ) );
 		}
-		check_admin_referer( 'bloquix_themes_refresh' );
+		check_admin_referer( 'blokino_themes_refresh' );
 		delete_transient( self::TRANSIENT );
 		delete_transient( self::TRANSIENT . '_fail' );
 		wp_safe_redirect( self::url() );
@@ -160,7 +160,7 @@ class Bloquix_Themes {
 	private static function out( $url, $content ) {
 		return add_query_arg(
 			array(
-				'utm_source'   => 'bloquix',
+				'utm_source'   => 'blokino',
 				'utm_medium'   => 'plugin',
 				'utm_campaign' => 'themes-screen',
 				'utm_content'  => $content,
@@ -205,34 +205,34 @@ class Bloquix_Themes {
 	 */
 	private static function render_free_card() {
 		$state = self::local_state( self::FREE_THEME );
-		$shot  = BLOQUIX_URL . 'admin/img/tunet-starter.webp';
+		$shot  = BLOKINO_URL . 'admin/img/tunet-starter.webp';
 		?>
-		<article class="bloquix-theme-card bloquix-theme-card--free<?php echo $state ? ' is-' . esc_attr( $state ) : ''; ?>">
-			<a class="bloquix-theme-card__shot" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+		<article class="blokino-theme-card blokino-theme-card--free<?php echo $state ? ' is-' . esc_attr( $state ) : ''; ?>">
+			<a class="blokino-theme-card__shot" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
 				<img src="<?php echo esc_url( $shot ); ?>" alt="" loading="lazy" />
 				<?php if ( 'active' === $state ) : ?>
-					<span class="bloquix-theme-card__badge bloquix-theme-card__badge--active"><?php esc_html_e( 'Active', 'bloquix' ); ?></span>
+					<span class="blokino-theme-card__badge blokino-theme-card__badge--active"><?php esc_html_e( 'Active', 'blokino' ); ?></span>
 				<?php elseif ( 'installed' === $state ) : ?>
-					<span class="bloquix-theme-card__badge"><?php esc_html_e( 'Installed', 'bloquix' ); ?></span>
+					<span class="blokino-theme-card__badge"><?php esc_html_e( 'Installed', 'blokino' ); ?></span>
 				<?php else : ?>
-					<span class="bloquix-theme-card__badge"><?php esc_html_e( 'Free', 'bloquix' ); ?></span>
+					<span class="blokino-theme-card__badge"><?php esc_html_e( 'Free', 'blokino' ); ?></span>
 				<?php endif; ?>
 			</a>
-			<div class="bloquix-theme-card__body">
-				<div class="bloquix-theme-card__head">
+			<div class="blokino-theme-card__body">
+				<div class="blokino-theme-card__head">
 					<h2>Tunet Starter</h2>
-					<span class="bloquix-theme-card__price bloquix-theme-card__price--free"><?php esc_html_e( 'Free', 'bloquix' ); ?></span>
+					<span class="blokino-theme-card__price blokino-theme-card__price--free"><?php esc_html_e( 'Free', 'blokino' ); ?></span>
 				</div>
-				<p class="bloquix-theme-card__tagline"><?php esc_html_e( 'Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates — and every effect of this engine.', 'bloquix' ); ?></p>
-				<div class="bloquix-theme-card__actions">
+				<p class="blokino-theme-card__tagline"><?php esc_html_e( 'Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates — and every effect of this engine.', 'blokino' ); ?></p>
+				<div class="blokino-theme-card__actions">
 					<?php if ( 'active' === $state ) : ?>
-						<a class="button button-primary" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Open the Site Editor', 'bloquix' ); ?></a>
+						<a class="button button-primary" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Open the Site Editor', 'blokino' ); ?></a>
 					<?php elseif ( 'installed' === $state ) : ?>
-						<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'themes.php?action=activate&stylesheet=' . self::FREE_THEME ), 'switch-theme_' . self::FREE_THEME ) ); ?>"><?php esc_html_e( 'Activate', 'bloquix' ); ?></a>
+						<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'themes.php?action=activate&stylesheet=' . self::FREE_THEME ), 'switch-theme_' . self::FREE_THEME ) ); ?>"><?php esc_html_e( 'Activate', 'blokino' ); ?></a>
 					<?php else : ?>
-						<a class="button button-primary" href="<?php echo esc_url( self::free_theme_install_url() ); ?>"><?php esc_html_e( 'Install from WordPress.org', 'bloquix' ); ?></a>
+						<a class="button button-primary" href="<?php echo esc_url( self::free_theme_install_url() ); ?>"><?php esc_html_e( 'Install from WordPress.org', 'blokino' ); ?></a>
 					<?php endif; ?>
-					<a class="button" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Details ↗', 'bloquix' ); ?></a>
+					<a class="button" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Details ↗', 'blokino' ); ?></a>
 				</div>
 			</div>
 		</article>
@@ -247,86 +247,86 @@ class Bloquix_Themes {
 			return;
 		}
 		$catalog  = self::catalog();
-		$demo_url = admin_url( 'admin.php?page=' . Bloquix_Demo::MENU_SLUG );
-		$refresh  = wp_nonce_url( admin_url( 'admin-post.php?action=bloquix_themes_refresh' ), 'bloquix_themes_refresh' );
+		$demo_url = admin_url( 'admin.php?page=' . Blokino_Demo::MENU_SLUG );
+		$refresh  = wp_nonce_url( admin_url( 'admin-post.php?action=blokino_themes_refresh' ), 'blokino_themes_refresh' );
 		?>
-		<div class="wrap bloquix-admin bloquix-themes">
-			<h1><?php esc_html_e( 'BloqUIX · Themes', 'bloquix' ); ?></h1>
-			<p class="description bloquix-themes__lede">
-				<?php esc_html_e( 'Themes designed for this engine — Tunet Starter is free on WordPress.org, the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. BloqUIX stays free and works with any theme.', 'bloquix' ); ?>
+		<div class="wrap blokino-admin blokino-themes">
+			<h1><?php esc_html_e( 'Blokino · Themes', 'blokino' ); ?></h1>
+			<p class="description blokino-themes__lede">
+				<?php esc_html_e( 'Themes designed for this engine — Tunet Starter is free on WordPress.org, the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. Blokino stays free and works with any theme.', 'blokino' ); ?>
 			</p>
 
-			<div class="bloquix-themes__grid bloquix-themes__grid--free">
+			<div class="blokino-themes__grid blokino-themes__grid--free">
 				<?php self::render_free_card(); ?>
 			</div>
 
-			<h2 class="bloquix-themes__h2"><?php esc_html_e( 'Premium themes', 'bloquix' ); ?></h2>
+			<h2 class="blokino-themes__h2"><?php esc_html_e( 'Premium themes', 'blokino' ); ?></h2>
 			<?php if ( is_wp_error( $catalog ) ) : ?>
-				<div class="bloquix-demo-empty">
+				<div class="blokino-demo-empty">
 					<span class="dashicons dashicons-cloud" aria-hidden="true"></span>
 					<div>
-						<p><strong><?php esc_html_e( 'The catalog could not be loaded.', 'bloquix' ); ?></strong></p>
+						<p><strong><?php esc_html_e( 'The catalog could not be loaded.', 'blokino' ); ?></strong></p>
 						<p class="description">
-							<a href="<?php echo esc_url( self::out( self::STORE_URL, 'offline' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Browse the themes on tunetdesign.com ↗', 'bloquix' ); ?></a>
-							· <a href="<?php echo esc_url( $refresh ); ?>"><?php esc_html_e( 'Try again', 'bloquix' ); ?></a>
+							<a href="<?php echo esc_url( self::out( self::STORE_URL, 'offline' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Browse the themes on tunetdesign.com ↗', 'blokino' ); ?></a>
+							· <a href="<?php echo esc_url( $refresh ); ?>"><?php esc_html_e( 'Try again', 'blokino' ); ?></a>
 						</p>
 					</div>
 				</div>
 			<?php elseif ( empty( $catalog ) ) : ?>
-				<div class="bloquix-demo-empty">
+				<div class="blokino-demo-empty">
 					<span class="dashicons dashicons-info-outline" aria-hidden="true"></span>
 					<div>
-						<p><strong><?php esc_html_e( 'No themes listed yet.', 'bloquix' ); ?></strong></p>
-						<p class="description"><a href="<?php echo esc_url( self::out( self::STORE_URL, 'empty' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Visit tunetdesign.com ↗', 'bloquix' ); ?></a></p>
+						<p><strong><?php esc_html_e( 'No themes listed yet.', 'blokino' ); ?></strong></p>
+						<p class="description"><a href="<?php echo esc_url( self::out( self::STORE_URL, 'empty' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Visit tunetdesign.com ↗', 'blokino' ); ?></a></p>
 					</div>
 				</div>
 			<?php else : ?>
-				<div class="bloquix-themes__grid">
+				<div class="blokino-themes__grid">
 					<?php foreach ( $catalog as $t ) : ?>
 						<?php
 						$state = self::local_state( $t['theme'] );
 						$name  = preg_replace( '/\s+(?:—|–|-)\s+WordPress theme$/iu', '', $t['name'] ); // "Aurora — WordPress theme" → "Aurora".
 						?>
-						<article class="bloquix-theme-card<?php echo $state ? ' is-' . esc_attr( $state ) : ''; ?>">
-							<a class="bloquix-theme-card__shot" href="<?php echo esc_url( self::out( $t['url'], 'image' ) ); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+						<article class="blokino-theme-card<?php echo $state ? ' is-' . esc_attr( $state ) : ''; ?>">
+							<a class="blokino-theme-card__shot" href="<?php echo esc_url( self::out( $t['url'], 'image' ) ); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
 								<?php if ( $t['image'] ) : ?>
 									<img src="<?php echo esc_url( $t['image'] ); ?>" alt="" loading="lazy" />
 								<?php else : ?>
-									<span class="bloquix-theme-card__noshot"><?php echo esc_html( $name ); ?></span>
+									<span class="blokino-theme-card__noshot"><?php echo esc_html( $name ); ?></span>
 								<?php endif; ?>
 								<?php if ( 'active' === $state ) : ?>
-									<span class="bloquix-theme-card__badge bloquix-theme-card__badge--active"><?php esc_html_e( 'Active', 'bloquix' ); ?></span>
+									<span class="blokino-theme-card__badge blokino-theme-card__badge--active"><?php esc_html_e( 'Active', 'blokino' ); ?></span>
 								<?php elseif ( 'installed' === $state ) : ?>
-									<span class="bloquix-theme-card__badge"><?php esc_html_e( 'Installed', 'bloquix' ); ?></span>
+									<span class="blokino-theme-card__badge"><?php esc_html_e( 'Installed', 'blokino' ); ?></span>
 								<?php endif; ?>
 							</a>
-							<div class="bloquix-theme-card__body">
-								<div class="bloquix-theme-card__head">
+							<div class="blokino-theme-card__body">
+								<div class="blokino-theme-card__head">
 									<h2><?php echo esc_html( $name ); ?></h2>
-									<?php if ( $t['price'] ) : ?><span class="bloquix-theme-card__price"><?php echo esc_html( $t['price'] ); ?></span><?php endif; ?>
+									<?php if ( $t['price'] ) : ?><span class="blokino-theme-card__price"><?php echo esc_html( $t['price'] ); ?></span><?php endif; ?>
 								</div>
-								<?php if ( $t['tagline'] ) : ?><p class="bloquix-theme-card__tagline"><?php echo esc_html( $t['tagline'] ); ?></p><?php endif; ?>
-								<div class="bloquix-theme-card__actions">
+								<?php if ( $t['tagline'] ) : ?><p class="blokino-theme-card__tagline"><?php echo esc_html( $t['tagline'] ); ?></p><?php endif; ?>
+								<div class="blokino-theme-card__actions">
 									<?php if ( 'active' === $state ) : ?>
-										<a class="button button-primary" href="<?php echo esc_url( $demo_url ); ?>"><?php esc_html_e( 'Import the demo', 'bloquix' ); ?></a>
+										<a class="button button-primary" href="<?php echo esc_url( $demo_url ); ?>"><?php esc_html_e( 'Import the demo', 'blokino' ); ?></a>
 									<?php else : ?>
-										<a class="button button-primary" href="<?php echo esc_url( self::out( $t['url'], 'get' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php echo 'installed' === $state ? esc_html__( 'View on tunetdesign.com ↗', 'bloquix' ) : esc_html__( 'Get the theme ↗', 'bloquix' ); ?></a>
+										<a class="button button-primary" href="<?php echo esc_url( self::out( $t['url'], 'get' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php echo 'installed' === $state ? esc_html__( 'View on tunetdesign.com ↗', 'blokino' ) : esc_html__( 'Get the theme ↗', 'blokino' ); ?></a>
 									<?php endif; ?>
 									<?php if ( $t['demo_url'] ) : ?>
-										<a class="button" href="<?php echo esc_url( self::out( $t['demo_url'], 'preview' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Live preview ↗', 'bloquix' ); ?></a>
+										<a class="button" href="<?php echo esc_url( self::out( $t['demo_url'], 'preview' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Live preview ↗', 'blokino' ); ?></a>
 									<?php endif; ?>
 								</div>
 							</div>
 						</article>
 					<?php endforeach; ?>
 				</div>
-				<p class="description bloquix-themes__foot">
+				<p class="description blokino-themes__foot">
 					<?php
 					printf(
 						/* translators: 1: store link, 2: refresh link. */
-						esc_html__( 'Themes are sold on %1$s and come as parent + child theme with a license key for updates and support. %2$s', 'bloquix' ),
+						esc_html__( 'Themes are sold on %1$s and come as parent + child theme with a license key for updates and support. %2$s', 'blokino' ),
 						'<a href="' . esc_url( self::out( self::STORE_URL, 'footer' ) ) . '" target="_blank" rel="noopener noreferrer">tunetdesign.com</a>',
-						'<a href="' . esc_url( $refresh ) . '">' . esc_html__( 'Refresh the list', 'bloquix' ) . '</a>'
+						'<a href="' . esc_url( $refresh ) . '">' . esc_html__( 'Refresh the list', 'blokino' ) . '</a>'
 					);
 					?>
 				</p>
