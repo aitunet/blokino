@@ -1,0 +1,47 @@
+{
+    "generator": "Claude Code (scripts/gen-i18n.php)",
+    "source": "blocks/before-after/edit.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "es_ES",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Change before image": [
+                "Cambiar la imagen «antes»"
+            ],
+            "Choose before image": [
+                "Elegir la imagen «antes»"
+            ],
+            "Change after image": [
+                "Cambiar la imagen «después»"
+            ],
+            "Choose after image": [
+                "Elegir la imagen «después»"
+            ],
+            "Images": [
+                "Imágenes"
+            ],
+            "Settings": [
+                "Ajustes"
+            ],
+            "Start position (%)": [
+                "Posición inicial (%)"
+            ],
+            "Before label": [
+                "Etiqueta de «antes»"
+            ],
+            "After label": [
+                "Etiqueta de «después»"
+            ],
+            "Blokino Before / After": [
+                "Blokino Antes / Después"
+            ],
+            "Choose the before and after images to compare.": [
+                "Elige las imágenes de antes y después para comparar."
+            ]
+        }
+    }
+}
