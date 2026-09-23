@@ -209,7 +209,11 @@ class Blokino_Runtime {
 			return;
 		}
 
-		echo "<script id=\"blokino-tf-bootstrap\">document.documentElement.classList.add('blokino-tf-ready');</script>\n";
+		// Por la API de WP y no con un <script> literal (review de wp.org): mismo id, sigue síncrono en el <head>.
+		wp_print_inline_script_tag(
+			"document.documentElement.classList.add('blokino-tf-ready');",
+			array( 'id' => 'blokino-tf-bootstrap' )
+		);
 	}
 
 	/**

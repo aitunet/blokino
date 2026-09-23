@@ -240,5 +240,10 @@ $blokino_jsonld = array(
 	'@type'           => 'BreadcrumbList',
 	'itemListElement' => $blokino_items,
 );
+// JSON_HEX_TAG / JSON_HEX_AMP: un "</script>" o un "&" en un título o término sale como <… y no puede
+// cerrar el script ni inyectar marcado (review de wp.org). Sin flags que desactiven el escapado.
+wp_print_inline_script_tag(
+	wp_json_encode( $blokino_jsonld, JSON_HEX_TAG | JSON_HEX_AMP ),
+	array( 'type' => 'application/ld+json' )
+);
 ?>
-<script type="application/ld+json"><?php echo wp_json_encode( $blokino_jsonld, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ); ?></script>
