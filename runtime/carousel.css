@@ -1,52 +1,52 @@
 /* ==========================================================================
- * Tunet Core · Chrome de carrusel COMPARTIDO (Swiper UI)
+ * BloqUIX · Chrome de carrusel COMPARTIDO (Swiper UI)
  * --------------------------------------------------------------------------
  * Flechas + paginación + fallback pre-init, agnóstico por tokens --tnt-*.
- * Lo encola cualquier bloque de carrusel (tunet/testimonials, tunet/content-slider)
- * vía Tunet_Core_Runtime::enqueue_carousel(). El CSS de Swiper lo inyecta
+ * Lo encola cualquier bloque de carrusel (bloquix/testimonials, bloquix/content-slider)
+ * vía Bloquix_Runtime::enqueue_carousel(). El CSS de Swiper lo inyecta
  * runtime/carousel.js de forma lazy junto al bundle; subimos especificidad con
- * .tunet-carousel.swiper para ganarle a su CSS inyectado tarde.
+ * .bloquix-carousel.swiper para ganarle a su CSS inyectado tarde.
  * ========================================================================== */
 
-.tunet-carousel {
+.bloquix-carousel {
 	position: relative;
 	--swiper-theme-color: var( --tnt-color-accent );
 	--swiper-navigation-size: var( --tnt-space-6 );
 }
 
-.tunet-carousel.swiper {
+.bloquix-carousel.swiper {
 	padding-bottom: var( --tnt-space-6 );
 }
 
-.tunet-carousel.swiper .swiper-pagination {
+.bloquix-carousel.swiper .swiper-pagination {
 	bottom: var( --tnt-space-1 );
 }
 
-.tunet-carousel.swiper .swiper-button-prev,
-.tunet-carousel.swiper .swiper-button-next {
+.bloquix-carousel.swiper .swiper-button-prev,
+.bloquix-carousel.swiper .swiper-button-next {
 	top: calc( ( 100% - var( --tnt-space-6 ) ) / 2 );
 	margin-top: 0;
 	transform: translateY( -50% );
 }
 
 /* Equal-height slides por defecto (cards parejas). */
-.tunet-carousel .swiper-wrapper {
+.bloquix-carousel .swiper-wrapper {
 	align-items: stretch;
 }
-.tunet-carousel .swiper-slide {
+.bloquix-carousel .swiper-slide {
 	box-sizing: border-box;
 	height: auto;
 }
 
 /* Fallback pre-init (sin JS / antes de montar Swiper). --tnt-carousel-spv inline. */
-.tunet-carousel:not( .swiper-initialized ) {
+.bloquix-carousel:not( .swiper-initialized ) {
 	overflow: hidden;
 }
-.tunet-carousel:not( .swiper-initialized ) .swiper-wrapper {
+.bloquix-carousel:not( .swiper-initialized ) .swiper-wrapper {
 	display: flex;
 	flex-wrap: nowrap;
 }
-.tunet-carousel:not( .swiper-initialized ) .swiper-slide {
+.bloquix-carousel:not( .swiper-initialized ) .swiper-slide {
 	/* max() enforces a per-breakpoint minimum width so an un-hydrated multi-up
 	   carousel isn't cramped on small screens; a 1-up carousel (spv=1) stays 100%. */
 	flex: 0 0 max( calc( 100% / var( --tnt-carousel-spv, 1 ) ), var( --tnt-carousel-fallback-min, 0% ) );
@@ -54,20 +54,20 @@
 	box-sizing: border-box;
 }
 @media ( max-width: 1023px ) {
-	.tunet-carousel:not( .swiper-initialized ) { --tnt-carousel-fallback-min: 46%; }
+	.bloquix-carousel:not( .swiper-initialized ) { --tnt-carousel-fallback-min: 46%; }
 }
 @media ( max-width: 599px ) {
-	.tunet-carousel:not( .swiper-initialized ) { --tnt-carousel-fallback-min: 88%; }
+	.bloquix-carousel:not( .swiper-initialized ) { --tnt-carousel-fallback-min: 88%; }
 }
-.tunet-carousel:not( .swiper-initialized ) .swiper-button-prev,
-.tunet-carousel:not( .swiper-initialized ) .swiper-button-next,
-.tunet-carousel:not( .swiper-initialized ) .swiper-pagination {
+.bloquix-carousel:not( .swiper-initialized ) .swiper-button-prev,
+.bloquix-carousel:not( .swiper-initialized ) .swiper-button-next,
+.bloquix-carousel:not( .swiper-initialized ) .swiper-pagination {
 	display: none;
 }
 
 /* Flechas refinadas (#4a): 44px, contraste claro/oscuro, hover easing, focus, reduced-motion. */
-.tunet-carousel .swiper-button-prev,
-.tunet-carousel .swiper-button-next {
+.bloquix-carousel .swiper-button-prev,
+.bloquix-carousel .swiper-button-next {
 	width: var( --tnt-space-7 );
 	height: var( --tnt-space-7 );
 	min-width: 44px;
@@ -82,28 +82,28 @@
 		transform var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
 		background-color var( --tnt-dur-fast ) var( --tnt-ease-power3 );
 }
-.tunet-carousel .swiper-button-prev::after,
-.tunet-carousel .swiper-button-next::after {
+.bloquix-carousel .swiper-button-prev::after,
+.bloquix-carousel .swiper-button-next::after {
 	font-size: var( --tnt-text-sm );
 	font-weight: 700;
 }
-.tunet-carousel .swiper-button-prev:hover,
-.tunet-carousel .swiper-button-next:hover {
+.bloquix-carousel .swiper-button-prev:hover,
+.bloquix-carousel .swiper-button-next:hover {
 	transform: translateY( -50% ) scale( 1.08 );
 	background: var( --tnt-color-surface );
 }
-.tunet-carousel .swiper-button-prev:focus-visible,
-.tunet-carousel .swiper-button-next:focus-visible {
+.bloquix-carousel .swiper-button-prev:focus-visible,
+.bloquix-carousel .swiper-button-next:focus-visible {
 	outline: 2px solid var( --tnt-color-accent );
 	outline-offset: 2px;
 }
 @media ( prefers-reduced-motion: reduce ) {
-	.tunet-carousel .swiper-button-prev,
-	.tunet-carousel .swiper-button-next {
+	.bloquix-carousel .swiper-button-prev,
+	.bloquix-carousel .swiper-button-next {
 		transition: none;
 	}
-	.tunet-carousel .swiper-button-prev:hover,
-	.tunet-carousel .swiper-button-next:hover {
+	.bloquix-carousel .swiper-button-prev:hover,
+	.bloquix-carousel .swiper-button-next:hover {
 		transform: translateY( -50% );
 	}
 }

@@ -1,14 +1,14 @@
 /* ==========================================================================
- * Tunet Core · Helper compartido del editor: window.tunetIconSvg
+ * BloqUIX · Helper compartido del editor: window.bloquixIconSvg
  * --------------------------------------------------------------------------
- * Fuente ÚNICA del <svg> en el editor (espejo de tunet_core_icon_svg en PHP).
+ * Fuente ÚNICA del <svg> en el editor (espejo de bloquix_icon_svg en PHP).
  * La usan icon/edit.js y marquee/edit.js. Ramifica por `mode` (stroke|fill).
- * Lee window.tunetIcons (localize). Sin JSX ni build.
+ * Lee window.bloquixIcons (localize). Sin JSX ni build.
  * ========================================================================== */
 ( function () {
 	'use strict';
-	window.tunetIconSvg = function ( name, opts ) {
-		var ICONS = window.tunetIcons || {};
+	window.bloquixIconSvg = function ( name, opts ) {
+		var ICONS = window.bloquixIcons || {};
 		var ic = ICONS[ name ];
 		if ( ! ic ) {
 			return '';

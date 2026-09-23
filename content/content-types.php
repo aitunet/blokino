@@ -1,18 +1,18 @@
 <?php
 /**
- * Tunet Core · API pública del framework de tipos de contenido.
+ * BloqUIX · API pública del framework de tipos de contenido.
  *
  * Dos funciones, mismo patrón que el set de iconos: una para declarar y otra
- * para leer lo ya resuelto. La lógica vive en `Tunet_Core_Content`.
+ * para leer lo ya resuelto. La lógica vive en `Bloquix_Content`.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! function_exists( 'tunet_core_register_content_type' ) ) {
+if ( ! function_exists( 'bloquix_register_content_type' ) ) {
 	/**
 	 * Declara un tipo de contenido (CPT + taxonomías + meta) sin editar el motor.
 	 *
@@ -60,12 +60,12 @@ if ( ! function_exists( 'tunet_core_register_content_type' ) ) {
 	 * @param array  $args Definición declarativa.
 	 * @return void
 	 */
-	function tunet_core_register_content_type( $slug, $args = array() ) {
-		Tunet_Core_Content::declare_type( $slug, $args );
+	function bloquix_register_content_type( $slug, $args = array() ) {
+		Bloquix_Content::declare_type( $slug, $args );
 	}
 }
 
-if ( ! function_exists( 'tunet_core_content_types' ) ) {
+if ( ! function_exists( 'bloquix_content_types' ) ) {
 	/**
 	 * Devuelve el mapa de tipos de contenido ya validado y normalizado.
 	 *
@@ -77,7 +77,7 @@ if ( ! function_exists( 'tunet_core_content_types' ) ) {
 	 *
 	 * @return array<string,array> Mapa slug => array{slug,args,taxonomies,meta}.
 	 */
-	function tunet_core_content_types() {
-		return Tunet_Core_Content::get_types();
+	function bloquix_content_types() {
+		return Bloquix_Content::get_types();
 	}
 }

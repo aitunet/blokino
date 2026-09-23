@@ -1,12 +1,12 @@
 /* ==========================================================================
- * Tunet Core · Runtime de efectos — FASE B · LOTE 1 (entrada)
+ * BloqUIX · Runtime de efectos — FASE B · LOTE 1 (entrada)
  * --------------------------------------------------------------------------
  * Se carga en el footer con defer (no bloquea el render). El gate anti-FOUC
- * (.tunet-tf-ready) lo añade un snippet inline en el <head>; aquí solo se
+ * (.bloquix-tf-ready) lo añade un snippet inline en el <head>; aquí solo se
  * reafirma de forma defensiva por si esa vía no se emitió.
  *
  * Responsabilidades (todo vanilla, sin GSAP):
- *   1. Reafirma .tunet-tf-ready en <html> (defensivo).
+ *   1. Reafirma .bloquix-tf-ready en <html> (defensivo).
  *   2. text-stagger → parte el texto en palabras (.tf-word) con índice --tf-i.
  *   3. tfStagger    → marca los hijos directos como .tf-stagger-item con --tf-i.
  *   4. Observa con IntersectionObserver y añade .is-tf-in al entrar en
@@ -30,10 +30,10 @@
 	var root = document.documentElement;
 
 	// Reafirmación defensiva del gate (la vía principal es el snippet inline).
-	root.classList.add( 'tunet-tf-ready' );
+	root.classList.add( 'bloquix-tf-ready' );
 
-	window.tunetCore = window.tunetCore || {};
-	window.tunetCore.runtimeLoaded = true;
+	window.bloquix = window.bloquix || {};
+	window.bloquix.runtimeLoaded = true;
 
 	var reduceMotion = window.matchMedia &&
 		window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;

@@ -1,11 +1,11 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/before-after — comparador de imágenes
+ * BloqUIX · Block bloquix/before-after — comparador de imágenes
  * --------------------------------------------------------------------------
  * "antes" en flujo (define la altura); "después" absoluta recortada por
  * clip-path a la posición del divisor (--tnt-ba-pos). Estética desde tokens.
  * ========================================================================== */
 
-.tunet-ba {
+.bloquix-ba {
 	position: relative;
 	--tnt-ba-pos: 50%;
 	overflow: hidden;
@@ -16,27 +16,27 @@
 	cursor: ew-resize;
 }
 
-.tunet-ba__img {
+.bloquix-ba__img {
 	display: block;
 	width: 100%;
 	height: auto;
 }
 
-.tunet-ba__after {
+.bloquix-ba__after {
 	position: absolute;
 	inset: 0;
 	/* Revela la parte izquierda (imagen "después") hasta el divisor. */
 	clip-path: inset( 0 calc( 100% - var( --tnt-ba-pos ) ) 0 0 );
 }
 
-.tunet-ba__after .tunet-ba__img {
+.bloquix-ba__after .bloquix-ba__img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
 
 /* Etiquetas opcionales en las esquinas inferiores. */
-.tunet-ba__label {
+.bloquix-ba__label {
 	position: absolute;
 	bottom: var( --tnt-space-3 );
 	z-index: 2;
@@ -51,11 +51,11 @@
 	border-radius: var( --tnt-radius-pill );
 	backdrop-filter: blur( 6px );
 }
-.tunet-ba__label--after  { left: var( --tnt-space-3 ); }
-.tunet-ba__label--before { right: var( --tnt-space-3 ); }
+.bloquix-ba__label--after  { left: var( --tnt-space-3 ); }
+.bloquix-ba__label--before { right: var( --tnt-space-3 ); }
 
 /* Divisor + tirador. */
-.tunet-ba__handle {
+.bloquix-ba__handle {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -68,7 +68,7 @@
 	cursor: ew-resize;
 }
 
-.tunet-ba__grip {
+.bloquix-ba__grip {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -83,8 +83,8 @@
 }
 
 /* Flechas del tirador (dos chevrons con bordes). */
-.tunet-ba__grip::before,
-.tunet-ba__grip::after {
+.bloquix-ba__grip::before,
+.bloquix-ba__grip::after {
 	content: "";
 	position: absolute;
 	width: 0.5em;
@@ -92,11 +92,11 @@
 	border: 2px solid var( --tnt-color-accent );
 	border-width: 2px 2px 0 0;
 }
-.tunet-ba__grip::before { transform: translateX( -0.35em ) rotate( -135deg ); }
-.tunet-ba__grip::after  { transform: translateX( 0.35em ) rotate( 45deg ); }
+.bloquix-ba__grip::before { transform: translateX( -0.35em ) rotate( -135deg ); }
+.bloquix-ba__grip::after  { transform: translateX( 0.35em ) rotate( 45deg ); }
 
 /* Foco de teclado visible (accesibilidad). */
-.tunet-ba__handle:focus-visible {
+.bloquix-ba__handle:focus-visible {
 	outline: 3px solid var( --tnt-color-accent );
 	outline-offset: 2px;
 }

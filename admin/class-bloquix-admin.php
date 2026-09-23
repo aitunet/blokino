@@ -7,13 +7,13 @@
  * --tnt-* tokens; this panel only stores overrides, which the runtime injects
  * as :root{--tnt-*}. Fonts load from Google Fonts (CDN). Logos are engine-level
  * brand assets (they persist across theme switches); the theme decides where to
- * place them (tunet/brand block or the native Site Logo block).
+ * place them (bloquix/brand block or the native Site Logo block).
  *
  * Reads/builders are STATIC so the runtime can use them on the front-end.
  *
- * Default UI language is English; strings are translatable (text domain 'tunet-core').
+ * Default UI language is English; strings are translatable (text domain 'bloquix').
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,21 +23,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Engine administration.
  */
-class Tunet_Core_Admin {
+class Bloquix_Admin {
 
-	const OPTION     = 'tunet_core_settings';
-	const MENU_SLUG  = 'tunet-core';          // top-level entry = the Get started screen
-	const SETTINGS_SLUG = 'tunet-core-settings';
-	const TOOLS_SLUG  = 'tunet-tools';
+	const OPTION     = 'bloquix_settings';
+	const MENU_SLUG  = 'bloquix';          // top-level entry = the Get started screen
+	const SETTINGS_SLUG = 'bloquix-settings';
+	const TOOLS_SLUG  = 'bloquix-tools';
 	const CAPABILITY  = 'manage_options';
 
 	/* ---------------------------------------------------------------------
 	 * Catalogs (curated Google Fonts)
 	 * ------------------------------------------------------------------ */
 
-	/** Sans/serif fonts (display/body) → weights. Themes/plugins extend it with the tunet_core_fonts_text filter. */
+	/** Sans/serif fonts (display/body) → weights. Themes/plugins extend it with the bloquix_fonts_text filter. */
 	public static function fonts_text() {
-		return apply_filters( 'tunet_core_fonts_text', array(
+		return apply_filters( 'bloquix_fonts_text', array(
 			'Inter'             => '400;500;600;700',
 			'Sora'              => '400;600;700;800',
 			'Space Grotesk'     => '400;500;700',
@@ -56,7 +56,7 @@ class Tunet_Core_Admin {
 
 	/** Monospace fonts → weights. */
 	public static function fonts_mono() {
-		return apply_filters( 'tunet_core_fonts_mono', array(
+		return apply_filters( 'bloquix_fonts_mono', array(
 			'JetBrains Mono' => '400;500;700',
 			'Space Mono'     => '400;700',
 			'IBM Plex Mono'  => '400;500;600',
@@ -286,9 +286,9 @@ class Tunet_Core_Admin {
 		add_action( 'admin_menu', array( $this, 'fire_menu_hook' ), 12 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_head', array( $this, 'menu_icon_style' ) );
-		add_action( 'admin_post_tunet_save_settings', array( $this, 'handle_save_settings' ) );
-		add_action( 'admin_post_tunet_export', array( $this, 'handle_export' ) );
-		add_action( 'admin_post_tunet_import', array( $this, 'handle_import' ) );
+		add_action( 'admin_post_bloquix_save_settings', array( $this, 'handle_save_settings' ) );
+		add_action( 'admin_post_bloquix_export', array( $this, 'handle_export' ) );
+		add_action( 'admin_post_bloquix_import', array( $this, 'handle_import' ) );
 	}
 
 	/**
@@ -303,7 +303,7 @@ class Tunet_Core_Admin {
 	 * Dos paths en el espacio de la letra (bbox 66–194 × 42–216, viewBox cuadrado
 	 * "43 42 174 174"). Un solo sitio con la geometría para que el data-URI del menú y
 	 * las máscaras de menu_icon_style() no puedan divergir; la fuente documentada está
-	 * en admin/img/icon-tunet-core.svg y el generador de todos los assets en
+	 * en admin/img/icon-bloquix.svg y el generador de todos los assets en
 	 * wporg-assets/build-icon.mjs. Va en línea porque add_menu_page() necesita el valor
 	 * al registrar el menú y leer el archivo en cada carga del admin sería una lectura
 	 * de disco por página para 300 bytes.
@@ -365,7 +365,7 @@ class Tunet_Core_Admin {
 		$img    = $item . ' .wp-menu-image';
 		$lit    = $item . ':hover .wp-menu-image::after, ' . $item . '.current .wp-menu-image::after, ' . $item . '.wp-has-current-submenu .wp-menu-image::after, ' . $item . ' a:focus .wp-menu-image::after';
 		?>
-		<style id="tunet-core-menu-icon">
+		<style id="bloquix-menu-icon">
 			@supports ((-webkit-mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>) or (mask-image: <?php echo $mask_t; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- literal del motor. ?>)) {
 				<?php echo esc_html( $img ); ?> { position: relative; background-image: none !important; }
 				<?php echo esc_html( $img ); ?>::before,
@@ -401,11 +401,11 @@ class Tunet_Core_Admin {
 	 */
 	public function register_menu() {
 		add_menu_page(
-			__( 'Tunet Core', 'tunet-core' ),
-			__( 'Tunet Core', 'tunet-core' ),
+			__( 'BloqUIX', 'bloquix' ),
+			__( 'BloqUIX', 'bloquix' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
-			array( 'Tunet_Core_Welcome', 'render_page' ),
+			array( 'Bloquix_Welcome', 'render_page' ),
 			self::menu_icon_data_uri(),
 			59
 		);
@@ -413,17 +413,17 @@ class Tunet_Core_Admin {
 		// The parent's own entry is the first submenu: Get started.
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Get started', 'tunet-core' ),
-			__( 'Get started', 'tunet-core' ),
+			__( 'Get started', 'bloquix' ),
+			__( 'Get started', 'bloquix' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
-			array( 'Tunet_Core_Welcome', 'render_page' )
+			array( 'Bloquix_Welcome', 'render_page' )
 		);
 
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Settings', 'tunet-core' ),
-			__( 'Settings', 'tunet-core' ),
+			__( 'Settings', 'bloquix' ),
+			__( 'Settings', 'bloquix' ),
 			self::CAPABILITY,
 			self::SETTINGS_SLUG,
 			array( $this, 'render_settings_page' )
@@ -431,8 +431,8 @@ class Tunet_Core_Admin {
 
 		add_submenu_page(
 			self::MENU_SLUG,
-			__( 'Tools', 'tunet-core' ),
-			__( 'Tools', 'tunet-core' ),
+			__( 'Tools', 'bloquix' ),
+			__( 'Tools', 'bloquix' ),
 			self::CAPABILITY,
 			self::TOOLS_SLUG,
 			array( $this, 'render_tools_page' )
@@ -441,16 +441,16 @@ class Tunet_Core_Admin {
 		// Direct link under Appearance → settings page.
 		add_submenu_page(
 			'themes.php',
-			__( 'Tunet Core', 'tunet-core' ),
-			__( 'Tunet Core', 'tunet-core' ),
+			__( 'BloqUIX', 'bloquix' ),
+			__( 'BloqUIX', 'bloquix' ),
 			self::CAPABILITY,
 			'admin.php?page=' . self::SETTINGS_SLUG
 		);
 	}
 
 	/**
-	 * Fires after Tunet Core registered its own submenus. Premium themes hook
-	 * here to add screens (e.g. License) under the Tunet Core menu.
+	 * Fires after BloqUIX registered its own submenus. Premium themes hook
+	 * here to add screens (e.g. License) under the BloqUIX menu.
 	 *
 	 * Hooked at `admin_menu` priority 12 — after Settings/Tools (priority 10,
 	 * `register_menu`) and Demo (priority 11) but before Themes (priority 13) —
@@ -458,12 +458,12 @@ class Tunet_Core_Admin {
 	 */
 	public function fire_menu_hook() {
 		/**
-		 * Fires after Tunet Core registered its own submenus. Premium themes hook
-		 * here to add screens (e.g. License) under the Tunet Core menu.
+		 * Fires after BloqUIX registered its own submenus. Premium themes hook
+		 * here to add screens (e.g. License) under the BloqUIX menu.
 		 *
-		 * @param string $parent_slug The Tunet Core menu slug.
+		 * @param string $parent_slug The BloqUIX menu slug.
 		 */
-		do_action( 'tunet_core_admin_menu', self::MENU_SLUG );
+		do_action( 'bloquix_admin_menu', self::MENU_SLUG );
 	}
 
 	/**
@@ -475,8 +475,8 @@ class Tunet_Core_Admin {
 		$is_welcome  = ( 'toplevel_page_' . self::MENU_SLUG === $hook );
 		$is_settings = ( false !== strpos( $hook, self::SETTINGS_SLUG ) );
 		$is_tools    = ( false !== strpos( $hook, self::TOOLS_SLUG ) );
-		$is_demo     = ( false !== strpos( $hook, Tunet_Core_Demo::MENU_SLUG ) );
-		$is_themes   = ( false !== strpos( $hook, Tunet_Core_Themes::MENU_SLUG ) );
+		$is_demo     = ( false !== strpos( $hook, Bloquix_Demo::MENU_SLUG ) );
+		$is_themes   = ( false !== strpos( $hook, Bloquix_Themes::MENU_SLUG ) );
 
 		if ( ! $is_welcome && ! $is_settings && ! $is_tools && ! $is_demo && ! $is_themes ) {
 			return;
@@ -486,40 +486,40 @@ class Tunet_Core_Admin {
 			wp_enqueue_media();
 		}
 
-		wp_enqueue_style( 'tunet-core-admin', TUNET_CORE_URL . 'admin/admin.css', array(), (string) filemtime( TUNET_CORE_PATH . 'admin/admin.css' ) );
-		wp_enqueue_script( 'tunet-core-admin', TUNET_CORE_URL . 'admin/admin.js', array(), (string) filemtime( TUNET_CORE_PATH . 'admin/admin.js' ), true );
+		wp_enqueue_style( 'bloquix-admin', BLOQUIX_URL . 'admin/admin.css', array(), (string) filemtime( BLOQUIX_PATH . 'admin/admin.css' ) );
+		wp_enqueue_script( 'bloquix-admin', BLOQUIX_URL . 'admin/admin.js', array(), (string) filemtime( BLOQUIX_PATH . 'admin/admin.js' ), true );
 
 		wp_localize_script(
-			'tunet-core-admin',
-			'tunetCoreAdmin',
+			'bloquix-admin',
+			'bloquixAdmin',
 			array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 				'homeUrl' => home_url( '/' ),
-				'nonce'   => wp_create_nonce( 'tunet_demo' ),
+				'nonce'   => wp_create_nonce( 'bloquix_demo' ),
 				'i18n'    => array(
-					'importing'    => __( 'Importing…', 'tunet-core' ),
-					'done'         => __( 'Demo imported.', 'tunet-core' ),
-					'rollback'     => __( 'Import undone.', 'tunet-core' ),
-					'error'        => __( 'An error occurred.', 'tunet-core' ),
-					'chooseLogo'   => __( 'Select logo', 'tunet-core' ),
-					'useLogo'      => __( 'Use this logo', 'tunet-core' ),
-					'pluginsTitle' => __( 'Recommended plugins', 'tunet-core' ),
-					'installAct'   => __( 'Install & activate', 'tunet-core' ),
-					'installing'   => __( 'Installing…', 'tunet-core' ),
-					'activate'     => __( 'Activate', 'tunet-core' ),
-					'active'       => __( 'Active', 'tunet-core' ),
-					'required'     => __( 'Required', 'tunet-core' ),
-					'continue'     => __( 'Continue', 'tunet-core' ),
-					'optional'     => __( 'Optional', 'tunet-core' ),
-					'pluginsReady' => __( 'All set — continue to the import.', 'tunet-core' ),
-					'noPlugins'    => __( 'No extra plugins needed for this demo — continue to the import.', 'tunet-core' ),
-					'viewSite'     => __( 'View site', 'tunet-core' ),
-					'installManually' => __( 'Install manually', 'tunet-core' ),
+					'importing'    => __( 'Importing…', 'bloquix' ),
+					'done'         => __( 'Demo imported.', 'bloquix' ),
+					'rollback'     => __( 'Import undone.', 'bloquix' ),
+					'error'        => __( 'An error occurred.', 'bloquix' ),
+					'chooseLogo'   => __( 'Select logo', 'bloquix' ),
+					'useLogo'      => __( 'Use this logo', 'bloquix' ),
+					'pluginsTitle' => __( 'Recommended plugins', 'bloquix' ),
+					'installAct'   => __( 'Install & activate', 'bloquix' ),
+					'installing'   => __( 'Installing…', 'bloquix' ),
+					'activate'     => __( 'Activate', 'bloquix' ),
+					'active'       => __( 'Active', 'bloquix' ),
+					'required'     => __( 'Required', 'bloquix' ),
+					'continue'     => __( 'Continue', 'bloquix' ),
+					'optional'     => __( 'Optional', 'bloquix' ),
+					'pluginsReady' => __( 'All set — continue to the import.', 'bloquix' ),
+					'noPlugins'    => __( 'No extra plugins needed for this demo — continue to the import.', 'bloquix' ),
+					'viewSite'     => __( 'View site', 'bloquix' ),
+					'installManually' => __( 'Install manually', 'bloquix' ),
 					/* translators: %s: what the server answered, e.g. "HTTP 504". */
-					'serverError'  => __( 'The server did not answer with JSON (%s). The request was probably cut short by a time limit.', 'tunet-core' ),
-					'retrying'     => __( 'Connection hiccup — retrying…', 'tunet-core' ),
-					'retryHint'    => __( 'Click Retry to resume from this step.', 'tunet-core' ),
-					'retry'        => __( 'Retry', 'tunet-core' ),
+					'serverError'  => __( 'The server did not answer with JSON (%s). The request was probably cut short by a time limit.', 'bloquix' ),
+					'retrying'     => __( 'Connection hiccup — retrying…', 'bloquix' ),
+					'retryHint'    => __( 'Click Retry to resume from this step.', 'bloquix' ),
+					'retry'        => __( 'Retry', 'bloquix' ),
 				),
 			)
 		);
@@ -592,63 +592,63 @@ class Tunet_Core_Admin {
 		// está detrás de current_user_can(), y el valor pasa por sanitize_key() y
 		// luego por un lookup contra una lista cerrada en notice_text().
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$notice   = isset( $_GET['tunet_notice'] ) ? sanitize_key( wp_unslash( $_GET['tunet_notice'] ) ) : '';
+		$notice   = isset( $_GET['bloquix_notice'] ) ? sanitize_key( wp_unslash( $_GET['bloquix_notice'] ) ) : '';
 		$post_url = admin_url( 'admin-post.php' );
 		$palette  = $this->theme_palette();
 		?>
-		<div class="wrap tunet-admin">
-			<h1><?php esc_html_e( 'Tunet Core', 'tunet-core' ); ?></h1>
-			<p class="description"><?php esc_html_e( 'The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens).', 'tunet-core' ); ?></p>
+		<div class="wrap bloquix-admin">
+			<h1><?php esc_html_e( 'BloqUIX', 'bloquix' ); ?></h1>
+			<p class="description"><?php esc_html_e( 'The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens).', 'bloquix' ); ?></p>
 
 			<?php if ( $notice ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $this->notice_text( $notice ) ); ?></p></div>
 			<?php endif; ?>
 
 			<?php if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) : ?>
-				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'Appearance & styles', 'tunet-core' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them.', 'tunet-core' ); ?></p>
+				<div class="card bloquix-section-card">
+					<h2><?php esc_html_e( 'Appearance & styles', 'bloquix' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them.', 'bloquix' ); ?></p>
 					<p>
 						<a class="button button-secondary" href="<?php echo esc_url( admin_url( 'site-editor.php?path=%2Fwp_global_styles' ) ); ?>">
-							<?php esc_html_e( 'Open Styles in the Site Editor', 'tunet-core' ); ?>
+							<?php esc_html_e( 'Open Styles in the Site Editor', 'bloquix' ); ?>
 						</a>
 					</p>
 				</div>
 			<?php endif; ?>
 
 			<form method="post" action="<?php echo esc_url( $post_url ); ?>">
-				<input type="hidden" name="action" value="tunet_save_settings" />
-				<?php wp_nonce_field( 'tunet_save_settings' ); ?>
+				<input type="hidden" name="action" value="bloquix_save_settings" />
+				<?php wp_nonce_field( 'bloquix_save_settings' ); ?>
 
-				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'Brand logos', 'tunet-core' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic).', 'tunet-core' ); ?></p>
+				<div class="card bloquix-section-card">
+					<h2><?php esc_html_e( 'Brand logos', 'bloquix' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic).', 'bloquix' ); ?></p>
 					<?php /* El campo ya se llamaba "dark backgrounds" pero nada lo aplicaba solo: el logo alternativo se quedaba sin usar y el header oscuro mostraba el oscuro. Ahora sí conmuta, y conviene decirlo aquí. */ ?>
-					<p class="description"><?php esc_html_e( 'With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo.', 'tunet-core' ); ?></p>
+					<p class="description"><?php esc_html_e( 'With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo.', 'bloquix' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
-						$this->row_logo( __( 'Main logo', 'tunet-core' ), 'logo_main_id', (int) $s['logo_main_id'] );
-						$this->row_logo( __( 'Alternative logo (dark backgrounds)', 'tunet-core' ), 'logo_alt_id', (int) $s['logo_alt_id'], true );
+						$this->row_logo( __( 'Main logo', 'bloquix' ), 'logo_main_id', (int) $s['logo_main_id'] );
+						$this->row_logo( __( 'Alternative logo (dark backgrounds)', 'bloquix' ), 'logo_alt_id', (int) $s['logo_alt_id'], true );
 						?>
 					</table>
 				</div>
 
-				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'Branding', 'tunet-core' ); ?></h2>
+				<div class="card bloquix-section-card">
+					<h2><?php esc_html_e( 'Branding', 'bloquix' ); ?></h2>
 
-					<h3><?php esc_html_e( 'Typography (Google Fonts)', 'tunet-core' ); ?></h3>
+					<h3><?php esc_html_e( 'Typography (Google Fonts)', 'bloquix' ); ?></h3>
 					<table class="form-table" role="presentation">
 						<?php
-						$this->row_font( __( 'Display', 'tunet-core' ), 'font_display', $s['font_display'], self::fonts_text() );
-						$this->row_font( __( 'Body', 'tunet-core' ), 'font_body', $s['font_body'], self::fonts_text() );
-						$this->row_font( __( 'Monospace', 'tunet-core' ), 'font_mono', $s['font_mono'], self::fonts_mono() );
-						$this->row_select( __( 'Base size', 'tunet-core' ), 'text_base', $s['text_base'], array( '' => __( 'Theme default', 'tunet-core' ), 'sm' => __( 'Compact', 'tunet-core' ), 'lg' => __( 'Large', 'tunet-core' ) ) );
+						$this->row_font( __( 'Display', 'bloquix' ), 'font_display', $s['font_display'], self::fonts_text() );
+						$this->row_font( __( 'Body', 'bloquix' ), 'font_body', $s['font_body'], self::fonts_text() );
+						$this->row_font( __( 'Monospace', 'bloquix' ), 'font_mono', $s['font_mono'], self::fonts_mono() );
+						$this->row_select( __( 'Base size', 'bloquix' ), 'text_base', $s['text_base'], array( '' => __( 'Theme default', 'bloquix' ), 'sm' => __( 'Compact', 'bloquix' ), 'lg' => __( 'Large', 'bloquix' ) ) );
 						?>
 					</table>
 
-					<h3><?php esc_html_e( 'Brand colors', 'tunet-core' ); ?></h3>
+					<h3><?php esc_html_e( 'Brand colors', 'bloquix' ); ?></h3>
 					<p class="description">
-						<?php esc_html_e( 'Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation.', 'tunet-core' ); ?>
+						<?php esc_html_e( 'Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation.', 'bloquix' ); ?>
 					</p>
 					<?php
 					/*
@@ -660,13 +660,13 @@ class Tunet_Core_Admin {
 					 * Se avisa en vez de prohibirlo: el override explicito es la funcion.
 					 */
 					$brand_keys   = array(
-						'brand_primary'  => __( 'Primary', 'tunet-core' ),
-						'brand_accent'   => __( 'Accent', 'tunet-core' ),
-						'brand_accent_2' => __( 'Accent 2', 'tunet-core' ),
-						'brand_bg'       => __( 'Background', 'tunet-core' ),
-						'brand_text'     => __( 'Text', 'tunet-core' ),
-						'brand_ink'      => __( 'Dark bands', 'tunet-core' ),
-						'brand_on_ink'   => __( 'Text on dark bands', 'tunet-core' ),
+						'brand_primary'  => __( 'Primary', 'bloquix' ),
+						'brand_accent'   => __( 'Accent', 'bloquix' ),
+						'brand_accent_2' => __( 'Accent 2', 'bloquix' ),
+						'brand_bg'       => __( 'Background', 'bloquix' ),
+						'brand_text'     => __( 'Text', 'bloquix' ),
+						'brand_ink'      => __( 'Dark bands', 'bloquix' ),
+						'brand_on_ink'   => __( 'Text on dark bands', 'bloquix' ),
 					);
 					$brand_active = array();
 					foreach ( $brand_keys as $bk => $blabel ) {
@@ -676,105 +676,105 @@ class Tunet_Core_Admin {
 					}
 					if ( $brand_active ) :
 						?>
-						<div class="notice notice-warning inline tunet-brand-warning">
+						<div class="notice notice-warning inline bloquix-brand-warning">
 							<p>
-								<strong><?php esc_html_e( 'Brand colors are overriding this theme.', 'tunet-core' ); ?></strong>
+								<strong><?php esc_html_e( 'Brand colors are overriding this theme.', 'bloquix' ); ?></strong>
 								<?php
 								printf(
 									/* translators: %s: comma-separated list of overridden color names with their hex value. */
-									esc_html__( 'Active: %s. While these are set, switching the style variation will not change them.', 'tunet-core' ),
+									esc_html__( 'Active: %s. While these are set, switching the style variation will not change them.', 'bloquix' ),
 									esc_html( implode( ', ', $brand_active ) )
 								);
 								?>
 							</p>
 							<?php if ( ! empty( $s['brand_bg'] ) && empty( $s['brand_text'] ) ) : ?>
 								<p>
-									<?php esc_html_e( 'You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable.', 'tunet-core' ); ?>
+									<?php esc_html_e( 'You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable.', 'bloquix' ); ?>
 								</p>
 							<?php endif; ?>
 							<?php if ( ! empty( $s['brand_ink'] ) && empty( $s['brand_on_ink'] ) ) : ?>
 								<p>
-									<?php esc_html_e( 'You set the dark bands but not their text color: make sure the theme\'s text on dark bands still reads on your new background.', 'tunet-core' ); ?>
+									<?php esc_html_e( 'You set the dark bands but not their text color: make sure the theme\'s text on dark bands still reads on your new background.', 'bloquix' ); ?>
 								</p>
 							<?php endif; ?>
 							<p>
-								<button type="button" class="button" id="tunet-brand-clear-all">
-									<?php esc_html_e( 'Clear all brand colors', 'tunet-core' ); ?>
+								<button type="button" class="button" id="bloquix-brand-clear-all">
+									<?php esc_html_e( 'Clear all brand colors', 'bloquix' ); ?>
 								</button>
-								<span class="description"><?php esc_html_e( 'Then press Save changes.', 'tunet-core' ); ?></span>
+								<span class="description"><?php esc_html_e( 'Then press Save changes.', 'bloquix' ); ?></span>
 							</p>
 						</div>
 						<?php
 					endif;
 					?>
-					<table class="form-table tunet-brand-colors" role="presentation">
+					<table class="form-table bloquix-brand-colors" role="presentation">
 						<?php
-						$this->row_color( __( 'Primary', 'tunet-core' ), 'brand_primary', $s['brand_primary'], $palette['primary'] ?? '' );
-						$this->row_color( __( 'Accent', 'tunet-core' ), 'brand_accent', $s['brand_accent'], $palette['accent'] ?? '' );
-						$this->row_color( __( 'Accent 2', 'tunet-core' ), 'brand_accent_2', $s['brand_accent_2'], $palette['accent-2'] ?? '' );
-						$this->row_color( __( 'Background', 'tunet-core' ), 'brand_bg', $s['brand_bg'], $palette['bg'] ?? '' );
-						$this->row_color( __( 'Text', 'tunet-core' ), 'brand_text', $s['brand_text'], $palette['text'] ?? '' );
+						$this->row_color( __( 'Primary', 'bloquix' ), 'brand_primary', $s['brand_primary'], $palette['primary'] ?? '' );
+						$this->row_color( __( 'Accent', 'bloquix' ), 'brand_accent', $s['brand_accent'], $palette['accent'] ?? '' );
+						$this->row_color( __( 'Accent 2', 'bloquix' ), 'brand_accent_2', $s['brand_accent_2'], $palette['accent-2'] ?? '' );
+						$this->row_color( __( 'Background', 'bloquix' ), 'brand_bg', $s['brand_bg'], $palette['bg'] ?? '' );
+						$this->row_color( __( 'Text', 'bloquix' ), 'brand_text', $s['brand_text'], $palette['text'] ?? '' );
 						?>
 					</table>
 					<p class="description">
-						<?php esc_html_e( 'Dark bands are the sections the theme draws over a photo or on its ink color (a hero, a closing call to action, the footer). They keep their own colors so they stay readable in every style variation — Background and Text above do not reach them. Set these two to recolor them as well.', 'tunet-core' ); ?>
+						<?php esc_html_e( 'Dark bands are the sections the theme draws over a photo or on its ink color (a hero, a closing call to action, the footer). They keep their own colors so they stay readable in every style variation — Background and Text above do not reach them. Set these two to recolor them as well.', 'bloquix' ); ?>
 					</p>
-					<table class="form-table tunet-brand-colors" role="presentation">
+					<table class="form-table bloquix-brand-colors" role="presentation">
 						<?php
 						$tokens = $this->theme_tokens( array( 'ink', 'on-ink' ) );
-						$this->row_color( __( 'Dark bands', 'tunet-core' ), 'brand_ink', $s['brand_ink'], $tokens['ink'] ?? '' );
-						$this->row_color( __( 'Text on dark bands', 'tunet-core' ), 'brand_on_ink', $s['brand_on_ink'], $tokens['on-ink'] ?? '' );
+						$this->row_color( __( 'Dark bands', 'bloquix' ), 'brand_ink', $s['brand_ink'], $tokens['ink'] ?? '' );
+						$this->row_color( __( 'Text on dark bands', 'bloquix' ), 'brand_on_ink', $s['brand_on_ink'], $tokens['on-ink'] ?? '' );
 						?>
 					</table>
 
-					<h3><?php esc_html_e( 'Shape', 'tunet-core' ); ?></h3>
+					<h3><?php esc_html_e( 'Shape', 'bloquix' ); ?></h3>
 					<table class="form-table" role="presentation">
 						<?php
 						$this->row_number(
-							__( 'Corner radius (px)', 'tunet-core' ),
+							__( 'Corner radius (px)', 'bloquix' ),
 							'radius',
 							$s['radius'],
-							__( 'Empty = theme. Rounding for Tunet blocks/components that use the radius tokens. 0 = sharp.', 'tunet-core' ),
+							__( 'Empty = theme. Rounding for BloqUIX blocks/components that use the radius tokens. 0 = sharp.', 'bloquix' ),
 							64
 						);
 						?>
 					</table>
 
-					<h3><?php esc_html_e( 'Motion', 'tunet-core' ); ?></h3>
-					<p class="description"><?php esc_html_e( 'Speed of all Tunet effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic.', 'tunet-core' ); ?></p>
+					<h3><?php esc_html_e( 'Motion', 'bloquix' ); ?></h3>
+					<p class="description"><?php esc_html_e( 'Speed of all BloqUIX effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic.', 'bloquix' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
-						$this->row_select( __( 'Motion intensity', 'tunet-core' ), 'motion', $s['motion'], array( '' => __( 'Theme default', 'tunet-core' ), 'subtle' => __( 'Subtle (fast)', 'tunet-core' ), 'bold' => __( 'Bold (slow)', 'tunet-core' ) ) );
+						$this->row_select( __( 'Motion intensity', 'bloquix' ), 'motion', $s['motion'], array( '' => __( 'Theme default', 'bloquix' ), 'subtle' => __( 'Subtle (fast)', 'bloquix' ), 'bold' => __( 'Bold (slow)', 'bloquix' ) ) );
 						?>
 					</table>
 				</div>
 
-				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'Content layout', 'tunet-core' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor.', 'tunet-core' ); ?></p>
+				<div class="card bloquix-section-card">
+					<h2><?php esc_html_e( 'Content layout', 'bloquix' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor.', 'bloquix' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
 						$layout_opts = array(
-							''        => __( 'Full width (no sidebar)', 'tunet-core' ),
-							'sidebar' => __( 'With sidebar', 'tunet-core' ),
+							''        => __( 'Full width (no sidebar)', 'bloquix' ),
+							'sidebar' => __( 'With sidebar', 'bloquix' ),
 						);
-						$this->row_select( __( 'Single posts', 'tunet-core' ), 'layout_post_single', $s['layout_post_single'], $layout_opts );
-						$this->row_select( __( 'Blog & archives', 'tunet-core' ), 'layout_archive', $s['layout_archive'], $layout_opts );
+						$this->row_select( __( 'Single posts', 'bloquix' ), 'layout_post_single', $s['layout_post_single'], $layout_opts );
+						$this->row_select( __( 'Blog & archives', 'bloquix' ), 'layout_archive', $s['layout_archive'], $layout_opts );
 						?>
 					</table>
-					<p class="description"><?php esc_html_e( 'Themes that ship a sidebar area react automatically. A theme without one simply stays full width.', 'tunet-core' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Themes that ship a sidebar area react automatically. A theme without one simply stays full width.', 'bloquix' ); ?></p>
 				</div>
 
-				<div class="card tunet-section-card">
-					<h2><?php esc_html_e( 'General', 'tunet-core' ); ?></h2>
+				<div class="card bloquix-section-card">
+					<h2><?php esc_html_e( 'General', 'bloquix' ); ?></h2>
 					<p><label>
 						<input type="checkbox" name="effects_enabled" value="1" <?php checked( ! empty( $s['effects_enabled'] ) ); ?> />
-						<?php esc_html_e( 'Enable the effects engine (tf*) on the front-end', 'tunet-core' ); ?>
+						<?php esc_html_e( 'Enable the effects engine (tf*) on the front-end', 'bloquix' ); ?>
 					</label></p>
-					<p class="description"><?php esc_html_e( 'When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging).', 'tunet-core' ); ?></p>
+					<p class="description"><?php esc_html_e( 'When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging).', 'bloquix' ); ?></p>
 				</div>
 
-				<?php submit_button( __( 'Save settings', 'tunet-core' ) ); ?>
+				<?php submit_button( __( 'Save settings', 'bloquix' ) ); ?>
 			</form>
 		</div>
 		<?php
@@ -791,36 +791,36 @@ class Tunet_Core_Admin {
 		// procesa nada, la página ya exigió la capacidad, y el valor se sanea y se
 		// resuelve contra una lista cerrada.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$notice   = isset( $_GET['tunet_notice'] ) ? sanitize_key( wp_unslash( $_GET['tunet_notice'] ) ) : '';
+		$notice   = isset( $_GET['bloquix_notice'] ) ? sanitize_key( wp_unslash( $_GET['bloquix_notice'] ) ) : '';
 		$post_url = admin_url( 'admin-post.php' );
 		?>
-		<div class="wrap tunet-admin">
-			<h1><?php esc_html_e( 'Tunet Core · Tools', 'tunet-core' ); ?></h1>
+		<div class="wrap bloquix-admin">
+			<h1><?php esc_html_e( 'BloqUIX · Tools', 'bloquix' ); ?></h1>
 
 			<?php if ( $notice ) : ?>
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $this->notice_text( $notice ) ); ?></p></div>
 			<?php endif; ?>
 
-			<div class="tunet-admin__grid">
+			<div class="bloquix-admin__grid">
 				<div class="card">
-					<h2><?php esc_html_e( 'Export', 'tunet-core' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Download the current settings as a JSON file.', 'tunet-core' ); ?></p>
+					<h2><?php esc_html_e( 'Export', 'bloquix' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Download the current settings as a JSON file.', 'bloquix' ); ?></p>
 					<p>
-						<a class="button button-secondary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'tunet_export', $post_url ), 'tunet_export' ) ); ?>">
+						<a class="button button-secondary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'bloquix_export', $post_url ), 'bloquix_export' ) ); ?>">
 							<span class="dashicons dashicons-download" aria-hidden="true" style="vertical-align:text-bottom"></span>
-							<?php esc_html_e( 'Export settings (.json)', 'tunet-core' ); ?>
+							<?php esc_html_e( 'Export settings (.json)', 'bloquix' ); ?>
 						</a>
 					</p>
 				</div>
 
 				<div class="card">
-					<h2><?php esc_html_e( 'Import', 'tunet-core' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Restore settings from a previously exported JSON file.', 'tunet-core' ); ?></p>
+					<h2><?php esc_html_e( 'Import', 'bloquix' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Restore settings from a previously exported JSON file.', 'bloquix' ); ?></p>
 					<form method="post" action="<?php echo esc_url( $post_url ); ?>" enctype="multipart/form-data">
-						<input type="hidden" name="action" value="tunet_import" />
-						<?php wp_nonce_field( 'tunet_import' ); ?>
-						<p><input type="file" name="tunet_import_file" accept="application/json,.json" required /></p>
-						<?php submit_button( __( 'Import settings', 'tunet-core' ), 'secondary' ); ?>
+						<input type="hidden" name="action" value="bloquix_import" />
+						<?php wp_nonce_field( 'bloquix_import' ); ?>
+						<p><input type="file" name="bloquix_import_file" accept="application/json,.json" required /></p>
+						<?php submit_button( __( 'Import settings', 'bloquix' ), 'secondary' ); ?>
 					</form>
 				</div>
 
@@ -842,7 +842,7 @@ class Tunet_Core_Admin {
 	 * @param array  $fonts   family => weights map.
 	 */
 	private function row_font( $label, $name, $current, $fonts ) {
-		$options = array( '' => __( 'Theme default', 'tunet-core' ) );
+		$options = array( '' => __( 'Theme default', 'bloquix' ) );
 		foreach ( $fonts as $family => $weights ) {
 			$options[ $family ] = $family;
 		}
@@ -860,9 +860,9 @@ class Tunet_Core_Admin {
 	private function row_select( $label, $name, $current, $options ) {
 		?>
 		<tr>
-			<th scope="row"><label for="tunet-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
+			<th scope="row"><label for="bloquix-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
 			<td>
-				<select id="tunet-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>">
+				<select id="bloquix-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>">
 					<?php foreach ( $options as $value => $opt_label ) : ?>
 						<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $current, $value ); ?>><?php echo esc_html( $opt_label ); ?></option>
 					<?php endforeach; ?>
@@ -884,9 +884,9 @@ class Tunet_Core_Admin {
 	private function row_number( $label, $name, $current, $help = '', $max = 100 ) {
 		?>
 		<tr>
-			<th scope="row"><label for="tunet-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
+			<th scope="row"><label for="bloquix-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
 			<td>
-				<input type="number" id="tunet-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" min="0" max="<?php echo esc_attr( $max ); ?>" step="1" class="small-text" />
+				<input type="number" id="bloquix-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" min="0" max="<?php echo esc_attr( $max ); ?>" step="1" class="small-text" />
 				<?php if ( $help ) : ?>
 					<p class="description"><?php echo esc_html( $help ); ?></p>
 				<?php endif; ?>
@@ -908,11 +908,11 @@ class Tunet_Core_Admin {
 		$placeholder = $placeholder ? $placeholder : '#000000';
 		?>
 		<tr>
-			<th scope="row"><label for="tunet-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
-			<td class="tunet-color-row">
-				<input type="color" value="<?php echo esc_attr( $current ? $current : $placeholder ); ?>" data-target="tunet-<?php echo esc_attr( $name ); ?>" class="tunet-color-swatch" aria-hidden="true" tabindex="-1" />
-				<input type="text" id="tunet-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" placeholder="<?php echo esc_attr( $placeholder . ' (theme)' ); ?>" class="tunet-color-text regular-text" pattern="#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})" />
-				<button type="button" class="button tunet-icon-btn tunet-color-clear" data-target="tunet-<?php echo esc_attr( $name ); ?>" title="<?php esc_attr_e( 'Reset to theme color', 'tunet-core' ); ?>" aria-label="<?php esc_attr_e( 'Reset to theme color', 'tunet-core' ); ?>">
+			<th scope="row"><label for="bloquix-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
+			<td class="bloquix-color-row">
+				<input type="color" value="<?php echo esc_attr( $current ? $current : $placeholder ); ?>" data-target="bloquix-<?php echo esc_attr( $name ); ?>" class="bloquix-color-swatch" aria-hidden="true" tabindex="-1" />
+				<input type="text" id="bloquix-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" placeholder="<?php echo esc_attr( $placeholder . ' (theme)' ); ?>" class="bloquix-color-text regular-text" pattern="#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})" />
+				<button type="button" class="button bloquix-icon-btn bloquix-color-clear" data-target="bloquix-<?php echo esc_attr( $name ); ?>" title="<?php esc_attr_e( 'Reset to theme color', 'bloquix' ); ?>" aria-label="<?php esc_attr_e( 'Reset to theme color', 'bloquix' ); ?>">
 					<span class="dashicons dashicons-image-rotate" aria-hidden="true"></span>
 				</button>
 			</td>
@@ -932,21 +932,21 @@ class Tunet_Core_Admin {
 	 */
 	private function row_logo( $label, $name, $current, $dark = false ) {
 		$img = $current ? wp_get_attachment_image_url( $current, 'medium' ) : '';
-		$id  = 'tunet-' . $name;
+		$id  = 'bloquix-' . $name;
 		?>
 		<tr>
 			<th scope="row"><?php echo esc_html( $label ); ?></th>
 			<td>
-				<div class="tunet-logo-field">
-					<div class="tunet-logo-preview<?php echo $dark ? ' tunet-logo-preview--dark' : ''; ?>" data-for="<?php echo esc_attr( $id ); ?>">
+				<div class="bloquix-logo-field">
+					<div class="bloquix-logo-preview<?php echo $dark ? ' bloquix-logo-preview--dark' : ''; ?>" data-for="<?php echo esc_attr( $id ); ?>">
 						<?php if ( $img ) : ?>
 							<img src="<?php echo esc_url( $img ); ?>" alt="" />
 						<?php endif; ?>
 					</div>
 					<input type="hidden" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" />
-					<p class="tunet-logo-actions">
-						<button type="button" class="button tunet-logo-pick" data-target="<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Choose / change', 'tunet-core' ); ?></button>
-						<button type="button" class="button tunet-icon-btn tunet-logo-remove" data-target="<?php echo esc_attr( $id ); ?>" title="<?php esc_attr_e( 'Remove logo', 'tunet-core' ); ?>" aria-label="<?php esc_attr_e( 'Remove logo', 'tunet-core' ); ?>">
+					<p class="bloquix-logo-actions">
+						<button type="button" class="button bloquix-logo-pick" data-target="<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Choose / change', 'bloquix' ); ?></button>
+						<button type="button" class="button bloquix-icon-btn bloquix-logo-remove" data-target="<?php echo esc_attr( $id ); ?>" title="<?php esc_attr_e( 'Remove logo', 'bloquix' ); ?>" aria-label="<?php esc_attr_e( 'Remove logo', 'bloquix' ); ?>">
 							<span class="dashicons dashicons-trash" aria-hidden="true"></span>
 						</button>
 					</p>
@@ -965,11 +965,11 @@ class Tunet_Core_Admin {
 	private function notice_text( $key ) {
 		switch ( $key ) {
 			case 'saved':
-				return __( 'Settings saved.', 'tunet-core' );
+				return __( 'Settings saved.', 'bloquix' );
 			case 'imported':
-				return __( 'Settings imported successfully.', 'tunet-core' );
+				return __( 'Settings imported successfully.', 'bloquix' );
 			case 'import_error':
-				return __( 'The file is not a valid settings JSON.', 'tunet-core' );
+				return __( 'The file is not a valid settings JSON.', 'bloquix' );
 			default:
 				return '';
 		}
@@ -1036,15 +1036,15 @@ class Tunet_Core_Admin {
 	 */
 	public function handle_save_settings() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'tunet-core' ) );
+			wp_die( esc_html__( 'Permission denied.', 'bloquix' ) );
 		}
-		check_admin_referer( 'tunet_save_settings' );
+		check_admin_referer( 'bloquix_save_settings' );
 
 		$clean = $this->sanitize_settings( wp_unslash( $_POST ) );
 		update_option( self::OPTION, $clean );
 		$this->sync_custom_logo( $clean );
 
-		wp_safe_redirect( add_query_arg( 'tunet_notice', 'saved', admin_url( 'admin.php?page=' . self::SETTINGS_SLUG ) ) );
+		wp_safe_redirect( add_query_arg( 'bloquix_notice', 'saved', admin_url( 'admin.php?page=' . self::SETTINGS_SLUG ) ) );
 		exit;
 	}
 
@@ -1070,19 +1070,19 @@ class Tunet_Core_Admin {
 	 */
 	public function handle_export() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'tunet-core' ) );
+			wp_die( esc_html__( 'Permission denied.', 'bloquix' ) );
 		}
-		check_admin_referer( 'tunet_export' );
+		check_admin_referer( 'bloquix_export' );
 
 		$payload = array(
-			'_type'    => 'tunet-core-settings',
-			'_version' => TUNET_CORE_VERSION,
+			'_type'    => 'bloquix-settings',
+			'_version' => BLOQUIX_VERSION,
 			'settings' => self::get_settings(),
 		);
 
 		nocache_headers();
 		header( 'Content-Type: application/json; charset=utf-8' );
-		header( 'Content-Disposition: attachment; filename=tunet-core-settings.json' );
+		header( 'Content-Disposition: attachment; filename=bloquix-settings.json' );
 		echo wp_json_encode( $payload, JSON_PRETTY_PRINT );
 		exit;
 	}
@@ -1092,9 +1092,9 @@ class Tunet_Core_Admin {
 	 */
 	public function handle_import() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'tunet-core' ) );
+			wp_die( esc_html__( 'Permission denied.', 'bloquix' ) );
 		}
-		check_admin_referer( 'tunet_import' );
+		check_admin_referer( 'bloquix_import' );
 
 		$notice = 'import_error';
 
@@ -1103,8 +1103,8 @@ class Tunet_Core_Admin {
 		// pasa por sanitize_text_field antes de tocarla, porque un tmp_name no
 		// contiene nada que ese filtro pueda estropear y así la comprobación queda
 		// explícita en el código en vez de argumentada en un phpcs:ignore.
-		$tmp = isset( $_FILES['tunet_import_file']['tmp_name'] )
-			? sanitize_text_field( wp_unslash( $_FILES['tunet_import_file']['tmp_name'] ) )
+		$tmp = isset( $_FILES['bloquix_import_file']['tmp_name'] )
+			? sanitize_text_field( wp_unslash( $_FILES['bloquix_import_file']['tmp_name'] ) )
 			: '';
 
 		if ( '' !== $tmp && is_uploaded_file( $tmp ) ) {
@@ -1118,7 +1118,7 @@ class Tunet_Core_Admin {
 			}
 		}
 
-		wp_safe_redirect( add_query_arg( 'tunet_notice', $notice, admin_url( 'admin.php?page=' . self::TOOLS_SLUG ) ) );
+		wp_safe_redirect( add_query_arg( 'bloquix_notice', $notice, admin_url( 'admin.php?page=' . self::TOOLS_SLUG ) ) );
 		exit;
 	}
 

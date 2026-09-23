@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "tunet/before-after",
+  "name": "bloquix/before-after",
   "version": "0.1.0",
-  "title": "Tunet Before / After",
+  "title": "BloqUIX Before / After",
   "category": "design",
   "icon": "image-flip-horizontal",
   "description": "Image comparison with a draggable divider (before / after).",
   "keywords": ["before", "after", "comparison", "slider"],
-  "textdomain": "tunet-core",
+  "textdomain": "bloquix",
   "supports": {
     "html": false,
     "anchor": true,

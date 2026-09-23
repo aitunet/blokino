@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/counter — runtime de frontend (vanilla)
+ * BloqUIX · Block bloquix/counter — runtime de frontend (vanilla)
  * --------------------------------------------------------------------------
  * Anima el número de `start` a `end` al entrar en viewport (IntersectionObserver
  * + requestAnimationFrame, easing easeOutExpo). Sin dependencias.
@@ -34,7 +34,7 @@
 	}
 
 	function animate( el ) {
-		var num = el.querySelector( '.tunet-counter__num' );
+		var num = el.querySelector( '.bloquix-counter__num' );
 		if ( ! num ) {
 			return;
 		}

@@ -1,16 +1,16 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/brand
+ * BloqUIX · Block bloquix/brand
  * Piso agnóstico: sin estética de theme (los themes visten con --tnt-*).
  * ========================================================================== */
 
-.tunet-brand {
+.bloquix-brand {
 	display: inline-flex;
 	align-items: center;
 	text-decoration: none;
 	color: inherit;
 }
 
-.tunet-brand__img {
+.bloquix-brand__img {
 	display: block;
 	height: auto;
 	max-width: 100%;
@@ -23,14 +23,14 @@
    histórico (solo el principal), que es lo que aplica sin theme Tunet (§12.1).
 
    Especificidad: el prefijo :root + el bloque padre (0,3,0) es DELIBERADO. Un theme
-   que estile su logo con `.x-header .tunet-brand__img { display:block }` (0,2,0) —lo
+   que estile su logo con `.x-header .bloquix-brand__img { display:block }` (0,2,0) —lo
    hacían 4 de los 7— le ganaba a una regla de una sola clase y forzaba las DOS
    imágenes visibles a la vez. Como el motor va a wp.org y no controla el CSS del
    theme que lo use, la conmutación tiene que sostenerse sola (patrón :root de §9). */
-:root .tunet-brand .tunet-brand__img--main { display: var( --tnt-brand-main-display, block ); }
-:root .tunet-brand .tunet-brand__img--alt  { display: var( --tnt-brand-alt-display, none ); }
+:root .bloquix-brand .bloquix-brand__img--main { display: var( --tnt-brand-main-display, block ); }
+:root .bloquix-brand .bloquix-brand__img--alt  { display: var( --tnt-brand-alt-display, none ); }
 
-.tunet-brand__title {
+.bloquix-brand__title {
 	font: inherit;
 	color: inherit;
 }

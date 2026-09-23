@@ -1,6 +1,6 @@
 <?php
 /**
- * Dependencias y versión del editorScript del block tunet/badge.
+ * Dependencias y versión del editorScript del block bloquix/badge.
  *
  * Este archivo FALTABA, y no era cosmético: register_block_script_handle() solo
  * llama a wp_set_script_translations() si el script declara 'wp-i18n' entre sus
@@ -9,7 +9,7 @@
  * dependencias declaradas el script confiaba en que wp.element / wp.blockEditor ya
  * estuvieran cargados por casualidad.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 return array(

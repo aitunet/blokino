@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "tunet/content-slider",
+  "name": "bloquix/content-slider",
   "version": "0.2.0",
-  "title": "Tunet Content Slider",
+  "title": "BloqUIX Content Slider",
   "category": "design",
   "icon": "images-alt",
   "description": "A structured slider: each slide has an image, title, subtitle, description and CTAs — edited in the sidebar.",
   "keywords": ["slider", "carousel", "hero", "content"],
-  "textdomain": "tunet-core",
+  "textdomain": "bloquix",
   "supports": {
     "html": false,
     "anchor": true,

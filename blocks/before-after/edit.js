@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/before-after — editor
+ * BloqUIX · Block bloquix/before-after — editor
  * --------------------------------------------------------------------------
  * Sin JSX (globales wp.*). Block dinámico (save → null; render.php pinta).
  * Selección de dos imágenes con MediaUpload; el canvas muestra una vista
@@ -23,9 +23,9 @@
 	// gender agreement can't be resolved when fragments are translated in isolation).
 	function pickerLabel( kind, hasUrl ) {
 		if ( 'before' === kind ) {
-			return hasUrl ? __( 'Change before image', 'tunet-core' ) : __( 'Choose before image', 'tunet-core' );
+			return hasUrl ? __( 'Change before image', 'bloquix' ) : __( 'Choose before image', 'bloquix' );
 		}
-		return hasUrl ? __( 'Change after image', 'tunet-core' ) : __( 'Choose after image', 'tunet-core' );
+		return hasUrl ? __( 'Change after image', 'bloquix' ) : __( 'Choose after image', 'bloquix' );
 	}
 
 	function picker( kind, valueId, hasUrl, onSelect ) {
@@ -47,12 +47,12 @@
 		);
 	}
 
-	registerBlockType( 'tunet/before-after', {
+	registerBlockType( 'bloquix/before-after', {
 		edit: function ( props ) {
 			var a = props.attributes;
 			var set = props.setAttributes;
 			var blockProps = useBlockProps( {
-				className: 'tunet-ba',
+				className: 'bloquix-ba',
 				style: { '--tnt-ba-pos': ( a.startPosition || 50 ) + '%' }
 			} );
 
@@ -63,7 +63,7 @@
 				{},
 				el(
 					c.PanelBody,
-					{ title: __( 'Images', 'tunet-core' ), initialOpen: true },
+					{ title: __( 'Images', 'bloquix' ), initialOpen: true },
 					picker( 'before', a.beforeId, !! a.beforeUrl, function ( m ) {
 						set( { beforeId: m.id, beforeUrl: m.url, beforeAlt: m.alt || '', width: m.width, height: m.height } );
 					} ),
@@ -74,9 +74,9 @@
 				),
 				el(
 					c.PanelBody,
-					{ title: __( 'Settings', 'tunet-core' ), initialOpen: true },
+					{ title: __( 'Settings', 'bloquix' ), initialOpen: true },
 					el( c.RangeControl, {
-						label: __( 'Start position (%)', 'tunet-core' ),
+						label: __( 'Start position (%)', 'bloquix' ),
 						value: a.startPosition || 50,
 						min: 0,
 						max: 100,
@@ -87,13 +87,13 @@
 						__nextHasNoMarginBottom: true
 					} ),
 					el( c.TextControl, {
-						label: __( 'Before label', 'tunet-core' ),
+						label: __( 'Before label', 'bloquix' ),
 						value: a.beforeLabel || '',
 						onChange: function ( v ) { set( { beforeLabel: v } ); },
 						__nextHasNoMarginBottom: true
 					} ),
 					el( c.TextControl, {
-						label: __( 'After label', 'tunet-core' ),
+						label: __( 'After label', 'bloquix' ),
 						value: a.afterLabel || '',
 						onChange: function ( v ) { set( { afterLabel: v } ); },
 						__nextHasNoMarginBottom: true
@@ -106,15 +106,15 @@
 				canvas = el(
 					'div',
 					blockProps,
-					el( 'img', { className: 'tunet-ba__img tunet-ba__before', src: a.beforeUrl, alt: a.beforeAlt || '', draggable: false } ),
+					el( 'img', { className: 'bloquix-ba__img bloquix-ba__before', src: a.beforeUrl, alt: a.beforeAlt || '', draggable: false } ),
 					el(
 						'div',
-						{ className: 'tunet-ba__after' },
-						el( 'img', { className: 'tunet-ba__img', src: a.afterUrl, alt: a.afterAlt || '', draggable: false } ),
-						a.afterLabel ? el( 'span', { className: 'tunet-ba__label tunet-ba__label--after' }, a.afterLabel ) : null
+						{ className: 'bloquix-ba__after' },
+						el( 'img', { className: 'bloquix-ba__img', src: a.afterUrl, alt: a.afterAlt || '', draggable: false } ),
+						a.afterLabel ? el( 'span', { className: 'bloquix-ba__label bloquix-ba__label--after' }, a.afterLabel ) : null
 					),
-					a.beforeLabel ? el( 'span', { className: 'tunet-ba__label tunet-ba__label--before' }, a.beforeLabel ) : null,
-					el( 'div', { className: 'tunet-ba__handle' }, el( 'span', { className: 'tunet-ba__grip' } ) )
+					a.beforeLabel ? el( 'span', { className: 'bloquix-ba__label bloquix-ba__label--before' }, a.beforeLabel ) : null,
+					el( 'div', { className: 'bloquix-ba__handle' }, el( 'span', { className: 'bloquix-ba__grip' } ) )
 				);
 			} else {
 				canvas = el(
@@ -124,8 +124,8 @@
 						c.Placeholder,
 						{
 							icon: 'image-flip-horizontal',
-							label: __( 'Tunet Before / After', 'tunet-core' ),
-							instructions: __( 'Choose the before and after images to compare.', 'tunet-core' )
+							label: __( 'BloqUIX Before / After', 'bloquix' ),
+							instructions: __( 'Choose the before and after images to compare.', 'bloquix' )
 						},
 						picker( 'before', a.beforeId, !! a.beforeUrl, function ( m ) {
 							set( { beforeId: m.id, beforeUrl: m.url, beforeAlt: m.alt || '', width: m.width, height: m.height } );

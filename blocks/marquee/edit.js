@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/marquee — editor
+ * BloqUIX · Block bloquix/marquee — editor
  * --------------------------------------------------------------------------
  * Sin JSX (globales wp.*). El contenido son bloques internos (InnerBlocks).
  * Block dinámico (render.php); save devuelve InnerBlocks.Content. El separador
@@ -21,7 +21,7 @@
 	var useSetting = blockEditor.useSetting || function () { return undefined; };
 	var c = wp.components;
 
-	registerBlockType( 'tunet/marquee', {
+	registerBlockType( 'bloquix/marquee', {
 		edit: function ( props ) {
 			var a = props.attributes;
 			var set = props.setAttributes;
@@ -38,7 +38,7 @@
 				wrapStyle[ '--tnt-marquee-sep-color' ] = a.separatorColor;
 			}
 			var blockProps = useBlockProps( {
-				className: 'tunet-marquee-editor is-sep-' + ( a.separator || 'none' ),
+				className: 'bloquix-marquee-editor is-sep-' + ( a.separator || 'none' ),
 				style: wrapStyle
 			} );
 
@@ -47,7 +47,7 @@
 			// Picker de icono (solo cuando separator === 'icon').
 			var iconPicker = null;
 			if ( 'icon' === a.separator ) {
-				var ICONS = window.tunetIcons || {};
+				var ICONS = window.bloquixIcons || {};
 				var q = query ? query.toLowerCase() : '';
 				var matches = function ( n ) {
 					if ( ! q ) { return true; }
@@ -60,7 +60,7 @@
 						'aria-label': ICONS[ n ].label || n,
 						title: ICONS[ n ].label || n,
 						onClick: function () { set( { separatorIcon: n } ); },
-						dangerouslySetInnerHTML: { __html: window.tunetIconSvg( n, { size: 24 } ) }
+						dangerouslySetInnerHTML: { __html: window.bloquixIconSvg( n, { size: 24 } ) }
 					} );
 				};
 				var allNames = Object.keys( ICONS );
@@ -68,30 +68,30 @@
 				if ( q ) {
 					var flat = allNames.filter( matches );
 					gridChildren = flat.length
-						? [ el( 'div', { className: 'tunet-marquee-editor__sep-grid', key: 'flat' }, flat.map( sepBtn ) ) ]
-						: [ el( 'p', { key: 'empty' }, __( 'No icons match.', 'tunet-core' ) ) ];
+						? [ el( 'div', { className: 'bloquix-marquee-editor__sep-grid', key: 'flat' }, flat.map( sepBtn ) ) ]
+						: [ el( 'p', { key: 'empty' }, __( 'No icons match.', 'bloquix' ) ) ];
 				} else {
 					gridChildren = [
-						{ key: 'general', label: __( 'General', 'tunet-core' ) },
-						{ key: 'nav', label: __( 'Nav / UI', 'tunet-core' ) },
-						{ key: 'contact', label: __( 'Contact', 'tunet-core' ) },
-						{ key: 'brand', label: __( 'Brand / Social', 'tunet-core' ) }
+						{ key: 'general', label: __( 'General', 'bloquix' ) },
+						{ key: 'nav', label: __( 'Nav / UI', 'bloquix' ) },
+						{ key: 'contact', label: __( 'Contact', 'bloquix' ) },
+						{ key: 'brand', label: __( 'Brand / Social', 'bloquix' ) }
 					].map( function ( cat ) {
 						var inCat = allNames.filter( function ( n ) { return ( ICONS[ n ].category || 'general' ) === cat.key; } );
 						if ( ! inCat.length ) { return null; }
 						return el( Fragment, { key: cat.key },
-							el( 'p', { className: 'tunet-marquee-editor__sep-cat' }, cat.label ),
-							el( 'div', { className: 'tunet-marquee-editor__sep-grid' }, inCat.map( sepBtn ) )
+							el( 'p', { className: 'bloquix-marquee-editor__sep-cat' }, cat.label ),
+							el( 'div', { className: 'bloquix-marquee-editor__sep-grid' }, inCat.map( sepBtn ) )
 						);
 					} ).filter( Boolean );
 				}
 				iconPicker = el( Fragment, {},
 					el( c.SearchControl, {
 						value: query, onChange: setQuery,
-						label: __( 'Search icons', 'tunet-core' ), placeholder: __( 'Search…', 'tunet-core' ),
+						label: __( 'Search icons', 'bloquix' ), placeholder: __( 'Search…', 'bloquix' ),
 						__nextHasNoMarginBottom: true
 					} ),
-					el( 'div', { className: 'tunet-marquee-editor__sep-picker' }, gridChildren )
+					el( 'div', { className: 'bloquix-marquee-editor__sep-picker' }, gridChildren )
 				);
 			}
 
@@ -103,9 +103,9 @@
 					{},
 					el(
 						c.PanelBody,
-						{ title: __( 'Marquee', 'tunet-core' ), initialOpen: true },
+						{ title: __( 'Marquee', 'bloquix' ), initialOpen: true },
 						el( c.RangeControl, {
-							label: __( 'Speed (s per loop)', 'tunet-core' ),
+							label: __( 'Speed (s per loop)', 'bloquix' ),
 							value: a.speed,
 							min: 5,
 							max: 120,
@@ -114,17 +114,17 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.SelectControl, {
-							label: __( 'Direction', 'tunet-core' ),
+							label: __( 'Direction', 'bloquix' ),
 							value: a.direction,
 							options: [
-								{ label: __( 'Left', 'tunet-core' ), value: 'left' },
-								{ label: __( 'Right', 'tunet-core' ), value: 'right' }
+								{ label: __( 'Left', 'bloquix' ), value: 'left' },
+								{ label: __( 'Right', 'bloquix' ), value: 'right' }
 							],
 							onChange: function ( v ) { set( { direction: v } ); },
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.RangeControl, {
-							label: __( 'Spacing (rem)', 'tunet-core' ),
+							label: __( 'Spacing (rem)', 'bloquix' ),
 							value: a.gap,
 							min: 0,
 							max: 10,
@@ -133,7 +133,7 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.ToggleControl, {
-							label: __( 'Pause on hover', 'tunet-core' ),
+							label: __( 'Pause on hover', 'bloquix' ),
 							checked: !! a.pauseOnHover,
 							onChange: function ( v ) { set( { pauseOnHover: v } ); },
 							__nextHasNoMarginBottom: true
@@ -143,23 +143,23 @@
 						// lo reporto como fallo en los 3 themes que probo (2026-07-27).
 						el(
 							'p',
-							{ className: 'tunet-editor-note' },
-							__( 'The band only scrolls on the front end — here the items wrap so you can edit them. Visitors who ask for reduced motion see it still, with a play control.', 'tunet-core' )
+							{ className: 'bloquix-editor-note' },
+							__( 'The band only scrolls on the front end — here the items wrap so you can edit them. Visitors who ask for reduced motion see it still, with a play control.', 'bloquix' )
 						)
 					),
 					el(
 						c.PanelBody,
-						{ title: __( 'Separator', 'tunet-core' ), initialOpen: false },
+						{ title: __( 'Separator', 'bloquix' ), initialOpen: false },
 						el( c.SelectControl, {
-							label: __( 'Shape', 'tunet-core' ),
+							label: __( 'Shape', 'bloquix' ),
 							value: a.separator,
 							options: [
-								{ label: __( 'None', 'tunet-core' ), value: 'none' },
-								{ label: __( 'Dot', 'tunet-core' ), value: 'dot' },
-								{ label: __( 'Dash', 'tunet-core' ), value: 'dash' },
-								{ label: __( 'Slash', 'tunet-core' ), value: 'slash' },
-								{ label: __( 'Pipe', 'tunet-core' ), value: 'pipe' },
-								{ label: __( 'Icon', 'tunet-core' ), value: 'icon' }
+								{ label: __( 'None', 'bloquix' ), value: 'none' },
+								{ label: __( 'Dot', 'bloquix' ), value: 'dot' },
+								{ label: __( 'Dash', 'bloquix' ), value: 'dash' },
+								{ label: __( 'Slash', 'bloquix' ), value: 'slash' },
+								{ label: __( 'Pipe', 'bloquix' ), value: 'pipe' },
+								{ label: __( 'Icon', 'bloquix' ), value: 'icon' }
 							],
 							onChange: function ( v ) { set( { separator: v } ); },
 							__nextHasNoMarginBottom: true
@@ -168,7 +168,7 @@
 						'none' !== a.separator ? el(
 							'div',
 							{ style: { marginBlockStart: '12px' } },
-							el( 'p', { style: { margin: '0 0 8px' } }, __( 'Separator color', 'tunet-core' ) ),
+							el( 'p', { style: { margin: '0 0 8px' } }, __( 'Separator color', 'bloquix' ) ),
 							el( c.ColorPalette, {
 								colors: palette,
 								value: a.separatorColor,

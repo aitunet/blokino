@@ -7,8 +7,8 @@ return array(
 		'wp-components',
 		'wp-i18n',
 		'wp-server-side-render',
-		'tunet-repeater-control',
-		'tunet-carousel-editor',
+		'bloquix-repeater-control',
+		'bloquix-carousel-editor',
 	),
 	'version' => '0.2.4',
 );

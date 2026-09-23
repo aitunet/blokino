@@ -1,9 +1,9 @@
 /* ==========================================================================
- * Tunet Core · Estilos de la UI de repeater en el EDITOR (chrome de admin).
+ * BloqUIX · Estilos de la UI de repeater en el EDITOR (chrome de admin).
  * Solo afecta al sidebar del editor; no es salida de theme (no usa tokens --tnt-*).
  * ========================================================================== */
 
-.tunet-media-field {
+.bloquix-media-field {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
@@ -11,7 +11,7 @@
 }
 
 /* Miniatura de preview (clic = reemplazar). */
-.tunet-media-field__preview {
+.bloquix-media-field__preview {
 	display: block;
 	width: 100%;
 	padding: 0;
@@ -25,14 +25,14 @@
 	transition: border-color 120ms ease, box-shadow 120ms ease;
 }
 
-.tunet-media-field__preview:hover,
-.tunet-media-field__preview:focus-visible {
+.bloquix-media-field__preview:hover,
+.bloquix-media-field__preview:focus-visible {
 	border-color: var( --wp-admin-theme-color, #3858e9 );
 	box-shadow: 0 0 0 1px var( --wp-admin-theme-color, #3858e9 );
 	outline: none;
 }
 
-.tunet-media-field__preview img {
+.bloquix-media-field__preview img {
 	display: block;
 	width: 100%;
 	height: auto;
@@ -41,20 +41,20 @@
 }
 
 /* Variante redonda (avatar de testimonios). */
-.tunet-media-field.is-round .tunet-media-field__preview {
+.bloquix-media-field.is-round .bloquix-media-field__preview {
 	inline-size: 72px;
 	block-size: 72px;
 	border-radius: 50%;
 }
 
-.tunet-media-field.is-round .tunet-media-field__preview img {
+.bloquix-media-field.is-round .bloquix-media-field__preview img {
 	inline-size: 72px;
 	block-size: 72px;
 	max-height: none;
 }
 
 /* Placeholder cuando no hay imagen elegida. */
-.tunet-media-field__placeholder {
+.bloquix-media-field__placeholder {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -69,14 +69,14 @@
 	transition: border-color 120ms ease, background 120ms ease;
 }
 
-.tunet-media-field__placeholder:hover,
-.tunet-media-field__placeholder:focus-visible {
+.bloquix-media-field__placeholder:hover,
+.bloquix-media-field__placeholder:focus-visible {
 	border-color: var( --wp-admin-theme-color, #3858e9 );
 	background: #fff;
 	outline: none;
 }
 
-.tunet-media-field__actions {
+.bloquix-media-field__actions {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 4px;

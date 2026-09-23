@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "tunet/marquee",
+  "name": "bloquix/marquee",
   "version": "0.1.4",
-  "title": "Tunet Marquee",
+  "title": "BloqUIX Marquee",
   "category": "design",
   "icon": "controls-repeat",
   "description": "Infinite scrolling band of text or images (logos, claims, metrics). Content is inner blocks; duplicated for a seamless loop.",
   "keywords": ["marquee", "band", "logos", "ticker", "scroll"],
-  "textdomain": "tunet-core",
+  "textdomain": "bloquix",
   "supports": {
     "html": false,
     "anchor": true,

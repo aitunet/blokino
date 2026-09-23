@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "tunet/icon",
+  "name": "bloquix/icon",
   "version": "0.2.0",
-  "title": "Tunet Icon",
+  "title": "BloqUIX Icon",
   "category": "design",
   "icon": "star-filled",
   "description": "An inline SVG icon from a curated stroke set. Inherits color (currentColor), so it's theme-token friendly — no raw HTML needed.",
   "keywords": ["icon", "svg", "symbol", "glyph"],
-  "textdomain": "tunet-core",
+  "textdomain": "bloquix",
   "supports": {
     "html": false,
     "anchor": true,

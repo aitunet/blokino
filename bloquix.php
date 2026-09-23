@@ -1,19 +1,19 @@
 <?php
 /**
- * Plugin Name:       Tunet Core
- * Plugin URI:        https://tunetdesign.com/docs/tunet-core/
- * Description:       Engine of the Tunet ecosystem. Provides the shared infrastructure (native block extensions with tf* effects, custom blocks, the effects runtime and an options panel). Presentation lives in each theme; this plugin never hardcodes styles. Not sold separately.
- * Version:           0.1.54
+ * Plugin Name:       BloqUIX
+ * Plugin URI:        https://tunetdesign.com/docs/bloquix/
+ * Description:       Opt-in entrance, hover and scroll effects for native blocks, plus custom blocks (section, slider, marquee, counter, before/after…) and a lightweight effects runtime. Every value comes from the active theme's design tokens; nothing is applied until you switch it on.
+ * Version:           1.0.0
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            TUNET Design
  * Author URI:        https://tunetdesign.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       tunet-core
+ * Text Domain:       bloquix
  * Domain Path:       /languages
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,28 +23,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * Constantes del plugin
  * ---------------------------------------------------------------------- */
-define( 'TUNET_CORE_VERSION', '0.1.54' );
-define( 'TUNET_CORE_FILE', __FILE__ );
-define( 'TUNET_CORE_PATH', plugin_dir_path( __FILE__ ) );
-define( 'TUNET_CORE_URL', plugin_dir_url( __FILE__ ) );
+define( 'BLOQUIX_VERSION', '1.0.0' );
+define( 'BLOQUIX_FILE', __FILE__ );
+define( 'BLOQUIX_PATH', plugin_dir_path( __FILE__ ) );
+define( 'BLOQUIX_URL', plugin_dir_url( __FILE__ ) );
 
 /* Versiones mínimas soportadas (se validan en activación). */
-define( 'TUNET_CORE_MIN_WP', '6.6' );
-define( 'TUNET_CORE_MIN_PHP', '7.4' );
+define( 'BLOQUIX_MIN_WP', '6.6' );
+define( 'BLOQUIX_MIN_PHP', '7.4' );
 
 /* -------------------------------------------------------------------------
  * Carga de los módulos del motor (cada uno vive en su carpeta, §9).
  * De momento son andamiaje: registran sus hooks pero aún no aplican efectos.
  * ---------------------------------------------------------------------- */
-require_once TUNET_CORE_PATH . 'extensions/class-tunet-extensions.php';
-require_once TUNET_CORE_PATH . 'blocks/class-tunet-blocks.php';
-require_once TUNET_CORE_PATH . 'runtime/class-tunet-runtime.php';
-require_once TUNET_CORE_PATH . 'content/class-tunet-content.php';
-require_once TUNET_CORE_PATH . 'content/content-types.php';
-require_once TUNET_CORE_PATH . 'admin/class-tunet-admin.php';
-require_once TUNET_CORE_PATH . 'admin/class-tunet-demo.php';
-require_once TUNET_CORE_PATH . 'admin/class-tunet-themes.php';
-require_once TUNET_CORE_PATH . 'admin/class-tunet-welcome.php';
+require_once BLOQUIX_PATH . 'extensions/class-bloquix-extensions.php';
+require_once BLOQUIX_PATH . 'blocks/class-bloquix-blocks.php';
+require_once BLOQUIX_PATH . 'runtime/class-bloquix-runtime.php';
+require_once BLOQUIX_PATH . 'content/class-bloquix-content.php';
+require_once BLOQUIX_PATH . 'content/content-types.php';
+require_once BLOQUIX_PATH . 'admin/class-bloquix-admin.php';
+require_once BLOQUIX_PATH . 'admin/class-bloquix-demo.php';
+require_once BLOQUIX_PATH . 'admin/class-bloquix-themes.php';
+require_once BLOQUIX_PATH . 'admin/class-bloquix-welcome.php';
 
 /**
  * Orquestador principal del motor.
@@ -52,26 +52,26 @@ require_once TUNET_CORE_PATH . 'admin/class-tunet-welcome.php';
  * Singleton que cablea los módulos y los ajustes globales del plugin.
  * Mantener delgado: la lógica de cada área vive en su módulo.
  */
-final class Tunet_Core {
+final class Bloquix {
 
 	/**
 	 * Instancia única.
 	 *
-	 * @var Tunet_Core|null
+	 * @var Bloquix|null
 	 */
 	private static $instance = null;
 
 	/**
 	 * Módulo de runtime de efectos (carga condicional de assets).
 	 *
-	 * @var Tunet_Core_Runtime
+	 * @var Bloquix_Runtime
 	 */
 	public $runtime;
 
 	/**
 	 * Devuelve (creándola si hace falta) la instancia única.
 	 *
-	 * @return Tunet_Core
+	 * @return Bloquix
 	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
@@ -88,11 +88,11 @@ final class Tunet_Core {
 		 * i18n: NO hace falta load_plugin_textdomain(). Está desaconsejado desde WP
 		 * 4.6 y el propio Plugin Check lo marca. WordPress resuelve el dominio solo,
 		 * just-in-time: los paquetes de idioma de translate.wordpress.org por el slug
-		 * (que ES el text domain, 'tunet-core'), y los .mo empaquetados por la
+		 * (que ES el text domain, 'bloquix'), y los .mo empaquetados por la
 		 * cabecera Domain Path del plugin.
 		 *
 		 * MEDIDO, no supuesto (WP 7.0.2): quitando la llamada y forzando es_ES, los
-		 * 428 strings siguen traducidos y is_textdomain_loaded('tunet-core') sigue
+		 * 428 strings siguen traducidos y is_textdomain_loaded('bloquix') sigue
 		 * devolviendo true. La prueba llevaba un testigo dentro del propio archivo
 		 * para descartar que OPcache estuviera sirviendo el código anterior.
 		 */
@@ -112,20 +112,20 @@ final class Tunet_Core {
 	 * tanto las extensiones tf* como los blocks propios.
 	 */
 	public function boot_modules() {
-		$this->runtime = new Tunet_Core_Runtime();
+		$this->runtime = new Bloquix_Runtime();
 
 		// Andamiaje: registran sus hooks pero todavía no inyectan efectos.
-		new Tunet_Core_Extensions();
-		new Tunet_Core_Blocks();
+		new Bloquix_Extensions();
+		new Bloquix_Blocks();
 
 		// Tipos de contenido compartidos (portfolio). Front + admin.
-		new Tunet_Core_Content();
+		new Bloquix_Content();
 
 		if ( is_admin() ) {
-			new Tunet_Core_Admin();
-			new Tunet_Core_Demo();
-			new Tunet_Core_Themes();
-			new Tunet_Core_Welcome();
+			new Bloquix_Admin();
+			new Bloquix_Demo();
+			new Bloquix_Themes();
+			new Bloquix_Welcome();
 		}
 	}
 }
@@ -133,14 +133,14 @@ final class Tunet_Core {
 /**
  * Acceso global conveniente al motor.
  *
- * @return Tunet_Core
+ * @return Bloquix
  */
-function tunet_core() {
-	return Tunet_Core::instance();
+function bloquix() {
+	return Bloquix::instance();
 }
 
 // Arranca el motor.
-tunet_core();
+bloquix();
 
 /**
  * Helper de plantilla: devuelve el markup del logo de marca.
@@ -151,11 +151,11 @@ tunet_core();
  * @param string $variant 'main' | 'alt'.
  * @return string HTML del logo (vacío si no hay logo configurado).
  */
-function tunet_core_logo( $variant = 'main' ) {
-	if ( ! class_exists( 'Tunet_Core_Admin' ) ) {
+function bloquix_logo( $variant = 'main' ) {
+	if ( ! class_exists( 'Bloquix_Admin' ) ) {
 		return '';
 	}
-	$id = Tunet_Core_Admin::logo_id( 'alt' === $variant ? 'alt' : 'main' );
+	$id = Bloquix_Admin::logo_id( 'alt' === $variant ? 'alt' : 'main' );
 	if ( ! $id ) {
 		return '';
 	}
@@ -164,7 +164,7 @@ function tunet_core_logo( $variant = 'main' ) {
 		'full',
 		false,
 		array(
-			'class' => 'tunet-logo__img',
+			'class' => 'bloquix-logo__img',
 			'alt'   => get_bloginfo( 'name' ),
 		)
 	);
@@ -187,19 +187,19 @@ function tunet_core_logo( $variant = 'main' ) {
  *
  * @return string 'sidebar' | 'full'.
  */
-function tunet_core_content_layout() {
-	if ( is_admin() || ! class_exists( 'Tunet_Core_Admin' ) ) {
+function bloquix_content_layout() {
+	if ( is_admin() || ! class_exists( 'Bloquix_Admin' ) ) {
 		return 'full';
 	}
 
 	// Entradas de blog (no páginas, no portada estática, no CPTs con layout propio).
 	if ( is_singular( 'post' ) ) {
-		return 'sidebar' === Tunet_Core_Admin::get( 'layout_post_single' ) ? 'sidebar' : 'full';
+		return 'sidebar' === Bloquix_Admin::get( 'layout_post_single' ) ? 'sidebar' : 'full';
 	}
 
 	// Índice de blog + archivos de taxonomía/fecha/autor de entradas + búsqueda.
 	if ( is_home() || is_category() || is_tag() || is_date() || is_author() || is_search() ) {
-		return 'sidebar' === Tunet_Core_Admin::get( 'layout_archive' ) ? 'sidebar' : 'full';
+		return 'sidebar' === Bloquix_Admin::get( 'layout_archive' ) ? 'sidebar' : 'full';
 	}
 
 	return 'full';
@@ -212,11 +212,11 @@ function tunet_core_content_layout() {
  * @param string[] $classes Clases del body.
  * @return string[]
  */
-function tunet_core_body_layout_class( $classes ) {
-	$classes[] = ( 'sidebar' === tunet_core_content_layout() ) ? 'tunet-has-sidebar' : 'tunet-no-sidebar';
+function bloquix_body_layout_class( $classes ) {
+	$classes[] = ( 'sidebar' === bloquix_content_layout() ) ? 'bloquix-has-sidebar' : 'bloquix-no-sidebar';
 	return $classes;
 }
-add_filter( 'body_class', 'tunet_core_body_layout_class' );
+add_filter( 'body_class', 'bloquix_body_layout_class' );
 
 /* -------------------------------------------------------------------------
  * Helpers de front-end site-wide (theme-agnósticos; §0.1: el mecanismo vive en
@@ -234,13 +234,13 @@ add_filter( 'body_class', 'tunet_core_body_layout_class' );
  * @param array  $block   Bloque parseado.
  * @return string
  */
-function tunet_core_render_shortcode_blocks( $content, $block ) {
+function bloquix_render_shortcode_blocks( $content, $block ) {
 	if ( isset( $block['blockName'] ) && 'core/shortcode' === $block['blockName'] && false !== strpos( $content, '[' ) ) {
 		return do_shortcode( $content );
 	}
 	return $content;
 }
-add_filter( 'render_block', 'tunet_core_render_shortcode_blocks', 10, 2 );
+add_filter( 'render_block', 'bloquix_render_shortcode_blocks', 10, 2 );
 
 /**
  * Root-relative links follow a subdirectory install.
@@ -258,7 +258,7 @@ add_filter( 'render_block', 'tunet_core_render_shortcode_blocks', 10, 2 );
  * @param string $content Rendered block HTML.
  * @return string
  */
-function tunet_core_render_subdir_links( $content ) {
+function bloquix_render_subdir_links( $content ) {
 	static $base = null, $re = '';
 	if ( null === $base ) {
 		$base = untrailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
@@ -274,7 +274,7 @@ add_action(
 	function () {
 		$path = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
 		if ( '' !== $path && '/' !== $path ) {
-			add_filter( 'render_block', 'tunet_core_render_subdir_links', 20 );
+			add_filter( 'render_block', 'bloquix_render_subdir_links', 20 );
 		}
 	}
 );
@@ -285,7 +285,7 @@ add_action(
  * vive en el motor (antes duplicado en cada theme). Degrada con dignidad (§12):
  * si hay un plugin SEO activo, no hace nada.
  */
-function tunet_core_meta_description() {
+function bloquix_meta_description() {
 	if ( defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'SEOPRESS_VERSION' ) || defined( 'AIOSEO_VERSION' ) ) {
 		return; // Un plugin SEO dedicado es dueño de la descripción.
 	}
@@ -303,7 +303,7 @@ function tunet_core_meta_description() {
 
 	printf( "<meta name=\"description\" content=\"%s\">\n", esc_attr( wp_trim_words( $desc, 30, '' ) ) );
 }
-add_action( 'wp_head', 'tunet_core_meta_description', 1 );
+add_action( 'wp_head', 'bloquix_meta_description', 1 );
 
 /* -------------------------------------------------------------------------
  * Updates de themes Tunet (premium → se actualizan por EDD, no por wp.org).
@@ -334,7 +334,7 @@ add_action( 'wp_head', 'tunet_core_meta_description', 1 );
  * @param mixed $value Transient `site_transient_update_themes`.
  * @return mixed
  */
-function tunet_core_suppress_theme_updates( $value ) {
+function bloquix_suppress_theme_updates( $value ) {
 	if ( ! isset( $value->response ) || ! is_array( $value->response ) ) {
 		return $value;
 	}
@@ -365,7 +365,7 @@ function tunet_core_suppress_theme_updates( $value ) {
 	}
 	return $value;
 }
-add_filter( 'site_transient_update_themes', 'tunet_core_suppress_theme_updates' );
+add_filter( 'site_transient_update_themes', 'bloquix_suppress_theme_updates' );
 
 /* -------------------------------------------------------------------------
  * Activación / desactivación seguras.
@@ -374,31 +374,31 @@ add_filter( 'site_transient_update_themes', 'tunet_core_suppress_theme_updates' 
 /**
  * En activación: validar entorno mínimo. Si no se cumple, abortar limpio.
  */
-function tunet_core_activate() {
-	if ( version_compare( PHP_VERSION, TUNET_CORE_MIN_PHP, '<' )
-		|| version_compare( get_bloginfo( 'version' ), TUNET_CORE_MIN_WP, '<' ) ) {
+function bloquix_activate() {
+	if ( version_compare( PHP_VERSION, BLOQUIX_MIN_PHP, '<' )
+		|| version_compare( get_bloginfo( 'version' ), BLOQUIX_MIN_WP, '<' ) ) {
 
-		deactivate_plugins( plugin_basename( TUNET_CORE_FILE ) );
+		deactivate_plugins( plugin_basename( BLOQUIX_FILE ) );
 		wp_die(
 			esc_html(
 				sprintf(
 					/* translators: 1: required WordPress version, 2: required PHP version. */
-					__( 'Tunet Core requires WordPress %1$s or newer and PHP %2$s or newer.', 'tunet-core' ),
-					TUNET_CORE_MIN_WP,
-					TUNET_CORE_MIN_PHP
+					__( 'BloqUIX requires WordPress %1$s or newer and PHP %2$s or newer.', 'bloquix' ),
+					BLOQUIX_MIN_WP,
+					BLOQUIX_MIN_PHP
 				)
 			),
-			esc_html__( 'Tunet Core activation', 'tunet-core' ),
+			esc_html__( 'BloqUIX activation', 'bloquix' ),
 			array( 'back_link' => true )
 		);
 	}
 }
-register_activation_hook( __FILE__, 'tunet_core_activate' );
+register_activation_hook( __FILE__, 'bloquix_activate' );
 
 /**
  * En desactivación: limpieza ligera. No borra datos del usuario.
  */
-function tunet_core_deactivate() {
+function bloquix_deactivate() {
 	// Placeholder: flush de caches transitorios del motor si los hubiera.
 }
-register_deactivation_hook( __FILE__, 'tunet_core_deactivate' );
+register_deactivation_hook( __FILE__, 'bloquix_deactivate' );

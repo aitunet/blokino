@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/marquee — banda infinita
+ * BloqUIX · Block bloquix/marquee — banda infinita
  * --------------------------------------------------------------------------
  * Loop sin costuras: el track contiene dos grupos idénticos; al animar
  * translateX(-50%) el segundo grupo ocupa exactamente el hueco del primero.
@@ -10,30 +10,30 @@
  * Separación y duración salen de los atributos del block.
  * ========================================================================== */
 
-.tunet-marquee {
+.bloquix-marquee {
 	position: relative; /* ancla del control de pausa */
 }
 /* El viewport lleva el clip + el desvanecido de bordes; así el control de pausa
-   (hijo de .tunet-marquee, hermano del viewport) NO queda atenuado por el mask. */
-.tunet-marquee__viewport {
+   (hijo de .bloquix-marquee, hermano del viewport) NO queda atenuado por el mask. */
+.bloquix-marquee__viewport {
 	overflow: hidden;
 	/* Desvanecido sutil en los bordes (detalle premium). */
 	-webkit-mask-image: linear-gradient( 90deg, transparent, #000 6%, #000 94%, transparent );
 	        mask-image: linear-gradient( 90deg, transparent, #000 6%, #000 94%, transparent );
 }
 
-.tunet-marquee__track {
+.bloquix-marquee__track {
 	display: flex;
 	width: max-content;
 	will-change: transform;
-	animation: tunet-marquee-scroll var( --tnt-marquee-duration, 30s ) linear infinite;
+	animation: bloquix-marquee-scroll var( --tnt-marquee-duration, 30s ) linear infinite;
 }
 
-.tunet-marquee.is-right .tunet-marquee__track {
+.bloquix-marquee.is-right .bloquix-marquee__track {
 	animation-direction: reverse;
 }
 
-.tunet-marquee__group {
+.bloquix-marquee__group {
 	display: flex;
 	align-items: center;
 	gap: var( --tnt-marquee-gap, 3rem );
@@ -42,21 +42,21 @@
 }
 
 /* Los bloques internos no deben encogerse dentro de la banda. */
-.tunet-marquee__group > * {
+.bloquix-marquee__group > * {
 	flex: 0 0 auto;
 	margin-block: 0;
 }
 
-.tunet-marquee.is-pausable:hover .tunet-marquee__track {
+.bloquix-marquee.is-pausable:hover .bloquix-marquee__track {
 	animation-play-state: paused;
 }
 /* Pausa explícita por el control (WCAG 2.2.2 Pause, Stop, Hide). */
-.tunet-marquee.is-paused .tunet-marquee__track {
+.bloquix-marquee.is-paused .bloquix-marquee__track {
 	animation-play-state: paused;
 }
 
 /* Control de pausa/play — discreto, en la esquina, fuera del desvanecido. */
-.tunet-marquee__toggle {
+.bloquix-marquee__toggle {
 	position: absolute;
 	inset-block-end: var( --tnt-space-2, 0.5rem );
 	inset-inline-end: var( --tnt-space-2, 0.5rem );
@@ -77,22 +77,22 @@
 		opacity var( --tnt-dur-fast, 250ms ) var( --tnt-ease-expo, ease ),
 		transform var( --tnt-dur-fast, 250ms ) var( --tnt-ease-expo, ease );
 }
-.tunet-marquee:hover .tunet-marquee__toggle,
-.tunet-marquee__toggle:focus-visible {
+.bloquix-marquee:hover .bloquix-marquee__toggle,
+.bloquix-marquee__toggle:focus-visible {
 	opacity: 1;
 }
-.tunet-marquee__toggle:focus-visible {
+.bloquix-marquee__toggle:focus-visible {
 	outline: 2px solid var( --tnt-color-primary, #06c );
 	outline-offset: 2px;
 }
-.tunet-marquee__toggle:hover { transform: scale( 1.08 ); }
+.bloquix-marquee__toggle:hover { transform: scale( 1.08 ); }
 /* Icono: dos barras (pausa) por defecto → triángulo (play) cuando está pausado. */
-.tunet-marquee__toggle-icon {
+.bloquix-marquee__toggle-icon {
 	inline-size: 0.5rem;
 	block-size: 0.6rem;
 	border-inline: 0.16rem solid currentColor;
 }
-.tunet-marquee.is-paused .tunet-marquee__toggle-icon {
+.bloquix-marquee.is-paused .bloquix-marquee__toggle-icon {
 	inline-size: 0;
 	block-size: 0;
 	border: 0.32rem solid transparent;
@@ -100,30 +100,30 @@
 	border-inline-end: 0;
 }
 
-@keyframes tunet-marquee-scroll {
+@keyframes bloquix-marquee-scroll {
 	to {
 		transform: translateX( -50% );
 	}
 }
 
 /* Separador entre ítems (opt-in; color default = primario, recoloreable). */
-.tunet-marquee__sep {
+.bloquix-marquee__sep {
 	color: var( --tnt-marquee-sep-color, var( --tnt-color-primary ) );
 	display: inline-flex;
 	align-items: center;
 	flex: 0 0 auto;
 }
-.tunet-marquee__sep--dot::before {
+.bloquix-marquee__sep--dot::before {
 	content: "";
 	inline-size: 7px;
 	block-size: 7px;
 	border-radius: 50%;
 	background: currentColor;
 }
-.tunet-marquee__sep--dash::before  { content: "\2014"; }
-.tunet-marquee__sep--slash::before { content: "/"; }
-.tunet-marquee__sep--pipe::before  { content: "|"; }
-.tunet-marquee__sep--icon .tunet-marquee__sep-icon {
+.bloquix-marquee__sep--dash::before  { content: "\2014"; }
+.bloquix-marquee__sep--slash::before { content: "/"; }
+.bloquix-marquee__sep--pipe::before  { content: "|"; }
+.bloquix-marquee__sep--icon .bloquix-marquee__sep-icon {
 	inline-size: 1em;
 	block-size: 1em;
 }
@@ -137,14 +137,14 @@
    no negarle al visitante la posibilidad de ver el movimiento. */
 @media ( prefers-reduced-motion: reduce ) {
 	/* Sin JS: quieta, y punto. */
-	.tunet-marquee__track { animation-play-state: paused; }
+	.bloquix-marquee__track { animation-play-state: paused; }
 	/* Con JS, solo si el visitante lo pide explícitamente con el control. */
-	.tunet-marquee.is-playing .tunet-marquee__track { animation-play-state: running; }
+	.bloquix-marquee.is-playing .bloquix-marquee__track { animation-play-state: running; }
 	/* ...y aun así se puede pausar por hover o volviendo a pulsar. */
-	.tunet-marquee.is-playing.is-pausable:hover .tunet-marquee__track,
-	.tunet-marquee.is-playing.is-paused .tunet-marquee__track { animation-play-state: paused; }
+	.bloquix-marquee.is-playing.is-pausable:hover .bloquix-marquee__track,
+	.bloquix-marquee.is-playing.is-paused .bloquix-marquee__track { animation-play-state: paused; }
 	/* Quieta la banda queda cortada por el viewport → recorrible a mano. */
-	.tunet-marquee:not( .is-playing ) .tunet-marquee__viewport {
+	.bloquix-marquee:not( .is-playing ) .bloquix-marquee__viewport {
 		overflow-x: auto;
 		scrollbar-width: thin;
 	}

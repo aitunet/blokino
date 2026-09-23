@@ -7,22 +7,22 @@
  *
  * Blocks previstos (cada uno con su block.json y carga de assets condicional
  * vía should_load_separate_core_block_assets, ya activado en el orquestador):
- *   - tunet/section       (backgrounds avanzados, overlay, shape divider)
- *   - tunet/marquee       (banda infinita)
- *   - tunet/counter       (número animado on-scroll)
- *   - tunet/before-after  (comparador de imágenes)
+ *   - bloquix/section       (backgrounds avanzados, overlay, shape divider)
+ *   - bloquix/marquee       (banda infinita)
+ *   - bloquix/counter       (número animado on-scroll)
+ *   - bloquix/before-after  (comparador de imágenes)
  *
  * Cada block dinámico encolará el runtime en su render llamando a
- * Tunet_Core_Runtime::enqueue() — así nada se carga si el block no aparece.
+ * Bloquix_Runtime::enqueue() — así nada se carga si el block no aparece.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! function_exists( 'tunet_core_safe_css_color' ) ) {
+if ( ! function_exists( 'bloquix_safe_css_color' ) ) {
 	/**
 	 * Normaliza un color para que SOBREVIVA a safecss_filter_attr() en un
 	 * inline-style (y para no perderse en los saneadores de cada block).
@@ -34,7 +34,7 @@ if ( ! function_exists( 'tunet_core_safe_css_color' ) ) {
 	 *
 	 * Importa porque el descarte NO deja "sin color", que sería inofensivo: deja
 	 * la variable sin definir y el CSS cae a su FALLBACK a la opacidad pedida. En
-	 * `tunet/section` eso era un panel opaco del color de fondo que TAPABA la foto
+	 * `bloquix/section` eso era un panel opaco del color de fondo que TAPABA la foto
 	 * entera — así se envió `vector/contact-cta`. Y los controles del sidebar
 	 * llevan `enableAlpha`, así que el ColorPalette produce `rgba()` en cuanto el
 	 * comprador toca la transparencia: es un caso corriente, no una rareza.
@@ -43,7 +43,7 @@ if ( ! function_exists( 'tunet_core_safe_css_color' ) ) {
 	 * @return string Hex (8 dígitos si hay alpha), el valor original si ya era
 	 *                seguro, o '' si es irrepresentable (decide el llamador).
 	 */
-	function tunet_core_safe_css_color( $value ) {
+	function bloquix_safe_css_color( $value ) {
 		$value = trim( (string) $value );
 		if ( '' === $value ) {
 			return '';
@@ -126,17 +126,17 @@ if ( ! function_exists( 'tunet_core_safe_css_color' ) ) {
 	}
 }
 
-if ( ! function_exists( 'tunet_core_safe_css_gradient' ) ) {
+if ( ! function_exists( 'bloquix_safe_css_gradient' ) ) {
 	/**
 	 * Valida un valor de gradiente CSS antes de emitirlo en un inline-style.
 	 *
 	 * Existe porque el motor tenía DOS criterios distintos para lo mismo, y el más
 	 * flojo estaba en el sitio con más uso:
-	 *   - `tunet/section` concatenaba `overlayGradient` TAL CUAL, sin comprobar ni
+	 *   - `bloquix/section` concatenaba `overlayGradient` TAL CUAL, sin comprobar ni
 	 *     que fuera un string. Con un atributo array, PHP emite el aviso "Array to
 	 *     string conversion" y el CSS acaba con `--tf-sec-overlay:Array`; en un sitio
 	 *     con WP_DEBUG_DISPLAY el aviso se imprime dentro de la página.
-	 *   - `tunet/content-slider` sí quitaba los `;` y exigía ver `gradient(`.
+	 *   - `bloquix/content-slider` sí quitaba los `;` y exigía ver `gradient(`.
 	 *   - Y el runtime (sanitize_css_color) usa regex ANCLADAS, que es lo correcto.
 	 *
 	 * Hoy la sección está cubierta por WordPress: get_block_wrapper_attributes()
@@ -152,7 +152,7 @@ if ( ! function_exists( 'tunet_core_safe_css_gradient' ) ) {
 	 * @param mixed $value Valor tal cual viene del atributo del block.
 	 * @return string El gradiente si es válido, '' si no (decide el llamador).
 	 */
-	function tunet_core_safe_css_gradient( $value ) {
+	function bloquix_safe_css_gradient( $value ) {
 		if ( ! is_string( $value ) ) {
 			return '';
 		}
@@ -175,7 +175,7 @@ if ( ! function_exists( 'tunet_core_safe_css_gradient' ) ) {
 /**
  * Registra (en el futuro) los blocks propios del motor.
  */
-class Tunet_Core_Blocks {
+class Bloquix_Blocks {
 
 	/**
 	 * Cablea el registro de blocks.
@@ -206,20 +206,20 @@ class Tunet_Core_Blocks {
 	);
 
 	/**
-	 * Expone el set curado de iconos al editor (para el picker de tunet/icon).
+	 * Expone el set curado de iconos al editor (para el picker de bloquix/icon).
 	 */
 	public function localize_icons() {
-		require_once TUNET_CORE_PATH . 'blocks/icon/icons.php';
-		wp_register_script( 'tunet-icons-data', false, array(), TUNET_CORE_VERSION, false );
-		wp_enqueue_script( 'tunet-icons-data' );
-		wp_add_inline_script( 'tunet-icons-data', 'window.tunetIcons = ' . wp_json_encode( tunet_core_icon_set() ) . ';', 'before' );
+		require_once BLOQUIX_PATH . 'blocks/icon/icons.php';
+		wp_register_script( 'bloquix-icons-data', false, array(), BLOQUIX_VERSION, false );
+		wp_enqueue_script( 'bloquix-icons-data' );
+		wp_add_inline_script( 'bloquix-icons-data', 'window.bloquixIcons = ' . wp_json_encode( bloquix_icon_set() ) . ';', 'before' );
 
-		// Helper JS compartido (espejo de tunet_core_icon_svg) para los pickers.
+		// Helper JS compartido (espejo de bloquix_icon_svg) para los pickers.
 		wp_enqueue_script(
-			'tunet-icon-svg',
-			TUNET_CORE_URL . 'blocks/icon/icon-svg.js',
-			array( 'tunet-icons-data' ),
-			TUNET_CORE_VERSION,
+			'bloquix-icon-svg',
+			BLOQUIX_URL . 'blocks/icon/icon-svg.js',
+			array( 'bloquix-icons-data' ),
+			BLOQUIX_VERSION,
 			false
 		);
 	}
@@ -229,11 +229,11 @@ class Tunet_Core_Blocks {
 	 * bloques que lo usan lo declaran como dependencia en su edit.asset.php.
 	 */
 	public function enqueue_repeater_control() {
-		$abs = TUNET_CORE_PATH . 'blocks/shared/repeater-control.js';
-		$ver = file_exists( $abs ) ? (string) filemtime( $abs ) : TUNET_CORE_VERSION;
+		$abs = BLOQUIX_PATH . 'blocks/shared/repeater-control.js';
+		$ver = file_exists( $abs ) ? (string) filemtime( $abs ) : BLOQUIX_VERSION;
 		wp_enqueue_script(
-			'tunet-repeater-control',
-			TUNET_CORE_URL . 'blocks/shared/repeater-control.js',
+			'bloquix-repeater-control',
+			BLOQUIX_URL . 'blocks/shared/repeater-control.js',
 			array( 'wp-element', 'wp-components', 'wp-block-editor', 'wp-i18n' ),
 			$ver,
 			false
@@ -242,14 +242,14 @@ class Tunet_Core_Blocks {
 		// Este script NO se registra desde un block.json, así que nadie le cablea las
 		// traducciones: hay que declararlas aquí o sus labels salen siempre en inglés.
 		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( 'tunet-repeater-control', 'tunet-core', TUNET_CORE_PATH . 'languages' );
+			wp_set_script_translations( 'bloquix-repeater-control', 'bloquix', BLOQUIX_PATH . 'languages' );
 		}
 
-		$css_abs = TUNET_CORE_PATH . 'blocks/shared/repeater.css';
-		$css_ver = file_exists( $css_abs ) ? (string) filemtime( $css_abs ) : TUNET_CORE_VERSION;
+		$css_abs = BLOQUIX_PATH . 'blocks/shared/repeater.css';
+		$css_ver = file_exists( $css_abs ) ? (string) filemtime( $css_abs ) : BLOQUIX_VERSION;
 		wp_enqueue_style(
-			'tunet-repeater-control',
-			TUNET_CORE_URL . 'blocks/shared/repeater.css',
+			'bloquix-repeater-control',
+			BLOQUIX_URL . 'blocks/shared/repeater.css',
 			array(),
 			$css_ver
 		);
@@ -263,24 +263,24 @@ class Tunet_Core_Blocks {
 	 * toca el front: es solo un asset de editor.
 	 */
 	public function enqueue_carousel_editor() {
-		$editor_abs = TUNET_CORE_PATH . 'blocks/shared/carousel-editor.js';
-		$editor_ver = file_exists( $editor_abs ) ? (string) filemtime( $editor_abs ) : TUNET_CORE_VERSION;
+		$editor_abs = BLOQUIX_PATH . 'blocks/shared/carousel-editor.js';
+		$editor_ver = file_exists( $editor_abs ) ? (string) filemtime( $editor_abs ) : BLOQUIX_VERSION;
 		wp_enqueue_script(
-			'tunet-carousel-editor',
-			TUNET_CORE_URL . 'blocks/shared/carousel-editor.js',
+			'bloquix-carousel-editor',
+			BLOQUIX_URL . 'blocks/shared/carousel-editor.js',
 			array( 'wp-element', 'wp-server-side-render' ),
 			$editor_ver,
 			false
 		);
 
-		$carousel_css = TUNET_CORE_URL . 'runtime/carousel.css';
-		$carousel_abs = TUNET_CORE_PATH . 'runtime/carousel.css';
+		$carousel_css = BLOQUIX_URL . 'runtime/carousel.css';
+		$carousel_abs = BLOQUIX_PATH . 'runtime/carousel.css';
 		if ( file_exists( $carousel_abs ) ) {
 			$carousel_css = add_query_arg( 'ver', filemtime( $carousel_abs ), $carousel_css );
 		}
 		wp_add_inline_script(
-			'tunet-carousel-editor',
-			'window.tunet = window.tunet || {}; window.tunet.carouselCssUrl = ' . wp_json_encode( $carousel_css ) . ';',
+			'bloquix-carousel-editor',
+			'window.bloquix = window.bloquix || {}; window.bloquix.carouselCssUrl = ' . wp_json_encode( $carousel_css ) . ';',
 			'before'
 		);
 	}
@@ -294,7 +294,7 @@ class Tunet_Core_Blocks {
 	 */
 	public function register_blocks() {
 		foreach ( $this->blocks as $slug ) {
-			$dir = TUNET_CORE_PATH . 'blocks/' . $slug;
+			$dir = BLOQUIX_PATH . 'blocks/' . $slug;
 			if ( is_dir( $dir ) && file_exists( $dir . '/block.json' ) ) {
 				register_block_type( $dir );
 			}
@@ -315,7 +315,7 @@ class Tunet_Core_Blocks {
 	 * cuesta tres líneas y deja el comportamiento sin depender de ese orden.
 	 *
 	 * Los handles se LEEN del registro en vez de recomponerlos a mano
-	 * ('tunet-section-editor-script'): ese nombre lo fabrica
+	 * ('bloquix-section-editor-script'): ese nombre lo fabrica
 	 * generate_block_asset_handle() y es contrato de WP, no nuestro.
 	 */
 	private function set_block_script_translations() {
@@ -324,15 +324,15 @@ class Tunet_Core_Blocks {
 		}
 
 		$registry = WP_Block_Type_Registry::get_instance();
-		$langs    = TUNET_CORE_PATH . 'languages';
+		$langs    = BLOQUIX_PATH . 'languages';
 
 		foreach ( $this->blocks as $slug ) {
-			$type = $registry->get_registered( 'tunet/' . $slug );
+			$type = $registry->get_registered( 'bloquix/' . $slug );
 			if ( ! $type ) {
 				continue;
 			}
 			foreach ( (array) $type->editor_script_handles as $handle ) {
-				wp_set_script_translations( $handle, 'tunet-core', $langs );
+				wp_set_script_translations( $handle, 'bloquix', $langs );
 			}
 		}
 	}

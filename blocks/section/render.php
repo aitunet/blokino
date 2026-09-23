@@ -1,26 +1,26 @@
 <?php
 /**
- * Render del block tunet/section (dinámico).
+ * Render del block bloquix/section (dinámico).
  *
  * Capas (de atrás a delante): fondo (color/gradiente/mesh/imagen/vídeo) →
  * overlay → contenido (InnerBlocks) → shape dividers. Todo configurable; los
  * valores van como CSS vars / clases. Estética desde tokens --tnt-*.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! function_exists( 'tunet_section_divider_svg' ) ) {
+if ( ! function_exists( 'bloquix_section_divider_svg' ) ) {
 	/**
 	 * Devuelve el SVG de un shape divider.
 	 *
 	 * @param string $shape wave|slant|curve.
 	 * @return string
 	 */
-	function tunet_section_divider_svg( $shape ) {
+	function bloquix_section_divider_svg( $shape ) {
 		$paths = array(
 			'wave'  => 'M0,40 C300,120 900,-40 1200,40 L1200,120 L0,120 Z',
 			'slant' => 'M0,120 L1200,0 L1200,120 Z',
@@ -33,55 +33,55 @@ if ( ! function_exists( 'tunet_section_divider_svg' ) ) {
 	}
 }
 
-$tunet_bg_type = isset( $attributes['bgType'] ) ? sanitize_key( $attributes['bgType'] ) : 'none';
-$tunet_overlay = ! empty( $attributes['overlay'] );
-$tunet_valign  = isset( $attributes['verticalAlignment'] ) ? sanitize_key( $attributes['verticalAlignment'] ) : 'center';
-$tunet_div_top = isset( $attributes['dividerTop'] ) ? sanitize_key( $attributes['dividerTop'] ) : 'none';
-$tunet_div_bot = isset( $attributes['dividerBottom'] ) ? sanitize_key( $attributes['dividerBottom'] ) : 'none';
+$bloquix_bg_type = isset( $attributes['bgType'] ) ? sanitize_key( $attributes['bgType'] ) : 'none';
+$bloquix_overlay = ! empty( $attributes['overlay'] );
+$bloquix_valign  = isset( $attributes['verticalAlignment'] ) ? sanitize_key( $attributes['verticalAlignment'] ) : 'center';
+$bloquix_div_top = isset( $attributes['dividerTop'] ) ? sanitize_key( $attributes['dividerTop'] ) : 'none';
+$bloquix_div_bot = isset( $attributes['dividerBottom'] ) ? sanitize_key( $attributes['dividerBottom'] ) : 'none';
 
 // --- Clases del contenedor ---
-$tunet_cwidth  = isset( $attributes['contentWidth'] ) ? sanitize_key( $attributes['contentWidth'] ) : 'constrained';
-if ( ! in_array( $tunet_cwidth, array( 'constrained', 'wide', 'full' ), true ) ) {
-	$tunet_cwidth = 'constrained';
+$bloquix_cwidth  = isset( $attributes['contentWidth'] ) ? sanitize_key( $attributes['contentWidth'] ) : 'constrained';
+if ( ! in_array( $bloquix_cwidth, array( 'constrained', 'wide', 'full' ), true ) ) {
+	$bloquix_cwidth = 'constrained';
 }
-$tunet_classes = array( 'tunet-section', 'is-bg-' . $tunet_bg_type, 'is-valign-' . $tunet_valign, 'is-content-' . $tunet_cwidth );
-if ( ! empty( $attributes['gradientAnimate'] ) && 'gradient' === $tunet_bg_type ) {
-	$tunet_classes[] = 'is-animated';
+$bloquix_classes = array( 'bloquix-section', 'is-bg-' . $bloquix_bg_type, 'is-valign-' . $bloquix_valign, 'is-content-' . $bloquix_cwidth );
+if ( ! empty( $attributes['gradientAnimate'] ) && 'gradient' === $bloquix_bg_type ) {
+	$bloquix_classes[] = 'is-animated';
 }
 
 // --- CSS vars inline ---
-$tunet_vars = array();
+$bloquix_vars = array();
 
-$tunet_min = isset( $attributes['minHeight'] ) ? (int) $attributes['minHeight'] : 0;
-if ( $tunet_min > 0 ) {
-	$tunet_vars[] = '--tf-sec-min-h:' . min( 100, $tunet_min ) . 'vh';
+$bloquix_min = isset( $attributes['minHeight'] ) ? (int) $attributes['minHeight'] : 0;
+if ( $bloquix_min > 0 ) {
+	$bloquix_vars[] = '--tf-sec-min-h:' . min( 100, $bloquix_min ) . 'vh';
 }
 
-if ( 'color' === $tunet_bg_type && ! empty( $attributes['bgColor'] ) ) {
-	$tunet_bg_color = tunet_core_safe_css_color( $attributes['bgColor'] );
-	if ( '' !== $tunet_bg_color ) {
-		$tunet_vars[] = '--tf-sec-bg:' . $tunet_bg_color;
+if ( 'color' === $bloquix_bg_type && ! empty( $attributes['bgColor'] ) ) {
+	$bloquix_bg_color = bloquix_safe_css_color( $attributes['bgColor'] );
+	if ( '' !== $bloquix_bg_color ) {
+		$bloquix_vars[] = '--tf-sec-bg:' . $bloquix_bg_color;
 	}
 }
-if ( 'gradient' === $tunet_bg_type && ! empty( $attributes['gradient'] ) ) {
-	$tunet_vars[] = '--tf-sec-gradient:' . $attributes['gradient'];
+if ( 'gradient' === $bloquix_bg_type && ! empty( $attributes['gradient'] ) ) {
+	$bloquix_vars[] = '--tf-sec-gradient:' . $attributes['gradient'];
 }
-if ( 'mesh' === $tunet_bg_type ) {
-	foreach ( array( 'meshColor1' => '--tf-mesh-1', 'meshColor2' => '--tf-mesh-2', 'meshColor3' => '--tf-mesh-3' ) as $tunet_attr => $tunet_var ) {
-		if ( ! empty( $attributes[ $tunet_attr ] ) ) {
-			$tunet_mesh_color = tunet_core_safe_css_color( $attributes[ $tunet_attr ] );
-			if ( '' !== $tunet_mesh_color ) {
-				$tunet_vars[] = $tunet_var . ':' . $tunet_mesh_color;
+if ( 'mesh' === $bloquix_bg_type ) {
+	foreach ( array( 'meshColor1' => '--tf-mesh-1', 'meshColor2' => '--tf-mesh-2', 'meshColor3' => '--tf-mesh-3' ) as $bloquix_attr => $bloquix_var ) {
+		if ( ! empty( $attributes[ $bloquix_attr ] ) ) {
+			$bloquix_mesh_color = bloquix_safe_css_color( $attributes[ $bloquix_attr ] );
+			if ( '' !== $bloquix_mesh_color ) {
+				$bloquix_vars[] = $bloquix_var . ':' . $bloquix_mesh_color;
 			}
 		}
 	}
 }
-if ( $tunet_overlay ) {
-	$tunet_ov_type = isset( $attributes['overlayType'] ) ? sanitize_key( $attributes['overlayType'] ) : 'color';
-	$tunet_ov_grad = ( 'gradient' === $tunet_ov_type && ! empty( $attributes['overlayGradient'] ) )
-		? tunet_core_safe_css_gradient( $attributes['overlayGradient'] )
+if ( $bloquix_overlay ) {
+	$bloquix_ov_type = isset( $attributes['overlayType'] ) ? sanitize_key( $attributes['overlayType'] ) : 'color';
+	$bloquix_ov_grad = ( 'gradient' === $bloquix_ov_type && ! empty( $attributes['overlayGradient'] ) )
+		? bloquix_safe_css_gradient( $attributes['overlayGradient'] )
 		: '';
-	if ( '' !== $tunet_ov_grad ) {
+	if ( '' !== $bloquix_ov_grad ) {
 		// Overlay en gradiente: --tf-sec-overlay acepta un valor de background
 		// (color o gradiente) — el CSS ya hace background:var(--tf-sec-overlay).
 		// OJO: WP filtra el inline-style (safecss_filter_attr) → los stops del
@@ -89,14 +89,14 @@ if ( $tunet_overlay ) {
 		// se descartan (el GradientPicker produce rgba, así que el sidebar va bien).
 		// El valor pasa por el validador compartido: antes se concatenaba tal cual, sin
 		// comprobar ni que fuera un string (un atributo array emitía "Array").
-		$tunet_vars[] = '--tf-sec-overlay:' . $tunet_ov_grad;
+		$bloquix_vars[] = '--tf-sec-overlay:' . $bloquix_ov_grad;
 	} elseif ( ! empty( $attributes['overlayColor'] ) ) {
 		// Si el color es irrepresentable en un inline-style, se degrada a
 		// `transparent` A PROPÓSITO: sin esta línea el valor desaparecería y el CSS
 		// caería al color de fondo del theme a la opacidad pedida — un panel opaco
 		// que tapa la foto. Perder el scrim es malo; tapar la imagen entera es peor.
-		$tunet_ov_color = tunet_core_safe_css_color( $attributes['overlayColor'] );
-		$tunet_vars[]   = '--tf-sec-overlay:' . ( '' !== $tunet_ov_color ? $tunet_ov_color : 'transparent' );
+		$bloquix_ov_color = bloquix_safe_css_color( $attributes['overlayColor'] );
+		$bloquix_vars[]   = '--tf-sec-overlay:' . ( '' !== $bloquix_ov_color ? $bloquix_ov_color : 'transparent' );
 	} else {
 		/*
 		 * Overlay activado pero sin ningún valor utilizable (tipo gradiente con un
@@ -107,10 +107,10 @@ if ( $tunet_overlay ) {
 		 * exactamente el bug del 0.1.18, y al meter la validación del gradiente se
 		 * volvía a abrir esa puerta por el otro lado.
 		 */
-		$tunet_vars[] = '--tf-sec-overlay:transparent';
+		$bloquix_vars[] = '--tf-sec-overlay:transparent';
 	}
-	$tunet_op = isset( $attributes['overlayOpacity'] ) ? max( 0, min( 100, (int) $attributes['overlayOpacity'] ) ) : 40;
-	$tunet_vars[] = '--tf-sec-overlay-op:' . ( $tunet_op / 100 );
+	$bloquix_op = isset( $attributes['overlayOpacity'] ) ? max( 0, min( 100, (int) $attributes['overlayOpacity'] ) ) : 40;
+	$bloquix_vars[] = '--tf-sec-overlay-op:' . ( $bloquix_op / 100 );
 
 	// Refuerzo en pantallas pequeñas. Un overlay en gradiente lateral protege el
 	// texto en escritorio (columna a la izquierda, foto limpia a la derecha), pero
@@ -119,53 +119,53 @@ if ( $tunet_overlay ) {
 	// forma de la caja. Este scrim uniforme opcional cubre ese hueco sin tocar el
 	// overlay que eligió el comprador.
 	if ( ! empty( $attributes['overlayMobile'] ) ) {
-		$tunet_scrim = '';
+		$bloquix_scrim = '';
 		if ( ! empty( $attributes['overlayMobileColor'] ) ) {
-			$tunet_scrim = tunet_core_safe_css_color( $attributes['overlayMobileColor'] );
-		} elseif ( 'gradient' !== $tunet_ov_type && ! empty( $attributes['overlayColor'] ) ) {
+			$bloquix_scrim = bloquix_safe_css_color( $attributes['overlayMobileColor'] );
+		} elseif ( 'gradient' !== $bloquix_ov_type && ! empty( $attributes['overlayColor'] ) ) {
 			// Sin color propio hereda el del overlay: lo normal es querer "más de
 			// lo mismo" en móvil, no un color distinto.
-			$tunet_scrim = tunet_core_safe_css_color( $attributes['overlayColor'] );
+			$bloquix_scrim = bloquix_safe_css_color( $attributes['overlayColor'] );
 		}
-		$tunet_vars[]   = '--tf-sec-scrim-m:' . ( '' !== $tunet_scrim ? $tunet_scrim : '#000000' );
-		$tunet_scrim_op = isset( $attributes['overlayMobileOpacity'] ) ? max( 0, min( 100, (int) $attributes['overlayMobileOpacity'] ) ) : 55;
-		$tunet_vars[]   = '--tf-sec-scrim-m-op:' . ( $tunet_scrim_op / 100 );
-		$tunet_classes[] = 'has-mobile-scrim';
+		$bloquix_vars[]   = '--tf-sec-scrim-m:' . ( '' !== $bloquix_scrim ? $bloquix_scrim : '#000000' );
+		$bloquix_scrim_op = isset( $attributes['overlayMobileOpacity'] ) ? max( 0, min( 100, (int) $attributes['overlayMobileOpacity'] ) ) : 55;
+		$bloquix_vars[]   = '--tf-sec-scrim-m-op:' . ( $bloquix_scrim_op / 100 );
+		$bloquix_classes[] = 'has-mobile-scrim';
 	}
 }
-if ( 'none' !== $tunet_div_top || 'none' !== $tunet_div_bot ) {
+if ( 'none' !== $bloquix_div_top || 'none' !== $bloquix_div_bot ) {
 	if ( ! empty( $attributes['dividerColor'] ) ) {
-		$tunet_div_color = tunet_core_safe_css_color( $attributes['dividerColor'] );
-		if ( '' !== $tunet_div_color ) {
-			$tunet_vars[] = '--tf-sec-divider-color:' . $tunet_div_color;
+		$bloquix_div_color = bloquix_safe_css_color( $attributes['dividerColor'] );
+		if ( '' !== $bloquix_div_color ) {
+			$bloquix_vars[] = '--tf-sec-divider-color:' . $bloquix_div_color;
 		}
 	}
-	$tunet_dh = isset( $attributes['dividerHeight'] ) ? max( 0, (int) $attributes['dividerHeight'] ) : 60;
-	$tunet_vars[] = '--tf-sec-divider-h:' . $tunet_dh . 'px';
+	$bloquix_dh = isset( $attributes['dividerHeight'] ) ? max( 0, (int) $attributes['dividerHeight'] ) : 60;
+	$bloquix_vars[] = '--tf-sec-divider-h:' . $bloquix_dh . 'px';
 }
 
-$tunet_wrapper = get_block_wrapper_attributes(
+$bloquix_wrapper = get_block_wrapper_attributes(
 	array(
-		'class' => implode( ' ', $tunet_classes ),
-		'style' => implode( ';', $tunet_vars ),
+		'class' => implode( ' ', $bloquix_classes ),
+		'style' => implode( ';', $bloquix_vars ),
 	)
 );
 ?>
-<section <?php echo $tunet_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?><?php if ( 'video' === $tunet_bg_type ) : ?> data-pause-label="<?php echo esc_attr__( 'Pause background video', 'tunet-core' ); ?>" data-play-label="<?php echo esc_attr__( 'Play background video', 'tunet-core' ); ?>"<?php endif; ?>>
-	<?php if ( 'none' !== $tunet_div_top ) : ?>
-		<div class="tunet-section__divider tunet-section__divider--top">
-			<?php echo tunet_section_divider_svg( $tunet_div_top ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG con path escapado. ?>
+<section <?php echo $bloquix_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?><?php if ( 'video' === $bloquix_bg_type ) : ?> data-pause-label="<?php echo esc_attr__( 'Pause background video', 'bloquix' ); ?>" data-play-label="<?php echo esc_attr__( 'Play background video', 'bloquix' ); ?>"<?php endif; ?>>
+	<?php if ( 'none' !== $bloquix_div_top ) : ?>
+		<div class="bloquix-section__divider bloquix-section__divider--top">
+			<?php echo bloquix_section_divider_svg( $bloquix_div_top ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG con path escapado. ?>
 		</div>
 	<?php endif; ?>
 
-	<?php if ( 'image' === $tunet_bg_type && ! empty( $attributes['bgImageUrl'] ) ) : ?>
-		<div class="tunet-section__bg" style="background-image:url('<?php echo esc_url( $attributes['bgImageUrl'] ); ?>')"></div>
-	<?php elseif ( 'video' === $tunet_bg_type && ! empty( $attributes['bgVideoUrl'] ) ) : ?>
+	<?php if ( 'image' === $bloquix_bg_type && ! empty( $attributes['bgImageUrl'] ) ) : ?>
+		<div class="bloquix-section__bg" style="background-image:url('<?php echo esc_url( $attributes['bgImageUrl'] ); ?>')"></div>
+	<?php elseif ( 'video' === $bloquix_bg_type && ! empty( $attributes['bgVideoUrl'] ) ) : ?>
 		<?php
-		$tunet_vmime   = ! empty( $attributes['bgVideoId'] ) ? get_post_mime_type( (int) $attributes['bgVideoId'] ) : '';
-		$tunet_vposter = ! empty( $attributes['bgVideoPosterUrl'] ) ? (string) $attributes['bgVideoPosterUrl'] : '';
-		$tunet_vauto   = ! isset( $attributes['bgVideoAutoplay'] ) || (bool) $attributes['bgVideoAutoplay'];
-		$tunet_vloop   = ! isset( $attributes['bgVideoLoop'] ) || (bool) $attributes['bgVideoLoop'];
+		$bloquix_vmime   = ! empty( $attributes['bgVideoId'] ) ? get_post_mime_type( (int) $attributes['bgVideoId'] ) : '';
+		$bloquix_vposter = ! empty( $attributes['bgVideoPosterUrl'] ) ? (string) $attributes['bgVideoPosterUrl'] : '';
+		$bloquix_vauto   = ! isset( $attributes['bgVideoAutoplay'] ) || (bool) $attributes['bgVideoAutoplay'];
+		$bloquix_vloop   = ! isset( $attributes['bgVideoLoop'] ) || (bool) $attributes['bgVideoLoop'];
 		/*
 		 * Carga perezosa cuando HAY póster: el vídeo sale sin `autoplay` y con
 		 * preload="none", así que el navegador no descarga nada; lo arranca view.js
@@ -175,35 +175,35 @@ $tunet_wrapper = get_block_wrapper_attributes(
 		 * SIN póster se mantiene el autoplay en el HTML: si no, quedaría un hueco
 		 * vacío hasta que despierte el JS.
 		 */
-		$tunet_vlazy = ( '' !== $tunet_vposter );
+		$bloquix_vlazy = ( '' !== $bloquix_vposter );
 		?>
-		<video class="tunet-section__bg" muted playsinline aria-hidden="true"<?php
-			echo $tunet_vloop ? ' loop' : '';
-			echo $tunet_vposter ? ' poster="' . esc_url( $tunet_vposter ) . '"' : '';
-			echo ( $tunet_vauto && ! $tunet_vlazy ) ? ' autoplay' : '';
-			echo ' preload="' . ( $tunet_vlazy ? 'none' : 'metadata' ) . '"';
-			echo ' data-tnt-autoplay="' . ( $tunet_vauto ? '1' : '0' ) . '"';
+		<video class="bloquix-section__bg" muted playsinline aria-hidden="true"<?php
+			echo $bloquix_vloop ? ' loop' : '';
+			echo $bloquix_vposter ? ' poster="' . esc_url( $bloquix_vposter ) . '"' : '';
+			echo ( $bloquix_vauto && ! $bloquix_vlazy ) ? ' autoplay' : '';
+			echo ' preload="' . ( $bloquix_vlazy ? 'none' : 'metadata' ) . '"';
+			echo ' data-tnt-autoplay="' . ( $bloquix_vauto ? '1' : '0' ) . '"';
 		?>>
-			<source src="<?php echo esc_url( $attributes['bgVideoUrl'] ); ?>"<?php echo $tunet_vmime ? ' type="' . esc_attr( $tunet_vmime ) . '"' : ''; ?> />
+			<source src="<?php echo esc_url( $attributes['bgVideoUrl'] ); ?>"<?php echo $bloquix_vmime ? ' type="' . esc_attr( $bloquix_vmime ) . '"' : ''; ?> />
 		</video>
-	<?php elseif ( in_array( $tunet_bg_type, array( 'color', 'gradient', 'mesh' ), true ) ) : ?>
-		<div class="tunet-section__bg"></div>
+	<?php elseif ( in_array( $bloquix_bg_type, array( 'color', 'gradient', 'mesh' ), true ) ) : ?>
+		<div class="bloquix-section__bg"></div>
 	<?php endif; ?>
 
-	<?php if ( $tunet_overlay ) : ?>
-		<div class="tunet-section__overlay"></div>
+	<?php if ( $bloquix_overlay ) : ?>
+		<div class="bloquix-section__overlay"></div>
 		<?php if ( ! empty( $attributes['overlayMobile'] ) ) : ?>
-			<div class="tunet-section__scrim"></div>
+			<div class="bloquix-section__scrim"></div>
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<div class="tunet-section__inner">
+	<div class="bloquix-section__inner">
 		<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML de bloques internos ya renderizado. ?>
 	</div>
 
-	<?php if ( 'none' !== $tunet_div_bot ) : ?>
-		<div class="tunet-section__divider tunet-section__divider--bottom">
-			<?php echo tunet_section_divider_svg( $tunet_div_bot ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG con path escapado. ?>
+	<?php if ( 'none' !== $bloquix_div_bot ) : ?>
+		<div class="bloquix-section__divider bloquix-section__divider--bottom">
+			<?php echo bloquix_section_divider_svg( $bloquix_div_bot ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG con path escapado. ?>
 		</div>
 	<?php endif; ?>
 </section>

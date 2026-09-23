@@ -1,6 +1,6 @@
 <?php
 /**
- * Render del block tunet/breadcrumbs (dinámico).
+ * Render del block bloquix/breadcrumbs (dinámico).
  *
  * Rastro desde la home hasta la página actual, sin depender de ningún plugin de
  * SEO. Cubre página, entrada, CPT (con su archivo si lo tiene), taxonomía,
@@ -14,14 +14,14 @@
  * Emite además JSON-LD BreadcrumbList (opt-out por atributo), que es la mitad del
  * valor del bloque: Google usa ese esquema para el rastro del resultado.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! function_exists( 'tunet_core_breadcrumb_trail' ) ) {
+if ( ! function_exists( 'bloquix_breadcrumb_trail' ) ) {
 	/**
 	 * Construye el rastro como lista de pares [label, url].
 	 *
@@ -30,10 +30,10 @@ if ( ! function_exists( 'tunet_core_breadcrumb_trail' ) ) {
 	 * @param array $args home_label(string).
 	 * @return array<int,array{label:string,url:string}>
 	 */
-	function tunet_core_breadcrumb_trail( $args = array() ) {
+	function bloquix_breadcrumb_trail( $args = array() ) {
 		$home_label = isset( $args['home_label'] ) && '' !== $args['home_label']
 			? (string) $args['home_label']
-			: __( 'Home', 'tunet-core' );
+			: __( 'Home', 'bloquix' );
 
 		$trail = array(
 			array(
@@ -60,7 +60,7 @@ if ( ! function_exists( 'tunet_core_breadcrumb_trail' ) ) {
 		if ( is_search() ) {
 			$trail[] = array(
 				/* translators: %s: search query. */
-				'label' => sprintf( __( 'Search: %s', 'tunet-core' ), get_search_query() ),
+				'label' => sprintf( __( 'Search: %s', 'bloquix' ), get_search_query() ),
 				'url'   => '',
 			);
 			return $trail;
@@ -68,7 +68,7 @@ if ( ! function_exists( 'tunet_core_breadcrumb_trail' ) ) {
 
 		if ( is_404() ) {
 			$trail[] = array(
-				'label' => __( 'Not found', 'tunet-core' ),
+				'label' => __( 'Not found', 'bloquix' ),
 				'url'   => '',
 			);
 			return $trail;
@@ -170,48 +170,48 @@ if ( ! function_exists( 'tunet_core_breadcrumb_trail' ) ) {
 		 *
 		 * @param array $trail Lista de pares label/url; el último sin url.
 		 */
-		return apply_filters( 'tunet_core_breadcrumb_trail', $trail );
+		return apply_filters( 'bloquix_breadcrumb_trail', $trail );
 	}
 }
 
-$tunet_trail = tunet_core_breadcrumb_trail(
+$bloquix_trail = bloquix_breadcrumb_trail(
 	array( 'home_label' => isset( $attributes['homeLabel'] ) ? (string) $attributes['homeLabel'] : '' )
 );
 
 // Un solo eslabón es la home: un rastro de un elemento no informa de nada.
-if ( count( $tunet_trail ) < 2 ) {
+if ( count( $bloquix_trail ) < 2 ) {
 	return;
 }
 
-$tunet_show_current = ! isset( $attributes['showCurrent'] ) || ! empty( $attributes['showCurrent'] );
-if ( ! $tunet_show_current ) {
-	array_pop( $tunet_trail );
-	if ( count( $tunet_trail ) < 2 ) {
+$bloquix_show_current = ! isset( $attributes['showCurrent'] ) || ! empty( $attributes['showCurrent'] );
+if ( ! $bloquix_show_current ) {
+	array_pop( $bloquix_trail );
+	if ( count( $bloquix_trail ) < 2 ) {
 		return;
 	}
 }
 
-$tunet_separator = isset( $attributes['separator'] ) && '' !== $attributes['separator']
+$bloquix_separator = isset( $attributes['separator'] ) && '' !== $attributes['separator']
 	? (string) $attributes['separator']
 	: '/';
 
-$tunet_wrapper = get_block_wrapper_attributes(
+$bloquix_wrapper = get_block_wrapper_attributes(
 	array(
-		'class' => 'tunet-breadcrumbs',
-		'style' => '--tnt-breadcrumb-sep:"' . esc_attr( $tunet_separator ) . '";',
+		'class' => 'bloquix-breadcrumbs',
+		'style' => '--tnt-breadcrumb-sep:"' . esc_attr( $bloquix_separator ) . '";',
 	)
 );
 
-$tunet_last = count( $tunet_trail ) - 1;
+$bloquix_last = count( $bloquix_trail ) - 1;
 ?>
-<nav <?php echo $tunet_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-label="<?php echo esc_attr__( 'Breadcrumb', 'tunet-core' ); ?>">
-	<ol class="tunet-breadcrumbs__list">
-		<?php foreach ( $tunet_trail as $tunet_i => $tunet_crumb ) : ?>
-			<li class="tunet-breadcrumbs__item">
-				<?php if ( '' !== $tunet_crumb['url'] && $tunet_i !== $tunet_last ) : ?>
-					<a class="tunet-breadcrumbs__link" href="<?php echo esc_url( $tunet_crumb['url'] ); ?>"><?php echo esc_html( $tunet_crumb['label'] ); ?></a>
+<nav <?php echo $bloquix_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-label="<?php echo esc_attr__( 'Breadcrumb', 'bloquix' ); ?>">
+	<ol class="bloquix-breadcrumbs__list">
+		<?php foreach ( $bloquix_trail as $bloquix_i => $bloquix_crumb ) : ?>
+			<li class="bloquix-breadcrumbs__item">
+				<?php if ( '' !== $bloquix_crumb['url'] && $bloquix_i !== $bloquix_last ) : ?>
+					<a class="bloquix-breadcrumbs__link" href="<?php echo esc_url( $bloquix_crumb['url'] ); ?>"><?php echo esc_html( $bloquix_crumb['label'] ); ?></a>
 				<?php else : ?>
-					<span class="tunet-breadcrumbs__current" aria-current="page"><?php echo esc_html( $tunet_crumb['label'] ); ?></span>
+					<span class="bloquix-breadcrumbs__current" aria-current="page"><?php echo esc_html( $bloquix_crumb['label'] ); ?></span>
 				<?php endif; ?>
 			</li>
 		<?php endforeach; ?>
@@ -222,23 +222,23 @@ if ( isset( $attributes['structuredData'] ) && ! $attributes['structuredData'] )
 	return;
 }
 
-$tunet_items = array();
-foreach ( $tunet_trail as $tunet_i => $tunet_crumb ) {
-	$tunet_item = array(
+$bloquix_items = array();
+foreach ( $bloquix_trail as $bloquix_i => $bloquix_crumb ) {
+	$bloquix_item = array(
 		'@type'    => 'ListItem',
-		'position' => $tunet_i + 1,
-		'name'     => $tunet_crumb['label'],
+		'position' => $bloquix_i + 1,
+		'name'     => $bloquix_crumb['label'],
 	);
-	if ( '' !== $tunet_crumb['url'] ) {
-		$tunet_item['item'] = $tunet_crumb['url'];
+	if ( '' !== $bloquix_crumb['url'] ) {
+		$bloquix_item['item'] = $bloquix_crumb['url'];
 	}
-	$tunet_items[] = $tunet_item;
+	$bloquix_items[] = $bloquix_item;
 }
 
-$tunet_jsonld = array(
+$bloquix_jsonld = array(
 	'@context'        => 'https://schema.org',
 	'@type'           => 'BreadcrumbList',
-	'itemListElement' => $tunet_items,
+	'itemListElement' => $bloquix_items,
 );
 ?>
-<script type="application/ld+json"><?php echo wp_json_encode( $tunet_jsonld, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ); ?></script>
+<script type="application/ld+json"><?php echo wp_json_encode( $bloquix_jsonld, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ); ?></script>

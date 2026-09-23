@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/content-slider — editor
+ * BloqUIX · Block bloquix/content-slider — editor
  * Repeater en el sidebar (RepeaterControl) + preview ServerSideRender.
  * ========================================================================== */
 ( function ( wp ) {
@@ -16,44 +16,44 @@
 	var useBlockProps = be.useBlockProps;
 
 	var ALIGN_FIELD = [
-		{ label: __( 'Inherit', 'tunet-core' ), value: 'inherit' },
-		{ label: __( 'Left', 'tunet-core' ), value: 'left' },
-		{ label: __( 'Center', 'tunet-core' ), value: 'center' },
-		{ label: __( 'Right', 'tunet-core' ), value: 'right' }
+		{ label: __( 'Inherit', 'bloquix' ), value: 'inherit' },
+		{ label: __( 'Left', 'bloquix' ), value: 'left' },
+		{ label: __( 'Center', 'bloquix' ), value: 'center' },
+		{ label: __( 'Right', 'bloquix' ), value: 'right' }
 	];
 	var ALIGN_CONTENT = [
-		{ label: __( 'Left', 'tunet-core' ), value: 'left' },
-		{ label: __( 'Center', 'tunet-core' ), value: 'center' },
-		{ label: __( 'Right', 'tunet-core' ), value: 'right' }
+		{ label: __( 'Left', 'bloquix' ), value: 'left' },
+		{ label: __( 'Center', 'bloquix' ), value: 'center' },
+		{ label: __( 'Right', 'bloquix' ), value: 'right' }
 	];
 	var CTA_STYLES = [
-		{ label: __( 'Filled', 'tunet-core' ), value: 'filled' },
-		{ label: __( 'Outline', 'tunet-core' ), value: 'outline' },
-		{ label: __( 'Text', 'tunet-core' ), value: 'text' }
+		{ label: __( 'Filled', 'bloquix' ), value: 'filled' },
+		{ label: __( 'Outline', 'bloquix' ), value: 'outline' },
+		{ label: __( 'Text', 'bloquix' ), value: 'text' }
 	];
 	var BG_SIZE = [
-		{ label: __( 'Cover (fill)', 'tunet-core' ), value: 'cover' },
-		{ label: __( 'Contain (fit)', 'tunet-core' ), value: 'contain' },
-		{ label: __( 'Auto (original)', 'tunet-core' ), value: 'auto' }
+		{ label: __( 'Cover (fill)', 'bloquix' ), value: 'cover' },
+		{ label: __( 'Contain (fit)', 'bloquix' ), value: 'contain' },
+		{ label: __( 'Auto (original)', 'bloquix' ), value: 'auto' }
 	];
 	var BG_REPEAT = [
-		{ label: __( 'No repeat', 'tunet-core' ), value: 'no-repeat' },
-		{ label: __( 'Repeat', 'tunet-core' ), value: 'repeat' },
-		{ label: __( 'Repeat X', 'tunet-core' ), value: 'repeat-x' },
-		{ label: __( 'Repeat Y', 'tunet-core' ), value: 'repeat-y' }
+		{ label: __( 'No repeat', 'bloquix' ), value: 'no-repeat' },
+		{ label: __( 'Repeat', 'bloquix' ), value: 'repeat' },
+		{ label: __( 'Repeat X', 'bloquix' ), value: 'repeat-x' },
+		{ label: __( 'Repeat Y', 'bloquix' ), value: 'repeat-y' }
 	];
 	// Posiciones de fondo por palabra clave (CSS background-position). El valor es
 	// una cadena CSS válida; render.php la valida contra esta misma lista blanca.
 	var BG_POSITION = [
-		{ label: __( 'Top left', 'tunet-core' ), value: 'left top' },
-		{ label: __( 'Top center', 'tunet-core' ), value: 'center top' },
-		{ label: __( 'Top right', 'tunet-core' ), value: 'right top' },
-		{ label: __( 'Center left', 'tunet-core' ), value: 'left center' },
-		{ label: __( 'Center', 'tunet-core' ), value: 'center center' },
-		{ label: __( 'Center right', 'tunet-core' ), value: 'right center' },
-		{ label: __( 'Bottom left', 'tunet-core' ), value: 'left bottom' },
-		{ label: __( 'Bottom center', 'tunet-core' ), value: 'center bottom' },
-		{ label: __( 'Bottom right', 'tunet-core' ), value: 'right bottom' }
+		{ label: __( 'Top left', 'bloquix' ), value: 'left top' },
+		{ label: __( 'Top center', 'bloquix' ), value: 'center top' },
+		{ label: __( 'Top right', 'bloquix' ), value: 'right top' },
+		{ label: __( 'Center left', 'bloquix' ), value: 'left center' },
+		{ label: __( 'Center', 'bloquix' ), value: 'center center' },
+		{ label: __( 'Center right', 'bloquix' ), value: 'right center' },
+		{ label: __( 'Bottom left', 'bloquix' ), value: 'left bottom' },
+		{ label: __( 'Bottom center', 'bloquix' ), value: 'center bottom' },
+		{ label: __( 'Bottom right', 'bloquix' ), value: 'right bottom' }
 	];
 
 	function newSlide() {
@@ -78,11 +78,11 @@
 		}
 		return el(
 			C.BaseControl,
-			{ key: 'cta' + ctaIndex, label: __( 'CTA', 'tunet-core' ) + ' ' + ( ctaIndex + 1 ), __nextHasNoMarginBottom: true },
-			el( C.TextControl, { label: __( 'Text', 'tunet-core' ), value: cta.text, onChange: function ( v ) { setCta( { text: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.TextControl, { label: __( 'Link (URL)', 'tunet-core' ), value: cta.url, onChange: function ( v ) { setCta( { url: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.SelectControl, { label: __( 'Style', 'tunet-core' ), value: cta.style, options: CTA_STYLES, onChange: function ( v ) { setCta( { style: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.ToggleControl, { label: __( 'Open in new tab', 'tunet-core' ), checked: !! cta.newTab, onChange: function ( v ) { setCta( { newTab: v } ); }, __nextHasNoMarginBottom: true } )
+			{ key: 'cta' + ctaIndex, label: __( 'CTA', 'bloquix' ) + ' ' + ( ctaIndex + 1 ), __nextHasNoMarginBottom: true },
+			el( C.TextControl, { label: __( 'Text', 'bloquix' ), value: cta.text, onChange: function ( v ) { setCta( { text: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.TextControl, { label: __( 'Link (URL)', 'bloquix' ), value: cta.url, onChange: function ( v ) { setCta( { url: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Style', 'bloquix' ), value: cta.style, options: CTA_STYLES, onChange: function ( v ) { setCta( { style: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.ToggleControl, { label: __( 'Open in new tab', 'bloquix' ), checked: !! cta.newTab, onChange: function ( v ) { setCta( { newTab: v } ); }, __nextHasNoMarginBottom: true } )
 		);
 	}
 
@@ -95,15 +95,15 @@
 		}
 		return el(
 			C.BaseControl,
-			{ key: 'bg', label: __( 'Background image', 'tunet-core' ), __nextHasNoMarginBottom: true },
-			el( C.SelectControl, { label: __( 'Position', 'tunet-core' ), value: item.bgPosition || 'center center', options: BG_POSITION, onChange: function ( v ) { update( { bgPosition: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.SelectControl, { label: __( 'Size', 'tunet-core' ), value: item.bgSize || 'cover', options: BG_SIZE, onChange: function ( v ) { update( { bgSize: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.SelectControl, { label: __( 'Repeat', 'tunet-core' ), value: item.bgRepeat || 'no-repeat', options: BG_REPEAT, onChange: function ( v ) { update( { bgRepeat: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.RangeControl, { label: __( 'Overlay (%)', 'tunet-core' ), help: __( 'Darkens the image so the text stays readable.', 'tunet-core' ), min: 0, max: 90, value: ( item.bgOverlay == null ? 40 : item.bgOverlay ), onChange: function ( v ) { update( { bgOverlay: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.SelectControl, { key: 'ovtype', label: __( 'Overlay type', 'tunet-core' ), value: item.bgOverlayType || 'color', options: [ { label: __( 'Color', 'tunet-core' ), value: 'color' }, { label: __( 'Gradient', 'tunet-core' ), value: 'gradient' } ], onChange: function ( v ) { update( { bgOverlayType: v } ); }, __nextHasNoMarginBottom: true } ),
+			{ key: 'bg', label: __( 'Background image', 'bloquix' ), __nextHasNoMarginBottom: true },
+			el( C.SelectControl, { label: __( 'Position', 'bloquix' ), value: item.bgPosition || 'center center', options: BG_POSITION, onChange: function ( v ) { update( { bgPosition: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Size', 'bloquix' ), value: item.bgSize || 'cover', options: BG_SIZE, onChange: function ( v ) { update( { bgSize: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Repeat', 'bloquix' ), value: item.bgRepeat || 'no-repeat', options: BG_REPEAT, onChange: function ( v ) { update( { bgRepeat: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.RangeControl, { label: __( 'Overlay (%)', 'bloquix' ), help: __( 'Darkens the image so the text stays readable.', 'bloquix' ), min: 0, max: 90, value: ( item.bgOverlay == null ? 40 : item.bgOverlay ), onChange: function ( v ) { update( { bgOverlay: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { key: 'ovtype', label: __( 'Overlay type', 'bloquix' ), value: item.bgOverlayType || 'color', options: [ { label: __( 'Color', 'bloquix' ), value: 'color' }, { label: __( 'Gradient', 'bloquix' ), value: 'gradient' } ], onChange: function ( v ) { update( { bgOverlayType: v } ); }, __nextHasNoMarginBottom: true } ),
 			( ( item.bgOverlayType || 'color' ) === 'color' ) ? el(
 				C.BaseControl,
-				{ key: 'ovcolor', label: __( 'Overlay color', 'tunet-core' ), help: __( 'Defaults to the theme ink color.', 'tunet-core' ), __nextHasNoMarginBottom: true },
+				{ key: 'ovcolor', label: __( 'Overlay color', 'bloquix' ), help: __( 'Defaults to the theme ink color.', 'bloquix' ), __nextHasNoMarginBottom: true },
 				el( C.ColorPalette, {
 					colors: palette || [],
 					value: item.bgOverlayColor || '',
@@ -113,7 +113,7 @@
 			) : null,
 			( item.bgOverlayType === 'gradient' ) ? el(
 				C.BaseControl,
-				{ key: 'ovgrad', label: __( 'Overlay gradient', 'tunet-core' ), help: __( 'A CSS gradient over the image (for a directional scrim).', 'tunet-core' ), __nextHasNoMarginBottom: true },
+				{ key: 'ovgrad', label: __( 'Overlay gradient', 'bloquix' ), help: __( 'A CSS gradient over the image (for a directional scrim).', 'bloquix' ), __nextHasNoMarginBottom: true },
 				el( C.GradientPicker, {
 					value: item.bgOverlayGradient || null,
 					gradients: gradients || [],
@@ -127,29 +127,29 @@
 		return el(
 			Fragment,
 			{},
-			el( window.tunet.MediaField, {
+			el( window.bloquix.MediaField, {
 				id: item.imageId,
 				url: item.imageUrl,
 				onSelect: function ( media ) { update( { imageId: media.id, imageUrl: media.url } ); },
 				onRemove: function () { update( { imageId: 0, imageUrl: '' } ); },
-				setLabel: __( 'Set image', 'tunet-core' ),
-				replaceLabel: __( 'Replace image', 'tunet-core' )
+				setLabel: __( 'Set image', 'bloquix' ),
+				replaceLabel: __( 'Replace image', 'bloquix' )
 			} ),
 			bgFields( item, update, palette, gradients ),
-			el( C.TextControl, { label: __( 'Title', 'tunet-core' ), value: item.title, onChange: function ( v ) { update( { title: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.SelectControl, { label: __( 'Title alignment', 'tunet-core' ), value: item.titleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { titleAlign: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.ToggleControl, { label: __( 'Subtitle before title', 'tunet-core' ), checked: !! item.subtitleFirst, onChange: function ( v ) { update( { subtitleFirst: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.TextControl, { label: __( 'Subtitle', 'tunet-core' ), value: item.subtitle, onChange: function ( v ) { update( { subtitle: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.SelectControl, { label: __( 'Subtitle alignment', 'tunet-core' ), value: item.subtitleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { subtitleAlign: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.TextareaControl, { label: __( 'Description', 'tunet-core' ), value: item.description, onChange: function ( v ) { update( { description: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.SelectControl, { label: __( 'Description alignment', 'tunet-core' ), value: item.descAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { descAlign: v } ); }, __nextHasNoMarginBottom: true } ),
-			el( C.SelectControl, { label: __( 'Content alignment (slide)', 'tunet-core' ), value: item.contentAlign, options: ALIGN_CONTENT, onChange: function ( v ) { update( { contentAlign: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.TextControl, { label: __( 'Title', 'bloquix' ), value: item.title, onChange: function ( v ) { update( { title: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Title alignment', 'bloquix' ), value: item.titleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { titleAlign: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.ToggleControl, { label: __( 'Subtitle before title', 'bloquix' ), checked: !! item.subtitleFirst, onChange: function ( v ) { update( { subtitleFirst: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.TextControl, { label: __( 'Subtitle', 'bloquix' ), value: item.subtitle, onChange: function ( v ) { update( { subtitle: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Subtitle alignment', 'bloquix' ), value: item.subtitleAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { subtitleAlign: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.TextareaControl, { label: __( 'Description', 'bloquix' ), value: item.description, onChange: function ( v ) { update( { description: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Description alignment', 'bloquix' ), value: item.descAlign, options: ALIGN_FIELD, onChange: function ( v ) { update( { descAlign: v } ); }, __nextHasNoMarginBottom: true } ),
+			el( C.SelectControl, { label: __( 'Content alignment (slide)', 'bloquix' ), value: item.contentAlign, options: ALIGN_CONTENT, onChange: function ( v ) { update( { contentAlign: v } ); }, __nextHasNoMarginBottom: true } ),
 			ctaField( item, 0, update ),
 			ctaField( item, 1, update )
 		);
 	}
 
-	registerBlockType( 'tunet/content-slider', {
+	registerBlockType( 'bloquix/content-slider', {
 		edit: function ( props ) {
 			var attrs = props.attributes;
 			var setAttributes = props.setAttributes;
@@ -177,30 +177,30 @@
 					{},
 					el(
 						C.PanelBody,
-						{ title: __( 'Slides', 'tunet-core' ), initialOpen: true },
-						el( window.tunet.RepeaterControl, {
+						{ title: __( 'Slides', 'bloquix' ), initialOpen: true },
+						el( window.bloquix.RepeaterControl, {
 							items: attrs.items,
 							onChange: function ( items ) { setAttributes( { items: items } ); },
 							renderItem: function ( item, i, update ) { return renderItem( item, i, update, palette, gradients ); },
 							newItem: newSlide,
 							onActivate: setActiveSlide,
-							addLabel: __( 'Add slide', 'tunet-core' ),
-							itemLabel: function ( it, i ) { return it.title || ( __( 'Slide', 'tunet-core' ) + ' ' + ( i + 1 ) ); }
+							addLabel: __( 'Add slide', 'bloquix' ),
+							itemLabel: function ( it, i ) { return it.title || ( __( 'Slide', 'bloquix' ) + ' ' + ( i + 1 ) ); }
 						} )
 					),
 					el(
 						C.PanelBody,
-						{ title: __( 'Carousel', 'tunet-core' ), initialOpen: false },
-						el( C.RangeControl, { label: __( 'Slides per view', 'tunet-core' ), min: 1, max: 4, value: attrs.slidesPerView, onChange: function ( v ) { setAttributes( { slidesPerView: v } ); }, __nextHasNoMarginBottom: true } ),
-						el( C.RangeControl, { label: __( 'Space between (px)', 'tunet-core' ), min: 0, max: 80, value: attrs.spaceBetween, onChange: function ( v ) { setAttributes( { spaceBetween: v } ); }, __nextHasNoMarginBottom: true } ),
-						el( C.ToggleControl, { label: __( 'Infinite loop', 'tunet-core' ), checked: attrs.loop, onChange: function ( v ) { setAttributes( { loop: v } ); }, __nextHasNoMarginBottom: true } ),
-						el( C.ToggleControl, { label: __( 'Autoplay', 'tunet-core' ), checked: attrs.autoplay, onChange: function ( v ) { setAttributes( { autoplay: v } ); }, __nextHasNoMarginBottom: true } ),
-						el( C.ToggleControl, { label: __( 'Pagination', 'tunet-core' ), checked: attrs.pagination, onChange: function ( v ) { setAttributes( { pagination: v } ); }, __nextHasNoMarginBottom: true } ),
-						el( C.ToggleControl, { label: __( 'Navigation arrows', 'tunet-core' ), checked: attrs.navigation, onChange: function ( v ) { setAttributes( { navigation: v } ); }, __nextHasNoMarginBottom: true } ),
+						{ title: __( 'Carousel', 'bloquix' ), initialOpen: false },
+						el( C.RangeControl, { label: __( 'Slides per view', 'bloquix' ), min: 1, max: 4, value: attrs.slidesPerView, onChange: function ( v ) { setAttributes( { slidesPerView: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( C.RangeControl, { label: __( 'Space between (px)', 'bloquix' ), min: 0, max: 80, value: attrs.spaceBetween, onChange: function ( v ) { setAttributes( { spaceBetween: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( C.ToggleControl, { label: __( 'Infinite loop', 'bloquix' ), checked: attrs.loop, onChange: function ( v ) { setAttributes( { loop: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( C.ToggleControl, { label: __( 'Autoplay', 'bloquix' ), checked: attrs.autoplay, onChange: function ( v ) { setAttributes( { autoplay: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( C.ToggleControl, { label: __( 'Pagination', 'bloquix' ), checked: attrs.pagination, onChange: function ( v ) { setAttributes( { pagination: v } ); }, __nextHasNoMarginBottom: true } ),
+						el( C.ToggleControl, { label: __( 'Navigation arrows', 'bloquix' ), checked: attrs.navigation, onChange: function ( v ) { setAttributes( { navigation: v } ); }, __nextHasNoMarginBottom: true } ),
 						attrs.navigation
 							? el( C.ToggleControl, {
-								label: __( 'Arrows outside', 'tunet-core' ),
-								help: __( 'Place the arrows in the side margins instead of over the slides.', 'tunet-core' ),
+								label: __( 'Arrows outside', 'bloquix' ),
+								help: __( 'Place the arrows in the side margins instead of over the slides.', 'bloquix' ),
 								checked: !! attrs.arrowsOutside,
 								onChange: function ( v ) { setAttributes( { arrowsOutside: v } ); },
 								__nextHasNoMarginBottom: true
@@ -212,11 +212,11 @@
 					'div',
 					blockProps,
 					( attrs.items && attrs.items.length )
-						? el( window.tunet.CarouselPreview, { block: 'tunet/content-slider', attributes: attrs, activeIndex: activeSlide } )
+						? el( window.bloquix.CarouselPreview, { block: 'bloquix/content-slider', attributes: attrs, activeIndex: activeSlide } )
 						: el( C.Placeholder, {
 							icon: 'images-alt',
-							label: __( 'Content Slider', 'tunet-core' ),
-							instructions: __( 'Add slides from the “Slides” panel in the block sidebar.', 'tunet-core' )
+							label: __( 'Content Slider', 'bloquix' ),
+							instructions: __( 'Add slides from the “Slides” panel in the block sidebar.', 'bloquix' )
 						} )
 				)
 			);

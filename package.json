@@ -1,8 +1,8 @@
 {
-  "name": "tunet-core",
+  "name": "bloquix",
   "version": "0.1.0",
   "private": true,
-  "description": "Motor del ecosistema Tunet: extensiones tf*, blocks propios y runtime de efectos. Build con @wordpress/scripts y assets condicionales por block.",
+  "description": "BloqUIX: extensiones tf*, blocks propios y runtime de efectos. Build con @wordpress/scripts y assets condicionales por block.",
   "author": "TUNET Design <info@tunetdesign.com>",
   "license": "GPL-2.0-or-later",
   "scripts": {
@@ -16,13 +16,13 @@
     "@wordpress/scripts": "^30.0.0"
   },
   "comment": "PIEZA 2+: cada block propio y el bundle de extensiones tf* se compilarán de src/ a build/. block.json declarará viewScript/style por block para que should_load_separate_core_block_assets (ya activado en PHP) cargue solo lo presente en la página.",
-  "homepage": "https://tunetdesign.com/docs/tunet-core/",
+  "homepage": "https://tunetdesign.com/docs/bloquix/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aitunet/tunet-core.git"
+    "url": "git+https://github.com/aitunet/bloquix.git"
   },
   "bugs": {
-    "url": "https://github.com/aitunet/tunet-core/issues",
+    "url": "https://github.com/aitunet/bloquix/issues",
     "email": "info@tunetdesign.com"
   }
 }

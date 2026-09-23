@@ -1,6 +1,6 @@
 <?php
 /**
- * Render del block tunet/marquee (dinámico).
+ * Render del block bloquix/marquee (dinámico).
  *
  * Itera los bloques internos e interleava un separador tras cada ítem (incluido
  * el último → también cae en la costura del loop). Duplica el contenido en dos
@@ -10,61 +10,61 @@
  *
  * Variables disponibles: $attributes, $content, $block.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$tunet_speed     = isset( $attributes['speed'] ) ? max( 1, (float) $attributes['speed'] ) : 30;
-$tunet_gap       = isset( $attributes['gap'] ) ? max( 0, (float) $attributes['gap'] ) : 3;
-$tunet_direction = ( isset( $attributes['direction'] ) && 'right' === $attributes['direction'] ) ? 'right' : 'left';
-$tunet_pause     = ! empty( $attributes['pauseOnHover'] );
+$bloquix_speed     = isset( $attributes['speed'] ) ? max( 1, (float) $attributes['speed'] ) : 30;
+$bloquix_gap       = isset( $attributes['gap'] ) ? max( 0, (float) $attributes['gap'] ) : 3;
+$bloquix_direction = ( isset( $attributes['direction'] ) && 'right' === $attributes['direction'] ) ? 'right' : 'left';
+$bloquix_pause     = ! empty( $attributes['pauseOnHover'] );
 
 // --- Separador (opt-in) ---------------------------------------------------
-$tunet_sep_type = isset( $attributes['separator'] ) ? sanitize_key( $attributes['separator'] ) : 'none';
-$tunet_sep      = '';
-if ( 'icon' === $tunet_sep_type ) {
+$bloquix_sep_type = isset( $attributes['separator'] ) ? sanitize_key( $attributes['separator'] ) : 'none';
+$bloquix_sep      = '';
+if ( 'icon' === $bloquix_sep_type ) {
 	require_once __DIR__ . '/../icon/icons.php';
-	$tunet_sep_icon = isset( $attributes['separatorIcon'] ) ? sanitize_key( $attributes['separatorIcon'] ) : '';
-	$tunet_icon_svg = tunet_core_icon_svg(
-		$tunet_sep_icon,
+	$bloquix_sep_icon = isset( $attributes['separatorIcon'] ) ? sanitize_key( $attributes['separatorIcon'] ) : '';
+	$bloquix_icon_svg = bloquix_icon_svg(
+		$bloquix_sep_icon,
 		array(
 			'size'   => 0, // Lo dimensiona el CSS (1em).
 			'stroke' => 2,
-			'class'  => 'tunet-marquee__sep-icon',
+			'class'  => 'bloquix-marquee__sep-icon',
 		)
 	);
-	if ( '' !== $tunet_icon_svg ) {
-		$tunet_sep = '<span class="tunet-marquee__sep tunet-marquee__sep--icon" aria-hidden="true">' . $tunet_icon_svg . '</span>';
+	if ( '' !== $bloquix_icon_svg ) {
+		$bloquix_sep = '<span class="bloquix-marquee__sep bloquix-marquee__sep--icon" aria-hidden="true">' . $bloquix_icon_svg . '</span>';
 	}
-} elseif ( in_array( $tunet_sep_type, array( 'dot', 'dash', 'slash', 'pipe' ), true ) ) {
-	$tunet_sep = '<span class="tunet-marquee__sep tunet-marquee__sep--' . $tunet_sep_type . '" aria-hidden="true"></span>';
+} elseif ( in_array( $bloquix_sep_type, array( 'dot', 'dash', 'slash', 'pipe' ), true ) ) {
+	$bloquix_sep = '<span class="bloquix-marquee__sep bloquix-marquee__sep--' . $bloquix_sep_type . '" aria-hidden="true"></span>';
 }
 
 // --- Ítems + separador ----------------------------------------------------
-$tunet_items = '';
+$bloquix_items = '';
 if ( isset( $block ) && $block instanceof WP_Block && ! empty( $block->inner_blocks ) ) {
-	foreach ( $block->inner_blocks as $tunet_inner ) {
-		$tunet_items .= $tunet_inner->render();
-		if ( '' !== $tunet_sep ) {
-			$tunet_items .= $tunet_sep;
+	foreach ( $block->inner_blocks as $bloquix_inner ) {
+		$bloquix_items .= $bloquix_inner->render();
+		if ( '' !== $bloquix_sep ) {
+			$bloquix_items .= $bloquix_sep;
 		}
 	}
 } else {
-	$tunet_items = $content; // Defensivo: sin inner_blocks, volcar el contenido tal cual.
+	$bloquix_items = $content; // Defensivo: sin inner_blocks, volcar el contenido tal cual.
 }
 
-$tunet_classes = 'tunet-marquee is-' . $tunet_direction;
-if ( $tunet_pause ) {
-	$tunet_classes .= ' is-pausable';
+$bloquix_classes = 'bloquix-marquee is-' . $bloquix_direction;
+if ( $bloquix_pause ) {
+	$bloquix_classes .= ' is-pausable';
 }
 
-$tunet_style = sprintf(
+$bloquix_style = sprintf(
 	'--tnt-marquee-duration:%ss;--tnt-marquee-gap:%srem;',
-	(float) $tunet_speed,
-	(float) $tunet_gap
+	(float) $bloquix_speed,
+	(float) $bloquix_gap
 );
 
 // Color del separador (opt-in). Se normaliza a un valor que sobreviva a
@@ -72,25 +72,25 @@ $tunet_style = sprintf(
 // DESCARTA después en el inline-style y el separador volvía en silencio al
 // primary del theme (el control lleva enableAlpha, así que pasaba de verdad).
 // Vacío ⇒ el CSS resuelve var(--tnt-color-primary), que es el degradado correcto.
-$tunet_sep_color = isset( $attributes['separatorColor'] ) ? (string) $attributes['separatorColor'] : '';
-$tunet_sep_color = tunet_core_safe_css_color( $tunet_sep_color );
-$tunet_sep_color = preg_replace( '/[^a-zA-Z0-9#(),.%\s\-]/', '', (string) $tunet_sep_color );
-if ( 'none' !== $tunet_sep_type && '' !== trim( (string) $tunet_sep_color ) ) {
-	$tunet_style .= '--tnt-marquee-sep-color:' . $tunet_sep_color . ';';
+$bloquix_sep_color = isset( $attributes['separatorColor'] ) ? (string) $attributes['separatorColor'] : '';
+$bloquix_sep_color = bloquix_safe_css_color( $bloquix_sep_color );
+$bloquix_sep_color = preg_replace( '/[^a-zA-Z0-9#(),.%\s\-]/', '', (string) $bloquix_sep_color );
+if ( 'none' !== $bloquix_sep_type && '' !== trim( (string) $bloquix_sep_color ) ) {
+	$bloquix_style .= '--tnt-marquee-sep-color:' . $bloquix_sep_color . ';';
 }
 
-$tunet_wrapper = get_block_wrapper_attributes(
+$bloquix_wrapper = get_block_wrapper_attributes(
 	array(
-		'class' => $tunet_classes,
-		'style' => $tunet_style,
+		'class' => $bloquix_classes,
+		'style' => $bloquix_style,
 	)
 );
 ?>
-<div <?php echo $tunet_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?> data-pause-label="<?php echo esc_attr__( 'Pause', 'tunet-core' ); ?>" data-play-label="<?php echo esc_attr__( 'Play', 'tunet-core' ); ?>">
-	<div class="tunet-marquee__viewport">
-		<div class="tunet-marquee__track">
-			<div class="tunet-marquee__group"><?php echo $tunet_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML de bloques internos ya renderizado + separador del motor. ?></div>
-			<div class="tunet-marquee__group" aria-hidden="true" inert><?php echo $tunet_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- duplicado decorativo. ?></div>
+<div <?php echo $bloquix_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?> data-pause-label="<?php echo esc_attr__( 'Pause', 'bloquix' ); ?>" data-play-label="<?php echo esc_attr__( 'Play', 'bloquix' ); ?>">
+	<div class="bloquix-marquee__viewport">
+		<div class="bloquix-marquee__track">
+			<div class="bloquix-marquee__group"><?php echo $bloquix_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML de bloques internos ya renderizado + separador del motor. ?></div>
+			<div class="bloquix-marquee__group" aria-hidden="true" inert><?php echo $bloquix_items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- duplicado decorativo. ?></div>
 		</div>
 	</div>
 	<?php /* El control de pausa/play (WCAG 2.2.2) lo inyecta view.js (progressive enhancement); sin JS no hay animación problemática que pausar en la mayoría de casos, y con reduced-motion la banda es estática. */ ?>

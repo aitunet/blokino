@@ -1,45 +1,45 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/marquee — editor
+ * BloqUIX · Block bloquix/marquee — editor
  * Preview aproximado de separadores + picker de icono con scroll vertical.
  * El render fiel (incl. icono exacto) es el del front (render.php + style.css).
  * ========================================================================== */
-.tunet-marquee-editor .block-editor-block-list__layout {
+.bloquix-marquee-editor .block-editor-block-list__layout {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: var( --tnt-marquee-gap, 3rem );
 }
-.tunet-marquee-editor[class*="is-sep-"]:not( .is-sep-none ) .block-editor-block-list__layout > *:not( :last-child )::after {
+.bloquix-marquee-editor[class*="is-sep-"]:not( .is-sep-none ) .block-editor-block-list__layout > *:not( :last-child )::after {
 	content: "";
 	display: inline-flex;
 	align-items: center;
 	color: var( --tnt-marquee-sep-color, var( --tnt-color-primary, currentColor ) );
 }
-.tunet-marquee-editor.is-sep-dot .block-editor-block-list__layout > *:not( :last-child )::after,
-.tunet-marquee-editor.is-sep-icon .block-editor-block-list__layout > *:not( :last-child )::after {
+.bloquix-marquee-editor.is-sep-dot .block-editor-block-list__layout > *:not( :last-child )::after,
+.bloquix-marquee-editor.is-sep-icon .block-editor-block-list__layout > *:not( :last-child )::after {
 	inline-size: 7px;
 	block-size: 7px;
 	border-radius: 50%;
 	background: currentColor;
 }
-.tunet-marquee-editor.is-sep-icon .block-editor-block-list__layout > *:not( :last-child )::after { opacity: 0.6; }
-.tunet-marquee-editor.is-sep-dash .block-editor-block-list__layout > *:not( :last-child )::after { content: "\2014"; }
-.tunet-marquee-editor.is-sep-slash .block-editor-block-list__layout > *:not( :last-child )::after { content: "/"; }
-.tunet-marquee-editor.is-sep-pipe .block-editor-block-list__layout > *:not( :last-child )::after { content: "|"; }
+.bloquix-marquee-editor.is-sep-icon .block-editor-block-list__layout > *:not( :last-child )::after { opacity: 0.6; }
+.bloquix-marquee-editor.is-sep-dash .block-editor-block-list__layout > *:not( :last-child )::after { content: "\2014"; }
+.bloquix-marquee-editor.is-sep-slash .block-editor-block-list__layout > *:not( :last-child )::after { content: "/"; }
+.bloquix-marquee-editor.is-sep-pipe .block-editor-block-list__layout > *:not( :last-child )::after { content: "|"; }
 
 /* Picker de icono del separador — categorías + SCROLL VERTICAL. */
-.tunet-marquee-editor__sep-picker {
+.bloquix-marquee-editor__sep-picker {
 	max-block-size: 220px;
 	overflow-y: auto;
 	margin-block-start: 8px;
 	padding: 2px;
 }
-.tunet-marquee-editor__sep-grid {
+.bloquix-marquee-editor__sep-grid {
 	display: grid;
 	grid-template-columns: repeat( 6, 1fr );
 	gap: 4px;
 }
-.tunet-marquee-editor__sep-cat {
+.bloquix-marquee-editor__sep-cat {
 	margin: 10px 0 4px;
 	font-size: 11px;
 	font-weight: 600;
@@ -47,8 +47,8 @@
 	letter-spacing: 0.04em;
 	color: #757575;
 }
-.tunet-marquee-editor__sep-cat:first-child { margin-top: 0; }
-.tunet-marquee-editor__sep-picker button {
+.bloquix-marquee-editor__sep-cat:first-child { margin-top: 0; }
+.bloquix-marquee-editor__sep-picker button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -59,16 +59,16 @@
 	background: #fff;
 	cursor: pointer;
 }
-.tunet-marquee-editor__sep-picker button.is-active {
+.bloquix-marquee-editor__sep-picker button.is-active {
 	outline: 2px solid var( --wp-admin-theme-color, #007cba );
 	outline-offset: -1px;
 }
-.tunet-marquee-editor__sep-picker svg { inline-size: 20px; block-size: 20px; }
+.bloquix-marquee-editor__sep-picker svg { inline-size: 20px; block-size: 20px; }
 
 /* Nota informativa del inspector (comportamiento que no se puede ver en el
    editor: el scroll de la banda, el autoplay del vídeo, reduced-motion).
    Sin esto el block parece roto y se buscan opciones que no existen. */
-.tunet-editor-note {
+.bloquix-editor-note {
 	margin: 4px 0 0;
 	font-size: 12px;
 	line-height: 1.5;

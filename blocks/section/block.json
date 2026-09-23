@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "tunet/section",
+	"name": "bloquix/section",
 	"version": "0.4.1",
-	"title": "Tunet Section",
+	"title": "BloqUIX Section",
 	"category": "design",
 	"icon": "cover-image",
 	"description": "Section with advanced backgrounds (animated gradient, mesh, image, video), overlay and shape dividers. The base for premium heroes.",
@@ -15,7 +15,7 @@
 		"gradient",
 		"divider"
 	],
-	"textdomain": "tunet-core",
+	"textdomain": "bloquix",
 	"supports": {
 		"html": false,
 		"anchor": true,

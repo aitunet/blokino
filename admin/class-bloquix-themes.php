@@ -1,8 +1,8 @@
 <?php
 /**
- * Tunet Core · Themes screen — the premium themes built for this engine.
+ * BloqUIX · Themes screen — the premium themes built for this engine.
  *
- * A dedicated submenu (Tunet Core → Themes) that lists the themes sold on
+ * A dedicated submenu (BloqUIX → Themes) that lists the themes sold on
  * tunetdesign.com from the store's public catalog endpoint, so the list grows
  * with the store and never needs a plugin release (CLAUDE.md §12). Built to the
  * wordpress.org guidelines: no notices, no dashboard widgets, no nags — the only
@@ -10,7 +10,7 @@
  * hours, with a neutral user agent (nothing about this site is sent); and the
  * plugin keeps every feature whether or not a Tunet theme is active.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,11 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Themes screen.
  */
-class Tunet_Core_Themes {
+class Bloquix_Themes {
 
-	const MENU_SLUG  = 'tunet-themes';
+	const MENU_SLUG  = 'bloquix-themes';
 	const CAPABILITY = 'manage_options';
-	const TRANSIENT  = 'tunet_core_themes_catalog';
+	const TRANSIENT  = 'bloquix_themes_catalog';
 	const ENDPOINT   = 'https://tunetdesign.com/wp-json/tunet/v1/themes';
 	const STORE_URL  = 'https://tunetdesign.com/downloads/';
 	const TTL        = 12 * HOUR_IN_SECONDS;
@@ -37,18 +37,18 @@ class Tunet_Core_Themes {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_menu' ), 13 );
-		add_action( 'admin_post_tunet_themes_refresh', array( $this, 'handle_refresh' ) );
+		add_action( 'admin_post_bloquix_themes_refresh', array( $this, 'handle_refresh' ) );
 	}
 
 	/**
-	 * Submenu under Tunet Core, after Demo and the `tunet_core_admin_menu` hook
+	 * Submenu under BloqUIX, after Demo and the `bloquix_admin_menu` hook
 	 * (priority 13: Settings/Tools → Demo → theme screens → Themes).
 	 */
 	public function register_menu() {
 		add_submenu_page(
-			Tunet_Core_Admin::MENU_SLUG,
-			__( 'Themes', 'tunet-core' ),
-			__( 'Themes', 'tunet-core' ),
+			Bloquix_Admin::MENU_SLUG,
+			__( 'Themes', 'bloquix' ),
+			__( 'Themes', 'bloquix' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
 			array( $this, 'render_page' )
@@ -66,12 +66,12 @@ class Tunet_Core_Themes {
 
 	/**
 	 * Catalog endpoint. Filterable so a staging or local store can be pointed at
-	 * (`add_filter( 'tunet_core_themes_endpoint', fn() => 'http://tunet.local/wp-json/tunet/v1/themes' )`).
+	 * (`add_filter( 'bloquix_themes_endpoint', fn() => 'http://tunet.local/wp-json/tunet/v1/themes' )`).
 	 *
 	 * @return string
 	 */
 	public static function endpoint() {
-		return (string) apply_filters( 'tunet_core_themes_endpoint', self::ENDPOINT );
+		return (string) apply_filters( 'bloquix_themes_endpoint', self::ENDPOINT );
 	}
 
 	/**
@@ -90,21 +90,21 @@ class Tunet_Core_Themes {
 			// A failed fetch is remembered for a few minutes so a site without outbound
 			// access does not wait for the timeout on every visit ("Try again" bypasses it).
 			if ( get_transient( self::TRANSIENT . '_fail' ) ) {
-				return new WP_Error( 'tunet_themes_offline', __( 'The theme catalog is not available right now.', 'tunet-core' ) );
+				return new WP_Error( 'bloquix_themes_offline', __( 'The theme catalog is not available right now.', 'bloquix' ) );
 			}
 		}
 		$response = wp_remote_get(
 			self::endpoint(),
 			array(
 				'timeout'    => 8,
-				'user-agent' => 'Tunet Core/' . ( defined( 'TUNET_CORE_VERSION' ) ? TUNET_CORE_VERSION : '0' ), // Neutral: WP's default UA carries the site URL.
+				'user-agent' => 'BloqUIX/' . ( defined( 'BLOQUIX_VERSION' ) ? BLOQUIX_VERSION : '0' ), // Neutral: WP's default UA carries the site URL.
 				'headers'    => array( 'Accept' => 'application/json' ),
 			)
 		);
 		$items = is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ? null : json_decode( wp_remote_retrieve_body( $response ), true );
 		if ( ! is_array( $items ) ) {
 			set_transient( self::TRANSIENT . '_fail', 1, 10 * MINUTE_IN_SECONDS );
-			return is_wp_error( $response ) ? $response : new WP_Error( 'tunet_themes_http', __( 'The theme catalog is not available right now.', 'tunet-core' ) );
+			return is_wp_error( $response ) ? $response : new WP_Error( 'bloquix_themes_http', __( 'The theme catalog is not available right now.', 'bloquix' ) );
 		}
 		delete_transient( self::TRANSIENT . '_fail' );
 		$clean = array();
@@ -141,9 +141,9 @@ class Tunet_Core_Themes {
 	 */
 	public function handle_refresh() {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'tunet-core' ) );
+			wp_die( esc_html__( 'Permission denied.', 'bloquix' ) );
 		}
-		check_admin_referer( 'tunet_themes_refresh' );
+		check_admin_referer( 'bloquix_themes_refresh' );
 		delete_transient( self::TRANSIENT );
 		delete_transient( self::TRANSIENT . '_fail' );
 		wp_safe_redirect( self::url() );
@@ -160,7 +160,7 @@ class Tunet_Core_Themes {
 	private static function out( $url, $content ) {
 		return add_query_arg(
 			array(
-				'utm_source'   => 'tunet-core',
+				'utm_source'   => 'bloquix',
 				'utm_medium'   => 'plugin',
 				'utm_campaign' => 'themes-screen',
 				'utm_content'  => $content,
@@ -205,34 +205,34 @@ class Tunet_Core_Themes {
 	 */
 	private static function render_free_card() {
 		$state = self::local_state( self::FREE_THEME );
-		$shot  = TUNET_CORE_URL . 'admin/img/tunet-starter.webp';
+		$shot  = BLOQUIX_URL . 'admin/img/tunet-starter.webp';
 		?>
-		<article class="tunet-theme-card tunet-theme-card--free<?php echo $state ? ' is-' . esc_attr( $state ) : ''; ?>">
-			<a class="tunet-theme-card__shot" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+		<article class="bloquix-theme-card bloquix-theme-card--free<?php echo $state ? ' is-' . esc_attr( $state ) : ''; ?>">
+			<a class="bloquix-theme-card__shot" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
 				<img src="<?php echo esc_url( $shot ); ?>" alt="" loading="lazy" />
 				<?php if ( 'active' === $state ) : ?>
-					<span class="tunet-theme-card__badge tunet-theme-card__badge--active"><?php esc_html_e( 'Active', 'tunet-core' ); ?></span>
+					<span class="bloquix-theme-card__badge bloquix-theme-card__badge--active"><?php esc_html_e( 'Active', 'bloquix' ); ?></span>
 				<?php elseif ( 'installed' === $state ) : ?>
-					<span class="tunet-theme-card__badge"><?php esc_html_e( 'Installed', 'tunet-core' ); ?></span>
+					<span class="bloquix-theme-card__badge"><?php esc_html_e( 'Installed', 'bloquix' ); ?></span>
 				<?php else : ?>
-					<span class="tunet-theme-card__badge"><?php esc_html_e( 'Free', 'tunet-core' ); ?></span>
+					<span class="bloquix-theme-card__badge"><?php esc_html_e( 'Free', 'bloquix' ); ?></span>
 				<?php endif; ?>
 			</a>
-			<div class="tunet-theme-card__body">
-				<div class="tunet-theme-card__head">
+			<div class="bloquix-theme-card__body">
+				<div class="bloquix-theme-card__head">
 					<h2>Tunet Starter</h2>
-					<span class="tunet-theme-card__price tunet-theme-card__price--free"><?php esc_html_e( 'Free', 'tunet-core' ); ?></span>
+					<span class="bloquix-theme-card__price bloquix-theme-card__price--free"><?php esc_html_e( 'Free', 'bloquix' ); ?></span>
 				</div>
-				<p class="tunet-theme-card__tagline"><?php esc_html_e( 'Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates — and every effect of this engine.', 'tunet-core' ); ?></p>
-				<div class="tunet-theme-card__actions">
+				<p class="bloquix-theme-card__tagline"><?php esc_html_e( 'Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates — and every effect of this engine.', 'bloquix' ); ?></p>
+				<div class="bloquix-theme-card__actions">
 					<?php if ( 'active' === $state ) : ?>
-						<a class="button button-primary" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Open the Site Editor', 'tunet-core' ); ?></a>
+						<a class="button button-primary" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Open the Site Editor', 'bloquix' ); ?></a>
 					<?php elseif ( 'installed' === $state ) : ?>
-						<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'themes.php?action=activate&stylesheet=' . self::FREE_THEME ), 'switch-theme_' . self::FREE_THEME ) ); ?>"><?php esc_html_e( 'Activate', 'tunet-core' ); ?></a>
+						<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'themes.php?action=activate&stylesheet=' . self::FREE_THEME ), 'switch-theme_' . self::FREE_THEME ) ); ?>"><?php esc_html_e( 'Activate', 'bloquix' ); ?></a>
 					<?php else : ?>
-						<a class="button button-primary" href="<?php echo esc_url( self::free_theme_install_url() ); ?>"><?php esc_html_e( 'Install from WordPress.org', 'tunet-core' ); ?></a>
+						<a class="button button-primary" href="<?php echo esc_url( self::free_theme_install_url() ); ?>"><?php esc_html_e( 'Install from WordPress.org', 'bloquix' ); ?></a>
 					<?php endif; ?>
-					<a class="button" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Details ↗', 'tunet-core' ); ?></a>
+					<a class="button" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Details ↗', 'bloquix' ); ?></a>
 				</div>
 			</div>
 		</article>
@@ -247,86 +247,86 @@ class Tunet_Core_Themes {
 			return;
 		}
 		$catalog  = self::catalog();
-		$demo_url = admin_url( 'admin.php?page=' . Tunet_Core_Demo::MENU_SLUG );
-		$refresh  = wp_nonce_url( admin_url( 'admin-post.php?action=tunet_themes_refresh' ), 'tunet_themes_refresh' );
+		$demo_url = admin_url( 'admin.php?page=' . Bloquix_Demo::MENU_SLUG );
+		$refresh  = wp_nonce_url( admin_url( 'admin-post.php?action=bloquix_themes_refresh' ), 'bloquix_themes_refresh' );
 		?>
-		<div class="wrap tunet-admin tunet-themes">
-			<h1><?php esc_html_e( 'Tunet Core · Themes', 'tunet-core' ); ?></h1>
-			<p class="description tunet-themes__lede">
-				<?php esc_html_e( 'Themes designed for this engine — Tunet Starter is free on WordPress.org, the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. Tunet Core stays free and works with any theme.', 'tunet-core' ); ?>
+		<div class="wrap bloquix-admin bloquix-themes">
+			<h1><?php esc_html_e( 'BloqUIX · Themes', 'bloquix' ); ?></h1>
+			<p class="description bloquix-themes__lede">
+				<?php esc_html_e( 'Themes designed for this engine — Tunet Starter is free on WordPress.org, the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. BloqUIX stays free and works with any theme.', 'bloquix' ); ?>
 			</p>
 
-			<div class="tunet-themes__grid tunet-themes__grid--free">
+			<div class="bloquix-themes__grid bloquix-themes__grid--free">
 				<?php self::render_free_card(); ?>
 			</div>
 
-			<h2 class="tunet-themes__h2"><?php esc_html_e( 'Premium themes', 'tunet-core' ); ?></h2>
+			<h2 class="bloquix-themes__h2"><?php esc_html_e( 'Premium themes', 'bloquix' ); ?></h2>
 			<?php if ( is_wp_error( $catalog ) ) : ?>
-				<div class="tunet-demo-empty">
+				<div class="bloquix-demo-empty">
 					<span class="dashicons dashicons-cloud" aria-hidden="true"></span>
 					<div>
-						<p><strong><?php esc_html_e( 'The catalog could not be loaded.', 'tunet-core' ); ?></strong></p>
+						<p><strong><?php esc_html_e( 'The catalog could not be loaded.', 'bloquix' ); ?></strong></p>
 						<p class="description">
-							<a href="<?php echo esc_url( self::out( self::STORE_URL, 'offline' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Browse the themes on tunetdesign.com ↗', 'tunet-core' ); ?></a>
-							· <a href="<?php echo esc_url( $refresh ); ?>"><?php esc_html_e( 'Try again', 'tunet-core' ); ?></a>
+							<a href="<?php echo esc_url( self::out( self::STORE_URL, 'offline' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Browse the themes on tunetdesign.com ↗', 'bloquix' ); ?></a>
+							· <a href="<?php echo esc_url( $refresh ); ?>"><?php esc_html_e( 'Try again', 'bloquix' ); ?></a>
 						</p>
 					</div>
 				</div>
 			<?php elseif ( empty( $catalog ) ) : ?>
-				<div class="tunet-demo-empty">
+				<div class="bloquix-demo-empty">
 					<span class="dashicons dashicons-info-outline" aria-hidden="true"></span>
 					<div>
-						<p><strong><?php esc_html_e( 'No themes listed yet.', 'tunet-core' ); ?></strong></p>
-						<p class="description"><a href="<?php echo esc_url( self::out( self::STORE_URL, 'empty' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Visit tunetdesign.com ↗', 'tunet-core' ); ?></a></p>
+						<p><strong><?php esc_html_e( 'No themes listed yet.', 'bloquix' ); ?></strong></p>
+						<p class="description"><a href="<?php echo esc_url( self::out( self::STORE_URL, 'empty' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Visit tunetdesign.com ↗', 'bloquix' ); ?></a></p>
 					</div>
 				</div>
 			<?php else : ?>
-				<div class="tunet-themes__grid">
+				<div class="bloquix-themes__grid">
 					<?php foreach ( $catalog as $t ) : ?>
 						<?php
 						$state = self::local_state( $t['theme'] );
 						$name  = preg_replace( '/\s+(?:—|–|-)\s+WordPress theme$/iu', '', $t['name'] ); // "Aurora — WordPress theme" → "Aurora".
 						?>
-						<article class="tunet-theme-card<?php echo $state ? ' is-' . esc_attr( $state ) : ''; ?>">
-							<a class="tunet-theme-card__shot" href="<?php echo esc_url( self::out( $t['url'], 'image' ) ); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+						<article class="bloquix-theme-card<?php echo $state ? ' is-' . esc_attr( $state ) : ''; ?>">
+							<a class="bloquix-theme-card__shot" href="<?php echo esc_url( self::out( $t['url'], 'image' ) ); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
 								<?php if ( $t['image'] ) : ?>
 									<img src="<?php echo esc_url( $t['image'] ); ?>" alt="" loading="lazy" />
 								<?php else : ?>
-									<span class="tunet-theme-card__noshot"><?php echo esc_html( $name ); ?></span>
+									<span class="bloquix-theme-card__noshot"><?php echo esc_html( $name ); ?></span>
 								<?php endif; ?>
 								<?php if ( 'active' === $state ) : ?>
-									<span class="tunet-theme-card__badge tunet-theme-card__badge--active"><?php esc_html_e( 'Active', 'tunet-core' ); ?></span>
+									<span class="bloquix-theme-card__badge bloquix-theme-card__badge--active"><?php esc_html_e( 'Active', 'bloquix' ); ?></span>
 								<?php elseif ( 'installed' === $state ) : ?>
-									<span class="tunet-theme-card__badge"><?php esc_html_e( 'Installed', 'tunet-core' ); ?></span>
+									<span class="bloquix-theme-card__badge"><?php esc_html_e( 'Installed', 'bloquix' ); ?></span>
 								<?php endif; ?>
 							</a>
-							<div class="tunet-theme-card__body">
-								<div class="tunet-theme-card__head">
+							<div class="bloquix-theme-card__body">
+								<div class="bloquix-theme-card__head">
 									<h2><?php echo esc_html( $name ); ?></h2>
-									<?php if ( $t['price'] ) : ?><span class="tunet-theme-card__price"><?php echo esc_html( $t['price'] ); ?></span><?php endif; ?>
+									<?php if ( $t['price'] ) : ?><span class="bloquix-theme-card__price"><?php echo esc_html( $t['price'] ); ?></span><?php endif; ?>
 								</div>
-								<?php if ( $t['tagline'] ) : ?><p class="tunet-theme-card__tagline"><?php echo esc_html( $t['tagline'] ); ?></p><?php endif; ?>
-								<div class="tunet-theme-card__actions">
+								<?php if ( $t['tagline'] ) : ?><p class="bloquix-theme-card__tagline"><?php echo esc_html( $t['tagline'] ); ?></p><?php endif; ?>
+								<div class="bloquix-theme-card__actions">
 									<?php if ( 'active' === $state ) : ?>
-										<a class="button button-primary" href="<?php echo esc_url( $demo_url ); ?>"><?php esc_html_e( 'Import the demo', 'tunet-core' ); ?></a>
+										<a class="button button-primary" href="<?php echo esc_url( $demo_url ); ?>"><?php esc_html_e( 'Import the demo', 'bloquix' ); ?></a>
 									<?php else : ?>
-										<a class="button button-primary" href="<?php echo esc_url( self::out( $t['url'], 'get' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php echo 'installed' === $state ? esc_html__( 'View on tunetdesign.com ↗', 'tunet-core' ) : esc_html__( 'Get the theme ↗', 'tunet-core' ); ?></a>
+										<a class="button button-primary" href="<?php echo esc_url( self::out( $t['url'], 'get' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php echo 'installed' === $state ? esc_html__( 'View on tunetdesign.com ↗', 'bloquix' ) : esc_html__( 'Get the theme ↗', 'bloquix' ); ?></a>
 									<?php endif; ?>
 									<?php if ( $t['demo_url'] ) : ?>
-										<a class="button" href="<?php echo esc_url( self::out( $t['demo_url'], 'preview' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Live preview ↗', 'tunet-core' ); ?></a>
+										<a class="button" href="<?php echo esc_url( self::out( $t['demo_url'], 'preview' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Live preview ↗', 'bloquix' ); ?></a>
 									<?php endif; ?>
 								</div>
 							</div>
 						</article>
 					<?php endforeach; ?>
 				</div>
-				<p class="description tunet-themes__foot">
+				<p class="description bloquix-themes__foot">
 					<?php
 					printf(
 						/* translators: 1: store link, 2: refresh link. */
-						esc_html__( 'Themes are sold on %1$s and come as parent + child theme with a license key for updates and support. %2$s', 'tunet-core' ),
+						esc_html__( 'Themes are sold on %1$s and come as parent + child theme with a license key for updates and support. %2$s', 'bloquix' ),
 						'<a href="' . esc_url( self::out( self::STORE_URL, 'footer' ) ) . '" target="_blank" rel="noopener noreferrer">tunetdesign.com</a>',
-						'<a href="' . esc_url( $refresh ) . '">' . esc_html__( 'Refresh the list', 'tunet-core' ) . '</a>'
+						'<a href="' . esc_url( $refresh ) . '">' . esc_html__( 'Refresh the list', 'bloquix' ) . '</a>'
 					);
 					?>
 				</p>

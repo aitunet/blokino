@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/section — runtime de frontend (mínimo)
+ * BloqUIX · Block bloquix/section — runtime de frontend (mínimo)
  * --------------------------------------------------------------------------
  * Responsabilidades sobre el VÍDEO de fondo (no pausable por CSS):
  *  - prefers-reduced-motion → detener el autoplay, PERO dejando el control para
@@ -22,7 +22,7 @@
 		window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
 	function eachVideo( fn ) {
-		var videos = document.querySelectorAll( '.tunet-section.is-bg-video video.tunet-section__bg' );
+		var videos = document.querySelectorAll( '.bloquix-section.is-bg-video video.bloquix-section__bg' );
 		for ( var i = 0; i < videos.length; i++ ) {
 			fn( videos[ i ] );
 		}
@@ -52,21 +52,21 @@
 	// startPaused = true cuando el vídeo NO arrancó (reduced-motion): el botón
 	// nace en estado "play" para que se pueda iniciar a mano.
 	function addPauseControl( v, startPaused ) {
-		var section = v.closest ? v.closest( '.tunet-section' ) : null;
-		if ( ! section || section.querySelector( '.tunet-section__video-toggle' ) ) {
+		var section = v.closest ? v.closest( '.bloquix-section' ) : null;
+		if ( ! section || section.querySelector( '.bloquix-section__video-toggle' ) ) {
 			return;
 		}
 		var pauseLabel = section.getAttribute( 'data-pause-label' ) || 'Pause background video';
 		var playLabel = section.getAttribute( 'data-play-label' ) || 'Play background video';
 		var btn = document.createElement( 'button' );
 		btn.type = 'button';
-		btn.className = 'tunet-section__video-toggle';
+		btn.className = 'bloquix-section__video-toggle';
 		if ( startPaused ) {
 			section.classList.add( 'is-video-paused' );
 		}
 		btn.setAttribute( 'aria-pressed', startPaused ? 'true' : 'false' );
 		btn.setAttribute( 'aria-label', startPaused ? playLabel : pauseLabel );
-		btn.innerHTML = '<span class="tunet-section__video-toggle-icon" aria-hidden="true"></span>';
+		btn.innerHTML = '<span class="bloquix-section__video-toggle-icon" aria-hidden="true"></span>';
 		btn.addEventListener( 'click', function () {
 			var paused;
 			if ( v.paused ) {
@@ -102,8 +102,8 @@
 			// Sin loop, al terminar el control tiene que volver a "play" o se queda
 			// en "pause" ofreciendo pausar algo que ya está parado.
 			v.addEventListener( 'ended', function () {
-				var section = v.closest ? v.closest( '.tunet-section' ) : null;
-				var btn = section && section.querySelector( '.tunet-section__video-toggle' );
+				var section = v.closest ? v.closest( '.bloquix-section' ) : null;
+				var btn = section && section.querySelector( '.bloquix-section__video-toggle' );
 				if ( ! section || ! btn ) {
 					return;
 				}

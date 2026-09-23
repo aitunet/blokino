@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "tunet/badge",
+  "name": "bloquix/badge",
   "version": "0.1.1",
-  "title": "Tunet Badge",
+  "title": "BloqUIX Badge",
   "category": "design",
   "icon": "image-rotate",
   "description": "Rotating circular badge button — caption text on a ring around a center arrow. Links anywhere.",
   "keywords": ["badge", "circular", "rotate", "cta", "button"],
-  "textdomain": "tunet-core",
+  "textdomain": "bloquix",
   "supports": {
     "html": false,
     "anchor": true,

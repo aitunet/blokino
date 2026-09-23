@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/marquee — runtime de frontend (fill-to-cover)
+ * BloqUIX · Block bloquix/marquee — runtime de frontend (fill-to-cover)
  * --------------------------------------------------------------------------
  * El loop sin costuras (translateX(-50%) sobre dos grupos idénticos) solo es
  * perfecto si CADA grupo es al menos tan ancho como el contenedor. Con poco
@@ -30,7 +30,7 @@
 		if ( ! container ) {
 			return;
 		}
-		var groups = marquee.querySelectorAll( '.tunet-marquee__group' );
+		var groups = marquee.querySelectorAll( '.bloquix-marquee__group' );
 		for ( var i = 0; i < groups.length; i++ ) {
 			var group = groups[ i ];
 			// Guardar el contenido ORIGINAL una sola vez; en cada pasada se parte
@@ -66,20 +66,20 @@
 	// startPaused = true con reduced-motion: la banda nace quieta y el botón en
 	// estado "play", de modo que el movimiento sea opt-in y no una imposición.
 	function addPauseControl( marquee, startPaused ) {
-		if ( marquee.querySelector( '.tunet-marquee__toggle' ) ) {
+		if ( marquee.querySelector( '.bloquix-marquee__toggle' ) ) {
 			return;
 		}
 		var pauseLabel = marquee.getAttribute( 'data-pause-label' ) || 'Pause';
 		var playLabel = marquee.getAttribute( 'data-play-label' ) || 'Play';
 		var btn = document.createElement( 'button' );
 		btn.type = 'button';
-		btn.className = 'tunet-marquee__toggle';
+		btn.className = 'bloquix-marquee__toggle';
 		if ( startPaused ) {
 			marquee.classList.add( 'is-paused' );
 		}
 		btn.setAttribute( 'aria-pressed', startPaused ? 'true' : 'false' );
 		btn.setAttribute( 'aria-label', startPaused ? playLabel : pauseLabel );
-		btn.innerHTML = '<span class="tunet-marquee__toggle-icon" aria-hidden="true"></span>';
+		btn.innerHTML = '<span class="bloquix-marquee__toggle-icon" aria-hidden="true"></span>';
 		btn.addEventListener( 'click', function () {
 			var paused = marquee.classList.toggle( 'is-paused' );
 			// is-playing marca "el visitante pidió movimiento": es lo que permite
@@ -93,7 +93,7 @@
 	}
 
 	function init() {
-		var marquees = document.querySelectorAll( '.tunet-marquee' );
+		var marquees = document.querySelectorAll( '.bloquix-marquee' );
 		for ( var i = 0; i < marquees.length; i++ ) {
 			// El relleno hasta cubrir el contenedor hace falta igual: si el
 			// visitante pulsa play, el loop debe ser seamless desde el primer ciclo.

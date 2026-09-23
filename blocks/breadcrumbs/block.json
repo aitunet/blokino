@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "tunet/breadcrumbs",
+  "name": "bloquix/breadcrumbs",
   "version": "0.1.0",
-  "title": "Tunet Breadcrumbs",
+  "title": "BloqUIX Breadcrumbs",
   "category": "theme",
   "icon": "arrow-right-alt2",
   "description": "Trail from the site home to the current page. Server-rendered, no plugin required, and it emits BreadcrumbList structured data.",
   "keywords": ["breadcrumb", "trail", "navigation", "seo"],
-  "textdomain": "tunet-core",
+  "textdomain": "bloquix",
   "supports": {
     "html": false,
     "anchor": true,

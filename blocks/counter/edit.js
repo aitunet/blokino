@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/counter — editor
+ * BloqUIX · Block bloquix/counter — editor
  * --------------------------------------------------------------------------
  * Sin JSX (globales wp.*). Block dinámico: save devuelve null y el render lo
  * hace render.php. El canvas muestra el valor final formateado (sin animar).
@@ -36,20 +36,20 @@
 		} );
 	}
 
-	registerBlockType( 'tunet/counter', {
+	registerBlockType( 'bloquix/counter', {
 		edit: function ( props ) {
 			var a = props.attributes;
 			var set = props.setAttributes;
-			var blockProps = useBlockProps( { className: 'tunet-counter' } );
+			var blockProps = useBlockProps( { className: 'bloquix-counter' } );
 
 			var decimals = a.decimals || 0;
 
 			var preview = el(
 				Fragment,
 				{},
-				a.prefix ? el( 'span', { className: 'tunet-counter__affix tunet-counter__prefix' }, a.prefix ) : null,
-				el( 'span', { className: 'tunet-counter__num' }, format( a.end, decimals, !! a.separator ) ),
-				a.suffix ? el( 'span', { className: 'tunet-counter__affix tunet-counter__suffix' }, a.suffix ) : null
+				a.prefix ? el( 'span', { className: 'bloquix-counter__affix bloquix-counter__prefix' }, a.prefix ) : null,
+				el( 'span', { className: 'bloquix-counter__num' }, format( a.end, decimals, !! a.separator ) ),
+				a.suffix ? el( 'span', { className: 'bloquix-counter__affix bloquix-counter__suffix' }, a.suffix ) : null
 			);
 
 			return el(
@@ -60,22 +60,22 @@
 					{},
 					el(
 						c.PanelBody,
-						{ title: __( 'Counter', 'tunet-core' ), initialOpen: true },
-						numberField( __( 'Start value', 'tunet-core' ), a.start, function ( v ) {
+						{ title: __( 'Counter', 'bloquix' ), initialOpen: true },
+						numberField( __( 'Start value', 'bloquix' ), a.start, function ( v ) {
 							set( { start: parseFloat( v ) || 0 } );
 						} ),
-						numberField( __( 'End value', 'tunet-core' ), a.end, function ( v ) {
+						numberField( __( 'End value', 'bloquix' ), a.end, function ( v ) {
 							set( { end: parseFloat( v ) || 0 } );
 						} ),
-						numberField( __( 'Duration (ms)', 'tunet-core' ), a.duration, function ( v ) {
+						numberField( __( 'Duration (ms)', 'bloquix' ), a.duration, function ( v ) {
 							set( { duration: parseInt( v, 10 ) || 0 } );
-						}, __( '0 = no animation (shows the final value).', 'tunet-core' ) ),
-						numberField( __( 'Decimals', 'tunet-core' ), a.decimals, function ( v ) {
+						}, __( '0 = no animation (shows the final value).', 'bloquix' ) ),
+						numberField( __( 'Decimals', 'bloquix' ), a.decimals, function ( v ) {
 							var n = parseInt( v, 10 ) || 0;
 							set( { decimals: Math.max( 0, Math.min( 4, n ) ) } );
 						} ),
 						el( c.ToggleControl, {
-							label: __( 'Thousands separator', 'tunet-core' ),
+							label: __( 'Thousands separator', 'bloquix' ),
 							checked: !! a.separator,
 							onChange: function ( v ) {
 								set( { separator: v } );
@@ -83,7 +83,7 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.TextControl, {
-							label: __( 'Prefix', 'tunet-core' ),
+							label: __( 'Prefix', 'bloquix' ),
 							value: a.prefix || '',
 							onChange: function ( v ) {
 								set( { prefix: v } );
@@ -91,9 +91,9 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.TextControl, {
-							label: __( 'Suffix', 'tunet-core' ),
+							label: __( 'Suffix', 'bloquix' ),
 							value: a.suffix || '',
-							help: __( 'e.g. +, %, K, M', 'tunet-core' ),
+							help: __( 'e.g. +, %, K, M', 'bloquix' ),
 							onChange: function ( v ) {
 								set( { suffix: v } );
 							},

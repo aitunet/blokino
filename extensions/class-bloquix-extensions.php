@@ -3,13 +3,13 @@
  * Extensiones tf* sobre blocks NATIVOS — FASE A (tfAnimation = "fade-up").
  *
  * Vía principal del motor (CLAUDE.md §4.1): se EXTIENDEN los blocks del core,
- * no se recrean. El lado editor (atributos, panel "Tunet Effects", inyección en
+ * no se recrean. El lado editor (atributos, panel "BloqUIX Effects", inyección en
  * el save) vive en extensions/effects-editor.js. Esta clase solo lo encola.
  *
  * La inyección PHP equivalente para blocks DINÁMICOS vive en
- * Tunet_Core_Runtime::render_block_effects() (paso 4 del §4.1).
+ * Bloquix_Runtime::render_block_effects() (paso 4 del §4.1).
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,9 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Encola las extensiones de efectos del editor.
  */
-class Tunet_Core_Extensions {
+class Bloquix_Extensions {
 
-	const EDITOR_HANDLE = 'tunet-core-effects-editor';
+	const EDITOR_HANDLE = 'bloquix-effects-editor';
 
 	/**
 	 * Cablea los hooks de las extensiones.
@@ -35,12 +35,12 @@ class Tunet_Core_Extensions {
 	 */
 	public function enqueue_editor_assets() {
 		$rel  = 'extensions/effects-editor.js';
-		$path = TUNET_CORE_PATH . $rel;
-		$ver  = file_exists( $path ) ? (string) filemtime( $path ) : TUNET_CORE_VERSION;
+		$path = BLOQUIX_PATH . $rel;
+		$ver  = file_exists( $path ) ? (string) filemtime( $path ) : BLOQUIX_VERSION;
 
 		wp_enqueue_script(
 			self::EDITOR_HANDLE,
-			TUNET_CORE_URL . $rel,
+			BLOQUIX_URL . $rel,
 			array(
 				'wp-blocks',
 				'wp-hooks',
@@ -54,9 +54,9 @@ class Tunet_Core_Extensions {
 			true
 		);
 
-		// i18n del lado JS (cadenas con dominio 'tunet-core').
+		// i18n del lado JS (cadenas con dominio 'bloquix').
 		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( self::EDITOR_HANDLE, 'tunet-core', TUNET_CORE_PATH . 'languages' );
+			wp_set_script_translations( self::EDITOR_HANDLE, 'bloquix', BLOQUIX_PATH . 'languages' );
 		}
 	}
 }

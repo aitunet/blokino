@@ -1,19 +1,19 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/section — overrides SOLO del editor
+ * BloqUIX · Block bloquix/section — overrides SOLO del editor
  * --------------------------------------------------------------------------
- * En el front, .tunet-section usa overflow:clip (para bg/dividers; clip y no
+ * En el front, .bloquix-section usa overflow:clip (para bg/dividers; clip y no
  * hidden para no anular los sticky internos). En el
  * editor eso recorta el botón "+" de añadir bloque (appender). Aquí lo dejamos
  * visible para poder editar con comodidad.
  * ========================================================================== */
 
-.editor-styles-wrapper .tunet-section {
+.editor-styles-wrapper .bloquix-section {
 	overflow: visible;
 }
 
 /* Asegura que el appender de InnerBlocks quede por encima de bg/overlay. */
-.editor-styles-wrapper .tunet-section .block-editor-inner-blocks,
-.editor-styles-wrapper .tunet-section .block-list-appender {
+.editor-styles-wrapper .bloquix-section .block-editor-inner-blocks,
+.editor-styles-wrapper .bloquix-section .block-list-appender {
 	position: relative;
 	z-index: 2;
 }
@@ -23,7 +23,7 @@
  * Sin esto el panel solo mostraba un botón y no se sabía qué archivo estaba
  * puesto. Vive en el motor para que TODOS los themes lo hereden.
  * -------------------------------------------------------------------------- */
-.tunet-media-field__frame {
+.bloquix-media-field__frame {
 	position: relative;
 	margin-block-end: 8px;
 	border: 1px solid #ddd;
@@ -39,7 +39,7 @@
 	line-height: 0;
 }
 
-.tunet-media-field__media {
+.bloquix-media-field__media {
 	display: block;
 	inline-size: 100%;
 	block-size: auto;
@@ -47,7 +47,7 @@
 	object-fit: cover;
 }
 
-.tunet-media-field__actions {
+.bloquix-media-field__actions {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
@@ -57,7 +57,7 @@
 /* Nota informativa del inspector (comportamiento que no se puede ver en el
    editor: el scroll de la banda, el autoplay del vídeo, reduced-motion).
    Sin esto el block parece roto y se buscan opciones que no existen. */
-.tunet-editor-note {
+.bloquix-editor-note {
 	margin: 4px 0 0;
 	font-size: 12px;
 	line-height: 1.5;

@@ -1,16 +1,16 @@
 /* ==========================================================================
- * Tunet Core · Admin — tabs, selector de logos y colores.
+ * BloqUIX · Admin — tabs, selector de logos y colores.
  * ========================================================================== */
 ( function () {
 	'use strict';
 
-	var cfg = window.tunetCoreAdmin || {};
+	var cfg = window.bloquixAdmin || {};
 
 	/* --- Selector de logos (wp.media) --- */
 	function previewFor( targetId ) {
-		return document.querySelector( '.tunet-logo-preview[data-for="' + targetId + '"]' );
+		return document.querySelector( '.bloquix-logo-preview[data-for="' + targetId + '"]' );
 	}
-	Array.prototype.forEach.call( document.querySelectorAll( '.tunet-logo-pick' ), function ( btn ) {
+	Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-logo-pick' ), function ( btn ) {
 		btn.addEventListener( 'click', function ( e ) {
 			e.preventDefault();
 			if ( ! window.wp || ! window.wp.media ) {
@@ -40,7 +40,7 @@
 			frame.open();
 		} );
 	} );
-	Array.prototype.forEach.call( document.querySelectorAll( '.tunet-logo-remove' ), function ( btn ) {
+	Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-logo-remove' ), function ( btn ) {
 		btn.addEventListener( 'click', function () {
 			var targetId = btn.getAttribute( 'data-target' );
 			var input = document.getElementById( targetId );
@@ -52,13 +52,13 @@
 
 	/* --- Color rows --- */
 	function swatchFor( id ) {
-		return document.querySelector( '.tunet-color-swatch[data-target="' + id + '"]' );
+		return document.querySelector( '.bloquix-color-swatch[data-target="' + id + '"]' );
 	}
-	Array.prototype.forEach.call( document.querySelectorAll( '.tunet-color-swatch' ), function ( sw ) {
+	Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-color-swatch' ), function ( sw ) {
 		var target = document.getElementById( sw.getAttribute( 'data-target' ) );
 		if ( target ) { sw.addEventListener( 'input', function () { target.value = sw.value; } ); }
 	} );
-	Array.prototype.forEach.call( document.querySelectorAll( '.tunet-color-text' ), function ( txt ) {
+	Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-color-text' ), function ( txt ) {
 		txt.addEventListener( 'input', function () {
 			var sw = swatchFor( txt.id );
 			if ( sw && /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test( txt.value ) ) {
@@ -66,7 +66,7 @@
 			}
 		} );
 	} );
-	Array.prototype.forEach.call( document.querySelectorAll( '.tunet-color-clear' ), function ( btn ) {
+	Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-color-clear' ), function ( btn ) {
 		btn.addEventListener( 'click', function () {
 			var t = document.getElementById( btn.getAttribute( 'data-target' ) );
 			if ( t ) { t.value = ''; }
@@ -75,11 +75,11 @@
 
 	/* Vaciar TODOS los brand colors de golpe (aviso de override activo). No
 	   guarda: deja el formulario listo y el usuario pulsa "Save changes". */
-	var clearAll = document.getElementById( 'tunet-brand-clear-all' );
+	var clearAll = document.getElementById( 'bloquix-brand-clear-all' );
 	if ( clearAll ) {
 		clearAll.addEventListener( 'click', function () {
 			// Both brand tables: site colors and the dark-band pair.
-			Array.prototype.forEach.call( document.querySelectorAll( '.tunet-brand-colors .tunet-color-text' ), function ( t ) {
+			Array.prototype.forEach.call( document.querySelectorAll( '.bloquix-brand-colors .bloquix-color-text' ), function ( t ) {
 				t.value = '';
 			} );
 			clearAll.disabled = true;
@@ -89,13 +89,13 @@
 } )();
 
 /* ==========================================================================
- * Tunet Core · Demo wizard — stepper (Plugins → Import).
+ * BloqUIX · Demo wizard — stepper (Plugins → Import).
  * ========================================================================== */
 ( function () {
 	'use strict';
-	var root = document.getElementById( 'tunet-wizard' );
-	if ( ! root || ! window.tunetCoreAdmin ) { return; }
-	var cfg = window.tunetCoreAdmin, i18n = cfg.i18n || {};
+	var root = document.getElementById( 'bloquix-wizard' );
+	if ( ! root || ! window.bloquixAdmin ) { return; }
+	var cfg = window.bloquixAdmin, i18n = cfg.i18n || {};
 
 	function $( sel ) { return root.querySelector( sel ); }
 	function $all( sel, ctx ) { return Array.prototype.slice.call( ( ctx || root ).querySelectorAll( sel ) ); }
@@ -129,8 +129,8 @@
 	}
 
 	/* ---- Step navigation ---- */
-	var stepEls = $all( '.tunet-stepper__item' );
-	var stepPanels = $all( '.tunet-step' );
+	var stepEls = $all( '.bloquix-stepper__item' );
+	var stepPanels = $all( '.bloquix-step' );
 	function goStep( name ) {
 		stepPanels.forEach( function ( p ) { p.hidden = ( p.getAttribute( 'data-panel' ) !== name ); } );
 		var idx = ( name === 'import' ) ? 1 : 0;
@@ -141,10 +141,10 @@
 	}
 
 	/* ---- Step 1: plugins ---- */
-	var listEl = $( '#tunet-plugins-list' );
-	var msgEl = $( '.tunet-plugins__msg' );
-	var installBtn = $( '#tunet-plugins-install' );
-	var continueBtn = $( '#tunet-plugins-continue' );
+	var listEl = $( '#bloquix-plugins-list' );
+	var msgEl = $( '.bloquix-plugins__msg' );
+	var installBtn = $( '#bloquix-plugins-install' );
+	var continueBtn = $( '#bloquix-plugins-continue' );
 	var plugins = [];
 
 	function requiredSatisfied() {
@@ -156,10 +156,10 @@
 		if ( installBtn ) { installBtn.disabled = ! pending; installBtn.hidden = ! pending; }
 	}
 	function badge( p ) {
-		if ( p.state === 'active' ) { return '<span class="tunet-plugin__badge is-ok">' + ( i18n.active || 'Active' ) + '</span>'; }
+		if ( p.state === 'active' ) { return '<span class="bloquix-plugin__badge is-ok">' + ( i18n.active || 'Active' ) + '</span>'; }
 		return p.optional
-			? '<span class="tunet-plugin__badge is-opt">' + ( i18n.optional || 'Optional' ) + '</span>'
-			: '<span class="tunet-plugin__badge is-req">' + ( i18n.required || 'Required' ) + '</span>';
+			? '<span class="bloquix-plugin__badge is-opt">' + ( i18n.optional || 'Optional' ) + '</span>'
+			: '<span class="bloquix-plugin__badge is-req">' + ( i18n.required || 'Required' ) + '</span>';
 	}
 	function renderPlugins() {
 		listEl.innerHTML = '';
@@ -169,15 +169,15 @@
 			p._on = active ? true : ( p.optional ? !! p._on : true );
 			var locked = active || ! p.optional;
 			var li = document.createElement( 'li' );
-			li.className = 'tunet-plugin' + ( active ? ' is-active' : '' );
+			li.className = 'bloquix-plugin' + ( active ? ' is-active' : '' );
 			li.innerHTML =
-				'<label class="tunet-switch' + ( locked ? ' is-locked' : '' ) + '">' +
+				'<label class="bloquix-switch' + ( locked ? ' is-locked' : '' ) + '">' +
 					'<input type="checkbox" data-i="' + i + '"' + ( p._on ? ' checked' : '' ) + ( locked ? ' disabled' : '' ) + '>' +
-					'<span class="tunet-switch__track"><span class="tunet-switch__dot"></span></span>' +
+					'<span class="bloquix-switch__track"><span class="bloquix-switch__dot"></span></span>' +
 				'</label>' +
-				'<span class="tunet-plugin__name">' + p.label + '</span>' +
+				'<span class="bloquix-plugin__name">' + p.label + '</span>' +
 				badge( p ) +
-				'<span class="tunet-plugin__state" data-i="' + i + '"></span>';
+				'<span class="bloquix-plugin__state" data-i="' + i + '"></span>';
 			listEl.appendChild( li );
 		} );
 		$all( 'input[type=checkbox]', listEl ).forEach( function ( cb ) {
@@ -190,7 +190,7 @@
 	}
 
 	function loadPlugins() {
-		post( 'tunet_demo_plugins', {} ).then( function ( res ) {
+		post( 'bloquix_demo_plugins', {} ).then( function ( res ) {
 			if ( ! res || ! res.success ) { goStep( 'import' ); return; }
 			plugins = res.data.plugins || [];
 			renderPlugins();
@@ -212,7 +212,7 @@
 		installBtn.disabled = true;
 		installBtn.setAttribute( 'aria-busy', 'true' );
 		var installLabel = installBtn.innerHTML;
-		installBtn.innerHTML = '<span class="tunet-spin" aria-hidden="true"></span> ' + ( i18n.installing || 'Installing…' );
+		installBtn.innerHTML = '<span class="bloquix-spin" aria-hidden="true"></span> ' + ( i18n.installing || 'Installing…' );
 		msgEl.textContent = '';
 		var i = 0;
 		function next() {
@@ -224,24 +224,24 @@
 				return;
 			}
 			var p = queue[ i++ ];
-			var stateEl = $( '.tunet-plugin__state[data-i="' + plugins.indexOf( p ) + '"]' );
+			var stateEl = $( '.bloquix-plugin__state[data-i="' + plugins.indexOf( p ) + '"]' );
 			// Spinner de carga mientras instala/activa (más agradable que "…").
-			if ( stateEl ) { stateEl.innerHTML = '<span class="tunet-spin" aria-hidden="true"></span>'; }
-			post( 'tunet_demo_install', { slug: p.slug } ).then( function ( res ) {
+			if ( stateEl ) { stateEl.innerHTML = '<span class="bloquix-spin" aria-hidden="true"></span>'; }
+			post( 'bloquix_demo_install', { slug: p.slug } ).then( function ( res ) {
 				if ( res && res.success ) {
 					p.state = 'active';
 					if ( stateEl ) { stateEl.innerHTML = '<span class="dashicons dashicons-yes"></span>'; }
 				} else {
 					var url = res && res.data && res.data.install_url;
 					if ( stateEl ) {
-						stateEl.innerHTML = '<span class="tunet-err">' + ( ( res && res.data && res.data.message ) || i18n.error ) +
+						stateEl.innerHTML = '<span class="bloquix-err">' + ( ( res && res.data && res.data.message ) || i18n.error ) +
 							( url ? ' <a href="' + url + '" target="_blank" rel="noopener">' + i18n.installManually + '</a>' : '' ) + '</span>';
 					}
 				}
 				next();
 			} ).catch( function ( err ) {
 				// Installing/activating a plugin can also outlive a tight host limit.
-				if ( stateEl ) { stateEl.innerHTML = '<span class="tunet-err">' + describe( err ) + '</span>'; }
+				if ( stateEl ) { stateEl.innerHTML = '<span class="bloquix-err">' + describe( err ) + '</span>'; }
 				next();
 			} );
 		}
@@ -249,12 +249,12 @@
 	}
 
 	/* ---- Step 2: import ---- */
-	var importBtn = $( '#tunet-demo-import' );
-	var undoBtn = $( '#tunet-demo-rollback' );
-	var progress = $( '.tunet-progress' );
-	var bar = $( '.tunet-progress__bar' );
-	var statusEl = $( '.tunet-progress__status' );
-	var doneEl = $( '.tunet-done' );
+	var importBtn = $( '#bloquix-demo-import' );
+	var undoBtn = $( '#bloquix-demo-rollback' );
+	var progress = $( '.bloquix-progress' );
+	var bar = $( '.bloquix-progress__bar' );
+	var statusEl = $( '.bloquix-progress__status' );
+	var doneEl = $( '.bloquix-done' );
 	function setStatus( t ) { if ( statusEl ) { statusEl.textContent = t || ''; } }
 	function setBar( pct ) { if ( progress ) { progress.hidden = false; } if ( bar ) { bar.style.width = pct + '%'; } }
 
@@ -293,7 +293,7 @@
 		// kept while the same step continues, so a host with a tight limit does
 		// not pay a kill + retry for every chunk.
 		function step( n, fails, level ) {
-			post( 'tunet_demo_step', { step: n, retry: level } ).then( function ( res ) {
+			post( 'bloquix_demo_step', { step: n, retry: level } ).then( function ( res ) {
 				if ( ! res || ! res.success ) {
 					setStatus( ( res && res.data && res.data.message ) || i18n.error );
 					importBtn.disabled = false;
@@ -326,14 +326,14 @@
 	/* ---- Wire ---- */
 	if ( installBtn ) { installBtn.addEventListener( 'click', installSelected ); }
 	if ( continueBtn ) { continueBtn.addEventListener( 'click', function () { goStep( 'import' ); } ); }
-	$all( '.tunet-back' ).forEach( function ( b ) {
+	$all( '.bloquix-back' ).forEach( function ( b ) {
 		b.addEventListener( 'click', function () { goStep( b.getAttribute( 'data-to' ) || 'plugins' ); } );
 	} );
 	if ( importBtn ) { importBtn.addEventListener( 'click', runImport ); }
 	if ( undoBtn ) {
 		undoBtn.addEventListener( 'click', function () {
 			undoBtn.disabled = true; setStatus( i18n.importing );
-			post( 'tunet_demo_rollback', {} ).then( function () {
+			post( 'bloquix_demo_rollback', {} ).then( function () {
 				resumeStep = null;
 				setStatus( i18n.rollback ); setBar( 0 );
 				if ( importBtn ) { importBtn.disabled = false; importBtn.innerHTML = importLabel; }

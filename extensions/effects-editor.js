@@ -1,10 +1,10 @@
 /* ==========================================================================
- * Tunet Core · Extensiones tf* sobre blocks nativos (editor)
+ * BloqUIX · Extensiones tf* sobre blocks nativos (editor)
  * --------------------------------------------------------------------------
  * Pipeline del editor:
  *   1. blocks.registerBlockType → declara los atributos tf* (viven en el
  *      comentario del block; NO se tocan el markup guardado).
- *   2. editor.BlockEdit (HOC)   → panel "Tunet Effects".
+ *   2. editor.BlockEdit (HOC)   → panel "BloqUIX Effects".
  *   La inyección de data-tf-* ocurre SOLO en render (PHP render_block), nunca
  *   en save(), para no romper la validación de bloques del editor.
  *
@@ -52,10 +52,10 @@
 		'core/buttons',
 		'core/button',
 		// Blocks propios: también pueden tener efectos de entrada/hover/scroll.
-		'tunet/section',
-		'tunet/marquee',
-		'tunet/counter',
-		'tunet/before-after'
+		'bloquix/section',
+		'bloquix/marquee',
+		'bloquix/counter',
+		'bloquix/before-after'
 	];
 
 	function isAllowed( name ) {
@@ -97,13 +97,13 @@
 		return settings;
 	}
 
-	addFilter( 'blocks.registerBlockType', 'tunet/tf-attributes', addTfAttributes );
+	addFilter( 'blocks.registerBlockType', 'bloquix/tf-attributes', addTfAttributes );
 
 	/* ----------------------------------------------------------------------
-	 * 2) Panel "Tunet Effects" en InspectorControls (HOC sobre BlockEdit).
+	 * 2) Panel "BloqUIX Effects" en InspectorControls (HOC sobre BlockEdit).
 	 *    Las animaciones corren en el FRONTEND; aquí solo exponemos controles.
 	 * -------------------------------------------------------------------- */
-	var withTunetEffects = createHigherOrderComponent( function ( BlockEdit ) {
+	var withBloquixEffects = createHigherOrderComponent( function ( BlockEdit ) {
 		return function ( props ) {
 			if ( ! isAllowed( props.name ) ) {
 				return el( BlockEdit, props );
@@ -116,19 +116,19 @@
 				: ( useSetting ? ( useSetting( 'color.palette' ) || [] ) : [] );
 
 			var animationControl = el( SelectControl, {
-				label: __( 'Entrance animation', 'tunet-core' ),
+				label: __( 'Entrance animation', 'bloquix' ),
 				value: a.tfAnimation || '',
 				options: [
-					{ label: __( 'None (clean block)', 'tunet-core' ), value: '' },
-					{ label: __( 'Fade up', 'tunet-core' ), value: 'fade-up' },
-					{ label: __( 'Clip reveal', 'tunet-core' ), value: 'clip-reveal' },
-					{ label: __( 'Mask up', 'tunet-core' ), value: 'mask-up' },
-					{ label: __( 'Blur in', 'tunet-core' ), value: 'blur-in' },
-					{ label: __( 'Scale in', 'tunet-core' ), value: 'scale-in' },
-					{ label: __( 'Slide left', 'tunet-core' ), value: 'slide-left' },
-					{ label: __( 'Slide right', 'tunet-core' ), value: 'slide-right' },
-					{ label: __( 'Text stagger', 'tunet-core' ), value: 'text-stagger' },
-					{ label: __( 'Text fill', 'tunet-core' ), value: 'text-fill' }
+					{ label: __( 'None (clean block)', 'bloquix' ), value: '' },
+					{ label: __( 'Fade up', 'bloquix' ), value: 'fade-up' },
+					{ label: __( 'Clip reveal', 'bloquix' ), value: 'clip-reveal' },
+					{ label: __( 'Mask up', 'bloquix' ), value: 'mask-up' },
+					{ label: __( 'Blur in', 'bloquix' ), value: 'blur-in' },
+					{ label: __( 'Scale in', 'bloquix' ), value: 'scale-in' },
+					{ label: __( 'Slide left', 'bloquix' ), value: 'slide-left' },
+					{ label: __( 'Slide right', 'bloquix' ), value: 'slide-right' },
+					{ label: __( 'Text stagger', 'bloquix' ), value: 'text-stagger' },
+					{ label: __( 'Text fill', 'bloquix' ), value: 'text-fill' }
 				],
 				onChange: function ( value ) {
 					set( { tfAnimation: value } );
@@ -137,11 +137,11 @@
 			} );
 
 			var displayControl = el( SelectControl, {
-				label: __( 'Display style', 'tunet-core' ),
+				label: __( 'Display style', 'bloquix' ),
 				value: a.tfDisplay || '',
 				options: [
-					{ label: __( 'Solid (default)', 'tunet-core' ), value: '' },
-					{ label: __( 'Outline', 'tunet-core' ), value: 'outline' }
+					{ label: __( 'Solid (default)', 'bloquix' ), value: '' },
+					{ label: __( 'Outline', 'bloquix' ), value: 'outline' }
 				],
 				onChange: function ( value ) {
 					set( { tfDisplay: value } );
@@ -157,7 +157,7 @@
 					Fragment,
 					{},
 					el( RangeControl, {
-						label: __( 'Delay (ms)', 'tunet-core' ),
+						label: __( 'Delay (ms)', 'bloquix' ),
 						value: a.tfAnimDelay || 0,
 						min: 0,
 						max: 2000,
@@ -168,22 +168,22 @@
 						__nextHasNoMarginBottom: true
 					} ),
 					el( RangeControl, {
-						label: __( 'Duration (ms)', 'tunet-core' ),
+						label: __( 'Duration (ms)', 'bloquix' ),
 						value: a.tfAnimDuration || 0,
 						min: 0,
 						max: 3000,
 						step: 50,
-						help: __( '0 = use the theme duration (--tnt-dur-base).', 'tunet-core' ),
+						help: __( '0 = use the theme duration (--tnt-dur-base).', 'bloquix' ),
 						onChange: function ( value ) {
 							set( { tfAnimDuration: value || 0 } );
 						},
 						__nextHasNoMarginBottom: true
 					} ),
 					el( SelectControl, {
-						label: __( 'Easing curve', 'tunet-core' ),
+						label: __( 'Easing curve', 'bloquix' ),
 						value: a.tfAnimEasing || '',
 						options: [
-							{ label: __( 'Theme default (expo)', 'tunet-core' ), value: '' },
+							{ label: __( 'Theme default (expo)', 'bloquix' ), value: '' },
 							{ label: 'Expo', value: 'expo' }, // Easing curve names are technical keywords, left raw (untranslated) on purpose.
 							{ label: 'Power3', value: 'power3' },
 							{ label: 'Spring', value: 'spring' },
@@ -195,14 +195,14 @@
 						__nextHasNoMarginBottom: true
 					} ),
 					el( RangeControl, {
-						label: __( 'Stagger (ms)', 'tunet-core' ),
+						label: __( 'Stagger (ms)', 'bloquix' ),
 						value: a.tfStagger || 0,
 						min: 0,
 						max: 300,
 						step: 10,
 						help: isTextStagger
-							? __( 'Cadence between words. 0 = default cadence.', 'tunet-core' )
-							: __( 'Staggers the entrance of direct children. 0 = no stagger.', 'tunet-core' ),
+							? __( 'Cadence between words. 0 = default cadence.', 'bloquix' )
+							: __( 'Staggers the entrance of direct children. 0 = no stagger.', 'bloquix' ),
 						onChange: function ( value ) {
 							set( { tfStagger: value || 0 } );
 						},
@@ -211,13 +211,13 @@
 					el(
 						'p',
 						{ style: { fontStyle: 'italic', opacity: 0.7, marginTop: '8px' } },
-						__( 'It will animate once published (the animation runs on the front-end).', 'tunet-core' )
+						__( 'It will animate once published (the animation runs on the front-end).', 'bloquix' )
 					),
 					( a.tfAnimation === 'text-fill' )
 						? el( TextControl, {
-							label: __( 'Accent words (indices, e.g. "2,5")', 'tunet-core' ),
+							label: __( 'Accent words (indices, e.g. "2,5")', 'bloquix' ),
 							value: a.tfFillAccent || '',
-							help: __( 'These words fill to the brand accent instead of ink. 1-based.', 'tunet-core' ),
+							help: __( 'These words fill to the brand accent instead of ink. 1-based.', 'bloquix' ),
 							onChange: function ( value ) {
 								set( { tfFillAccent: value.replace( /[^0-9,\s]/g, '' ) } );
 							},
@@ -229,16 +229,16 @@
 
 			// Hover is independent of the entrance animation.
 			var hoverControl = el( SelectControl, {
-				label: __( 'Hover effect', 'tunet-core' ),
+				label: __( 'Hover effect', 'bloquix' ),
 				value: a.tfHover || '',
 				options: [
-					{ label: __( 'None', 'tunet-core' ), value: '' },
-					{ label: __( 'Lift', 'tunet-core' ), value: 'lift' },
-					{ label: __( 'Glow', 'tunet-core' ), value: 'glow' },
-					{ label: __( 'Tilt 3D', 'tunet-core' ), value: 'tilt' },
-					{ label: __( 'Magnetic', 'tunet-core' ), value: 'magnetic' },
-					{ label: __( 'Underline grow', 'tunet-core' ), value: 'underline-grow' },
-					{ label: __( 'Image zoom', 'tunet-core' ), value: 'image-zoom' }
+					{ label: __( 'None', 'bloquix' ), value: '' },
+					{ label: __( 'Lift', 'bloquix' ), value: 'lift' },
+					{ label: __( 'Glow', 'bloquix' ), value: 'glow' },
+					{ label: __( 'Tilt 3D', 'bloquix' ), value: 'tilt' },
+					{ label: __( 'Magnetic', 'bloquix' ), value: 'magnetic' },
+					{ label: __( 'Underline grow', 'bloquix' ), value: 'underline-grow' },
+					{ label: __( 'Image zoom', 'bloquix' ), value: 'image-zoom' }
 				],
 				onChange: function ( value ) {
 					set( { tfHover: value } );
@@ -248,15 +248,15 @@
 
 			// Scroll.
 			var scrollControl = el( SelectControl, {
-				label: __( 'Scroll effect', 'tunet-core' ),
+				label: __( 'Scroll effect', 'bloquix' ),
 				value: a.tfScroll || '',
 				options: [
-					{ label: __( 'None', 'tunet-core' ), value: '' },
-					{ label: __( 'Parallax', 'tunet-core' ), value: 'parallax' },
-					{ label: __( 'Sticky pin', 'tunet-core' ), value: 'sticky-pin' },
-					{ label: __( 'Reveal on scroll', 'tunet-core' ), value: 'reveal-on-scroll' },
-					{ label: __( 'Progress bar', 'tunet-core' ), value: 'progress' },
-					{ label: __( 'Zoom on scroll', 'tunet-core' ), value: 'zoom' }
+					{ label: __( 'None', 'bloquix' ), value: '' },
+					{ label: __( 'Parallax', 'bloquix' ), value: 'parallax' },
+					{ label: __( 'Sticky pin', 'bloquix' ), value: 'sticky-pin' },
+					{ label: __( 'Reveal on scroll', 'bloquix' ), value: 'reveal-on-scroll' },
+					{ label: __( 'Progress bar', 'bloquix' ), value: 'progress' },
+					{ label: __( 'Zoom on scroll', 'bloquix' ), value: 'zoom' }
 				],
 				onChange: function ( value ) {
 					set( { tfScroll: value } );
@@ -266,12 +266,12 @@
 
 			var parallaxControl = a.tfScroll === 'parallax'
 				? el( RangeControl, {
-					label: __( 'Parallax intensity', 'tunet-core' ),
+					label: __( 'Parallax intensity', 'bloquix' ),
 					value: a.tfParallaxSpeed || 0,
 					min: 0,
 					max: 100,
 					step: 5,
-					help: __( '0 = no movement. Default ~20.', 'tunet-core' ),
+					help: __( '0 = no movement. Default ~20.', 'bloquix' ),
 					onChange: function ( value ) {
 						set( { tfParallaxSpeed: value || 0 } );
 					},
@@ -281,10 +281,10 @@
 
 			// Blend + border.
 			var blendControl = el( SelectControl, {
-				label: __( 'Blend mode', 'tunet-core' ),
+				label: __( 'Blend mode', 'bloquix' ),
 				value: a.tfBlend || '',
 				options: [
-					{ label: __( 'None', 'tunet-core' ), value: '' },
+					{ label: __( 'None', 'bloquix' ), value: '' },
 					{ label: 'Multiply', value: 'multiply' }, // mix-blend-mode CSS keywords are technical proper-nouns, left raw on purpose.
 					{ label: 'Screen', value: 'screen' },
 					{ label: 'Overlay', value: 'overlay' },
@@ -299,12 +299,12 @@
 			} );
 
 			var borderControl = el( SelectControl, {
-				label: __( 'Animated border', 'tunet-core' ),
+				label: __( 'Animated border', 'bloquix' ),
 				value: a.tfBorderFx || '',
 				options: [
-					{ label: __( 'None', 'tunet-core' ), value: '' },
-					{ label: __( 'Gradient', 'tunet-core' ), value: 'gradient' },
-					{ label: __( 'Rotating conic', 'tunet-core' ), value: 'conic-rotate' }
+					{ label: __( 'None', 'bloquix' ), value: '' },
+					{ label: __( 'Gradient', 'bloquix' ), value: 'gradient' },
+					{ label: __( 'Rotating conic', 'bloquix' ), value: 'conic-rotate' }
 				],
 				onChange: function ( value ) {
 					set( { tfBorderFx: value } );
@@ -318,24 +318,24 @@
 					Fragment,
 					{},
 					el( RangeControl, {
-						label: __( 'Border width (px)', 'tunet-core' ),
+						label: __( 'Border width (px)', 'bloquix' ),
 						value: a.tfBorderWidth || 0,
 						min: 0,
 						max: 12,
 						step: 1,
-						help: __( '0 = default width (2px).', 'tunet-core' ),
+						help: __( '0 = default width (2px).', 'bloquix' ),
 						onChange: function ( value ) {
 							set( { tfBorderWidth: value || 0 } );
 						},
 						__nextHasNoMarginBottom: true
 					} ),
 					el( RangeControl, {
-						label: __( 'Speed (s per loop)', 'tunet-core' ),
+						label: __( 'Speed (s per loop)', 'bloquix' ),
 						value: a.tfBorderSpeed || 0,
 						min: 0,
 						max: 20,
 						step: 0.5,
-						help: __( '0 = theme speed (--tnt-dur-slow).', 'tunet-core' ),
+						help: __( '0 = theme speed (--tnt-dur-slow).', 'bloquix' ),
 						onChange: function ( value ) {
 							set( { tfBorderSpeed: value || 0 } );
 						},
@@ -343,7 +343,7 @@
 					} ),
 					el(
 						BaseControl,
-						{ label: __( 'Start color (empty = theme accent)', 'tunet-core' ), __nextHasNoMarginBottom: true },
+						{ label: __( 'Start color (empty = theme accent)', 'bloquix' ), __nextHasNoMarginBottom: true },
 						el( ColorPalette, {
 							value: a.tfBorderColor1 || undefined,
 							colors: themePalette,
@@ -356,7 +356,7 @@
 					),
 					el(
 						BaseControl,
-						{ label: __( 'End color (empty = theme accent 2)', 'tunet-core' ), __nextHasNoMarginBottom: true },
+						{ label: __( 'End color (empty = theme accent 2)', 'bloquix' ), __nextHasNoMarginBottom: true },
 						el( ColorPalette, {
 							value: a.tfBorderColor2 || undefined,
 							colors: themePalette,
@@ -383,7 +383,7 @@
 					{},
 					el(
 						PanelBody,
-						{ title: __( 'Tunet Effects', 'tunet-core' ), initialOpen: false },
+						{ title: __( 'BloqUIX Effects', 'bloquix' ), initialOpen: false },
 						animationControl,
 						displayControl,
 						detailControls,
@@ -400,16 +400,16 @@
 				)
 			);
 		};
-	}, 'withTunetEffects' );
+	}, 'withBloquixEffects' );
 
-	addFilter( 'editor.BlockEdit', 'tunet/tf-controls', withTunetEffects );
+	addFilter( 'editor.BlockEdit', 'bloquix/tf-controls', withBloquixEffects );
 
 	/* ----------------------------------------------------------------------
 	 * 3) Inyección en el markup: NO se toca el markup guardado.
 	 *
 	 *    Los atributos tf* viven en el comentario del block (registrados en el
 	 *    paso 1) y se inyectan como data-tf-* y CSS vars ÚNICAMENTE en RENDER
-	 *    (filtro PHP render_block, en runtime/class-tunet-runtime.php), tanto
+	 *    (filtro PHP render_block, en runtime/class-bloquix-runtime.php), tanto
 	 *    para blocks estáticos como dinámicos.
 	 *
 	 *    Por qué NO usamos blocks.getSaveContent.extraProps: inyectar en el

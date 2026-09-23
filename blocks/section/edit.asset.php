@@ -1,8 +1,8 @@
 <?php
 /**
- * Dependencias y versión del editorScript del block tunet/section.
+ * Dependencias y versión del editorScript del block bloquix/section.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 return array(

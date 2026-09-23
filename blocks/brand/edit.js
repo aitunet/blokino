@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Tunet Core · Block tunet/brand — editor
+ * BloqUIX · Block bloquix/brand — editor
  * --------------------------------------------------------------------------
  * Sin JSX. Block dinámico (save → null). El preview usa wp.serverSideRender:
  * renderiza el render.php real, así el editor muestra el logo/título verdadero
@@ -18,7 +18,7 @@
 	var c = wp.components;
 	var ServerSideRender = wp.serverSideRender;
 
-	registerBlockType( 'tunet/brand', {
+	registerBlockType( 'bloquix/brand', {
 		edit: function ( props ) {
 			var a = props.attributes;
 			var set = props.setAttributes;
@@ -32,14 +32,14 @@
 					{},
 					el(
 						c.PanelBody,
-						{ title: __( 'Brand', 'tunet-core' ), initialOpen: true },
+						{ title: __( 'Brand', 'bloquix' ), initialOpen: true },
 						el( c.SelectControl, {
-							label: __( 'Variant', 'tunet-core' ),
+							label: __( 'Variant', 'bloquix' ),
 							value: a.variant,
 							options: [
-								{ label: __( 'Automatic (follows the palette)', 'tunet-core' ), value: 'auto' },
-								{ label: __( 'Main', 'tunet-core' ), value: 'main' },
-								{ label: __( 'Alternative', 'tunet-core' ), value: 'alt' }
+								{ label: __( 'Automatic (follows the palette)', 'bloquix' ), value: 'auto' },
+								{ label: __( 'Main', 'bloquix' ), value: 'main' },
+								{ label: __( 'Alternative', 'bloquix' ), value: 'alt' }
 							],
 							onChange: function ( v ) { set( { variant: v } ); },
 							__nextHasNoMarginBottom: true
@@ -48,11 +48,11 @@
 						// oscura: hasta ahora no pasaba y parecia un fallo del theme.
 						el(
 							'p',
-							{ className: 'tunet-editor-note' },
-							__( 'Automatic shows the alternative logo on dark palettes and style variations, and the main one otherwise. Set both in Tunet Core → Logos.', 'tunet-core' )
+							{ className: 'bloquix-editor-note' },
+							__( 'Automatic shows the alternative logo on dark palettes and style variations, and the main one otherwise. Set both in BloqUIX → Logos.', 'bloquix' )
 						),
 						el( c.RangeControl, {
-							label: __( 'Max width (px)', 'tunet-core' ),
+							label: __( 'Max width (px)', 'bloquix' ),
 							value: a.maxWidth,
 							min: 40,
 							max: 320,
@@ -61,7 +61,7 @@
 							__nextHasNoMarginBottom: true
 						} ),
 						el( c.ToggleControl, {
-							label: __( 'Link to Home', 'tunet-core' ),
+							label: __( 'Link to Home', 'bloquix' ),
 							checked: !! a.linkToHome,
 							onChange: function ( v ) { set( { linkToHome: !! v } ); },
 							__nextHasNoMarginBottom: true
@@ -71,8 +71,8 @@
 							{ style: { marginTop: '4px' } },
 							el(
 								c.ExternalLink,
-								{ href: 'admin.php?page=tunet-core-settings' },
-								__( 'Manage logo in Tunet Core → Logos', 'tunet-core' )
+								{ href: 'admin.php?page=bloquix-settings' },
+								__( 'Manage logo in BloqUIX → Logos', 'bloquix' )
 							)
 						)
 					)
@@ -86,9 +86,9 @@
 					// navigating; the front-end anchor is unaffected.
 					el(
 						'div',
-						{ className: 'tunet-brand__ssr', style: { pointerEvents: 'none' } },
+						{ className: 'bloquix-brand__ssr', style: { pointerEvents: 'none' } },
 						el( ServerSideRender, {
-							block: 'tunet/brand',
+							block: 'bloquix/brand',
 							attributes: a
 						} )
 					)

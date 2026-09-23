@@ -1,13 +1,13 @@
 <?php
 /**
- * Tunet Core · Demo importer + recommended-plugins wizard.
+ * BloqUIX · Demo importer + recommended-plugins wizard.
  *
- * Engine-side and theme-agnostic: reads the theme's `tunet_core_demo_manifest`
+ * Engine-side and theme-agnostic: reads the theme's `bloquix_demo_manifest`
  * and builds content, recording every created ID for replace/rollback. The
  * recommended plugins and the conditional Woo/CF7 content are declared by the
  * theme's manifest, not hardcoded here.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,12 +17,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Demo importer.
  */
-class Tunet_Core_Demo {
+class Bloquix_Demo {
 
-	const RECORD     = 'tunet_core_demo_record';
-	const MENU_SLUG  = 'tunet-demo';
+	const RECORD     = 'bloquix_demo_record';
+	const MENU_SLUG  = 'bloquix-demo';
 	const CAPABILITY = 'manage_options';
-	const NONCE      = 'tunet_demo';
+	const NONCE      = 'bloquix_demo';
 
 	/**
 	 * Plugins the wizard offers — resolved from the ACTIVE THEME's manifest
@@ -69,7 +69,7 @@ class Tunet_Core_Demo {
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG && '' !== $slug ) {
 					error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- aviso solo para el desarrollador del theme, con WP_DEBUG.
 						sprintf(
-							'Tunet Core: the demo manifest declares the plugin "%1$s", but the wizard cannot offer it. '
+							'BloqUIX: the demo manifest declares the plugin "%1$s", but the wizard cannot offer it. '
 								. 'Only contact-form-7 and woocommerce are known out of the box; for any other plugin the '
 								. 'manifest must give its main file, as in: \'%1$s\' => array( \'optional\' => true, \'file\' => \'%1$s/<main-file>.php\' ).',
 							$slug
@@ -100,10 +100,10 @@ class Tunet_Core_Demo {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_menu' ), 11 );
-		add_action( 'wp_ajax_tunet_demo_step', array( $this, 'ajax_step' ) );
-		add_action( 'wp_ajax_tunet_demo_rollback', array( $this, 'ajax_rollback' ) );
-		add_action( 'wp_ajax_tunet_demo_plugins', array( $this, 'ajax_plugins' ) );
-		add_action( 'wp_ajax_tunet_demo_install', array( $this, 'ajax_install' ) );
+		add_action( 'wp_ajax_bloquix_demo_step', array( $this, 'ajax_step' ) );
+		add_action( 'wp_ajax_bloquix_demo_rollback', array( $this, 'ajax_rollback' ) );
+		add_action( 'wp_ajax_bloquix_demo_plugins', array( $this, 'ajax_plugins' ) );
+		add_action( 'wp_ajax_bloquix_demo_install', array( $this, 'ajax_install' ) );
 	}
 
 	/* ---- Manifest --------------------------------------------------- */
@@ -112,7 +112,7 @@ class Tunet_Core_Demo {
 	 * @return array
 	 */
 	public static function manifest() {
-		$m = apply_filters( 'tunet_core_demo_manifest', array() );
+		$m = apply_filters( 'bloquix_demo_manifest', array() );
 		return is_array( $m ) ? $m : array();
 	}
 
@@ -133,7 +133,7 @@ class Tunet_Core_Demo {
 		update_option(
 			self::RECORD,
 			array(
-				'version'      => defined( 'TUNET_CORE_VERSION' ) ? TUNET_CORE_VERSION : '0',
+				'version'      => defined( 'BLOQUIX_VERSION' ) ? BLOQUIX_VERSION : '0',
 				'created_at'   => time(),
 				'posts'        => array(),
 				'projects'     => array(),
@@ -212,24 +212,24 @@ class Tunet_Core_Demo {
 	 */
 	public function import_steps() {
 		$steps   = array();
-		$steps[] = array( 'label' => __( 'Preparing…', 'tunet-core' ), 'cb' => array( $this, 'step_begin' ) );
-		$steps[] = array( 'label' => __( 'Importing media…', 'tunet-core' ), 'cb' => array( $this, 'step_media' ) );
+		$steps[] = array( 'label' => __( 'Preparing…', 'bloquix' ), 'cb' => array( $this, 'step_begin' ) );
+		$steps[] = array( 'label' => __( 'Importing media…', 'bloquix' ), 'cb' => array( $this, 'step_media' ) );
 		if ( ! empty( self::manifest()['brand'] ) ) {
-			$steps[] = array( 'label' => __( 'Setting up the brand…', 'tunet-core' ), 'cb' => array( $this, 'step_brand' ) );
+			$steps[] = array( 'label' => __( 'Setting up the brand…', 'bloquix' ), 'cb' => array( $this, 'step_brand' ) );
 		}
 		if ( class_exists( 'WPCF7_ContactForm' ) ) {
-			$steps[] = array( 'label' => __( 'Creating contact form…', 'tunet-core' ), 'cb' => array( $this, 'step_cf7' ) );
+			$steps[] = array( 'label' => __( 'Creating contact form…', 'bloquix' ), 'cb' => array( $this, 'step_cf7' ) );
 		}
-		$steps[] = array( 'label' => __( 'Creating projects…', 'tunet-core' ), 'cb' => array( $this, 'step_projects' ) );
-		$steps[] = array( 'label' => __( 'Creating journal posts…', 'tunet-core' ), 'cb' => array( $this, 'step_posts' ) );
-		$steps[] = array( 'label' => __( 'Creating pages…', 'tunet-core' ), 'cb' => array( $this, 'step_pages' ) );
+		$steps[] = array( 'label' => __( 'Creating projects…', 'bloquix' ), 'cb' => array( $this, 'step_projects' ) );
+		$steps[] = array( 'label' => __( 'Creating journal posts…', 'bloquix' ), 'cb' => array( $this, 'step_posts' ) );
+		$steps[] = array( 'label' => __( 'Creating pages…', 'bloquix' ), 'cb' => array( $this, 'step_pages' ) );
 		if ( class_exists( 'Easy_Digital_Downloads' ) && ! empty( self::manifest()['edd']['pages'] ) ) {
-			$steps[] = array( 'label' => __( 'Setting up the store pages…', 'tunet-core' ), 'cb' => array( $this, 'step_edd' ) );
+			$steps[] = array( 'label' => __( 'Setting up the store pages…', 'bloquix' ), 'cb' => array( $this, 'step_edd' ) );
 		}
 		if ( class_exists( 'WooCommerce' ) ) {
-			$steps[] = array( 'label' => __( 'Creating products…', 'tunet-core' ), 'cb' => array( $this, 'step_products' ) );
+			$steps[] = array( 'label' => __( 'Creating products…', 'bloquix' ), 'cb' => array( $this, 'step_products' ) );
 		}
-		$steps[] = array( 'label' => __( 'Finishing…', 'tunet-core' ), 'cb' => array( $this, 'step_finalize' ) );
+		$steps[] = array( 'label' => __( 'Finishing…', 'bloquix' ), 'cb' => array( $this, 'step_finalize' ) );
 		return $steps;
 	}
 
@@ -377,7 +377,7 @@ class Tunet_Core_Demo {
 	 * the 30 s PHP limit / 60 s proxy timeout of a cheap host. The killed request
 	 * came back as the host's HTML error page, the wizard tried to parse it as
 	 * JSON and hung. So this step works within a wall-clock budget per request
-	 * (`tunet_core_demo_media_budget`, seconds) and, when it runs out, returns
+	 * (`bloquix_demo_media_budget`, seconds) and, when it runs out, returns
 	 * `continue` so `ajax_step()` asks the wizard to call it again. Progress lives
 	 * in the record (`media_by_rel`: relpath => attachment id, 0 = failed;
 	 * `media_done`: relpath => true once its sizes exist), which also makes a
@@ -411,7 +411,7 @@ class Tunet_Core_Demo {
 		 * @param float $seconds Default 8, halved per retry.
 		 * @param int   $retry   Consecutive failed attempts on this step (0–3).
 		 */
-		$budget = (float) apply_filters( 'tunet_core_demo_media_budget', 8 / pow( 2, $this->retry ), $this->retry );
+		$budget = (float) apply_filters( 'bloquix_demo_media_budget', 8 / pow( 2, $this->retry ), $this->retry );
 		$start  = microtime( true );
 
 		$record   = self::get_record();
@@ -518,11 +518,11 @@ class Tunet_Core_Demo {
 			return;
 		}
 
-		$form_markup = "<label>" . __( 'Your name', 'tunet-core' ) . "\n    [text* your-name]</label>\n\n"
-			. "<label>" . __( 'Your email', 'tunet-core' ) . "\n    [email* your-email]</label>\n\n"
-			. "<label>" . __( 'Subject', 'tunet-core' ) . "\n    [text your-subject]</label>\n\n"
-			. "<label>" . __( 'Your message (optional)', 'tunet-core' ) . "\n    [textarea your-message]</label>\n\n"
-			. "[submit \"" . __( 'Submit', 'tunet-core' ) . "\"]";
+		$form_markup = "<label>" . __( 'Your name', 'bloquix' ) . "\n    [text* your-name]</label>\n\n"
+			. "<label>" . __( 'Your email', 'bloquix' ) . "\n    [email* your-email]</label>\n\n"
+			. "<label>" . __( 'Subject', 'bloquix' ) . "\n    [text your-subject]</label>\n\n"
+			. "<label>" . __( 'Your message (optional)', 'bloquix' ) . "\n    [textarea your-message]</label>\n\n"
+			. "[submit \"" . __( 'Submit', 'bloquix' ) . "\"]";
 		// A theme may ship its own form markup (CF7 tags) — an agency intake form
 		// with a service selector, say. It replaces the generic four-field form.
 		if ( ! empty( $cfg['form'] ) && is_string( $cfg['form'] ) ) {
@@ -574,7 +574,7 @@ class Tunet_Core_Demo {
 	 * written in the editor; a domain move is the usual search-replace. Skips
 	 * protocol-relative (//host) and /wp-* paths (those hang off siteurl, not
 	 * home). Template parts cannot run PHP, so on a subdirectory site the front
-	 * end is also covered at render time by tunet_core_render_subdir_links().
+	 * end is also covered at render time by bloquix_render_subdir_links().
 	 *
 	 * @param string $content Block markup.
 	 * @return string
@@ -674,8 +674,8 @@ class Tunet_Core_Demo {
 	 * Point a pattern's images at the Media Library copies imported in step_media,
 	 * so the buyer can edit/replace them from the editor. Rewrites core/image
 	 * blocks (adds the attachment id + wp-image-{id} class + library URL),
-	 * tunet/section image backgrounds (sets bgImageId/bgImageUrl), before/after
-	 * pairs and the slides of tunet/content-slider (imageId/imageUrl). No-op outside an
+	 * bloquix/section image backgrounds (sets bgImageId/bgImageUrl), before/after
+	 * pairs and the slides of bloquix/content-slider (imageId/imageUrl). No-op outside an
 	 * import (empty url_map) → patterns keep their theme-file URLs.
 	 *
 	 * @param string $content Expanded (inlined) pattern markup.
@@ -717,7 +717,7 @@ class Tunet_Core_Demo {
 					}
 					break;
 				}
-			} elseif ( 'tunet/section' === $name
+			} elseif ( 'bloquix/section' === $name
 				&& isset( $block['attrs']['bgType'], $block['attrs']['bgImageUrl'] )
 				&& 'image' === $block['attrs']['bgType']
 				&& empty( $block['attrs']['bgImageId'] )
@@ -725,7 +725,7 @@ class Tunet_Core_Demo {
 				$att                          = $map[ $block['attrs']['bgImageUrl'] ];
 				$block['attrs']['bgImageId']  = (int) $att['id'];
 				$block['attrs']['bgImageUrl'] = $att['url'];
-			} elseif ( 'tunet/content-slider' === $name && ! empty( $block['attrs']['items'] ) && is_array( $block['attrs']['items'] ) ) {
+			} elseif ( 'bloquix/content-slider' === $name && ! empty( $block['attrs']['items'] ) && is_array( $block['attrs']['items'] ) ) {
 				// Slides: wire each slide image (imageId + library URL).
 				foreach ( $block['attrs']['items'] as $i => $item ) {
 					if ( ! empty( $item['imageUrl'] ) && empty( $item['imageId'] ) && isset( $map[ $item['imageUrl'] ] ) ) {
@@ -734,7 +734,7 @@ class Tunet_Core_Demo {
 						$block['attrs']['items'][ $i ]['imageUrl'] = $att['url'];
 					}
 				}
-			} elseif ( 'tunet/before-after' === $name ) {
+			} elseif ( 'bloquix/before-after' === $name ) {
 				// Comparison block: wire both the before and after images.
 				foreach ( array( 'before', 'after' ) as $side ) {
 					$url_key = $side . 'Url';
@@ -857,7 +857,7 @@ class Tunet_Core_Demo {
 			'blogname'        => get_option( 'blogname' ),
 			'blogdescription' => get_option( 'blogdescription' ),
 			'custom_logo'     => (int) get_theme_mod( 'custom_logo' ),
-			'settings'        => get_option( 'tunet_core_settings', array() ),
+			'settings'        => get_option( 'bloquix_settings', array() ),
 		);
 		if ( ! empty( $brand['site_title'] ) ) {
 			update_option( 'blogname', sanitize_text_field( $brand['site_title'] ) );
@@ -866,7 +866,7 @@ class Tunet_Core_Demo {
 			update_option( 'blogdescription', sanitize_text_field( $brand['tagline'] ) );
 		}
 		$map      = $record['url_map'] ?? array();
-		$settings = (array) get_option( 'tunet_core_settings', array() );
+		$settings = (array) get_option( 'bloquix_settings', array() );
 		$find     = function ( $relpath ) use ( $map ) {
 			if ( empty( $relpath ) ) {
 				return 0;
@@ -884,7 +884,7 @@ class Tunet_Core_Demo {
 			$settings['logo_alt_id'] = $alt;
 		}
 		if ( $main || $alt ) {
-			update_option( 'tunet_core_settings', $settings );
+			update_option( 'bloquix_settings', $settings );
 		}
 		$record = self::get_record();
 		// A retried step must not overwrite the original values with the demo's.
@@ -1011,7 +1011,7 @@ class Tunet_Core_Demo {
 			if ( empty( $page['slug'] ) || empty( $page['pattern'] ) || empty( $page['title'] ) ) {
 				continue; // Skip incomplete manifest entries (no warnings).
 			}
-			// 'parent' => 'docs' (or a deeper path 'docs/tunet-core'): the page is a
+			// 'parent' => 'docs' (or a deeper path 'docs/bloquix'): the page is a
 			// child of that page — declare the parent EARLIER in the manifest, or
 			// have it exist already (an existing page is adopted, never recreated).
 			// A child's slug only has to be unique under its parent, so existence
@@ -1162,7 +1162,7 @@ class Tunet_Core_Demo {
 		// 2) Pages EDD knows only by setting. Engine defaults, manifest overrides.
 		$extra = array(
 			'login_page' => array(
-				'title'   => __( 'Log in', 'tunet-core' ),
+				'title'   => __( 'Log in', 'bloquix' ),
 				'slug'    => 'login',
 				'content' => '<!-- wp:edd/login /-->',
 			),
@@ -1439,7 +1439,7 @@ class Tunet_Core_Demo {
 			} else {
 				remove_theme_mod( 'custom_logo' );
 			}
-			update_option( 'tunet_core_settings', (array) $r['prev_brand']['settings'] );
+			update_option( 'bloquix_settings', (array) $r['prev_brand']['settings'] );
 		}
 
 		// Restore the previous front-page settings if the import changed them.
@@ -1464,7 +1464,7 @@ class Tunet_Core_Demo {
 	public function ajax_step() {
 		check_ajax_referer( self::NONCE, 'nonce' );
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet-core' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'bloquix' ) ) );
 		}
 
 		$steps = $this->import_steps();
@@ -1496,7 +1496,7 @@ class Tunet_Core_Demo {
 			if ( $t > 0 ) {
 				$part = min( 1, $n / $t );
 				/* translators: 1: step label, 2: items done, 3: items total. */
-				$label = sprintf( __( '%1$s %2$d/%3$d', 'tunet-core' ), $steps[ $step ]['label'], $n, $t );
+				$label = sprintf( __( '%1$s %2$d/%3$d', 'bloquix' ), $steps[ $step ]['label'], $n, $t );
 			}
 		}
 
@@ -1516,10 +1516,10 @@ class Tunet_Core_Demo {
 	public function ajax_rollback() {
 		check_ajax_referer( self::NONCE, 'nonce' );
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet-core' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'bloquix' ) ) );
 		}
 		$this->replace(); // replace() clears the record on its normal path.
-		wp_send_json_success( array( 'message' => __( 'Import undone.', 'tunet-core' ) ) );
+		wp_send_json_success( array( 'message' => __( 'Import undone.', 'bloquix' ) ) );
 	}
 
 	/**
@@ -1570,13 +1570,13 @@ class Tunet_Core_Demo {
 	public function ajax_install() {
 		check_ajax_referer( self::NONCE, 'nonce' );
 		if ( ! current_user_can( self::CAPABILITY ) || ! current_user_can( 'install_plugins' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'tunet-core' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'bloquix' ) ) );
 		}
 
 		$slug = isset( $_POST['slug'] ) ? sanitize_key( wp_unslash( $_POST['slug'] ) ) : '';
 		$all  = self::recommended_plugins();
 		if ( ! isset( $all[ $slug ] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Unknown plugin.', 'tunet-core' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Unknown plugin.', 'bloquix' ) ) );
 		}
 		$info = $all[ $slug ];
 
@@ -1592,13 +1592,13 @@ class Tunet_Core_Demo {
 		if ( ! array_key_exists( $info['file'], get_plugins() ) ) {
 			$api = plugins_api( 'plugin_information', array( 'slug' => $slug, 'fields' => array( 'sections' => false ) ) );
 			if ( is_wp_error( $api ) || empty( $api->download_link ) ) {
-				wp_send_json_error( array( 'message' => __( 'Could not reach the plugin directory.', 'tunet-core' ), 'install_url' => $install_url ) );
+				wp_send_json_error( array( 'message' => __( 'Could not reach the plugin directory.', 'bloquix' ), 'install_url' => $install_url ) );
 			}
 			$skin     = new Automatic_Upgrader_Skin();
 			$upgrader = new Plugin_Upgrader( $skin );
 			$result   = $upgrader->install( $api->download_link );
 			if ( is_wp_error( $result ) || ! $result ) {
-				wp_send_json_error( array( 'message' => __( 'Install failed — install it manually.', 'tunet-core' ), 'install_url' => $install_url ) );
+				wp_send_json_error( array( 'message' => __( 'Install failed — install it manually.', 'bloquix' ), 'install_url' => $install_url ) );
 			}
 		}
 
@@ -1620,7 +1620,7 @@ class Tunet_Core_Demo {
 	/* ---- Admin page -------------------------------------------------- */
 
 	/**
-	 * Register the Demo submenu under the Tunet Core menu.
+	 * Register the Demo submenu under the BloqUIX menu.
 	 *
 	 * The Demo screen only exists for themes that ship a manifest (premium
 	 * Tunet themes). Any other theme keeps the menu clean (§12).
@@ -1631,9 +1631,9 @@ class Tunet_Core_Demo {
 		}
 
 		add_submenu_page(
-			Tunet_Core_Admin::MENU_SLUG,
-			__( 'Demo', 'tunet-core' ),
-			__( 'Demo', 'tunet-core' ),
+			Bloquix_Admin::MENU_SLUG,
+			__( 'Demo', 'bloquix' ),
+			__( 'Demo', 'bloquix' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
 			array( $this, 'render_demo_page' )
@@ -1654,28 +1654,28 @@ class Tunet_Core_Demo {
 
 		$pages = isset( $manifest['pages'] ) && is_array( $manifest['pages'] ) ? count( $manifest['pages'] ) : 0;
 		if ( $pages ) {
-			$rows[] = array( 'n' => $pages, 'label' => _n( 'Page', 'Pages', $pages, 'tunet-core' ), 'icon' => 'admin-page' );
+			$rows[] = array( 'n' => $pages, 'label' => _n( 'Page', 'Pages', $pages, 'bloquix' ), 'icon' => 'admin-page' );
 		}
 
 		$projects = isset( $manifest['projects'] ) && is_array( $manifest['projects'] ) ? count( $manifest['projects'] ) : 0;
 		if ( $projects ) {
-			$rows[] = array( 'n' => $projects, 'label' => _n( 'Project', 'Projects', $projects, 'tunet-core' ), 'icon' => 'portfolio' );
+			$rows[] = array( 'n' => $projects, 'label' => _n( 'Project', 'Projects', $projects, 'bloquix' ), 'icon' => 'portfolio' );
 		}
 
 		$posts = isset( $manifest['posts'] ) && is_array( $manifest['posts'] ) ? count( $manifest['posts'] ) : 0;
 		if ( $posts ) {
-			$rows[] = array( 'n' => $posts, 'label' => _n( 'Journal post', 'Journal posts', $posts, 'tunet-core' ), 'icon' => 'admin-post' );
+			$rows[] = array( 'n' => $posts, 'label' => _n( 'Journal post', 'Journal posts', $posts, 'bloquix' ), 'icon' => 'admin-post' );
 		}
 
 		$products = isset( $manifest['woo']['products'] ) && is_array( $manifest['woo']['products'] ) ? count( $manifest['woo']['products'] ) : 0;
 		if ( $products ) {
-			$rows[] = array( 'n' => $products, 'label' => _n( 'Product', 'Products', $products, 'tunet-core' ), 'icon' => 'cart' );
+			$rows[] = array( 'n' => $products, 'label' => _n( 'Product', 'Products', $products, 'bloquix' ), 'icon' => 'cart' );
 		}
 
 		// EDD store pages: only a label (the count is decided at import time — the
 		// pages EDD already created are adopted, not duplicated).
 		if ( ! empty( $manifest['edd']['pages'] ) && class_exists( 'Easy_Digital_Downloads' ) ) {
-			$rows[] = array( 'n' => '✓', 'label' => __( 'Store pages (EDD)', 'tunet-core' ), 'icon' => 'cart' );
+			$rows[] = array( 'n' => '✓', 'label' => __( 'Store pages (EDD)', 'bloquix' ), 'icon' => 'cart' );
 		}
 
 		// Real image count = manifest-keyed images + every image under assets/img
@@ -1688,7 +1688,7 @@ class Tunet_Core_Demo {
 		}
 		$images = count( $image_rel );
 		if ( $images ) {
-			$rows[] = array( 'n' => $images, 'label' => _n( 'Image', 'Images', $images, 'tunet-core' ), 'icon' => 'format-image' );
+			$rows[] = array( 'n' => $images, 'label' => _n( 'Image', 'Images', $images, 'bloquix' ), 'icon' => 'format-image' );
 		}
 
 		return $rows;
@@ -1713,93 +1713,93 @@ class Tunet_Core_Demo {
 		$summary   = self::manifest_summary( $manifest );
 		$shot      = $theme->get_screenshot();
 		$home      = home_url( '/' );
-		$cancel    = self_admin_url( 'admin.php?page=' . Tunet_Core_Admin::MENU_SLUG );
+		$cancel    = self_admin_url( 'admin.php?page=' . Bloquix_Admin::MENU_SLUG );
 		?>
-		<div class="wrap tunet-admin tunet-demo">
-			<h1><?php esc_html_e( 'Tunet Core · Demo', 'tunet-core' ); ?></h1>
+		<div class="wrap bloquix-admin bloquix-demo">
+			<h1><?php esc_html_e( 'BloqUIX · Demo', 'bloquix' ); ?></h1>
 
 			<?php if ( ! $has_items ) : ?>
-				<div class="tunet-demo-empty">
+				<div class="bloquix-demo-empty">
 					<span class="dashicons dashicons-info-outline" aria-hidden="true"></span>
 					<div>
-						<p><strong><?php esc_html_e( 'No demo to import for the active theme.', 'tunet-core' ); ?></strong></p>
+						<p><strong><?php esc_html_e( 'No demo to import for the active theme.', 'bloquix' ); ?></strong></p>
 						<p class="description">
 							<?php
 							printf(
 								/* translators: %s: active theme name. */
-								esc_html__( '%s does not ship a demo manifest. Activate a Tunet theme to unlock its designed demo.', 'tunet-core' ),
+								esc_html__( '%s does not ship a demo manifest. Activate a theme built for BloqUIX to unlock its designed demo.', 'bloquix' ),
 								'<strong>' . esc_html( $theme->get( 'Name' ) ) . '</strong>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							);
 							?>
-							<a href="<?php echo esc_url( Tunet_Core_Themes::url() ); ?>"><?php esc_html_e( 'Browse Tunet themes →', 'tunet-core' ); ?></a>
+							<a href="<?php echo esc_url( Bloquix_Themes::url() ); ?>"><?php esc_html_e( 'Browse themes built for BloqUIX →', 'bloquix' ); ?></a>
 						</p>
 					</div>
 				</div>
 			<?php else : ?>
-			<div id="tunet-wizard" class="tunet-wizard" data-has-demo="<?php echo $has_demo ? '1' : '0'; ?>">
-				<ol class="tunet-stepper">
-					<li class="tunet-stepper__item is-current" data-step="plugins"><span class="tunet-stepper__n">1</span><?php esc_html_e( 'Plugins', 'tunet-core' ); ?></li>
-					<li class="tunet-stepper__item" data-step="import"><span class="tunet-stepper__n">2</span><?php esc_html_e( 'Import', 'tunet-core' ); ?></li>
+			<div id="bloquix-wizard" class="bloquix-wizard" data-has-demo="<?php echo $has_demo ? '1' : '0'; ?>">
+				<ol class="bloquix-stepper">
+					<li class="bloquix-stepper__item is-current" data-step="plugins"><span class="bloquix-stepper__n">1</span><?php esc_html_e( 'Plugins', 'bloquix' ); ?></li>
+					<li class="bloquix-stepper__item" data-step="import"><span class="bloquix-stepper__n">2</span><?php esc_html_e( 'Import', 'bloquix' ); ?></li>
 				</ol>
 
-				<div class="tunet-wizard__grid">
-					<aside class="tunet-wizard__aside">
+				<div class="bloquix-wizard__grid">
+					<aside class="bloquix-wizard__aside">
 						<?php if ( $shot ) : ?>
-							<div class="tunet-preview">
-								<div class="tunet-preview__bar"><span></span><span></span><span></span></div>
-								<div class="tunet-preview__shot"><img src="<?php echo esc_url( $shot ); ?>" alt="<?php echo esc_attr( sprintf( /* translators: %s: theme name. */ __( '%s preview', 'tunet-core' ), $theme->get( 'Name' ) ) ); ?>" /></div>
+							<div class="bloquix-preview">
+								<div class="bloquix-preview__bar"><span></span><span></span><span></span></div>
+								<div class="bloquix-preview__shot"><img src="<?php echo esc_url( $shot ); ?>" alt="<?php echo esc_attr( sprintf( /* translators: %s: theme name. */ __( '%s preview', 'bloquix' ), $theme->get( 'Name' ) ) ); ?>" /></div>
 							</div>
 						<?php endif; ?>
-						<p class="tunet-preview__caption">
+						<p class="bloquix-preview__caption">
 							<?php
 							printf(
 								/* translators: %s: active theme name. */
-								esc_html__( 'Demo for %s', 'tunet-core' ),
+								esc_html__( 'Demo for %s', 'bloquix' ),
 								'<strong>' . esc_html( $theme->get( 'Name' ) ) . '</strong>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							);
 							?>
 						</p>
 					</aside>
 
-					<div class="tunet-wizard__main">
-						<section class="tunet-step" data-panel="plugins">
-							<h2 class="tunet-step__title"><?php esc_html_e( 'Recommended plugins', 'tunet-core' ); ?></h2>
-							<p class="tunet-step__lead"><?php esc_html_e( 'These add optional parts of the demo (forms, shop…). Pick any you want and install & activate them, or just continue without them.', 'tunet-core' ); ?></p>
-							<ul class="tunet-plugins" id="tunet-plugins-list"></ul>
-							<p class="tunet-plugins__msg" aria-live="polite"></p>
-							<div class="tunet-step__actions">
-								<a class="tunet-cancel" href="<?php echo esc_url( $cancel ); ?>"><?php esc_html_e( 'Cancel', 'tunet-core' ); ?></a>
-								<span class="tunet-step__spacer"></span>
-								<button type="button" class="button" id="tunet-plugins-install"><?php esc_html_e( 'Install & activate', 'tunet-core' ); ?></button>
-								<button type="button" class="button button-primary" id="tunet-plugins-continue" disabled><?php esc_html_e( 'Continue', 'tunet-core' ); ?></button>
+					<div class="bloquix-wizard__main">
+						<section class="bloquix-step" data-panel="plugins">
+							<h2 class="bloquix-step__title"><?php esc_html_e( 'Recommended plugins', 'bloquix' ); ?></h2>
+							<p class="bloquix-step__lead"><?php esc_html_e( 'These add optional parts of the demo (forms, shop…). Pick any you want and install & activate them, or just continue without them.', 'bloquix' ); ?></p>
+							<ul class="bloquix-plugins" id="bloquix-plugins-list"></ul>
+							<p class="bloquix-plugins__msg" aria-live="polite"></p>
+							<div class="bloquix-step__actions">
+								<a class="bloquix-cancel" href="<?php echo esc_url( $cancel ); ?>"><?php esc_html_e( 'Cancel', 'bloquix' ); ?></a>
+								<span class="bloquix-step__spacer"></span>
+								<button type="button" class="button" id="bloquix-plugins-install"><?php esc_html_e( 'Install & activate', 'bloquix' ); ?></button>
+								<button type="button" class="button button-primary" id="bloquix-plugins-continue" disabled><?php esc_html_e( 'Continue', 'bloquix' ); ?></button>
 							</div>
 						</section>
 
-						<section class="tunet-step" data-panel="import" hidden>
-							<h2 class="tunet-step__title"><?php esc_html_e( 'Import the demo', 'tunet-core' ); ?></h2>
-							<p class="tunet-step__lead"><?php esc_html_e( 'Creates the demo as native, editable blocks — pages, content and settings. You can undo it with one click.', 'tunet-core' ); ?></p>
+						<section class="bloquix-step" data-panel="import" hidden>
+							<h2 class="bloquix-step__title"><?php esc_html_e( 'Import the demo', 'bloquix' ); ?></h2>
+							<p class="bloquix-step__lead"><?php esc_html_e( 'Creates the demo as native, editable blocks — pages, content and settings. You can undo it with one click.', 'bloquix' ); ?></p>
 							<?php if ( $has_demo ) : ?>
-								<p class="tunet-demo-note"><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span> <?php esc_html_e( 'A demo is already imported. Re-importing replaces it; Undo removes it.', 'tunet-core' ); ?></p>
+								<p class="bloquix-demo-note"><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span> <?php esc_html_e( 'A demo is already imported. Re-importing replaces it; Undo removes it.', 'bloquix' ); ?></p>
 							<?php endif; ?>
-							<div class="tunet-progress" hidden><div class="tunet-progress__bar"></div></div>
-							<p class="tunet-progress__status" aria-live="polite"></p>
-							<p class="tunet-done" hidden><a class="button button-primary button-hero" href="<?php echo esc_url( $home ); ?>"><?php esc_html_e( 'View site', 'tunet-core' ); ?></a></p>
-							<div class="tunet-step__actions">
-								<button type="button" class="button tunet-back" data-to="plugins">&larr; <?php esc_html_e( 'Back', 'tunet-core' ); ?></button>
-								<span class="tunet-step__spacer"></span>
-								<button type="button" class="button button-primary" id="tunet-demo-import"><?php esc_html_e( 'Import demo', 'tunet-core' ); ?></button>
-								<button type="button" class="button" id="tunet-demo-rollback" <?php disabled( ! $has_demo ); ?>><?php esc_html_e( 'Undo import', 'tunet-core' ); ?></button>
+							<div class="bloquix-progress" hidden><div class="bloquix-progress__bar"></div></div>
+							<p class="bloquix-progress__status" aria-live="polite"></p>
+							<p class="bloquix-done" hidden><a class="button button-primary button-hero" href="<?php echo esc_url( $home ); ?>"><?php esc_html_e( 'View site', 'bloquix' ); ?></a></p>
+							<div class="bloquix-step__actions">
+								<button type="button" class="button bloquix-back" data-to="plugins">&larr; <?php esc_html_e( 'Back', 'bloquix' ); ?></button>
+								<span class="bloquix-step__spacer"></span>
+								<button type="button" class="button button-primary" id="bloquix-demo-import"><?php esc_html_e( 'Import demo', 'bloquix' ); ?></button>
+								<button type="button" class="button" id="bloquix-demo-rollback" <?php disabled( ! $has_demo ); ?>><?php esc_html_e( 'Undo import', 'bloquix' ); ?></button>
 							</div>
 						</section>
 					</div>
 				</div>
 				<?php if ( $summary ) : ?>
-					<ul class="tunet-summary">
+					<ul class="bloquix-summary">
 						<?php foreach ( $summary as $row ) : ?>
-							<li class="tunet-summary__item">
+							<li class="bloquix-summary__item">
 								<span class="dashicons dashicons-<?php echo esc_attr( $row['icon'] ); ?>" aria-hidden="true"></span>
-								<span class="tunet-summary__n"><?php echo esc_html( is_numeric( $row['n'] ) ? number_format_i18n( $row['n'] ) : $row['n'] ); ?></span>
-								<span class="tunet-summary__l"><?php echo esc_html( $row['label'] ); ?></span>
+								<span class="bloquix-summary__n"><?php echo esc_html( is_numeric( $row['n'] ) ? number_format_i18n( $row['n'] ) : $row['n'] ); ?></span>
+								<span class="bloquix-summary__l"><?php echo esc_html( $row['label'] ); ?></span>
 							</li>
 						<?php endforeach; ?>
 					</ul>

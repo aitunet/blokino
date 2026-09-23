@@ -1,8 +1,8 @@
 <?php
 /**
- * Dependencias y versión del editorScript del block tunet/before-after.
+ * Dependencias y versión del editorScript del block bloquix/before-after.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 return array(

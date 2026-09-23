@@ -1,8 +1,8 @@
 <?php
 /**
- * Dependencias y versión del editorScript del block tunet/icon.
+ * Dependencias y versión del editorScript del block bloquix/icon.
  *
- * @package Tunet\Core
+ * @package Bloquix
  */
 
 return array(
@@ -12,7 +12,7 @@ return array(
 		'wp-block-editor',
 		'wp-components',
 		'wp-i18n',
-		'tunet-icon-svg',
+		'bloquix-icon-svg',
 	),
 	'version'      => '0.2.0',
 );
