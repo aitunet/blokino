@@ -200,7 +200,7 @@
 /* Step content (lives inside the wizard card) */
 .blokino-step { min-width: 0; }
 .blokino-step__title { margin: 0 0 6px; font-size: 18px; }
-.blokino-step__lead { margin: 0 0 18px; color: #50575e; max-width: 60ch; }
+.blokino-step__lead { margin: 0 0 18px; color: #50575e; }
 .blokino-step__actions { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
 .blokino-step__spacer { flex: 1 1 auto; }
 /* "Cancel" como acción secundaria discreta (enlace), alineada con los botones
@@ -258,7 +258,7 @@
 .blokino-demo-note .dashicons { color: #1e7e34; }
 .blokino-done { margin: 6px 0 0; }
 /* In-page confirmation before Import / Undo import (no browser confirm()). */
-.blokino-confirm { margin: 14px 0 0; padding: 14px 16px; background: #fcf9e8; border: 1px solid #f0e2a8; border-left: 4px solid #dba617; border-radius: 4px; max-width: 60ch; }
+.blokino-confirm { margin: 14px 0 0; padding: 14px 16px; background: #fcf9e8; border: 1px solid #f0e2a8; border-left: 4px solid #dba617; border-radius: 4px; }
 .blokino-confirm:focus { outline: none; }
 .blokino-confirm__title { margin: 0 0 4px; font-weight: 600; color: #1d2327; }
 .blokino-confirm__text { margin: 0 0 12px; color: #3c434a; }
