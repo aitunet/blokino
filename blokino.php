@@ -325,7 +325,7 @@ add_action( 'wp_head', 'blokino_meta_description', 1 );
  * así cubre también los themes Tunet INACTIVOS —cuyo functions.php no se carga—
  * y cualquier theme Tunet futuro sin código nuevo. "Lo nuestro premium" se
  * identifica solo por el header Update URI = tunetdesign.com; un theme Tunet
- * GRATIS distribuido por wp.org (p. ej. Tunet Starter) no declara ese header y
+ * GRATIS distribuido por wp.org (p. ej. Blokmark) no declara ese header y
  * debe seguir recibiendo sus updates del directorio con normalidad.
  *
  * Degrada con dignidad (§12): sin themes Tunet instalados no toca nada; no
@@ -344,7 +344,7 @@ function blokino_suppress_theme_updates( $value ) {
 			continue;
 		}
 		// Only themes that update from tunetdesign.com (premium, EDD). A theme
-		// hosted on wordpress.org (Tunet Starter) has no Update URI → keep it.
+		// hosted on wordpress.org (Blokmark) has no Update URI → keep it.
 		$update_uri = (string) $theme->get( 'UpdateURI' );
 		if ( '' === $update_uri || false === stripos( $update_uri, 'tunetdesign.com' ) ) {
 			continue;

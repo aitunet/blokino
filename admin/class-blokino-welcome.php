@@ -76,7 +76,7 @@ class Blokino_Welcome {
 
 	/**
 	 * Is the active theme one made for this engine? Author URI or Update URI on
-	 * tunetdesign.com — covers the premium themes and Tunet Starter alike.
+	 * tunetdesign.com — covers the premium themes and Blokmark alike.
 	 *
 	 * @return bool
 	 */
@@ -254,12 +254,12 @@ class Blokino_Welcome {
 							?>
 						</p>
 					<?php elseif ( $themes_url ) : ?>
-						<p><?php esc_html_e( 'Start free with Tunet Starter, our theme on WordPress.org — or pick a premium one.', 'blokino' ); ?></p>
+						<p><?php esc_html_e( 'Start free with Blokmark, our free theme, or pick a premium one.', 'blokino' ); ?></p>
 						<p>
 							<?php if ( class_exists( 'Blokino_Themes' ) && 'installed' === Blokino_Themes::local_state( Blokino_Themes::FREE_THEME ) ) : ?>
-								<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'themes.php?action=activate&stylesheet=' . Blokino_Themes::FREE_THEME ), 'switch-theme_' . Blokino_Themes::FREE_THEME ) ); ?>"><?php esc_html_e( 'Activate Tunet Starter', 'blokino' ); ?></a>
+								<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'themes.php?action=activate&stylesheet=' . Blokino_Themes::FREE_THEME ), 'switch-theme_' . Blokino_Themes::FREE_THEME ) ); ?>"><?php esc_html_e( 'Activate Blokmark', 'blokino' ); ?></a>
 							<?php elseif ( class_exists( 'Blokino_Themes' ) ) : ?>
-								<a class="button button-primary" href="<?php echo esc_url( Blokino_Themes::free_theme_install_url() ); ?>"><?php esc_html_e( 'Get Tunet Starter — free', 'blokino' ); ?></a>
+								<a class="button button-primary" href="<?php echo esc_url( Blokino_Themes::free_theme_url() ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Get Blokmark, free ↗', 'blokino' ); ?></a>
 							<?php endif; ?>
 							<a class="button" href="<?php echo esc_url( $themes_url ); ?>"><?php esc_html_e( 'Browse themes', 'blokino' ); ?></a>
 						</p>
