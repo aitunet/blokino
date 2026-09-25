@@ -31,7 +31,7 @@ Blokino adds motion and interaction to WordPress blocks without ever hardcoding 
 
 **Who makes it**
 
-Developed and maintained by TUNET Design (https://tunetdesign.com). Source and issue tracker: https://github.com/aitunet. Support: info@tunetdesign.com
+Developed and maintained by TUNET Digital Agency (https://tunetdesign.com). Source and issue tracker: https://github.com/aitunet. Support: info@tunetdesign.com
 
 == Installation ==
 
@@ -67,7 +67,7 @@ Effects load conditionally (only when a page uses them); the runtime is vanilla 
 
 Blokino works fully offline. It connects to a third-party service only in the two cases below, never in the background and never with personal data.
 
-**tunetdesign.com theme catalog** — When you open *Blokino → Themes* in wp-admin, the plugin sends one GET request to `https://tunetdesign.com/wp-json/tunet/v1/themes` to list the themes designed for this engine (name, tagline, price, preview image, demo link). The request carries no site URL, no user data and a neutral user agent; the response is cached for 12 hours. The screen is optional — if you never open it, the request is never made. Service by TUNET Design: terms https://tunetdesign.com/terms/ · privacy https://tunetdesign.com/privacy/
+**tunetdesign.com theme catalog** — When you open *Blokino → Themes* in wp-admin, the plugin sends one GET request to `https://tunetdesign.com/wp-json/tunet/v1/themes` to list the themes designed for this engine (name, tagline, price, preview image, demo link). The request carries no site URL, no user data and a neutral user agent; the response is cached for 12 hours. The screen is optional — if you never open it, the request is never made. Service by TUNET Digital Agency: terms https://tunetdesign.com/terms/ · privacy https://tunetdesign.com/privacy/
 
 **Google Fonts** — Only if you choose a Google font family in *Blokino → Settings → Typography*, the front end and the editor load that family's stylesheet from `https://fonts.googleapis.com` (and the font files from `fonts.gstatic.com`), like most themes and page builders do. Visitors' browsers request the files directly from Google; the plugin sends nothing itself. Leave the typography setting on your theme's fonts and no request to Google is made. Google Fonts terms https://developers.google.com/fonts/terms · privacy https://policies.google.com/privacy
 

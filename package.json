@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Blokino: extensiones tf*, blocks propios y runtime de efectos. Build con @wordpress/scripts y assets condicionales por block.",
-  "author": "TUNET Design <info@tunetdesign.com>",
+  "author": "TUNET Digital Agency <info@tunetdesign.com>",
   "license": "GPL-2.0-or-later",
   "scripts": {
     "build": "wp-scripts build",

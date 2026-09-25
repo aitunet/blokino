@@ -2,7 +2,7 @@
 
 Opt-in block effects, custom blocks and a lightweight effects runtime for the WordPress block editor. Nothing is hardcoded: every effect is enabled per block, and every value (color, easing, duration) is read from the active theme's design tokens (`--tnt-*`), with sensible defaults when a theme doesn't define them.
 
-Blokino adds opt-in entrance, hover and scroll effects to the blocks you already use, plus the blocks the editor lacks. It is made by [TUNET Design](https://tunetdesign.com), works with any block theme, is free software (GPL-2.0-or-later) and is being submitted to the [WordPress.org plugin directory](https://wordpress.org/plugins/).
+Blokino adds opt-in entrance, hover and scroll effects to the blocks you already use, plus the blocks the editor lacks. It is made by [TUNET Digital Agency](https://tunetdesign.com), works with any block theme, is free software (GPL-2.0-or-later) and is being submitted to the [WordPress.org plugin directory](https://wordpress.org/plugins/).
 
 ## What it provides
 
@@ -48,4 +48,4 @@ Issues and pull requests are welcome at <https://github.com/aitunet/blokino>. Pl
 
 GPL-2.0-or-later. See [LICENSE](LICENSE).
 
-Made by [TUNET Design](https://tunetdesign.com) — [profiles.wordpress.org/tunetdesign](https://profiles.wordpress.org/tunetdesign/).
+Made by [TUNET Digital Agency](https://tunetdesign.com) — [profiles.wordpress.org/tunetdesign](https://profiles.wordpress.org/tunetdesign/).
