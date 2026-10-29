@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ Blokino adds motion and interaction to WordPress blocks without ever hardcoding 
 * **Custom blocks where the core falls short.** Section (advanced backgrounds: video, gradient, mesh, overlay, shape dividers), Marquee (infinite band), Counter (animated number on scroll), Before/After (image comparator), Slider and Testimonials (Swiper-powered), Brand, Icon and Badge.
 * **A lightweight effects runtime.** Effects are detected per page and their assets are enqueued only when a block on the page uses them. Reveal uses the native IntersectionObserver and scroll effects run on requestAnimationFrame — no third-party animation library. Swiper (MIT) is the only bundled library, loaded solely on pages with a slider. `prefers-reduced-motion` is always respected.
 * **An options panel + demo importer.** Global settings, JSON import/export, sidebar layout controls, and a per-theme demo importer with a progress bar and one-click rollback.
-* **A free theme to start with.** Blokmark, our free block theme, is built for this engine: a designed home the moment you activate it, three looks, blog and page templates. The Themes screen links to it, then lists the premium themes.
+* **A free theme to start with.** Blokmark, our free block theme on WordPress.org, is built for this engine: a designed home the moment you activate it, three looks, blog and page templates. The Themes screen installs it with WordPress's own theme installer, then lists the premium themes.
 * **A Get started screen.** Site status, the three steps to a finished site (theme → demo → effects) and the doors to the documentation.
 
 **Design principles**
@@ -49,7 +49,7 @@ No. Every effect is opt-in per block. Installing and activating the plugin appli
 
 = Do I need a special theme? =
 
-No. The engine ships default design-token values so effects and blocks look good under any theme; the plugin is theme-agnostic. If you want a theme made for it, Blokmark is free at https://www.tunetdesign.com/downloads/blokmark/, and the premium themes add bespoke tokens, patterns and a one-click demo.
+No. The engine ships default design-token values so effects and blocks look good under any theme; the plugin is theme-agnostic. If you want a theme made for it, Blokmark is free on WordPress.org (Appearance → Themes → Add New, search "Blokmark"), and the premium themes add bespoke tokens, patterns and a one-click demo.
 
 = Does it respect reduced-motion preferences? =
 
@@ -82,5 +82,8 @@ Blokino works fully offline. It connects to a third-party service only in the tw
 5. Export your Blokino settings to a JSON file and import them on another site, for example to move a design from staging to production.
 
 == Changelog ==
+= 1.1.0 =
+* Blokmark, the free theme made for this engine, is now on WordPress.org: the Themes and Get started screens install it with WordPress's own theme installer instead of linking to a download.
+
 = 1.0.0 =
 * First release on WordPress.org.

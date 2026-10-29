@@ -28,13 +28,9 @@ class Blokino_Themes {
 	const ENDPOINT   = 'https://tunetdesign.com/wp-json/tunet/v1/themes';
 	const STORE_URL  = 'https://tunetdesign.com/downloads/';
 	const TTL        = 12 * HOUR_IN_SECONDS;
-	/**
-	 * The free theme — always listed first, no network needed. Until it is approved on WordPress.org
-	 * (Blokino 1.1) the card links to its product page on the author's site instead of installing it;
-	 * "Activate" stays when it is already installed.
-	 */
+	/** The free theme, published on WordPress.org — always listed first, no network needed. */
 	const FREE_THEME     = 'blokmark';
-	const FREE_THEME_URL = 'https://www.tunetdesign.com/downloads/blokmark/';
+	const FREE_THEME_URL = 'https://wordpress.org/themes/blokmark/';
 
 	/**
 	 * Hooks.
@@ -191,13 +187,24 @@ class Blokino_Themes {
 	}
 
 	/**
-	 * Where to get the free theme: its product page (a download, not an installer)
-	 * until it is on WordPress.org.
+	 * Can the current user install the free theme from here? False when they lack
+	 * the capability (which also covers DISALLOW_FILE_MODS).
+	 *
+	 * @return bool
+	 */
+	public static function can_install_free_theme() {
+		return current_user_can( 'install_themes' );
+	}
+
+	/**
+	 * Where a click on "Install" goes: WordPress's own theme installer, opened on
+	 * the free theme (the directory serves the ZIP; this plugin downloads nothing).
+	 * Without permission to install, the theme's page on WordPress.org.
 	 *
 	 * @return string
 	 */
 	public static function free_theme_url() {
-		return self::FREE_THEME_URL;
+		return self::can_install_free_theme() ? admin_url( 'theme-install.php?theme=' . self::FREE_THEME ) : self::FREE_THEME_URL;
 	}
 
 	/**
@@ -226,15 +233,16 @@ class Blokino_Themes {
 					<h2>Blokmark</h2>
 					<span class="blokino-theme-card__price blokino-theme-card__price--free"><?php esc_html_e( 'Free', 'blokino' ); ?></span>
 				</div>
-				<p class="blokino-theme-card__tagline"><?php esc_html_e( 'Our free block theme: a designed home the moment you activate it, three looks, blog and page templates, and every effect of this engine.', 'blokino' ); ?></p>
+				<p class="blokino-theme-card__tagline"><?php esc_html_e( 'Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates, and every effect of this engine.', 'blokino' ); ?></p>
 				<div class="blokino-theme-card__actions">
 					<?php if ( 'active' === $state ) : ?>
 						<a class="button button-primary" href="<?php echo esc_url( admin_url( 'site-editor.php' ) ); ?>"><?php esc_html_e( 'Open the Site Editor', 'blokino' ); ?></a>
 					<?php elseif ( 'installed' === $state ) : ?>
 						<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'themes.php?action=activate&stylesheet=' . self::FREE_THEME ), 'switch-theme_' . self::FREE_THEME ) ); ?>"><?php esc_html_e( 'Activate', 'blokino' ); ?></a>
-					<?php else : ?>
-						<a class="button button-primary" href="<?php echo esc_url( self::free_theme_url() ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Download free ↗', 'blokino' ); ?></a>
+					<?php elseif ( self::can_install_free_theme() ) : ?>
+						<a class="button button-primary" href="<?php echo esc_url( self::free_theme_url() ); ?>"><?php esc_html_e( 'Install from WordPress.org', 'blokino' ); ?></a>
 					<?php endif; ?>
+					<a class="button" href="<?php echo esc_url( self::FREE_THEME_URL ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Details ↗', 'blokino' ); ?></a>
 				</div>
 			</div>
 		</article>
@@ -259,7 +267,7 @@ class Blokino_Themes {
 		<div class="wrap blokino-admin blokino-themes">
 			<h1><?php esc_html_e( 'Blokino · Themes', 'blokino' ); ?></h1>
 			<p class="description blokino-themes__lede">
-				<?php esc_html_e( 'Themes designed for this engine. Blokmark is free; the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. Blokino stays free and works with any theme.', 'blokino' ); ?>
+				<?php esc_html_e( 'Themes designed for this engine. Blokmark is free on WordPress.org; the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. Blokino stays free and works with any theme.', 'blokino' ); ?>
 			</p>
 
 			<div class="blokino-themes__grid blokino-themes__grid--free">

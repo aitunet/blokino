@@ -70,7 +70,7 @@ msgstr "Palabras acentuadas (índices, p. ej. «2,5»)"
 msgid "Accessibility label"
 msgstr "Etiqueta de accesibilidad"
 
-#: admin/class-blokino-admin.php:499 admin/class-blokino-themes.php:234
+#: admin/class-blokino-admin.php:499 admin/class-blokino-themes.php:241
 msgid "Activate"
 msgstr "Activar"
 
@@ -78,7 +78,7 @@ msgstr "Activar"
 msgid "Activate Blokmark"
 msgstr "Activar Blokmark"
 
-#: admin/class-blokino-admin.php:500 admin/class-blokino-themes.php:217 admin/class-blokino-themes.php:300
+#: admin/class-blokino-admin.php:500 admin/class-blokino-themes.php:224 admin/class-blokino-themes.php:312
 msgid "Active"
 msgstr "Activo"
 
@@ -102,7 +102,7 @@ msgstr "Añadir nuevo proyecto"
 msgid "Add item"
 msgstr "Añadir elemento"
 
-#: admin/class-blokino-welcome.php:282
+#: admin/class-blokino-welcome.php:286
 msgid "Add motion to any block"
 msgstr "Añade movimiento a cualquier bloque"
 
@@ -162,7 +162,7 @@ msgstr "Animar el degradado"
 msgid "Animated border"
 msgstr "Borde animado"
 
-#: admin/class-blokino-welcome.php:286
+#: admin/class-blokino-welcome.php:290
 msgid "Animation"
 msgstr "Animación"
 
@@ -238,7 +238,7 @@ msgstr "Etiqueta de «antes»"
 msgid "Blend mode"
 msgstr "Modo de fusión"
 
-#: admin/class-blokino-welcome.php:299
+#: admin/class-blokino-welcome.php:303
 msgid "Blocks the editor lacks"
 msgstr "Bloques que el editor no trae"
 
@@ -254,7 +254,7 @@ msgstr "Blokino"
 msgid "Blokino Before / After"
 msgstr "Blokino Antes / Después"
 
-#: admin/class-blokino-welcome.php:285 extensions/effects-editor.js:386
+#: admin/class-blokino-welcome.php:289 extensions/effects-editor.js:386
 msgid "Blokino Effects"
 msgstr "Efectos Blokino"
 
@@ -278,7 +278,7 @@ msgstr "Blokino requiere WordPress %1$s o superior y PHP %2$s o superior."
 msgid "Blokino · Demo"
 msgstr "Blokino · Demo"
 
-#: admin/class-blokino-themes.php:256
+#: admin/class-blokino-themes.php:268
 msgid "Blokino · Themes"
 msgstr "Blokino · Themes"
 
@@ -358,11 +358,11 @@ msgstr "Miga de pan"
 msgid "Breadcrumbs"
 msgstr "Migas de pan"
 
-#: admin/class-blokino-themes.php:272
+#: admin/class-blokino-themes.php:284
 msgid "Browse the themes on tunetdesign.com ↗"
 msgstr "Ver los themes en tunetdesign.com ↗"
 
-#: admin/class-blokino-welcome.php:264
+#: admin/class-blokino-welcome.php:268
 msgid "Browse themes"
 msgstr "Ver themes"
 
@@ -582,11 +582,11 @@ msgstr "Demo"
 msgid "Demo for %s"
 msgstr "Demo de %s"
 
-#: admin/class-blokino-admin.php:491 admin/class-blokino-welcome.php:273
+#: admin/class-blokino-admin.php:491 admin/class-blokino-welcome.php:277
 msgid "Demo imported."
 msgstr "Demo importada."
 
-#: admin/class-blokino-welcome.php:301
+#: admin/class-blokino-welcome.php:305
 msgid "Demo importer"
 msgstr "Importador de demo"
 
@@ -598,9 +598,13 @@ msgstr "Descripción"
 msgid "Description alignment"
 msgstr "Alineación de la descripción"
 
-#: admin/class-blokino-welcome.php:300
+#: admin/class-blokino-welcome.php:304
 msgid "Design tokens"
 msgstr "Tokens de diseño"
+
+#: admin/class-blokino-themes.php:245
+msgid "Details ↗"
+msgstr "Detalles ↗"
 
 #: blocks/section/edit.js:82
 msgid "Diagonal"
@@ -630,17 +634,13 @@ msgstr "Color del divisor"
 msgid "Divider height (px)"
 msgstr "Altura del divisor (px)"
 
-#: admin/class-blokino-welcome.php:308
+#: admin/class-blokino-welcome.php:312
 msgid "Documentation"
 msgstr "Documentación"
 
 #: blocks/marquee/edit.js:158
 msgid "Dot"
 msgstr "Punto"
-
-#: admin/class-blokino-themes.php:236
-msgid "Download free ↗"
-msgstr "Descargar gratis ↗"
 
 #: admin/class-blokino-admin.php:804
 msgid "Download the current settings as a JSON file."
@@ -650,7 +650,7 @@ msgstr "Descarga los ajustes actuales como archivo JSON."
 msgid "Duration (ms)"
 msgstr "Duración (ms)"
 
-#: admin/class-blokino-welcome.php:287
+#: admin/class-blokino-welcome.php:291
 msgid "Easing"
 msgstr "Curva"
 
@@ -670,7 +670,7 @@ msgstr "Editar proyecto"
 msgid "Effects"
 msgstr "Efectos"
 
-#: admin/class-blokino-welcome.php:298
+#: admin/class-blokino-welcome.php:302
 msgid "Effects on native blocks"
 msgstr "Efectos en bloques nativos"
 
@@ -710,7 +710,7 @@ msgstr "Exportar"
 msgid "Export settings (.json)"
 msgstr "Exportar ajustes (.json)"
 
-#: admin/class-blokino-welcome.php:310
+#: admin/class-blokino-welcome.php:314
 msgid "FAQ"
 msgstr "Preguntas frecuentes"
 
@@ -726,7 +726,7 @@ msgstr "Relleno"
 msgid "Finishing…"
 msgstr "Finalizando…"
 
-#: admin/class-blokino-themes.php:221 admin/class-blokino-themes.php:227
+#: admin/class-blokino-themes.php:228 admin/class-blokino-themes.php:234
 msgid "Free"
 msgstr "Gratis"
 
@@ -742,7 +742,7 @@ msgstr "Ancho completo (sin barra lateral)"
 msgid "General"
 msgstr "General"
 
-#: admin/class-blokino-welcome.php:262
+#: admin/class-blokino-welcome.php:265
 msgid "Get Blokmark, free ↗"
 msgstr "Conseguir Blokmark gratis ↗"
 
@@ -750,11 +750,11 @@ msgstr "Conseguir Blokmark gratis ↗"
 msgid "Get started"
 msgstr "Primeros pasos"
 
-#: admin/class-blokino-themes.php:315
+#: admin/class-blokino-themes.php:327
 msgid "Get the theme ↗"
 msgstr "Conseguir el theme ↗"
 
-#: admin/class-blokino-welcome.php:309
+#: admin/class-blokino-welcome.php:313
 msgid "Getting started guide"
 msgstr "Guía de primeros pasos"
 
@@ -770,7 +770,7 @@ msgstr "Degradado"
 msgid "Grid"
 msgstr "Rejilla"
 
-#: admin/class-blokino-welcome.php:306
+#: admin/class-blokino-welcome.php:310
 msgid "Help"
 msgstr "Ayuda"
 
@@ -782,7 +782,7 @@ msgstr "Inicio"
 msgid "Home label"
 msgstr "Rótulo del inicio"
 
-#: admin/class-blokino-welcome.php:288
+#: admin/class-blokino-welcome.php:292
 msgid "Hover"
 msgstr "Hover"
 
@@ -820,7 +820,7 @@ msgstr "Importar demo"
 msgid "Import settings"
 msgstr "Importar ajustes"
 
-#: admin/class-blokino-demo.php:1779 admin/class-blokino-themes.php:313 admin/class-blokino-welcome.php:270
+#: admin/class-blokino-demo.php:1779 admin/class-blokino-themes.php:325 admin/class-blokino-welcome.php:274
 msgid "Import the demo"
 msgstr "Importar la demo"
 
@@ -860,15 +860,23 @@ msgstr "Heredar"
 msgid "Install & activate"
 msgstr "Instalar y activar"
 
+#: admin/class-blokino-welcome.php:263
+msgid "Install Blokmark, free"
+msgstr "Instalar Blokmark gratis"
+
 #: admin/class-blokino-demo.php:1601
 msgid "Install failed — install it manually."
 msgstr "La instalación falló — instálalo manualmente."
+
+#: admin/class-blokino-themes.php:243
+msgid "Install from WordPress.org"
+msgstr "Instalar desde WordPress.org"
 
 #: admin/class-blokino-admin.php:507
 msgid "Install manually"
 msgstr "Instalar manualmente"
 
-#: admin/class-blokino-themes.php:219 admin/class-blokino-themes.php:302
+#: admin/class-blokino-themes.php:226 admin/class-blokino-themes.php:314
 msgid "Installed"
 msgstr "Instalado"
 
@@ -934,7 +942,7 @@ msgstr "URL del enlace"
 msgid "Link to Home"
 msgstr "Enlazar al inicio"
 
-#: admin/class-blokino-themes.php:318
+#: admin/class-blokino-themes.php:330
 msgid "Live preview ↗"
 msgstr "Vista previa ↗"
 
@@ -966,7 +974,7 @@ msgstr "Principal"
 msgid "Main logo"
 msgstr "Logo principal"
 
-#: admin/class-blokino-welcome.php:273
+#: admin/class-blokino-welcome.php:277
 msgid "Manage"
 msgstr "Gestionar"
 
@@ -1082,7 +1090,7 @@ msgstr "No se encontraron proyectos"
 msgid "No repeat"
 msgstr "Sin repetición"
 
-#: admin/class-blokino-themes.php:281
+#: admin/class-blokino-themes.php:293
 msgid "No themes listed yet."
 msgstr "Aún no hay themes en la lista."
 
@@ -1110,15 +1118,15 @@ msgstr "Abrir Estilos en el editor del sitio"
 msgid "Open in new tab"
 msgstr "Abrir en una pestaña nueva"
 
-#: admin/class-blokino-welcome.php:275
+#: admin/class-blokino-welcome.php:279
 msgid "Open the Demo importer"
 msgstr "Abrir el importador de demo"
 
-#: admin/class-blokino-themes.php:232
+#: admin/class-blokino-themes.php:239
 msgid "Open the Site Editor"
 msgstr "Abrir el Editor del sitio"
 
-#: admin/class-blokino-welcome.php:290
+#: admin/class-blokino-welcome.php:294
 msgid "Open the editor"
 msgstr "Abrir el editor"
 
@@ -1126,9 +1134,9 @@ msgstr "Abrir el editor"
 msgid "Optional"
 msgstr "Opcional"
 
-#: admin/class-blokino-themes.php:229
-msgid "Our free block theme: a designed home the moment you activate it, three looks, blog and page templates, and every effect of this engine."
-msgstr "Nuestro block theme gratis: una home diseñada desde que lo activas, tres estilos, plantillas de blog y de página, y todos los efectos de este motor."
+#: admin/class-blokino-themes.php:236
+msgid "Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates, and every effect of this engine."
+msgstr "Nuestro block theme gratis en WordPress.org: una home diseñada desde que lo activas, tres estilos, plantillas de blog y de página, y todos los efectos de este motor."
 
 #: blocks/content-slider/edit.js:31 extensions/effects-editor.js:144
 msgid "Outline"
@@ -1164,7 +1172,7 @@ msgid_plural "Pages"
 msgstr[0] "Página"
 msgstr[1] "Páginas"
 
-#: admin/class-blokino-welcome.php:271
+#: admin/class-blokino-welcome.php:275
 msgid "Pages, patterns, images and settings, wired to your Media Library so you can edit or replace anything — with a one-click rollback."
 msgstr "Páginas, patrones, imágenes y ajustes, enlazados a tu Biblioteca de medios para que edites o reemplaces lo que quieras, con deshacer de un clic."
 
@@ -1192,7 +1200,7 @@ msgstr "Pausar el vídeo de fondo"
 msgid "Pause on hover"
 msgstr "Pausar al pasar el ratón"
 
-#: admin/class-blokino-admin.php:1036 admin/class-blokino-admin.php:1070 admin/class-blokino-admin.php:1092 admin/class-blokino-demo.php:1467 admin/class-blokino-demo.php:1519 admin/class-blokino-demo.php:1573 admin/class-blokino-themes.php:148 admin/class-blokino-welcome.php:169
+#: admin/class-blokino-admin.php:1036 admin/class-blokino-admin.php:1070 admin/class-blokino-admin.php:1092 admin/class-blokino-demo.php:1467 admin/class-blokino-demo.php:1519 admin/class-blokino-demo.php:1573 admin/class-blokino-themes.php:144 admin/class-blokino-welcome.php:169
 msgid "Permission denied."
 msgstr "Permiso denegado."
 
@@ -1240,7 +1248,7 @@ msgstr "Imagen de póster"
 msgid "Prefix"
 msgstr "Prefijo"
 
-#: admin/class-blokino-themes.php:265
+#: admin/class-blokino-themes.php:277
 msgid "Premium themes"
 msgstr "Themes premium"
 
@@ -1292,7 +1300,7 @@ msgstr "Listo para importar"
 msgid "Recommended plugins"
 msgstr "Plugins recomendados"
 
-#: admin/class-blokino-themes.php:331
+#: admin/class-blokino-themes.php:343
 msgid "Refresh the list"
 msgstr "Actualizar la lista"
 
@@ -1416,11 +1424,11 @@ msgstr "Buscar…"
 msgid "Seconds per turn"
 msgstr "Segundos por vuelta"
 
-#: admin/class-blokino-welcome.php:299
+#: admin/class-blokino-welcome.php:303
 msgid "Section, Slider, Marquee, Counter, Before/After, Testimonials, Brand, Icon, Badge."
 msgstr "Sección, Slider, Marquesina, Contador, Antes/Después, Testimonios, Marca, Icono, Insignia."
 
-#: admin/class-blokino-welcome.php:283
+#: admin/class-blokino-welcome.php:287
 msgid "Select a Group, Image, Heading, Paragraph, Cover or Buttons block and open the Blokino Effects panel in the sidebar: entrance animation, hover, scroll. Leave it empty and the block stays exactly as it is."
 msgstr "Selecciona un bloque Grupo, Imagen, Encabezado, Párrafo, Fondo o Botones y abre el panel Blokino Effects en la barra lateral: animación de entrada, hover, scroll. Si lo dejas vacío, el bloque queda exactamente igual."
 
@@ -1536,7 +1544,7 @@ msgstr "Color del velo en pantallas pequeñas"
 msgid "Solid (default)"
 msgstr "Sólido (por defecto)"
 
-#: admin/class-blokino-welcome.php:312
+#: admin/class-blokino-welcome.php:316
 msgid "Source on GitHub"
 msgstr "Código en GitHub"
 
@@ -1569,8 +1577,8 @@ msgid "Start color (empty = theme accent)"
 msgstr "Color inicial (vacío = acento del tema)"
 
 #: admin/class-blokino-welcome.php:257
-msgid "Start free with Blokmark, our free theme, or pick a premium one."
-msgstr "Empieza gratis con Blokmark, nuestro theme gratis, o elige uno premium."
+msgid "Start free with Blokmark, our theme on WordPress.org, or pick a premium one."
+msgstr "Empieza gratis con Blokmark, nuestro theme en WordPress.org, o elige uno premium."
 
 #: blocks/before-after/edit.js:79
 msgid "Start position (%)"
@@ -1624,7 +1632,7 @@ msgstr "Sutil (rápido)"
 msgid "Suffix"
 msgstr "Sufijo"
 
-#: admin/class-blokino-welcome.php:311
+#: admin/class-blokino-welcome.php:315
 msgid "Support"
 msgstr "Soporte"
 
@@ -1660,7 +1668,7 @@ msgstr "Texto escalonado"
 msgid "The band only scrolls on the front end — here the items wrap so you can edit them. Visitors who ask for reduced motion see it still, with a play control."
 msgstr "La banda solo se desplaza en el front end; aquí los elementos se reparten en varias líneas para que puedas editarlos. Quien pide movimiento reducido la ve quieta, con un control de reproducción."
 
-#: admin/class-blokino-themes.php:270
+#: admin/class-blokino-themes.php:282
 msgid "The catalog could not be loaded."
 msgstr "No se pudo cargar el catálogo."
 
@@ -1676,7 +1684,7 @@ msgstr "El archivo no es un JSON de ajustes válido."
 msgid "The server did not answer with JSON (%s). The request was probably cut short by a time limit."
 msgstr "El servidor no respondió con JSON (%s). Probablemente un límite de tiempo cortó la petición."
 
-#: admin/class-blokino-themes.php:97 admin/class-blokino-themes.php:111
+#: admin/class-blokino-themes.php:93 admin/class-blokino-themes.php:107
 msgid "The theme catalog is not available right now."
 msgstr "El catálogo de themes no está disponible ahora mismo."
 
@@ -1696,17 +1704,17 @@ msgstr "Valor del theme"
 msgid "Theme default (expo)"
 msgstr "Por defecto del tema (expo)"
 
-#: admin/class-blokino-themes.php:54 admin/class-blokino-themes.php:55
+#: admin/class-blokino-themes.php:50 admin/class-blokino-themes.php:51
 msgid "Themes"
 msgstr "Themes"
 
-#: admin/class-blokino-themes.php:329
+#: admin/class-blokino-themes.php:341
 msgid "Themes are sold on %1$s and come as parent + child theme with a license key for updates and support. %2$s"
 msgstr "Los themes se venden en %1$s e incluyen theme padre + child y una clave de licencia para actualizaciones y soporte. %2$s"
 
-#: admin/class-blokino-themes.php:258
-msgid "Themes designed for this engine. Blokmark is free; the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. Blokino stays free and works with any theme."
-msgstr "Themes diseñados para este motor. Blokmark es gratis; los premium traen tokens de diseño a medida, patrones de bloques y una demo de un clic que se importa desde este plugin. Blokino sigue siendo gratis y funciona con cualquier theme."
+#: admin/class-blokino-themes.php:270
+msgid "Themes designed for this engine. Blokmark is free on WordPress.org; the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. Blokino stays free and works with any theme."
+msgstr "Themes diseñados para este motor. Blokmark es gratis en WordPress.org; los premium traen tokens de diseño a medida, patrones de bloques y una demo de un clic que se importa desde este plugin. Blokino sigue siendo gratis y funciona con cualquier theme."
 
 #: admin/class-blokino-admin.php:762
 msgid "Themes that ship a sidebar area react automatically. A theme without one simply stays full width."
@@ -1732,7 +1740,7 @@ msgstr "Esto añade a tu sitio las páginas, entradas e imágenes del demo y cam
 msgid "This permanently deletes the pages, posts and images the demo created — including any changes you made to them — and restores your previous site title, logo and front page. Content you created yourself is kept."
 msgstr "Esto elimina para siempre las páginas, entradas e imágenes que creó el demo, incluidos los cambios que les hayas hecho, y restaura el título del sitio, el logo y la portada anteriores. El contenido que creaste tú se conserva."
 
-#: admin/class-blokino-welcome.php:277
+#: admin/class-blokino-welcome.php:281
 msgid "This theme ships no demo. Build with the block patterns of your theme, or pick one made for this engine."
 msgstr "Este theme no incluye demo. Construye con los patrones de bloques de tu theme o elige uno hecho para este motor."
 
@@ -1780,7 +1788,7 @@ msgstr "Arriba a la izquierda"
 msgid "Top right"
 msgstr "Arriba a la derecha"
 
-#: admin/class-blokino-themes.php:273
+#: admin/class-blokino-themes.php:285
 msgid "Try again"
 msgstr "Reintentar"
 
@@ -1836,7 +1844,7 @@ msgstr "Ver %s"
 msgid "View Project"
 msgstr "Ver proyecto"
 
-#: admin/class-blokino-themes.php:315
+#: admin/class-blokino-themes.php:327
 msgid "View on tunetdesign.com ↗"
 msgstr "Ver en tunetdesign.com ↗"
 
@@ -1844,7 +1852,7 @@ msgstr "Ver en tunetdesign.com ↗"
 msgid "View site"
 msgstr "Ver el sitio"
 
-#: admin/class-blokino-themes.php:282
+#: admin/class-blokino-themes.php:294
 msgid "Visit tunetdesign.com ↗"
 msgstr "Visitar tunetdesign.com ↗"
 
@@ -1856,11 +1864,11 @@ msgstr "Onda"
 msgid "Website"
 msgstr "Sitio web"
 
-#: admin/class-blokino-welcome.php:296
+#: admin/class-blokino-welcome.php:300
 msgid "What Blokino adds"
 msgstr "Qué añade Blokino"
 
-#: admin/class-blokino-welcome.php:318
+#: admin/class-blokino-welcome.php:322
 msgid "What’s new in %s"
 msgstr "Novedades de %s"
 
@@ -2238,15 +2246,15 @@ msgstr "Blokino Testimonios"
 msgid "e.g. +, %, K, M"
 msgstr "p. ej. +, %, K, M"
 
-#: admin/class-blokino-welcome.php:298
+#: admin/class-blokino-welcome.php:302
 msgid "entrance, hover and scroll, per block, opt-in."
 msgstr "entrada, hover y scroll, por bloque, opcionales."
 
-#: admin/class-blokino-welcome.php:300
+#: admin/class-blokino-welcome.php:304
 msgid "every effect reads its colors and curves from the active theme; style variations recolor everything."
 msgstr "cada efecto lee sus colores y curvas del theme activo; las variaciones de estilo recolorean todo."
 
-#: admin/class-blokino-welcome.php:301
+#: admin/class-blokino-welcome.php:305
 msgid "per theme, with progress and rollback."
 msgstr "por theme, con progreso y deshacer."
 
