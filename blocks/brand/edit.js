@@ -89,7 +89,8 @@
 						{ className: 'blokino-brand__ssr', style: { pointerEvents: 'none' } },
 						el( ServerSideRender, {
 							block: 'blokino/brand',
-							attributes: a
+							attributes: a,
+							httpMethod: 'POST'
 						} )
 					)
 				)

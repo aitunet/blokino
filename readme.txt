@@ -84,6 +84,8 @@ Blokino works fully offline. It connects to a third-party service only in the tw
 == Changelog ==
 = 1.1.0 =
 * Blokmark, the free theme made for this engine, is now on WordPress.org: the Themes and Get started screens install it with WordPress's own theme installer instead of linking to a download.
+* Fix: the editor preview of Content slider and Testimonials no longer fails with "414 Request-URI Too Large" when a carousel has many slides (the preview is now requested by POST). Same for the Brand block.
+* Fix: Section no longer triggers the "wp.blockEditor.useSetting is deprecated" warning in the editor; it reads the theme palette and gradients with useSettings.
 
 = 1.0.0 =
 * First release on WordPress.org.

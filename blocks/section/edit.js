@@ -19,6 +19,8 @@
 	var ColorPalette = be.ColorPalette;
 	var MediaUpload = be.MediaUpload;
 	var MediaUploadCheck = be.MediaUploadCheck;
+	// WP 6.5+ replaced useSetting with the variadic useSettings (returns an array); keep the old ones as fallbacks.
+	var useSettings = be.useSettings;
 	var useSetting = be.useSetting || be.__experimentalUseSetting;
 	var c = wp.components;
 
@@ -87,8 +89,11 @@
 		edit: function ( props ) {
 			var a = props.attributes;
 			var set = props.setAttributes;
-			var palette = useSetting ? ( useSetting( 'color.palette' ) || [] ) : [];
-			var gradients = useSetting ? ( useSetting( 'color.gradients' ) || [] ) : [];
+			var colorSettings = useSettings
+				? useSettings( 'color.palette', 'color.gradients' )
+				: ( useSetting ? [ useSetting( 'color.palette' ), useSetting( 'color.gradients' ) ] : [] );
+			var palette = colorSettings[ 0 ] || [];
+			var gradients = colorSettings[ 1 ] || [];
 
 			/* ---- Estilos (CSS vars) del preview ---- */
 			var style = {};

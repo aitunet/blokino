@@ -254,7 +254,9 @@
 		return el(
 			'div',
 			{ ref: ref, className: 'blokino-carousel-editor' },
-			el( ServerSideRender, { block: props.block, attributes: props.attributes } )
+			// POST: con GET los atributos viajan en la URL y un carrusel con varias
+			// slides supera el límite del servidor (414 Request-URI Too Large).
+			el( ServerSideRender, { block: props.block, attributes: props.attributes, httpMethod: 'POST' } )
 		);
 	}
 
