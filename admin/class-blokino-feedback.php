@@ -39,7 +39,9 @@ class Blokino_Feedback {
 	 */
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-		add_action( 'admin_footer-plugins.php', array( $this, 'render_dialog' ) );
+		// admin_footer, not admin_footer-plugins.php: that one fires AFTER the footer scripts
+		// are printed, so feedback.js would run before the dialog exists.
+		add_action( 'admin_footer', array( $this, 'render_dialog' ) );
 		add_action( 'wp_ajax_' . self::ACTION, array( $this, 'handle' ) );
 	}
 
@@ -131,7 +133,8 @@ class Blokino_Feedback {
 	 * The dialog markup, printed once in the Plugins screen footer.
 	 */
 	public function render_dialog() {
-		if ( ! self::enabled() ) {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( ! $screen || 'plugins' !== $screen->id || ! self::enabled() ) {
 			return;
 		}
 		$user  = wp_get_current_user();
