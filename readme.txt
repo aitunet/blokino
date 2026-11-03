@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,9 +65,11 @@ Effects load conditionally (only when a page uses them); the runtime is vanilla 
 
 == External services ==
 
-Blokino works fully offline. It connects to a third-party service only in the two cases below, never in the background and never with personal data.
+Blokino works fully offline. It connects to an external service only in the three cases below, never in the background, and sends personal data only if you explicitly allow it (deactivation feedback with "You may contact me" ticked).
 
 **tunetdesign.com theme catalog** — When you open *Blokino → Themes* in wp-admin, the plugin sends one GET request to `https://tunetdesign.com/wp-json/tunet/v1/themes` to list the themes designed for this engine (name, tagline, price, preview image, demo link). The request carries no site URL, no user data and a neutral user agent; the response is cached for 12 hours. The screen is optional — if you never open it, the request is never made. Service by TUNET Digital Agency: terms https://tunetdesign.com/terms/ · privacy https://tunetdesign.com/privacy/
+
+**Deactivation feedback (optional)** — When you click *Deactivate* on Blokino in the Plugins screen, a dialog asks why you are leaving. Nothing is sent unless you pick a reason and press *Submit & deactivate*; *Skip & deactivate* deactivates right away and sends nothing. On submit, your site's server sends one POST request to `https://tunetdesign.com/wp-json/tunet-store/v1/feedback` with the reason, the text you typed, the Blokino, WordPress and PHP versions, the admin language and the active theme's name, with a neutral user agent. Your email address and your site's URL are included only if you tick *You may contact me about this*. Answers are read by the plugin's authors to fix what made people leave. Service by TUNET Digital Agency: terms https://tunetdesign.com/terms/ · privacy https://tunetdesign.com/privacy/
 
 **Google Fonts** — Only if you choose a Google font family in *Blokino → Settings → Typography*, the front end and the editor load that family's stylesheet from `https://fonts.googleapis.com` (and the font files from `fonts.gstatic.com`), like most themes and page builders do. Visitors' browsers request the files directly from Google; the plugin sends nothing itself. Leave the typography setting on your theme's fonts and no request to Google is made. Google Fonts terms https://developers.google.com/fonts/terms · privacy https://policies.google.com/privacy
 
@@ -82,6 +84,9 @@ Blokino works fully offline. It connects to a third-party service only in the tw
 5. Export your Blokino settings to a JSON file and import them on another site, for example to move a design from staging to production.
 
 == Changelog ==
+= 1.1.1 =
+* New: an optional feedback dialog when you deactivate Blokino (why you are leaving, plus a text box). Nothing is sent unless you press "Submit & deactivate"; your email and site URL only if you tick "You may contact me". See External services.
+
 = 1.1.0 =
 * Blokmark, the free theme made for this engine, is now on WordPress.org: the Themes and Get started screens install it with WordPress's own theme installer instead of linking to a download.
 * Fix: the editor preview of Content slider and Testimonials no longer fails with "414 Request-URI Too Large" when a carousel has many slides (the preview is now requested by POST). Same for the Brand block.

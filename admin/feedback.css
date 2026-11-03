@@ -1,0 +1,137 @@
+/* ==========================================================================
+ * Blokino · Deactivation feedback dialog (Plugins screen)
+ * WordPress admin look: system font, admin colors, core buttons.
+ * ========================================================================== */
+
+.blokino-fb {
+	box-sizing: border-box;
+	inline-size: min(560px, calc(100vw - 32px));
+	max-block-size: calc(100vh - 32px);
+	padding: 0;
+	border: 0;
+	border-radius: 8px;
+	background: #fff;
+	color: #1d2327;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 12px 32px rgba(0, 0, 0, 0.18);
+	overflow: auto;
+}
+
+.blokino-fb::backdrop {
+	background: rgba(29, 35, 39, 0.6);
+}
+
+.blokino-fb[open] {
+	animation: blokino-fb-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes blokino-fb-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(0.98);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.blokino-fb[open] {
+		animation: none;
+	}
+}
+
+.blokino-fb__form {
+	padding: 24px 24px 20px;
+}
+
+.blokino-fb__title {
+	margin: 0 0 6px;
+	font-size: 18px;
+	line-height: 1.35;
+}
+
+.blokino-fb__intro {
+	margin: 0 0 16px;
+	color: #50575e;
+}
+
+.blokino-fb__reasons {
+	margin: 0 0 16px;
+	padding: 0;
+	border: 0;
+}
+
+.blokino-fb__reason {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	min-block-size: 40px;
+	padding: 4px 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blokino-fb__reason:hover {
+	background: #f6f7f7;
+}
+
+.blokino-fb__reason:has(input:checked) {
+	background: #f0f6fc;
+}
+
+.blokino-fb__reason input[type="radio"] {
+	margin: 0;
+}
+
+.blokino-fb__label {
+	display: block;
+	margin: 0 0 6px;
+	font-weight: 600;
+}
+
+.blokino-fb textarea,
+.blokino-fb input[type="email"] {
+	box-sizing: border-box;
+	inline-size: 100%;
+}
+
+.blokino-fb__contact {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin: 12px 0 0;
+}
+
+.blokino-fb__contact input[type="checkbox"] {
+	margin: 0;
+}
+
+.blokino-fb__email {
+	margin: 8px 0 0;
+}
+
+.blokino-fb__privacy {
+	margin: 16px 0 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #646970;
+}
+
+.blokino-fb__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	align-items: center;
+	justify-content: space-between;
+	margin: 20px 0 0;
+	padding: 16px 0 0;
+	border-top: 1px solid #f0f0f1;
+}
+
+.blokino-fb__buttons {
+	display: flex;
+	gap: 8px;
+	margin-inline-start: auto;
+}
+
+.blokino-fb__skip {
+	color: #50575e;
+}

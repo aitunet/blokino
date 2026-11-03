@@ -3,7 +3,7 @@
  * Plugin Name:       Blokino – Block Effects & Custom Blocks
  * Plugin URI:        https://tunetdesign.com/docs/blokino/
  * Description:       Opt-in entrance, hover and scroll effects for native blocks, plus custom blocks (section, slider, marquee, counter, before/after…) and a lightweight effects runtime. Every value comes from the active theme's design tokens; nothing is applied until you switch it on.
- * Version:           1.1.0
+ * Version:           1.1.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            TUNET Digital Agency
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* -------------------------------------------------------------------------
  * Constantes del plugin
  * ---------------------------------------------------------------------- */
-define( 'BLOKINO_VERSION', '1.1.0' );
+define( 'BLOKINO_VERSION', '1.1.1' );
 define( 'BLOKINO_FILE', __FILE__ );
 define( 'BLOKINO_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOKINO_URL', plugin_dir_url( __FILE__ ) );
@@ -45,6 +45,7 @@ require_once BLOKINO_PATH . 'admin/class-blokino-admin.php';
 require_once BLOKINO_PATH . 'admin/class-blokino-demo.php';
 require_once BLOKINO_PATH . 'admin/class-blokino-themes.php';
 require_once BLOKINO_PATH . 'admin/class-blokino-welcome.php';
+require_once BLOKINO_PATH . 'admin/class-blokino-feedback.php';
 
 /**
  * Orquestador principal del motor.
@@ -126,6 +127,7 @@ final class Blokino {
 			new Blokino_Demo();
 			new Blokino_Themes();
 			new Blokino_Welcome();
+			new Blokino_Feedback();
 		}
 	}
 }
