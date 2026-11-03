@@ -22,7 +22,7 @@ msgstr ""
 msgid "%s preview"
 msgstr ""
 
-#: blocks/section/edit.js:243
+#: blocks/section/edit.js:248
 msgid "0 = automatic."
 msgstr ""
 
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Add testimonials from the “Items” panel in the block sidebar."
 msgstr ""
 
-#: blocks/section/edit.js:234
+#: blocks/section/edit.js:239
 msgid "Adds a flat scrim under 782px, on top of the overlay. Useful when a side gradient stops covering the text on mobile."
 msgstr ""
 
@@ -154,7 +154,7 @@ msgstr ""
 msgid "An error occurred."
 msgstr ""
 
-#: blocks/section/edit.js:159
+#: blocks/section/edit.js:164
 msgid "Animate gradient"
 msgstr ""
 
@@ -172,6 +172,10 @@ msgstr ""
 
 #: admin/class-blokino-welcome.php:248
 msgid "Any theme works. A theme made for this engine also brings its own design tokens, block patterns and a one-click demo."
+msgstr ""
+
+#: admin/class-blokino-feedback.php:77
+msgid "Anything we could have done better?"
 msgstr ""
 
 #: admin/class-blokino-admin.php:606
@@ -202,11 +206,11 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: admin/class-blokino-admin.php:663 admin/class-blokino-admin.php:712 blocks/section/edit.js:209
+#: admin/class-blokino-admin.php:663 admin/class-blokino-admin.php:712 blocks/section/edit.js:214
 msgid "Background"
 msgstr ""
 
-#: blocks/section/edit.js:155
+#: blocks/section/edit.js:160
 msgid "Background color"
 msgstr ""
 
@@ -214,11 +218,11 @@ msgstr ""
 msgid "Background image"
 msgstr ""
 
-#: blocks/section/edit.js:140
+#: blocks/section/edit.js:145
 msgid "Background type"
 msgstr ""
 
-#: blocks/section/edit.js:200
+#: blocks/section/edit.js:205
 msgid "Background video always plays muted, with a pause control. Visitors who ask for reduced motion see the poster instead, with a play control — and the video is not downloaded until they ask for it."
 msgstr ""
 
@@ -232,6 +236,10 @@ msgstr ""
 
 #: blocks/before-after/edit.js:90
 msgid "Before label"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:142
+msgid "Before you go — why are you deactivating Blokino?"
 msgstr ""
 
 #: extensions/effects-editor.js:284
@@ -258,7 +266,7 @@ msgstr ""
 msgid "Blokino Effects"
 msgstr ""
 
-#: blokino.php:391
+#: blokino.php:393
 msgid "Blokino activation"
 msgstr ""
 
@@ -270,7 +278,7 @@ msgstr ""
 msgid "Blokino is ready."
 msgstr ""
 
-#: blokino.php:386
+#: blokino.php:388
 msgid "Blokino requires WordPress %1$s or newer and PHP %2$s or newer."
 msgstr ""
 
@@ -302,7 +310,7 @@ msgstr ""
 msgid "Border width (px)"
 msgstr ""
 
-#: blocks/section/edit.js:244
+#: blocks/section/edit.js:249
 msgid "Bottom"
 msgstr ""
 
@@ -310,7 +318,7 @@ msgstr ""
 msgid "Bottom center"
 msgstr ""
 
-#: blocks/section/edit.js:260
+#: blocks/section/edit.js:265
 msgid "Bottom divider"
 msgstr ""
 
@@ -378,7 +386,7 @@ msgstr ""
 msgid "Cadence between words. 0 = default cadence."
 msgstr ""
 
-#: admin/class-blokino-demo.php:1771 admin/class-blokino-demo.php:1791
+#: admin/class-blokino-demo.php:1771 admin/class-blokino-demo.php:1791 admin/class-blokino-feedback.php:180
 msgid "Cancel"
 msgstr ""
 
@@ -390,7 +398,7 @@ msgstr ""
 msgid "Carousel"
 msgstr ""
 
-#: blocks/content-slider/edit.js:21 blocks/content-slider/edit.js:26 blocks/content-slider/edit.js:52 blocks/section/edit.js:244
+#: blocks/content-slider/edit.js:21 blocks/content-slider/edit.js:26 blocks/content-slider/edit.js:52 blocks/section/edit.js:249
 msgid "Center"
 msgstr ""
 
@@ -422,7 +430,7 @@ msgstr ""
 msgid "Choose before image"
 msgstr ""
 
-#: blocks/section/edit.js:166
+#: blocks/section/edit.js:171
 msgid "Choose image"
 msgstr ""
 
@@ -430,7 +438,7 @@ msgstr ""
 msgid "Choose the before and after images to compare."
 msgstr ""
 
-#: blocks/section/edit.js:171
+#: blocks/section/edit.js:176
 msgid "Choose video"
 msgstr ""
 
@@ -450,7 +458,7 @@ msgstr ""
 msgid "Clip reveal"
 msgstr ""
 
-#: blocks/content-slider/edit.js:103 blocks/section/edit.js:144 blocks/section/edit.js:217
+#: blocks/content-slider/edit.js:103 blocks/section/edit.js:149 blocks/section/edit.js:222
 msgid "Color"
 msgstr ""
 
@@ -470,7 +478,7 @@ msgstr ""
 msgid "Connection hiccup — retrying…"
 msgstr ""
 
-#: blocks/section/edit.js:249
+#: blocks/section/edit.js:254
 msgid "Constrained (content)"
 msgstr ""
 
@@ -494,7 +502,7 @@ msgstr ""
 msgid "Content layout"
 msgstr ""
 
-#: blocks/section/edit.js:246
+#: blocks/section/edit.js:251
 msgid "Content width"
 msgstr ""
 
@@ -542,7 +550,7 @@ msgstr ""
 msgid "Creating projects…"
 msgstr ""
 
-#: blocks/section/edit.js:83
+#: blocks/section/edit.js:85
 msgid "Curve"
 msgstr ""
 
@@ -606,7 +614,7 @@ msgstr ""
 msgid "Details ↗"
 msgstr ""
 
-#: blocks/section/edit.js:82
+#: blocks/section/edit.js:84
 msgid "Diagonal"
 msgstr ""
 
@@ -626,11 +634,11 @@ msgstr ""
 msgid "Display style"
 msgstr ""
 
-#: blocks/section/edit.js:261
+#: blocks/section/edit.js:266
 msgid "Divider color"
 msgstr ""
 
-#: blocks/section/edit.js:262
+#: blocks/section/edit.js:267
 msgid "Divider height (px)"
 msgstr ""
 
@@ -674,6 +682,10 @@ msgstr ""
 msgid "Effects on native blocks"
 msgstr ""
 
+#: admin/class-blokino-feedback.php:163
+msgid "Email"
+msgstr ""
+
 #: admin/class-blokino-admin.php:648
 msgid "Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation."
 msgstr ""
@@ -682,7 +694,7 @@ msgstr ""
 msgid "Empty = theme. Rounding for Blokino blocks/components that use the radius tokens. 0 = sharp."
 msgstr ""
 
-#: blocks/section/edit.js:211
+#: blocks/section/edit.js:216
 msgid "Enable overlay"
 msgstr ""
 
@@ -730,7 +742,7 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
-#: blocks/section/edit.js:251
+#: blocks/section/edit.js:256
 msgid "Full"
 msgstr ""
 
@@ -762,7 +774,7 @@ msgstr ""
 msgid "Glow"
 msgstr ""
 
-#: blocks/content-slider/edit.js:103 blocks/section/edit.js:145 blocks/section/edit.js:157 blocks/section/edit.js:218 extensions/effects-editor.js:306
+#: blocks/content-slider/edit.js:103 blocks/section/edit.js:150 blocks/section/edit.js:162 blocks/section/edit.js:223 extensions/effects-editor.js:306
 msgid "Gradient"
 msgstr ""
 
@@ -790,11 +802,23 @@ msgstr ""
 msgid "Hover effect"
 msgstr ""
 
+#: admin/class-blokino-feedback.php:92
+msgid "I found a better plugin"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:76
+msgid "I no longer need it"
+msgstr ""
+
 #: blocks/icon/edit.js:80 blocks/marquee/edit.js:162
 msgid "Icon"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1691 blocks/section/edit.js:147
+#: admin/class-blokino-feedback.php:81
+msgid "If you found a problem, what was it?"
+msgstr ""
+
+#: admin/class-blokino-demo.php:1691 blocks/section/edit.js:152
 msgid "Image"
 msgid_plural "Images"
 msgstr[0] ""
@@ -844,7 +868,7 @@ msgstr ""
 msgid "Importing…"
 msgstr ""
 
-#: blocks/section/edit.js:253
+#: blocks/section/edit.js:258
 msgid "Independent of the section width. Set the section to “Full width” (toolbar) and constrain the content here."
 msgstr ""
 
@@ -884,8 +908,28 @@ msgstr ""
 msgid "Installing…"
 msgstr ""
 
+#: admin/class-blokino-feedback.php:84
+msgid "It broke my site or conflicts with something"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:143
+msgid "It takes ten seconds and tells us what to fix. Answering is optional."
+msgstr ""
+
 #: extensions/effects-editor.js:214
 msgid "It will animate once published (the animation runs on the front-end)."
+msgstr ""
+
+#: admin/class-blokino-feedback.php:96
+msgid "It's hard to use or I couldn't make it work"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:88
+msgid "It's missing a feature I need"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:80
+msgid "It's temporary — I'm troubleshooting"
 msgstr ""
 
 #: blocks/shared/repeater-control.js:91
@@ -906,7 +950,7 @@ msgstr[1] ""
 msgid "Large"
 msgstr ""
 
-#: blocks/section/edit.js:242 blocks/testimonials/edit.js:66
+#: blocks/section/edit.js:247 blocks/testimonials/edit.js:66
 msgid "Layout"
 msgstr ""
 
@@ -954,7 +998,7 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: blocks/section/edit.js:192
+#: blocks/section/edit.js:197
 msgid "Loop"
 msgstr ""
 
@@ -994,23 +1038,23 @@ msgstr ""
 msgid "Max width (px)"
 msgstr ""
 
-#: blocks/section/edit.js:146
+#: blocks/section/edit.js:151
 msgid "Mesh"
 msgstr ""
 
-#: blocks/section/edit.js:161
+#: blocks/section/edit.js:166
 msgid "Mesh — color 1"
 msgstr ""
 
-#: blocks/section/edit.js:162
+#: blocks/section/edit.js:167
 msgid "Mesh — color 2"
 msgstr ""
 
-#: blocks/section/edit.js:163
+#: blocks/section/edit.js:168
 msgid "Mesh — color 3"
 msgstr ""
 
-#: blocks/section/edit.js:243
+#: blocks/section/edit.js:248
 msgid "Minimum height (vh)"
 msgstr ""
 
@@ -1094,7 +1138,7 @@ msgstr ""
 msgid "No themes listed yet."
 msgstr ""
 
-#: blocks/marquee/edit.js:157 blocks/section/edit.js:80 blocks/section/edit.js:143 extensions/effects-editor.js:235 extensions/effects-editor.js:254 extensions/effects-editor.js:287 extensions/effects-editor.js:305
+#: blocks/marquee/edit.js:157 blocks/section/edit.js:82 blocks/section/edit.js:148 extensions/effects-editor.js:235 extensions/effects-editor.js:254 extensions/effects-editor.js:287 extensions/effects-editor.js:305
 msgid "None"
 msgstr ""
 
@@ -1106,7 +1150,7 @@ msgstr ""
 msgid "Not found"
 msgstr ""
 
-#: blocks/section/edit.js:226
+#: blocks/section/edit.js:231
 msgid "Opacity (%)"
 msgstr ""
 
@@ -1134,6 +1178,10 @@ msgstr ""
 msgid "Optional"
 msgstr ""
 
+#: admin/class-blokino-feedback.php:100
+msgid "Other"
+msgstr ""
+
 #: admin/class-blokino-themes.php:236
 msgid "Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates, and every effect of this engine."
 msgstr ""
@@ -1146,7 +1194,7 @@ msgstr ""
 msgid "Output BreadcrumbList structured data"
 msgstr ""
 
-#: blocks/section/edit.js:210
+#: blocks/section/edit.js:215
 msgid "Overlay"
 msgstr ""
 
@@ -1154,15 +1202,15 @@ msgstr ""
 msgid "Overlay (%)"
 msgstr ""
 
-#: blocks/content-slider/edit.js:106 blocks/section/edit.js:223
+#: blocks/content-slider/edit.js:106 blocks/section/edit.js:228
 msgid "Overlay color"
 msgstr ""
 
-#: blocks/content-slider/edit.js:116 blocks/section/edit.js:224
+#: blocks/content-slider/edit.js:116 blocks/section/edit.js:229
 msgid "Overlay gradient"
 msgstr ""
 
-#: blocks/content-slider/edit.js:103 blocks/section/edit.js:214
+#: blocks/content-slider/edit.js:103 blocks/section/edit.js:219
 msgid "Overlay type"
 msgstr ""
 
@@ -1224,7 +1272,7 @@ msgstr ""
 msgid "Play"
 msgstr ""
 
-#: blocks/section/edit.js:185
+#: blocks/section/edit.js:190
 msgid "Play automatically"
 msgstr ""
 
@@ -1240,7 +1288,7 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
-#: blocks/section/edit.js:180
+#: blocks/section/edit.js:185
 msgid "Poster image"
 msgstr ""
 
@@ -1258,6 +1306,10 @@ msgstr ""
 
 #: admin/class-blokino-admin.php:660 admin/class-blokino-admin.php:709
 msgid "Primary"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:172
+msgid "Privacy policy"
 msgstr ""
 
 #: admin/class-blokino-demo.php:1672
@@ -1296,6 +1348,10 @@ msgstr ""
 msgid "Ready to import"
 msgstr ""
 
+#: admin/class-blokino-feedback.php:146
+msgid "Reason"
+msgstr ""
+
 #: admin/class-blokino-admin.php:496 admin/class-blokino-demo.php:1766
 msgid "Recommended plugins"
 msgstr ""
@@ -1304,11 +1360,11 @@ msgstr ""
 msgid "Refresh the list"
 msgstr ""
 
-#: blocks/section/edit.js:233
+#: blocks/section/edit.js:238
 msgid "Reinforce on small screens"
 msgstr ""
 
-#: blocks/section/edit.js:73 blocks/shared/repeater-control.js:70 blocks/shared/repeater-control.js:144
+#: blocks/section/edit.js:75 blocks/shared/repeater-control.js:70 blocks/shared/repeater-control.js:144
 msgid "Remove"
 msgstr ""
 
@@ -1328,7 +1384,7 @@ msgstr ""
 msgid "Repeat Y"
 msgstr ""
 
-#: blocks/section/edit.js:71
+#: blocks/section/edit.js:73
 msgid "Replace"
 msgstr ""
 
@@ -1436,6 +1492,14 @@ msgstr ""
 msgid "Select logo"
 msgstr ""
 
+#: admin/class-blokino-feedback.php:125
+msgid "Sending…"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:171
+msgid "Sent to tunetdesign.com only if you press \"Submit & deactivate\": your answer, the Blokino, WordPress and PHP versions, the admin language and your theme's name. Your email and site address go only if you tick the box above. %s"
+msgstr ""
+
 #: blocks/breadcrumbs/edit.js:35 blocks/marquee/edit.js:152
 msgid "Separator"
 msgstr ""
@@ -1476,7 +1540,7 @@ msgstr ""
 msgid "Shape"
 msgstr ""
 
-#: blocks/section/edit.js:258
+#: blocks/section/edit.js:263
 msgid "Shape dividers"
 msgstr ""
 
@@ -1508,6 +1572,10 @@ msgstr ""
 msgid "Size (px)"
 msgstr ""
 
+#: admin/class-blokino-feedback.php:178
+msgid "Skip & deactivate"
+msgstr ""
+
 #: blocks/marquee/edit.js:160
 msgid "Slash"
 msgstr ""
@@ -1532,11 +1600,11 @@ msgstr ""
 msgid "Slides per view"
 msgstr ""
 
-#: blocks/section/edit.js:240
+#: blocks/section/edit.js:245
 msgid "Small-screen opacity (%)"
 msgstr ""
 
-#: blocks/section/edit.js:239
+#: blocks/section/edit.js:244
 msgid "Small-screen scrim color"
 msgstr ""
 
@@ -1612,6 +1680,10 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
+#: admin/class-blokino-feedback.php:181
+msgid "Submit & deactivate"
+msgstr ""
+
 #: blocks/content-slider/edit.js:142
 msgid "Subtitle"
 msgstr ""
@@ -1638,6 +1710,14 @@ msgstr ""
 
 #: admin/class-blokino-admin.php:607
 msgid "Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them."
+msgstr ""
+
+#: admin/class-blokino-feedback.php:155
+msgid "Tell us more (optional)"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:101
+msgid "Tell us why, please."
 msgstr ""
 
 #: blocks/testimonials/edit.js:88
@@ -1768,7 +1848,7 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: blocks/section/edit.js:244
+#: blocks/section/edit.js:249
 msgid "Top"
 msgstr ""
 
@@ -1776,7 +1856,7 @@ msgstr ""
 msgid "Top center"
 msgstr ""
 
-#: blocks/section/edit.js:259
+#: blocks/section/edit.js:264
 msgid "Top divider"
 msgstr ""
 
@@ -1828,11 +1908,11 @@ msgstr ""
 msgid "Variant"
 msgstr ""
 
-#: blocks/section/edit.js:244
+#: blocks/section/edit.js:249
 msgid "Vertical alignment"
 msgstr ""
 
-#: blocks/section/edit.js:148
+#: blocks/section/edit.js:153
 msgid "Video"
 msgstr ""
 
@@ -1856,7 +1936,7 @@ msgstr ""
 msgid "Visit tunetdesign.com ↗"
 msgstr ""
 
-#: blocks/section/edit.js:81
+#: blocks/section/edit.js:83
 msgid "Wave"
 msgstr ""
 
@@ -1868,6 +1948,14 @@ msgstr ""
 msgid "What Blokino adds"
 msgstr ""
 
+#: admin/class-blokino-feedback.php:85
+msgid "What broke? Which plugin or theme does it conflict with?"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:97
+msgid "What were you trying to do?"
+msgstr ""
+
 #: admin/class-blokino-welcome.php:322
 msgid "What’s new in %s"
 msgstr ""
@@ -1876,7 +1964,15 @@ msgstr ""
 msgid "When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging)."
 msgstr ""
 
-#: blocks/section/edit.js:250
+#: admin/class-blokino-feedback.php:89
+msgid "Which feature?"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:93
+msgid "Which one, and what does it do better?"
+msgstr ""
+
+#: blocks/section/edit.js:255
 msgid "Wide"
 msgstr ""
 
@@ -1902,6 +1998,10 @@ msgstr ""
 
 #: admin/class-blokino-admin.php:519
 msgid "Yes, undo import"
+msgstr ""
+
+#: admin/class-blokino-feedback.php:160
+msgid "You may contact me about this"
 msgstr ""
 
 #: admin/class-blokino-admin.php:689
