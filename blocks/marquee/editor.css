@@ -3,12 +3,16 @@
  * Preview aproximado de separadores + picker de icono con scroll vertical.
  * El render fiel (incl. icono exacto) es el del front (render.php + style.css).
  * ========================================================================== */
+/* Una sola fila, como la banda del front: los ítems no se encogen y se llega a los últimos con scroll horizontal. */
 .blokino-marquee-editor .block-editor-block-list__layout {
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	align-items: center;
 	gap: var( --tnt-marquee-gap, 3rem );
+	overflow-x: auto;
+	scrollbar-width: thin;
 }
+.blokino-marquee-editor .block-editor-block-list__layout > * { flex: none; margin-block: 0; }
 .blokino-marquee-editor[class*="is-sep-"]:not( .is-sep-none ) .block-editor-block-list__layout > *:not( :last-child )::after {
 	content: "";
 	display: inline-flex;

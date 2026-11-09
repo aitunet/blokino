@@ -85,6 +85,7 @@ Blokino works fully offline. It connects to an external service only in the thre
 
 == Changelog ==
 = 1.1.1 =
+* Fix: in the editor, Marquee items stay on one row like the front-end band (scroll sideways to reach the last ones) instead of wrapping onto several lines.
 * Fix: in the editor, Section content now lays out exactly like on the front end. Its blocks sit directly inside the section (no extra wrappers), so multi-column theme layouts no longer stack in the editor.
 * New: an optional feedback dialog when you deactivate Blokino (why you are leaving, plus a text box). Nothing is sent unless you press "Submit & deactivate"; your email and site URL only if you tick "You may contact me". See External services.
 
