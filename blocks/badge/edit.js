@@ -19,8 +19,20 @@
 						el( c.ToggleControl, { label: __( 'Reverse direction', 'blokino' ), checked: !! a.reverse, onChange: function ( v ) { set( { reverse: !! v } ); }, __nextHasNoMarginBottom: true } )
 					)
 				),
-				el( 'div', useBlockProps( { className: 'blokino-badge-editor' } ),
-					el( 'span', { style: { fontFamily: 'monospace', fontSize: '11px', opacity: 0.7 } }, '◍ ' + ( a.text || 'Badge' ) )
+				// Mismo marcado que render.php (anillo SVG con el texto + flecha): el editor muestra el badge como el front,
+				// con su style.css; antes era solo el texto en una línea.
+				el( 'div', useBlockProps( { className: 'blokino-badge blokino-badge-editor' + ( a.reverse ? ' is-reverse' : '' ), style: { '--tnt-badge-speed': ( a.speed || 18 ) + 's' } } ),
+					el( 'span', { className: 'blokino-badge__ring', 'aria-hidden': 'true' },
+						el( 'svg', { viewBox: '0 0 100 100', width: '100%', height: '100%' },
+							el( 'defs', {}, el( 'path', { id: 'tnt-badge-ed-' + props.clientId, d: 'M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0' } ) ),
+							el( 'text', {}, el( 'textPath', { href: '#tnt-badge-ed-' + props.clientId }, a.text || '' ) )
+						)
+					),
+					el( 'span', { className: 'blokino-badge__arrow', 'aria-hidden': 'true' },
+						el( 'svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '1.6' },
+							el( 'path', { d: 'M7 17 17 7M9 7h8v8', strokeLinecap: 'round', strokeLinejoin: 'round' } )
+						)
+					)
 				)
 			);
 		},

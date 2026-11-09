@@ -53,6 +53,7 @@ if ( ! function_exists( 'blokino_icon_set' ) ) {
 			'heart'          => array( 'label' => 'Heart',          'mode' => 'stroke', 'category' => 'general', 'svg' => '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>' ),
 			'shield'         => array( 'label' => 'Shield',         'mode' => 'stroke', 'category' => 'general', 'svg' => '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' ),
 			'grid'           => array( 'label' => 'Grid',           'mode' => 'stroke', 'category' => 'general', 'svg' => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>' ),
+			'category'       => array( 'label' => 'Category',       'mode' => 'stroke', 'category' => 'general', 'svg' => '<circle cx="7" cy="7" r="4"/><path d="m17 3 4 7h-8z"/><rect x="3" y="14" width="8" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="3.5"/>' ),
 			'award'          => array( 'label' => 'Award',          'mode' => 'stroke', 'category' => 'general', 'svg' => '<circle cx="12" cy="8" r="6"/><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.12"/>' ),
 			// --- Acción / objeto (trazo) ---------------------------------------
 			'download'       => array( 'label' => 'Download',       'mode' => 'stroke', 'category' => 'general', 'svg' => '<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>' ),

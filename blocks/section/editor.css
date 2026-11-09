@@ -63,3 +63,9 @@
 	line-height: 1.5;
 	color: #757575;
 }
+
+/* Sección redondeada (radio desde el sidebar o el theme): en el editor la sección no recorta (overflow visible, arriba),
+   así que la foto y el overlay heredan el radio para no salir con esquinas rectas. */
+.editor-styles-wrapper .blokino-section > :is( .blokino-section__bg, .blokino-section__overlay ) {
+	border-radius: inherit;
+}

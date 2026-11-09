@@ -3,8 +3,11 @@
  * Preview aproximado de separadores + picker de icono con scroll vertical.
  * El render fiel (incl. icono exacto) es el del front (render.php + style.css).
  * ========================================================================== */
-/* Una sola fila, como la banda del front: los ítems no se encogen y se llega a los últimos con scroll horizontal. */
-.blokino-marquee-editor .block-editor-block-list__layout {
+/* Separadores: en ::before del ítem (no ::after: ahí dibuja Gutenberg el contorno de selección), centrados en el hueco. */
+/* Una sola fila, como la banda del front: los ítems no se encogen y se llega a los últimos con scroll horizontal.
+   Solo la lista DIRECTA del marquee (hijo de su InnerBlocks): un selector descendiente alcanzaba también las listas de
+   bloques anidados (una consulta, sus tarjetas) y les ponía flex, dejando las imágenes sin ancho. */
+.blokino-marquee-editor > .block-editor-inner-blocks > .block-editor-block-list__layout {
 	display: flex;
 	flex-wrap: nowrap;
 	align-items: center;
@@ -12,24 +15,30 @@
 	overflow-x: auto;
 	scrollbar-width: thin;
 }
-.blokino-marquee-editor .block-editor-block-list__layout > * { flex: none; margin-block: 0; }
-.blokino-marquee-editor[class*="is-sep-"]:not( .is-sep-none ) .block-editor-block-list__layout > *:not( :last-child )::after {
+.blokino-marquee-editor > .block-editor-inner-blocks > .block-editor-block-list__layout > * { position: relative; flex: none; margin-block: 0; }
+.blokino-marquee-editor[class*="is-sep-"]:not( .is-sep-none ) > .block-editor-inner-blocks > .block-editor-block-list__layout > *:not( :first-child, .block-list-appender )::before {
 	content: "";
+	position: absolute;
+	inset-inline-start: calc( var( --tnt-marquee-gap, 3rem ) / -2 );
+	top: 50%;
+	transform: translate( -50%, -50% );
+	line-height: 1;
+	pointer-events: none;
 	display: inline-flex;
 	align-items: center;
 	color: var( --tnt-marquee-sep-color, var( --tnt-color-primary, currentColor ) );
 }
-.blokino-marquee-editor.is-sep-dot .block-editor-block-list__layout > *:not( :last-child )::after,
-.blokino-marquee-editor.is-sep-icon .block-editor-block-list__layout > *:not( :last-child )::after {
+.blokino-marquee-editor.is-sep-dot > .block-editor-inner-blocks > .block-editor-block-list__layout > *:not( :first-child, .block-list-appender )::before,
+.blokino-marquee-editor.is-sep-icon > .block-editor-inner-blocks > .block-editor-block-list__layout > *:not( :first-child, .block-list-appender )::before {
 	inline-size: 7px;
 	block-size: 7px;
 	border-radius: 50%;
 	background: currentColor;
 }
-.blokino-marquee-editor.is-sep-icon .block-editor-block-list__layout > *:not( :last-child )::after { opacity: 0.6; }
-.blokino-marquee-editor.is-sep-dash .block-editor-block-list__layout > *:not( :last-child )::after { content: "\2014"; }
-.blokino-marquee-editor.is-sep-slash .block-editor-block-list__layout > *:not( :last-child )::after { content: "/"; }
-.blokino-marquee-editor.is-sep-pipe .block-editor-block-list__layout > *:not( :last-child )::after { content: "|"; }
+.blokino-marquee-editor.is-sep-icon > .block-editor-inner-blocks > .block-editor-block-list__layout > *:not( :first-child, .block-list-appender )::before { opacity: 0.6; }
+.blokino-marquee-editor.is-sep-dash > .block-editor-inner-blocks > .block-editor-block-list__layout > *:not( :first-child, .block-list-appender )::before { content: "\2014"; }
+.blokino-marquee-editor.is-sep-slash > .block-editor-inner-blocks > .block-editor-block-list__layout > *:not( :first-child, .block-list-appender )::before { content: "/"; }
+.blokino-marquee-editor.is-sep-pipe > .block-editor-inner-blocks > .block-editor-block-list__layout > *:not( :first-child, .block-list-appender )::before { content: "|"; }
 
 /* Picker de icono del separador — categorías + SCROLL VERTICAL. */
 .blokino-marquee-editor__sep-picker {

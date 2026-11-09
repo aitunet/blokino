@@ -86,6 +86,11 @@ Blokino works fully offline. It connects to an external service only in the thre
 == Changelog ==
 = 1.1.1 =
 * Fix: in the editor, Marquee items stay on one row like the front-end band (scroll sideways to reach the last ones) instead of wrapping onto several lines.
+* Fix: in the editor, Marquee no longer forces its row layout onto blocks nested inside an item (a query, its cards), and its separators no longer jump when you select an item.
+* Fix: in the editor, a rounded Section keeps its rounded corners on the background image and the overlay.
+* Fix: the Badge block now previews in the editor as on the front end (rotating ring and arrow) instead of a plain line of text.
+* Fix: Text fill accent words are now coloured in the editor too, as on the front end, without changing the text you edit.
+* New: "category" icon in the Icon block set.
 * Fix: in the editor, Section content now lays out exactly like on the front end. Its blocks sit directly inside the section (no extra wrappers), so multi-column theme layouts no longer stack in the editor.
 * New: an optional feedback dialog when you deactivate Blokino (why you are leaving, plus a text box). Nothing is sent unless you press "Submit & deactivate"; your email and site URL only if you tick "You may contact me". See External services.
 

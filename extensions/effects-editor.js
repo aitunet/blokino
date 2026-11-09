@@ -103,6 +103,79 @@
 	 * 2) Panel "Blokino Effects" en InspectorControls (HOC sobre BlockEdit).
 	 *    Las animaciones corren en el FRONTEND; aquí solo exponemos controles.
 	 * -------------------------------------------------------------------- */
+	/* --------------------------------------------------------------------
+	 * Vista previa de text-fill en el editor: las palabras acento (tfFillAccent)
+	 * se pintan con el primary del theme SIN tocar el texto editable — CSS Custom
+	 * Highlight API (rangos, no spans). Mismo conteo de palabras que runtime/
+	 * effects.js (split por espacios, 1-based). Sin soporte (navegador viejo) no
+	 * pasa nada: el texto queda como estaba.
+	 * ------------------------------------------------------------------ */
+	var HL = 'blokino-tf-accent';
+	var fillRanges = {};
+	function canvasDoc() {
+		var f = document.querySelector( 'iframe[name="editor-canvas"]' );
+		return ( f && f.contentDocument ) || document;
+	}
+	function paintFill( doc ) {
+		var win = doc.defaultView;
+		if ( ! win || ! win.CSS || ! win.CSS.highlights || typeof win.Highlight !== 'function' ) {
+			return;
+		}
+		var all = [];
+		Object.keys( fillRanges ).forEach( function ( k ) { all = all.concat( fillRanges[ k ] ); } );
+		if ( ! all.length ) {
+			win.CSS.highlights.delete( HL );
+			return;
+		}
+		var h = new win.Highlight();
+		all.forEach( function ( r ) { h.add( r ); } );
+		win.CSS.highlights.set( HL, h );
+		if ( ! doc.getElementById( HL + '-css' ) ) {
+			var st = doc.createElement( 'style' );
+			st.id = HL + '-css';
+			doc.head.appendChild( st );
+		}
+		var c = win.getComputedStyle( doc.body ).getPropertyValue( '--tnt-color-primary' ).trim() || 'currentColor';
+		doc.getElementById( HL + '-css' ).textContent = '::highlight(' + HL + '){color:' + c + ';}';
+	}
+	function useFillPreview( clientId, a ) {
+		var useEffect = wp.element.useEffect;
+		var on = a.tfAnimation === 'text-fill' && !! a.tfFillAccent;
+		var key = on ? String( a.tfFillAccent ) + '|' + String( a.content || '' ) : '';
+		useEffect( function () {
+			var doc = canvasDoc();
+			var t = setTimeout( function () {
+				delete fillRanges[ clientId ];
+				var host = on && doc.querySelector( '[data-block="' + clientId + '"]' );
+				if ( host ) {
+					var want = {};
+					String( a.tfFillAccent ).split( /[\s,]+/ ).forEach( function ( n ) { var i = parseInt( n, 10 ); if ( i > 0 ) { want[ i - 1 ] = true; } } );
+					var walker = doc.createTreeWalker( host, 4 );
+					var n = 0, node, m, re, list = [];
+					while ( ( node = walker.nextNode() ) ) {
+						re = /\S+/g;
+						while ( ( m = re.exec( node.nodeValue ) ) ) {
+							if ( want[ n ] ) {
+								var r = doc.createRange();
+								r.setStart( node, m.index );
+								r.setEnd( node, m.index + m[ 0 ].length );
+								list.push( r );
+							}
+							n++;
+						}
+					}
+					fillRanges[ clientId ] = list;
+				}
+				paintFill( doc );
+			}, 60 );
+			return function () {
+				clearTimeout( t );
+				delete fillRanges[ clientId ];
+				paintFill( doc );
+			};
+		}, [ clientId, key ] );
+	}
+
 	var withBlokinoEffects = createHigherOrderComponent( function ( BlockEdit ) {
 		return function ( props ) {
 			if ( ! isAllowed( props.name ) ) {
@@ -111,6 +184,7 @@
 
 			var a = props.attributes;
 			var set = props.setAttributes;
+			useFillPreview( props.clientId, a );
 			var themePalette = useSettings
 				? ( useSettings( 'color.palette' )[0] || [] )
 				: ( useSetting ? ( useSetting( 'color.palette' ) || [] ) : [] );
