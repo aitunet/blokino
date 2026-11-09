@@ -125,6 +125,12 @@
 			if ( a.overlay && a.overlayMobile ) { classes += ' has-mobile-scrim'; }
 
 			var blockProps = useBlockProps( { className: classes, style: style } );
+			// The inner wrapper IS the block list (useInnerBlocksProps): child blocks sit directly inside
+			// .blokino-section__inner, exactly as on the front end, so a theme grid on __inner lays them out the same
+			// in the editor. With the old <InnerBlocks/> two extra wrappers broke every multi-column section.
+			var innerProps = be.useInnerBlocksProps
+				? be.useInnerBlocksProps( { className: 'blokino-section__inner' }, { renderAppender: InnerBlocks.ButtonBlockAppender } )
+				: null;
 
 			/* ---- Capa de fondo del preview ---- */
 			var bgLayer = null;
@@ -274,7 +280,7 @@
 					bgLayer,
 					a.overlay ? el( 'div', { className: 'blokino-section__overlay' } ) : null,
 					( a.overlay && a.overlayMobile ) ? el( 'div', { className: 'blokino-section__scrim' } ) : null,
-					el( 'div', { className: 'blokino-section__inner' }, el( InnerBlocks, { renderAppender: InnerBlocks.ButtonBlockAppender } ) ),
+					innerProps ? el( 'div', innerProps ) : el( 'div', { className: 'blokino-section__inner' }, el( InnerBlocks, { renderAppender: InnerBlocks.ButtonBlockAppender } ) ),
 					a.dividerBottom !== 'none' ? el( 'div', { className: 'blokino-section__divider blokino-section__divider--bottom' }, dividerSvg( a.dividerBottom ) ) : null
 				)
 			);
