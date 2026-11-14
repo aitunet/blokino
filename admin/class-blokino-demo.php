@@ -1199,23 +1199,54 @@ class Blokino_Demo {
 		$created = array();
 		$prev    = array(); // setting => previous value (null = it did not exist).
 
-		// 1) EDD's required pages: adopt the existing ones, create the missing ones
-		//    with EDD's installer. Whatever setting changed points at a new page.
-		if ( function_exists( 'edd_install_pages' ) && function_exists( 'edd_get_required_pages' ) ) {
-			$before = (array) get_option( 'edd_settings', array() );
-			edd_install_pages();
-			$after = (array) get_option( 'edd_settings', array() );
-			foreach ( array_keys( (array) edd_get_required_pages() ) as $key ) {
-				$was = isset( $before[ $key ] ) ? (int) $before[ $key ] : 0;
-				$now = isset( $after[ $key ] ) ? (int) $after[ $key ] : 0;
-				if ( $now && $now !== $was ) {
-					$prev[ $key ] = array_key_exists( $key, $before ) ? $before[ $key ] : null;
-					$created[]    = $now;
-				}
+		$this->edd_required_pages( $created, $prev );
+		$this->edd_extra_pages( $cfg['pages'], $created, $prev );
+		$this->edd_login_redirect( $cfg['login_redirect'] ?? '', $prev );
+		$this->edd_store_settings( $cfg['settings'] ?? array(), $prev );
+
+		foreach ( $created as $id ) {
+			$this->track_later( 'edd_pages', $id );
+		}
+		if ( $prev ) {
+			// Merge, earliest value wins: running the step again on the same record
+			// (idempotent re-import, QA) must not forget what the first run replaced.
+			$existing = (array) ( self::get_record()['prev_edd'] ?? array() );
+			$this->set_record( 'prev_edd', $existing + $prev );
+		}
+	}
+
+	/**
+	 * 1) EDD's required pages: adopt the existing ones, create the missing ones
+	 *    with EDD's installer. Whatever setting changed points at a new page.
+	 *
+	 * @param int[] $created IDs de páginas creadas (se añaden).
+	 * @param array $prev    Ajuste => valor previo, para el rollback (se añaden).
+	 */
+	private function edd_required_pages( array &$created, array &$prev ) {
+		if ( ! function_exists( 'edd_install_pages' ) || ! function_exists( 'edd_get_required_pages' ) ) {
+			return;
+		}
+		$before = (array) get_option( 'edd_settings', array() );
+		edd_install_pages();
+		$after = (array) get_option( 'edd_settings', array() );
+		foreach ( array_keys( (array) edd_get_required_pages() ) as $key ) {
+			$was = isset( $before[ $key ] ) ? (int) $before[ $key ] : 0;
+			$now = isset( $after[ $key ] ) ? (int) $after[ $key ] : 0;
+			if ( $now && $now !== $was ) {
+				$prev[ $key ] = array_key_exists( $key, $before ) ? $before[ $key ] : null;
+				$created[]    = $now;
 			}
 		}
+	}
 
-		// 2) Pages EDD knows only by setting. Engine defaults, manifest overrides.
+	/**
+	 * 2) Pages EDD knows only by setting. Engine defaults, manifest overrides.
+	 *
+	 * @param array|bool $pages Manifest edd.pages (true = las del motor).
+	 * @param int[] $created IDs de páginas creadas (se añaden).
+	 * @param array $prev    Ajuste => valor previo, para el rollback (se añaden).
+	 */
+	private function edd_extra_pages( $pages, array &$created, array &$prev ) {
 		$extra = array(
 			'login_page' => array(
 				'title'   => __( 'Log in', 'blokino' ),
@@ -1223,7 +1254,7 @@ class Blokino_Demo {
 				'content' => '<!-- wp:edd/login /-->',
 			),
 		);
-		$declared = is_array( $cfg['pages'] ) ? $cfg['pages'] : array_fill_keys( array_keys( $extra ), true );
+		$declared = is_array( $pages ) ? $pages : array_fill_keys( array_keys( $extra ), true );
 		foreach ( $declared as $key => $spec ) {
 			$key = sanitize_key( (string) $key );
 			if ( empty( $spec ) || ! isset( $extra[ $key ] ) ) {
@@ -1258,48 +1289,54 @@ class Blokino_Demo {
 			$prev[ $key ] = array_key_exists( $key, $settings ) ? $settings[ $key ] : null;
 			edd_update_option( $key, (int) $id ); // Keeps EDD's in-memory options in sync too.
 		}
+	}
 
-		// 3) After logging in, land on Order history — or on the page the manifest names
-		//    (a slug/path such as 'account', created by step_pages) — only when nothing is set.
-		if ( ! empty( $cfg['login_redirect'] ) ) {
-			$settings = (array) get_option( 'edd_settings', array() );
-			$target   = isset( $settings['purchase_history_page'] ) ? (int) $settings['purchase_history_page'] : 0;
-			if ( is_string( $cfg['login_redirect'] ) ) {
-				$page   = get_page_by_path( ltrim( $cfg['login_redirect'], '/' ) );
-				$target = $page instanceof WP_Post && 'publish' === $page->post_status ? (int) $page->ID : 0;
-			}
-			$redirect = isset( $settings['login_redirect_page'] ) ? (int) $settings['login_redirect_page'] : 0;
-			if ( $target && ! $redirect ) {
-				$prev['login_redirect_page'] = array_key_exists( 'login_redirect_page', $settings ) ? $settings['login_redirect_page'] : null;
-				edd_update_option( 'login_redirect_page', $target );
-			}
+	/**
+	 * 3) After logging in, land on Order history — or on the page the manifest names
+	 *    (a slug/path such as 'account', created by step_pages) — only when nothing is set.
+	 *
+	 * @param bool|string $login_redirect Manifest edd.login_redirect.
+	 * @param array       $prev           Ajuste => valor previo (se añaden).
+	 */
+	private function edd_login_redirect( $login_redirect, array &$prev ) {
+		if ( empty( $login_redirect ) ) {
+			return;
 		}
+		$settings = (array) get_option( 'edd_settings', array() );
+		$target   = isset( $settings['purchase_history_page'] ) ? (int) $settings['purchase_history_page'] : 0;
+		if ( is_string( $login_redirect ) ) {
+			$page   = get_page_by_path( ltrim( $login_redirect, '/' ) );
+			$target = $page instanceof WP_Post && 'publish' === $page->post_status ? (int) $page->ID : 0;
+		}
+		$redirect = isset( $settings['login_redirect_page'] ) ? (int) $settings['login_redirect_page'] : 0;
+		if ( $target && ! $redirect ) {
+			$prev['login_redirect_page'] = array_key_exists( 'login_redirect_page', $settings ) ? $settings['login_redirect_page'] : null;
+			edd_update_option( 'login_redirect_page', $target );
+		}
+	}
 
-		// 4) Store settings the demo relies on ('settings' => key => value): the
-		//    checkout agreements that point at the demo's legal pages, say. Scalars
-		//    only; strings may carry links (EDD's agree labels allow anchors).
-		if ( ! empty( $cfg['settings'] ) && is_array( $cfg['settings'] ) ) {
-			$settings = (array) get_option( 'edd_settings', array() );
-			foreach ( $cfg['settings'] as $key => $value ) {
-				$key = sanitize_key( (string) $key );
-				if ( '' === $key || ! is_scalar( $value ) ) {
-					continue;
-				}
-				if ( ! array_key_exists( $key, $prev ) ) {
-					$prev[ $key ] = array_key_exists( $key, $settings ) ? $settings[ $key ] : null;
-				}
-				edd_update_option( $key, is_string( $value ) ? wp_kses_post( $value ) : ( is_bool( $value ) ? (int) $value : $value ) );
+	/**
+	 * 4) Store settings the demo relies on ('settings' => key => value): the
+	 *    checkout agreements that point at the demo's legal pages, say. Scalars
+	 *    only; strings may carry links (EDD's agree labels allow anchors).
+	 *
+	 * @param array $settings_in Manifest edd.settings.
+	 * @param array $prev        Ajuste => valor previo (se añaden).
+	 */
+	private function edd_store_settings( $settings_in, array &$prev ) {
+		if ( empty( $settings_in ) || ! is_array( $settings_in ) ) {
+			return;
+		}
+		$settings = (array) get_option( 'edd_settings', array() );
+		foreach ( $settings_in as $key => $value ) {
+			$key = sanitize_key( (string) $key );
+			if ( '' === $key || ! is_scalar( $value ) ) {
+				continue;
 			}
-		}
-
-		foreach ( $created as $id ) {
-			$this->track_later( 'edd_pages', $id );
-		}
-		if ( $prev ) {
-			// Merge, earliest value wins: running the step again on the same record
-			// (idempotent re-import, QA) must not forget what the first run replaced.
-			$existing = (array) ( self::get_record()['prev_edd'] ?? array() );
-			$this->set_record( 'prev_edd', $existing + $prev );
+			if ( ! array_key_exists( $key, $prev ) ) {
+				$prev[ $key ] = array_key_exists( $key, $settings ) ? $settings[ $key ] : null;
+			}
+			edd_update_option( $key, is_string( $value ) ? wp_kses_post( $value ) : ( is_bool( $value ) ? (int) $value : $value ) );
 		}
 	}
 
