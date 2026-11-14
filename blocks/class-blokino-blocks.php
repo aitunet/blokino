@@ -126,6 +126,26 @@ if ( ! function_exists( 'blokino_safe_css_color' ) ) {
 	}
 }
 
+if ( ! function_exists( 'blokino_carousel_a11y_attrs' ) ) {
+	/**
+	 * Etiquetas accesibles de los carruseles (E-08), como data-* del wrapper.
+	 * carousel.js las pasa al módulo a11y de Swiper y al botón de pausa, así
+	 * se anuncian en el idioma del sitio en vez del inglés por defecto de Swiper.
+	 *
+	 * @return array<string,string>
+	 */
+	function blokino_carousel_a11y_attrs() {
+		return array(
+			'data-prev-label'   => __( 'Previous slide', 'blokino' ),
+			'data-next-label'   => __( 'Next slide', 'blokino' ),
+			/* translators: {{index}} is replaced by the slide number; keep it as is. */
+			'data-bullet-label' => __( 'Go to slide {{index}}', 'blokino' ),
+			'data-pause-label'  => __( 'Pause autoplay', 'blokino' ),
+			'data-play-label'   => __( 'Play autoplay', 'blokino' ),
+		);
+	}
+}
+
 if ( ! function_exists( 'blokino_css_url' ) ) {
 	/**
 	 * Único punto para meter una URL dentro de `url("…")` en un inline-style.

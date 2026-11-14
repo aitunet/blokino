@@ -914,6 +914,10 @@ msgstr ""
 msgid "Glow"
 msgstr ""
 
+#: blocks/class-blokino-blocks.php:142
+msgid "Go to slide {{index}}"
+msgstr ""
+
 #: blocks/content-slider/edit.js:103 blocks/section/edit.js:222 blocks/section/edit.js:234 blocks/section/edit.js:296 extensions/effects-editor.js:531
 msgid "Gradient"
 msgstr ""
@@ -1290,6 +1294,10 @@ msgstr ""
 msgid "New Project"
 msgstr ""
 
+#: blocks/class-blokino-blocks.php:140
+msgid "Next slide"
+msgstr ""
+
 #: content/class-blokino-content.php:629 content/class-blokino-content.php:664
 msgid "No %s found"
 msgstr ""
@@ -1452,6 +1460,10 @@ msgstr ""
 msgid "Pause"
 msgstr ""
 
+#: blocks/class-blokino-blocks.php:143
+msgid "Pause autoplay"
+msgstr ""
+
 #: blocks/section/render.php:156
 msgid "Pause background video"
 msgstr ""
@@ -1482,6 +1494,10 @@ msgstr ""
 
 #: blocks/section/edit.js:263
 msgid "Play automatically"
+msgstr ""
+
+#: blocks/class-blokino-blocks.php:144
+msgid "Play autoplay"
 msgstr ""
 
 #: blocks/section/render.php:156
@@ -1518,6 +1534,10 @@ msgstr ""
 
 #: extensions/effects-editor.js:614
 msgid "Preview animation"
+msgstr ""
+
+#: blocks/class-blokino-blocks.php:139
+msgid "Previous slide"
 msgstr ""
 
 #: admin/class-blokino-admin.php:671 admin/class-blokino-admin.php:720

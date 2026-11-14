@@ -107,3 +107,39 @@
 		transform: translateY( -50% );
 	}
 }
+
+/* E-08: control de pausa del autoplay — discreto, en la esquina inferior. */
+.blokino-carousel__toggle {
+	position: absolute;
+	inset-block-end: var( --tnt-space-2, 0.5rem );
+	inset-inline-end: var( --tnt-space-2, 0.5rem );
+	z-index: 11;
+	inline-size: 2rem;
+	block-size: 2rem;
+	display: inline-grid;
+	place-items: center;
+	padding: 0;
+	border: 1px solid var( --tnt-color-border, rgba( 0, 0, 0, 0.14 ) );
+	border-radius: 50%;
+	background: color-mix( in srgb, var( --tnt-color-surface, #fff ) 85%, transparent );
+	color: var( --tnt-color-text, #111 );
+	cursor: pointer;
+	transition: transform var( --tnt-dur-fast, 250ms ) var( --tnt-ease-expo, ease );
+}
+.blokino-carousel__toggle:hover { transform: scale( 1.08 ); }
+.blokino-carousel__toggle:focus-visible {
+	outline: 2px solid var( --tnt-color-primary, #06c );
+	outline-offset: 2px;
+}
+.blokino-carousel__toggle-icon {
+	inline-size: 0.55rem;
+	block-size: 0.65rem;
+	border-inline: 0.17rem solid currentColor;
+}
+.blokino-carousel.is-paused .blokino-carousel__toggle-icon {
+	inline-size: 0;
+	block-size: 0;
+	border: 0.34rem solid transparent;
+	border-inline-start: 0.55rem solid currentColor;
+	border-inline-end: 0;
+}

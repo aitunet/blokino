@@ -914,6 +914,10 @@ msgstr "Guía de primeros pasos"
 msgid "Glow"
 msgstr "Resplandor"
 
+#: blocks/class-blokino-blocks.php:142
+msgid "Go to slide {{index}}"
+msgstr "Ir a la diapositiva {{index}}"
+
 #: blocks/content-slider/edit.js:103 blocks/section/edit.js:222 blocks/section/edit.js:234 blocks/section/edit.js:296 extensions/effects-editor.js:531
 msgid "Gradient"
 msgstr "Degradado"
@@ -1290,6 +1294,10 @@ msgstr "Nombre de %s"
 msgid "New Project"
 msgstr "Nuevo proyecto"
 
+#: blocks/class-blokino-blocks.php:140
+msgid "Next slide"
+msgstr "Diapositiva siguiente"
+
 #: content/class-blokino-content.php:629 content/class-blokino-content.php:664
 msgid "No %s found"
 msgstr "No se encontraron %s"
@@ -1452,6 +1460,10 @@ msgstr "Intensidad del parallax"
 msgid "Pause"
 msgstr "Pausar"
 
+#: blocks/class-blokino-blocks.php:143
+msgid "Pause autoplay"
+msgstr "Pausar el avance automático"
+
 #: blocks/section/render.php:156
 msgid "Pause background video"
 msgstr "Pausar el vídeo de fondo"
@@ -1483,6 +1495,10 @@ msgstr "Reproducir"
 #: blocks/section/edit.js:263
 msgid "Play automatically"
 msgstr "Reproducir automáticamente"
+
+#: blocks/class-blokino-blocks.php:144
+msgid "Play autoplay"
+msgstr "Reanudar el avance automático"
 
 #: blocks/section/render.php:156
 msgid "Play background video"
@@ -1519,6 +1535,10 @@ msgstr "Preparando…"
 #: extensions/effects-editor.js:614
 msgid "Preview animation"
 msgstr "Ver animación"
+
+#: blocks/class-blokino-blocks.php:139
+msgid "Previous slide"
+msgstr "Diapositiva anterior"
 
 #: admin/class-blokino-admin.php:671 admin/class-blokino-admin.php:720
 msgid "Primary"

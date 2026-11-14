@@ -58,7 +58,12 @@
 			loop: d.loop === '1' && slideCount > Math.ceil( spv ),
 			spaceBetween: num( d.space, 0 ),
 			slidesPerView: spv,
-			a11y: { enabled: true }
+			a11y: {
+				enabled: true,
+				prevSlideMessage: d.prevLabel || 'Previous slide',
+				nextSlideMessage: d.nextLabel || 'Next slide',
+				paginationBulletMessage: d.bulletLabel || 'Go to slide {{index}}'
+			}
 		};
 
 		if ( d.pagination === '1' ) {
@@ -96,11 +101,44 @@
 		return opts;
 	}
 
+	/**
+	 * E-08 (WCAG 2.2.2): un carrusel que avanza solo necesita poder pararse.
+	 * Botón Pausa/Reproducir y pausa mientras el foco está dentro; al salir el
+	 * foco se reanuda solo si el usuario no lo pausó con el botón.
+	 */
+	function addPauseControl( el, swiper ) {
+		var d = el.dataset;
+		var pausedByUser = false;
+		var btn = document.createElement( 'button' );
+		btn.type = 'button';
+		btn.className = 'blokino-carousel__toggle';
+		btn.innerHTML = '<span class="blokino-carousel__toggle-icon" aria-hidden="true"></span>';
+		function sync() {
+			btn.setAttribute( 'aria-pressed', pausedByUser ? 'true' : 'false' );
+			btn.setAttribute( 'aria-label', pausedByUser ? ( d.playLabel || 'Play autoplay' ) : ( d.pauseLabel || 'Pause autoplay' ) );
+			el.classList.toggle( 'is-paused', pausedByUser );
+		}
+		btn.addEventListener( 'click', function () {
+			pausedByUser = ! pausedByUser;
+			if ( pausedByUser ) { swiper.autoplay.stop(); } else { swiper.autoplay.start(); }
+			sync();
+		} );
+		el.addEventListener( 'focusin', function () { swiper.autoplay.stop(); } );
+		el.addEventListener( 'focusout', function ( e ) {
+			if ( ! pausedByUser && ! el.contains( e.relatedTarget ) ) { swiper.autoplay.start(); }
+		} );
+		sync();
+		el.appendChild( btn );
+	}
+
 	function initCarousel( el ) {
 		var base = el.getAttribute( 'data-swiper-base' ) || '';
 		loadSwiper( base ).then( function () {
 			if ( window.Swiper ) {
-				new window.Swiper( el, buildOptions( el ) );
+				var swiper = new window.Swiper( el, buildOptions( el ) );
+				if ( swiper.autoplay && swiper.params.autoplay && swiper.params.autoplay.enabled !== false && el.dataset.autoplay === '1' ) {
+					addPauseControl( el, swiper );
+				}
 			}
 		} ).catch( function () {
 			/* Sin Swiper: el CSS deja visible la primera slide. */

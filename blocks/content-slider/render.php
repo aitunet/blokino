@@ -178,7 +178,7 @@ $blokino_wrapper = get_block_wrapper_attributes(
 		'data-autoplay-delay' => (string) $blokino_delay,
 		'data-pagination'     => $blokino_pag ? '1' : '0',
 		'data-navigation'     => $blokino_nav ? '1' : '0',
-	)
+	) + blokino_carousel_a11y_attrs()
 );
 ?>
 <div <?php echo $blokino_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>
