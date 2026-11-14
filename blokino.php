@@ -42,11 +42,26 @@ require_once BLOKINO_PATH . 'patterns/class-blokino-patterns.php';
 require_once BLOKINO_PATH . 'runtime/class-blokino-runtime.php';
 require_once BLOKINO_PATH . 'content/class-blokino-content.php';
 require_once BLOKINO_PATH . 'content/content-types.php';
+// Blokino_Admin se usa también en el front (ajustes, logo, branding).
 require_once BLOKINO_PATH . 'admin/class-blokino-admin.php';
-require_once BLOKINO_PATH . 'admin/class-blokino-demo.php';
-require_once BLOKINO_PATH . 'admin/class-blokino-themes.php';
-require_once BLOKINO_PATH . 'admin/class-blokino-welcome.php';
-require_once BLOKINO_PATH . 'admin/class-blokino-feedback.php';
+
+/**
+ * ¿Hacen falta las pantallas de admin (demo, themes, get started, encuesta)?
+ * En wp-admin y en sus peticiones AJAX (is_admin() es true en admin-ajax.php) y
+ * en WP-CLI, donde los scripts de QA importan demos. En el front no (O-S-04).
+ *
+ * @return bool
+ */
+function blokino_needs_admin_screens() {
+	return is_admin() || ( defined( 'WP_CLI' ) && WP_CLI );
+}
+
+if ( blokino_needs_admin_screens() ) {
+	require_once BLOKINO_PATH . 'admin/class-blokino-demo.php';
+	require_once BLOKINO_PATH . 'admin/class-blokino-themes.php';
+	require_once BLOKINO_PATH . 'admin/class-blokino-welcome.php';
+	require_once BLOKINO_PATH . 'admin/class-blokino-feedback.php';
+}
 
 /**
  * Orquestador principal del motor.

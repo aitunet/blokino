@@ -70,7 +70,7 @@ class Blokino_Content {
 		$on = current_theme_supports( 'blokino-portfolio' )
 			|| ( function_exists( 'blokino_is_tunet_theme' ) && blokino_is_tunet_theme() )
 			|| '1' === get_option( self::PORTFOLIO_OPTION )
-			|| ( class_exists( 'Blokino_Demo' ) && ! empty( Blokino_Demo::manifest()['projects'] ) );
+			|| ! empty( self::demo_manifest()['projects'] );
 		/**
 		 * Register the portfolio content type (Projects at /work/).
 		 *
@@ -78,6 +78,17 @@ class Blokino_Content {
 		 */
 		self::$portfolio = (bool) apply_filters( 'blokino_enable_portfolio', $on );
 		return self::$portfolio;
+	}
+
+	/**
+	 * Manifest del demo del theme activo, leído del mismo filtro que usa
+	 * Blokino_Demo::manifest(): esa clase solo se carga en el admin (O-S-04).
+	 *
+	 * @return array
+	 */
+	private static function demo_manifest() {
+		$m = apply_filters( 'blokino_demo_manifest', array() );
+		return is_array( $m ) ? $m : array();
 	}
 
 	/**
