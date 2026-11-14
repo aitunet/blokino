@@ -946,6 +946,10 @@ class Blokino_Demo {
 	public function step_posts() {
 		$posts = self::manifest()['posts'] ?? array();
 		foreach ( $posts as $p ) {
+			// E-12: an entry without slug or title is skipped, not half-imported.
+			if ( empty( $p['slug'] ) || empty( $p['title'] ) ) {
+				continue;
+			}
 			if ( $this->slug_exists( $p['slug'], 'post' ) ) {
 				continue;
 			}
@@ -1569,7 +1573,7 @@ class Blokino_Demo {
 	 */
 	public function ajax_install() {
 		check_ajax_referer( self::NONCE, 'nonce' );
-		if ( ! current_user_can( self::CAPABILITY ) || ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( self::CAPABILITY ) ) {
 			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'blokino' ) ) );
 		}
 
@@ -1588,8 +1592,12 @@ class Blokino_Demo {
 
 		$install_url = self_admin_url( 'plugin-install.php?s=' . rawurlencode( $info['label'] ) . '&tab=search&type=term' );
 
-		// Install only if missing.
+		// Install only if missing (S-06: installing needs install_plugins, activating
+		// needs activate_plugin for that file — multisite and custom roles).
 		if ( ! array_key_exists( $info['file'], get_plugins() ) ) {
+			if ( ! current_user_can( 'install_plugins' ) ) {
+				wp_send_json_error( array( 'message' => __( 'Permission denied.', 'blokino' ) ) );
+			}
 			$api = plugins_api( 'plugin_information', array( 'slug' => $slug, 'fields' => array( 'sections' => false ) ) );
 			if ( is_wp_error( $api ) || empty( $api->download_link ) ) {
 				wp_send_json_error( array( 'message' => __( 'Could not reach the plugin directory.', 'blokino' ), 'install_url' => $install_url ) );
@@ -1607,6 +1615,9 @@ class Blokino_Demo {
 		// before their own tables exist — e.g. WooCommerce on a fresh install, plus
 		// WP 6.7's "_load_textdomain_just_in_time" notice. If that output reaches the
 		// response it corrupts the JSON, so the import "fails" until a retry.
+		if ( ! current_user_can( 'activate_plugin', $info['file'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'blokino' ) ) );
+		}
 		ob_start();
 		$activate = activate_plugin( $info['file'] );
 		ob_end_clean();

@@ -175,9 +175,11 @@
 					'<input type="checkbox" data-i="' + i + '"' + ( p._on ? ' checked' : '' ) + ( locked ? ' disabled' : '' ) + '>' +
 					'<span class="blokino-switch__track"><span class="blokino-switch__dot"></span></span>' +
 				'</label>' +
-				'<span class="blokino-plugin__name">' + p.label + '</span>' +
+				'<span class="blokino-plugin__name"></span>' +
 				badge( p ) +
 				'<span class="blokino-plugin__state" data-i="' + i + '"></span>';
+			// S-03: the label comes from the theme manifest — text, never markup.
+			li.querySelector( '.blokino-plugin__name' ).textContent = String( p.label || p.slug || '' );
 			listEl.appendChild( li );
 		} );
 		$all( 'input[type=checkbox]', listEl ).forEach( function ( cb ) {
@@ -204,6 +206,27 @@
 			plugins = [];
 			syncUI();
 		} );
+	}
+
+	/**
+	 * S-03: server text (activate_plugin() messages, a non-JSON body) is shown
+	 * as text. The manual-install link is kept only when it points to this site.
+	 */
+	function showError( el, message, url ) {
+		el.innerHTML = '';
+		var span = document.createElement( 'span' );
+		span.className = 'blokino-err';
+		span.textContent = String( message || '' );
+		if ( url && String( url ).indexOf( window.location.origin + '/' ) === 0 ) {
+			var a = document.createElement( 'a' );
+			a.href = url;
+			a.target = '_blank';
+			a.rel = 'noopener';
+			a.textContent = i18n.installManually || 'Install manually';
+			span.appendChild( document.createTextNode( ' ' ) );
+			span.appendChild( a );
+		}
+		el.appendChild( span );
 	}
 
 	function installSelected() {
@@ -234,14 +257,13 @@
 				} else {
 					var url = res && res.data && res.data.install_url;
 					if ( stateEl ) {
-						stateEl.innerHTML = '<span class="blokino-err">' + ( ( res && res.data && res.data.message ) || i18n.error ) +
-							( url ? ' <a href="' + url + '" target="_blank" rel="noopener">' + i18n.installManually + '</a>' : '' ) + '</span>';
+						showError( stateEl, ( res && res.data && res.data.message ) || i18n.error, url );
 					}
 				}
 				next();
 			} ).catch( function ( err ) {
 				// Installing/activating a plugin can also outlive a tight host limit.
-				if ( stateEl ) { stateEl.innerHTML = '<span class="blokino-err">' + describe( err ) + '</span>'; }
+				if ( stateEl ) { showError( stateEl, describe( err ) ); }
 				next();
 			} );
 		}
@@ -394,7 +416,13 @@
 	}
 	function runUndo() {
 		undoBtn.disabled = true; setStatus( i18n.importing );
-		post( 'blokino_demo_rollback', {} ).then( function () {
+		post( 'blokino_demo_rollback', {} ).then( function ( res ) {
+			// E-12: a refused rollback (expired nonce, no permission) is an error, not "done".
+			if ( ! res || ! res.success ) {
+				setStatus( ( res && res.data && res.data.message ) || i18n.error );
+				undoBtn.disabled = false;
+				return;
+			}
 			resumeStep = null;
 			hasDemo = false;
 			setStatus( i18n.rollback ); setBar( 0 );
