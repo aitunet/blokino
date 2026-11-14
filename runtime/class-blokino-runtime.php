@@ -123,21 +123,46 @@ class Blokino_Runtime {
 	}
 
 	/**
-	 * Encola el baseline de tokens --tnt-* del motor (front + editor).
+	 * Imprime el baseline de tokens --tnt-* del motor (front + editor).
 	 *
 	 * Fallback neutral y theme-agnóstico en una @layer: cualquier theme (Tunet o
 	 * no) que defina --tnt-* en :root lo sobre-escribe sin importar el orden de
-	 * carga. Garantiza que los efectos y bloques del core se vean bien aun sin un
-	 * theme Tunet activo (CLAUDE.md §12, regla 1). Es un archivo pequeño y se
-	 * carga siempre: si un theme lo redefine, queda inerte pero sin coste real.
+	 * carga. Garantiza que los efectos y bloques se vean bien aun sin un theme
+	 * Tunet activo (CLAUDE.md §12, regla 1) y lleva los presets Tunet que hacen
+	 * portable el contenido, así que va siempre.
+	 *
+	 * O-S-07: va INLINE y minificado (~5 KB), no como <link>: era una petición
+	 * que bloqueaba el render en todas las páginas. El archivo fuente se mantiene
+	 * legible; minificarlo aquí cuesta menos que leer un transient de la base.
 	 */
 	public function enqueue_token_defaults() {
-		wp_enqueue_style(
-			self::TOKENS_HANDLE,
-			BLOKINO_URL . 'runtime/tnt-defaults.css',
-			array(),
-			self::asset_version( 'runtime/tnt-defaults.css' )
-		);
+		if ( ! wp_style_is( self::TOKENS_HANDLE, 'registered' ) ) {
+			// Handle sin fuente: solo transporta el CSS inline.
+			wp_register_style( self::TOKENS_HANDLE, false, array(), BLOKINO_VERSION );
+		}
+		wp_enqueue_style( self::TOKENS_HANDLE );
+
+		// El editor dispara enqueue_block_assets dos veces (página + iframe) y el
+		// registro se comparte: añadir el CSS una sola vez.
+		if ( ! wp_styles()->get_data( self::TOKENS_HANDLE, 'after' ) ) {
+			wp_add_inline_style( self::TOKENS_HANDLE, self::token_defaults_css() );
+		}
+	}
+
+	/**
+	 * Contenido de tnt-defaults.css sin comentarios ni espacios sobrantes.
+	 *
+	 * @return string
+	 */
+	private static function token_defaults_css() {
+		static $css = null;
+		if ( null === $css ) {
+			$raw = (string) file_get_contents( BLOKINO_PATH . 'runtime/tnt-defaults.css' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- archivo local del plugin.
+			$raw = preg_replace( '#/\*.*?\*/#s', '', $raw );
+			$raw = preg_replace( '/\s+/', ' ', $raw );
+			$css = trim( preg_replace( '/\s*([{};,])\s*/', '$1', $raw ) );
+		}
+		return $css;
 	}
 
 	/**
