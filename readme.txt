@@ -37,7 +37,7 @@ Developed and maintained by TUNET Digital Agency (https://tunetdesign.com). Sour
 
 1. Upload the `blokino` folder to `/wp-content/plugins/`, or install it from the Plugins screen in wp-admin.
 2. Activate the plugin through the *Plugins* menu in WordPress.
-3. Open *Blokino → Settings* (its own item in the admin menu) to configure global options, or edit any block and open the *Blokino Effects* panel to add an effect.
+3. Open *Blokino → Settings* (its own item in the admin menu) to configure global options, or edit a supported block (Group, Image, Heading…) and open the *Blokino Effects* panel to add an effect.
 
 Requires WordPress 6.6 or newer and PHP 7.4 or newer.
 
@@ -57,7 +57,7 @@ Yes. The runtime honors `prefers-reduced-motion: reduce`, disabling motion while
 
 = Does the plugin send any data anywhere? =
 
-No. Nothing is tracked or sent, and nothing runs in the background. The plugin talks to exactly two external services, both listed below under *External services*: the tunetdesign.com theme catalog (only when you open *Blokino → Themes*) and Google Fonts (only if you pick a Google font in *Settings → Typography*).
+Not on its own. Nothing is tracked and nothing runs in the background. The plugin talks to three external services, each only when you act, all listed under *External services*: the theme catalog (when you open *Blokino → Themes*), the optional deactivation feedback (only if you press *Submit & deactivate*) and Google Fonts (only if you pick a Google font in *Settings → Typography*).
 
 = Is it accessible and performant? =
 
@@ -67,7 +67,7 @@ Effects load conditionally (only when a page uses them); the runtime is vanilla 
 
 Blokino works fully offline. It connects to an external service only in the three cases below, never in the background, and sends personal data only if you explicitly allow it (deactivation feedback with "You may contact me" ticked).
 
-**tunetdesign.com theme catalog** — When you open *Blokino → Themes* in wp-admin, the plugin sends one GET request to `https://tunetdesign.com/wp-json/tunet/v1/themes` to list the themes designed for this engine (name, tagline, price, preview image, demo link). The request carries no site URL, no user data and a neutral user agent; the response is cached for 12 hours. The screen is optional — if you never open it, the request is never made. Service by TUNET Digital Agency: terms https://tunetdesign.com/terms/ · privacy https://tunetdesign.com/privacy/
+**tunetdesign.com theme catalog** — When you open *Blokino → Themes* in wp-admin, the plugin sends one GET request to `https://tunetdesign.com/wp-json/tunet/v1/themes` to list the themes designed for this engine (name, tagline, price, preview image, demo link). The request carries no site URL, no user data and a neutral user agent; the response is cached for 12 hours. The theme preview images on that screen are loaded by your browser from tunetdesign.com, with no referrer sent. The screen is optional — if you never open it, the request is never made. Service by TUNET Digital Agency: terms https://tunetdesign.com/terms/ · privacy https://tunetdesign.com/privacy/
 
 **Deactivation feedback (optional)** — When you click *Deactivate* on Blokino in the Plugins screen, a dialog asks why you are leaving. Nothing is sent unless you pick a reason and press *Submit & deactivate*; *Skip & deactivate* deactivates right away and sends nothing. On submit, your site's server sends one POST request to `https://tunetdesign.com/wp-json/tunet-store/v1/feedback` with the reason, the text you typed, the Blokino, WordPress and PHP versions, the admin language and the active theme's name, with a neutral user agent. Your email address and your site's URL are included only if you tick *You may contact me about this*. Answers are read by the plugin's authors to fix what made people leave. Service by TUNET Digital Agency: terms https://tunetdesign.com/terms/ · privacy https://tunetdesign.com/privacy/
 
@@ -77,7 +77,7 @@ Blokino works fully offline. It connects to an external service only in the thre
 
 == Screenshots ==
 
-1. The *Blokino Effects* panel is added to every block — including the ones that ship with WordPress. The first option is "None (clean block)", and it is the default: nothing moves until you ask it to.
+1. The *Blokino Effects* panel is added to Group, Columns, Cover, Image, Heading, Paragraph and Buttons, and to Blokino's Section, Marquee, Counter and Before/After blocks. The first option is "None (clean block)", and it is the default: nothing moves until you ask it to.
 2. Ten blocks for the things the editor does not cover: sections, sliders, marquees, counters, icons, badges, testimonials, a before/after comparer, a brand block and breadcrumbs.
 3. *Blokino Section* handles the backgrounds a hero needs — image, video, gradient, mesh — with an overlay you control, including a reinforcement that only applies on small screens.
 4. Global settings: brand colours, typefaces and shape. Left empty, the active theme decides; a value here overrides that token site-wide.
