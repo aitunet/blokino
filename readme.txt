@@ -51,6 +51,10 @@ No. Every effect is opt-in per block. Installing and activating the plugin appli
 
 No. The engine ships default design-token values so effects and blocks look good under any theme; the plugin is theme-agnostic. If you want a theme made for it, Blokmark is free on WordPress.org (Appearance → Themes → Add New, search "Blokmark"), and the premium themes add bespoke tokens, patterns and a one-click demo.
 
+= Does it work with Elementor or the Classic Editor? =
+
+No. Blokino works inside the block editor (Gutenberg): its effects panel, blocks and patterns live there. Pages built with Elementor or edited with the Classic Editor do not get them. The Get started screen tells you when one of those is active.
+
 = Does it respect reduced-motion preferences? =
 
 Yes. The runtime honors `prefers-reduced-motion: reduce`, disabling motion while keeping content visible.

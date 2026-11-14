@@ -356,6 +356,18 @@ class Blokino_Welcome {
 						</strong>
 					</li>
 					<?php endif; ?>
+					<?php
+					// U-13: Blokino vive en el editor de bloques. Si el sitio edita con
+					// el Classic Editor o con Elementor, se dice aquí, sin rodeos.
+					$blokino_other_editor = class_exists( 'Classic_Editor' ) ? __( 'Classic Editor', 'blokino' ) : ( did_action( 'elementor/loaded' ) ? __( 'Elementor', 'blokino' ) : '' );
+					if ( $blokino_other_editor ) :
+						?>
+					<li class="is-neutral">
+						<span class="blokino-welcome__status-label"><?php esc_html_e( 'Editor', 'blokino' ); ?></span>
+						<strong><?php echo esc_html( $blokino_other_editor ); ?></strong>
+						<span class="blokino-welcome__status-note"><?php esc_html_e( 'Blokino works in the block editor. Pages edited with another editor do not get its blocks or effects.', 'blokino' ); ?></span>
+					</li>
+					<?php endif; ?>
 					<li class="is-good">
 						<span class="blokino-welcome__status-label"><?php esc_html_e( 'Effects', 'blokino' ); ?></span>
 						<strong><?php esc_html_e( 'Runtime active', 'blokino' ); ?></strong>
