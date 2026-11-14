@@ -242,7 +242,12 @@ class Blokino_Welcome {
 	 * Remember that the owner has seen the screen (or dismissed the notice).
 	 */
 	public static function mark_seen() {
-		update_option( self::OPTION, defined( 'BLOKINO_VERSION' ) ? BLOKINO_VERSION : '1', false );
+		// Se escribe una vez y con autoload (O-S-06): maybe_notice() la lee en cada
+		// pantalla del admin, así sale de la caché de opciones sin otra consulta.
+		if ( get_option( self::OPTION ) ) {
+			return;
+		}
+		update_option( self::OPTION, defined( 'BLOKINO_VERSION' ) ? BLOKINO_VERSION : '1', true );
 	}
 
 	/* ---------------------------------------------------------------------

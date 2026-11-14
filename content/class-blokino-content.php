@@ -119,6 +119,10 @@ class Blokino_Content {
 				self::$portfolio = null;
 			}
 		}
+		// O-S-06: hasta la 1.2.0 el aviso de bienvenida se guardaba sin autoload.
+		if ( false !== get_option( 'blokino_welcome_seen' ) ) {
+			wp_set_option_autoload( 'blokino_welcome_seen', true );
+		}
 		update_option( self::DB_VERSION_OPTION, BLOKINO_VERSION );
 	}
 	const TAXONOMY = 'project_type';
