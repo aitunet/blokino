@@ -396,21 +396,61 @@
 				to: 1.26,
 				goal: 0,
 				current: -1, // fuerza el primer pintado
+				visible: ! ( 'IntersectionObserver' in window ),
 			};
 		} );
 		var raf = 0;
 
-		function measure() {
-			var vh = window.innerHeight;
-			var start = vh * 0.85;
-			items.forEach( function ( it ) {
-				var rect = it.el.getBoundingClientRect();
-				var p = ( start - rect.top ) / ( start + rect.height );
-				it.goal = p < 0 ? 0 : ( p > 1 ? 1 : p );
-			} );
+		function progress( rect ) {
+			var start = window.innerHeight * 0.85;
+			var p = ( start - rect.top ) / ( start + rect.height );
+			return p < 0 ? 0 : ( p > 1 ? 1 : p );
+		}
+
+		function schedule() {
 			if ( ! raf ) {
 				raf = window.requestAnimationFrame( tick );
 			}
+		}
+
+		// O-U-09: en scroll solo se miden (getBoundingClientRect) los que están en
+		// pantalla. Para los demás basta su posición en el documento, guardada la
+		// última vez que se midieron: un salto de scroll que los cruza entero (de
+		// "por encima" a "por debajo") los devuelve igual a 0 o a 1.
+		function remember( it, rect ) {
+			it.docTop = rect.top + window.pageYOffset;
+			it.height = rect.height;
+			return rect;
+		}
+
+		function measure( all ) {
+			items.forEach( function ( it ) {
+				if ( it.visible || all === true || undefined === it.docTop ) {
+					it.goal = progress( remember( it, it.el.getBoundingClientRect() ) );
+				} else {
+					it.goal = progress( { top: it.docTop - window.pageYOffset, height: it.height } );
+				}
+			} );
+			schedule();
+		}
+
+		// Al entrar o salir de pantalla, el observer trae el rectángulo: con él se
+		// fija el valor (0 por debajo, 1 por encima) sin otra medición.
+		if ( 'IntersectionObserver' in window ) {
+			var io = new IntersectionObserver( function ( entries ) {
+				entries.forEach( function ( entry ) {
+					items.forEach( function ( it ) {
+						if ( it.el === entry.target ) {
+							it.visible = entry.isIntersecting;
+							it.goal = progress( remember( it, entry.boundingClientRect ) );
+						}
+					} );
+				} );
+				schedule();
+			} );
+			items.forEach( function ( it ) {
+				io.observe( it.el );
+			} );
 		}
 
 		function tick() {
@@ -436,7 +476,10 @@
 		}
 
 		window.addEventListener( 'scroll', measure, { passive: true } );
-		window.addEventListener( 'resize', measure, { passive: true } );
+		// En resize cambia el layout: se vuelve a medir todo (raro, no por frame).
+		window.addEventListener( 'resize', function () {
+			measure( true );
+		}, { passive: true } );
 		measure();
 	}
 
