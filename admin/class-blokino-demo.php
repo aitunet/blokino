@@ -1803,6 +1803,33 @@ class Blokino_Demo {
 			<h1><?php esc_html_e( 'Blokino · Demo', 'blokino' ); ?></h1>
 
 			<?php if ( ! $has_items ) : ?>
+				<?php $this->render_demo_empty( $theme ); ?>
+			<?php else : ?>
+			<div id="blokino-wizard" class="blokino-wizard" data-has-demo="<?php echo $has_demo ? '1' : '0'; ?>">
+				<ol class="blokino-stepper">
+					<li class="blokino-stepper__item is-current" data-step="plugins"><span class="blokino-stepper__n">1</span><?php esc_html_e( 'Plugins', 'blokino' ); ?></li>
+					<li class="blokino-stepper__item" data-step="import"><span class="blokino-stepper__n">2</span><?php esc_html_e( 'Import', 'blokino' ); ?></li>
+				</ol>
+
+				<div class="blokino-wizard__grid">
+					<?php $this->render_wizard_aside( $theme, $shot ); ?>
+
+					<?php $this->render_wizard_steps( $has_demo, $home, $cancel ); ?>
+				</div>
+				<?php $this->render_summary( $summary ); ?>
+			</div>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Demo: estado vacío cuando el theme no trae manifest (O-S-11).
+	 * 
+	 * @param WP_Theme $theme Theme activo.
+	 */
+	private function render_demo_empty( $theme ) {
+		?>
 				<div class="blokino-demo-empty">
 					<span class="dashicons dashicons-info-outline" aria-hidden="true"></span>
 					<div>
@@ -1819,14 +1846,17 @@ class Blokino_Demo {
 						</p>
 					</div>
 				</div>
-			<?php else : ?>
-			<div id="blokino-wizard" class="blokino-wizard" data-has-demo="<?php echo $has_demo ? '1' : '0'; ?>">
-				<ol class="blokino-stepper">
-					<li class="blokino-stepper__item is-current" data-step="plugins"><span class="blokino-stepper__n">1</span><?php esc_html_e( 'Plugins', 'blokino' ); ?></li>
-					<li class="blokino-stepper__item" data-step="import"><span class="blokino-stepper__n">2</span><?php esc_html_e( 'Import', 'blokino' ); ?></li>
-				</ol>
+		<?php
+	}
 
-				<div class="blokino-wizard__grid">
+	/**
+	 * Demo: columna lateral del asistente (captura del theme).
+	 * 
+	 * @param WP_Theme $theme Theme activo.
+	 * @param string|false $shot URL del screenshot del theme.
+	 */
+	private function render_wizard_aside( $theme, $shot ) {
+		?>
 					<aside class="blokino-wizard__aside">
 						<?php if ( $shot ) : ?>
 							<div class="blokino-preview">
@@ -1844,7 +1874,18 @@ class Blokino_Demo {
 							?>
 						</p>
 					</aside>
+		<?php
+	}
 
+	/**
+	 * Demo: los dos pasos del asistente (plugins e importación).
+	 * 
+	 * @param bool   $has_demo ¿Ya hay un demo importado?
+	 * @param string $home     URL del sitio.
+	 * @param string $cancel   URL de Cancelar.
+	 */
+	private function render_wizard_steps( $has_demo, $home, $cancel ) {
+		?>
 					<div class="blokino-wizard__main">
 						<section class="blokino-step" data-panel="plugins">
 							<h2 class="blokino-step__title"><?php esc_html_e( 'Recommended plugins', 'blokino' ); ?></h2>
@@ -1884,7 +1925,16 @@ class Blokino_Demo {
 							</div>
 						</section>
 					</div>
-				</div>
+		<?php
+	}
+
+	/**
+	 * Demo: resumen de lo que trae el manifest.
+	 * 
+	 * @param array $summary Filas de manifest_summary().
+	 */
+	private function render_summary( $summary ) {
+		?>
 				<?php if ( $summary ) : ?>
 					<ul class="blokino-summary">
 						<?php foreach ( $summary as $row ) : ?>
@@ -1896,9 +1946,6 @@ class Blokino_Demo {
 						<?php endforeach; ?>
 					</ul>
 				<?php endif; ?>
-			</div>
-			<?php endif; ?>
-		</div>
 		<?php
 	}
 }

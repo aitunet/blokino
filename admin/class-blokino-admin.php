@@ -646,6 +646,28 @@ class Blokino_Admin {
 				<input type="hidden" name="action" value="blokino_save_settings" />
 				<?php wp_nonce_field( 'blokino_save_settings' ); ?>
 
+				<?php
+				// U-04: con un theme ajeno, Branding solo llega a los bloques y efectos de Blokino.
+				$blokino_tunet = class_exists( 'Blokino_Welcome' ) && Blokino_Welcome::is_tunet_theme();
+				$this->render_card_logos( $s );
+				$this->render_card_branding( $s, $palette, $blokino_tunet );
+				$this->render_card_layout( $s, $blokino_tunet );
+				$this->render_card_general( $s, $blokino_tunet );
+				?>
+
+				<?php submit_button( __( 'Save settings', 'blokino' ) ); ?>
+			</form>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Settings: tarjeta de logos de marca (O-S-11).
+	 * 
+	 * @param array $s Ajustes actuales.
+	 */
+	private function render_card_logos( $s ) {
+		?>
 				<div class="card blokino-section-card">
 					<h2><?php esc_html_e( 'Brand logos', 'blokino' ); ?></h2>
 					<p class="description"><?php esc_html_e( 'Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic).', 'blokino' ); ?></p>
@@ -661,12 +683,18 @@ class Blokino_Admin {
 						?>
 					</table>
 				</div>
+		<?php
+	}
 
-				<?php
-				// U-04: con un theme ajeno, estos valores solo llegan a los bloques y
-				// efectos de Blokino. Se dice antes del primer campo.
-				$blokino_tunet = class_exists( 'Blokino_Welcome' ) && Blokino_Welcome::is_tunet_theme();
-				?>
+	/**
+	 * Settings: tarjeta de branding (tipografía, colores, forma, movimiento).
+	 * 
+	 * @param array $s Ajustes actuales.
+	 * @param array $palette Paleta del theme (placeholders).
+	 * @param bool  $blokino_tunet ¿Theme Tunet activo?
+	 */
+	private function render_card_branding( $s, $palette, $blokino_tunet ) {
+		?>
 				<div class="card blokino-section-card">
 					<h2><?php echo $blokino_tunet ? esc_html__( 'Branding', 'blokino' ) : esc_html__( 'Blokino blocks & effects — colors, fonts, shape', 'blokino' ); ?></h2>
 					<?php if ( ! $blokino_tunet ) : ?>
@@ -687,7 +715,57 @@ class Blokino_Admin {
 					<p class="description">
 						<?php esc_html_e( 'Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation.', 'blokino' ); ?>
 					</p>
-					<?php
+					<?php $this->render_brand_warning( $s ); ?>
+					<table class="form-table blokino-brand-colors" role="presentation">
+						<?php
+						$this->row_color( __( 'Primary', 'blokino' ), 'brand_primary', $s['brand_primary'], $palette['primary'] ?? '' );
+						$this->row_color( __( 'Accent', 'blokino' ), 'brand_accent', $s['brand_accent'], $palette['accent'] ?? '' );
+						$this->row_color( __( 'Accent 2', 'blokino' ), 'brand_accent_2', $s['brand_accent_2'], $palette['accent-2'] ?? '' );
+						$this->row_color( __( 'Background', 'blokino' ), 'brand_bg', $s['brand_bg'], $palette['bg'] ?? '' );
+						$this->row_color( __( 'Text', 'blokino' ), 'brand_text', $s['brand_text'], $palette['text'] ?? '' );
+						?>
+					</table>
+					<p class="description">
+						<?php esc_html_e( 'Dark bands are the sections the theme draws over a photo or on its ink color (a hero, a closing call to action, the footer). They keep their own colors so they stay readable in every style variation — Background and Text above do not reach them. Set these two to recolor them as well.', 'blokino' ); ?>
+					</p>
+					<table class="form-table blokino-brand-colors" role="presentation">
+						<?php
+						$tokens = $this->theme_tokens( array( 'ink', 'on-ink' ) );
+						$this->row_color( __( 'Dark bands', 'blokino' ), 'brand_ink', $s['brand_ink'], $tokens['ink'] ?? '' );
+						$this->row_color( __( 'Text on dark bands', 'blokino' ), 'brand_on_ink', $s['brand_on_ink'], $tokens['on-ink'] ?? '' );
+						?>
+					</table>
+
+					<h3><?php esc_html_e( 'Shape', 'blokino' ); ?></h3>
+					<table class="form-table" role="presentation">
+						<?php
+						$this->row_number(
+							__( 'Corner radius (px)', 'blokino' ),
+							'radius',
+							$s['radius'],
+							__( 'Empty = theme. Rounding for Blokino blocks/components that use the radius tokens. 0 = sharp.', 'blokino' ),
+							64
+						);
+						?>
+					</table>
+
+					<h3><?php esc_html_e( 'Motion', 'blokino' ); ?></h3>
+					<p class="description"><?php esc_html_e( 'Speed of all Blokino effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic.', 'blokino' ); ?></p>
+					<table class="form-table" role="presentation">
+						<?php
+						$this->row_select( __( 'Motion intensity', 'blokino' ), 'motion', $s['motion'], array( '' => __( 'Theme default', 'blokino' ), 'subtle' => __( 'Subtle (fast)', 'blokino' ), 'bold' => __( 'Bold (slow)', 'blokino' ) ) );
+						?>
+					</table>
+				</div>
+		<?php
+	}
+
+	/**
+	 * Settings: aviso cuando hay colores de marca activos.
+	 * 
+	 * @param array $s Ajustes actuales.
+	 */
+	private function render_brand_warning( $s ) {
 					/*
 					 * Aviso cuando hay overrides activos. Estos colores se emiten como
 					 * --tnt-color-* en :root DESPUES del tokens.css del theme, asi que
@@ -743,49 +821,16 @@ class Blokino_Admin {
 						</div>
 						<?php
 					endif;
-					?>
-					<table class="form-table blokino-brand-colors" role="presentation">
-						<?php
-						$this->row_color( __( 'Primary', 'blokino' ), 'brand_primary', $s['brand_primary'], $palette['primary'] ?? '' );
-						$this->row_color( __( 'Accent', 'blokino' ), 'brand_accent', $s['brand_accent'], $palette['accent'] ?? '' );
-						$this->row_color( __( 'Accent 2', 'blokino' ), 'brand_accent_2', $s['brand_accent_2'], $palette['accent-2'] ?? '' );
-						$this->row_color( __( 'Background', 'blokino' ), 'brand_bg', $s['brand_bg'], $palette['bg'] ?? '' );
-						$this->row_color( __( 'Text', 'blokino' ), 'brand_text', $s['brand_text'], $palette['text'] ?? '' );
-						?>
-					</table>
-					<p class="description">
-						<?php esc_html_e( 'Dark bands are the sections the theme draws over a photo or on its ink color (a hero, a closing call to action, the footer). They keep their own colors so they stay readable in every style variation — Background and Text above do not reach them. Set these two to recolor them as well.', 'blokino' ); ?>
-					</p>
-					<table class="form-table blokino-brand-colors" role="presentation">
-						<?php
-						$tokens = $this->theme_tokens( array( 'ink', 'on-ink' ) );
-						$this->row_color( __( 'Dark bands', 'blokino' ), 'brand_ink', $s['brand_ink'], $tokens['ink'] ?? '' );
-						$this->row_color( __( 'Text on dark bands', 'blokino' ), 'brand_on_ink', $s['brand_on_ink'], $tokens['on-ink'] ?? '' );
-						?>
-					</table>
+	}
 
-					<h3><?php esc_html_e( 'Shape', 'blokino' ); ?></h3>
-					<table class="form-table" role="presentation">
-						<?php
-						$this->row_number(
-							__( 'Corner radius (px)', 'blokino' ),
-							'radius',
-							$s['radius'],
-							__( 'Empty = theme. Rounding for Blokino blocks/components that use the radius tokens. 0 = sharp.', 'blokino' ),
-							64
-						);
-						?>
-					</table>
-
-					<h3><?php esc_html_e( 'Motion', 'blokino' ); ?></h3>
-					<p class="description"><?php esc_html_e( 'Speed of all Blokino effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic.', 'blokino' ); ?></p>
-					<table class="form-table" role="presentation">
-						<?php
-						$this->row_select( __( 'Motion intensity', 'blokino' ), 'motion', $s['motion'], array( '' => __( 'Theme default', 'blokino' ), 'subtle' => __( 'Subtle (fast)', 'blokino' ), 'bold' => __( 'Bold (slow)', 'blokino' ) ) );
-						?>
-					</table>
-				</div>
-
+	/**
+	 * Settings: tarjeta de layout de contenido (solo themes con sidebar).
+	 * 
+	 * @param array $s Ajustes actuales.
+	 * @param bool  $blokino_tunet ¿Theme Tunet activo?
+	 */
+	private function render_card_layout( $s, $blokino_tunet ) {
+		?>
 				<?php
 				// U-04: el sidebar solo existe en themes que lo declaran (los Tunet o
 				// add_theme_support( 'blokino-sidebar' )). En los demás se oculta, pero
@@ -811,7 +856,17 @@ class Blokino_Admin {
 					<p class="description"><?php esc_html_e( 'Themes that ship a sidebar area react automatically. A theme without one simply stays full width.', 'blokino' ); ?></p>
 				</div>
 				<?php endif; ?>
+		<?php
+	}
 
+	/**
+	 * Settings: tarjeta General (motor de efectos y portfolio).
+	 * 
+	 * @param array $s Ajustes actuales.
+	 * @param bool  $blokino_tunet ¿Theme Tunet activo?
+	 */
+	private function render_card_general( $s, $blokino_tunet ) {
+		?>
 				<div class="card blokino-section-card">
 					<h2><?php esc_html_e( 'General', 'blokino' ); ?></h2>
 					<p><label>
@@ -835,10 +890,6 @@ class Blokino_Admin {
 						?>
 					</p>
 				</div>
-
-				<?php submit_button( __( 'Save settings', 'blokino' ) ); ?>
-			</form>
-		</div>
 		<?php
 	}
 
