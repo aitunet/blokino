@@ -64,6 +64,10 @@ class Blokino_Runtime {
 	/** Efectos de borde válidos (LOTE 3). */
 	const BORDER_FX = array( 'gradient', 'conic-rotate' );
 
+	/** Hovers y scrolls que necesitan effects.js; el resto es CSS puro (O-U-08). */
+	const JS_HOVERS  = array( 'tilt', 'magnetic' );
+	const JS_SCROLLS = array( 'reveal-on-scroll', 'parallax', 'progress', 'zoom', 'cinematic-zoom' );
+
 	/**
 	 * Evita encolar dos veces en la misma request.
 	 *
@@ -218,18 +222,20 @@ class Blokino_Runtime {
 		if ( wp_script_is( self::SCRIPT_HANDLE, 'registered' ) ) {
 			return;
 		}
+		$css = self::runtime_file( 'effects.css' );
+		$js  = self::runtime_file( 'effects.js' );
 		wp_register_style(
 			self::STYLE_HANDLE,
-			BLOKINO_URL . 'runtime/effects.css',
+			BLOKINO_URL . $css,
 			array(),
-			self::asset_version( 'runtime/effects.css' )
+			self::asset_version( $css )
 		);
 
 		wp_register_script(
 			self::SCRIPT_HANDLE,
-			BLOKINO_URL . 'runtime/effects.js',
+			BLOKINO_URL . $js,
 			array(),
-			self::asset_version( 'runtime/effects.js' ),
+			self::asset_version( $js ),
 			array(
 				'in_footer' => true,
 				'strategy'  => 'defer',
@@ -249,6 +255,23 @@ class Blokino_Runtime {
 			self::asset_version( 'runtime/carousel.js' ),
 			array( 'in_footer' => true )
 		);
+	}
+
+	/**
+	 * Ruta del asset a servir: la versión .min (O-U-08, generada por
+	 * scripts/minify-blokino.mjs) salvo con SCRIPT_DEBUG o si falta.
+	 *
+	 * @param string $name Archivo fuente dentro de runtime/ (effects.css, effects.js).
+	 * @return string Ruta relativa a la carpeta del plugin.
+	 */
+	private static function runtime_file( $name ) {
+		if ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ) {
+			$min = 'runtime/' . preg_replace( '/\.(css|js)$/', '.min.$1', $name );
+			if ( file_exists( BLOKINO_PATH . $min ) ) {
+				return $min;
+			}
+		}
+		return 'runtime/' . $name;
 	}
 
 	/**
@@ -292,23 +315,43 @@ class Blokino_Runtime {
 
 		$object = get_queried_object();
 		if ( $object instanceof WP_Post && self::content_has_effects( $object->post_content ) ) {
-			self::enqueue();
+			// Sin saber aún qué efectos son, el script y el gate van si alguno lo
+			// necesita; si no, render_block_effects() lo añadirá igual (sin gate).
+			self::enqueue( (bool) preg_match( '/"tfAnimation"\s*:\s*"(?!none")[^"]+"|"tfScroll"\s*:\s*"(?:' . implode( '|', self::JS_SCROLLS ) . ')"|"tfHover"\s*:\s*"(?:' . implode( '|', self::JS_HOVERS ) . ')"/', $object->post_content ) );
 		}
 	}
 
 	/**
 	 * Encola el runtime bajo demanda. Idempotente.
 	 */
-	public static function enqueue() {
+	public static function enqueue( $with_script = true ) {
 		if ( self::$enqueued ) {
 			return;
 		}
 
 		self::ensure_registered();
 		wp_enqueue_style( self::STYLE_HANDLE );
-		wp_enqueue_script( self::SCRIPT_HANDLE );
 
-		self::$enqueued = true;
+		// O-U-08: lift, glow, underline-grow, image-zoom, sticky-pin, blend, borde y
+		// outline son CSS puro. Una página que solo usa esos no necesita el script
+		// ni el gate anti-FOUC (no hay nada oculto que revelar).
+		if ( $with_script ) {
+			wp_enqueue_script( self::SCRIPT_HANDLE );
+			self::$enqueued = true;
+		}
+	}
+
+	/**
+	 * ¿Este efecto necesita effects.js? (entradas, stagger, scroll con
+	 * IntersectionObserver o rAF y hovers que siguen al puntero).
+	 *
+	 * @param array $data_atts Atributos data-tf-* que se van a inyectar.
+	 * @return bool
+	 */
+	private static function needs_script( $data_atts ) {
+		return isset( $data_atts['data-tf-animation'] )
+			|| ( isset( $data_atts['data-tf-scroll'] ) && in_array( $data_atts['data-tf-scroll'], self::JS_SCROLLS, true ) )
+			|| ( isset( $data_atts['data-tf-hover'] ) && in_array( $data_atts['data-tf-hover'], self::JS_HOVERS, true ) );
 	}
 
 	/**
@@ -405,9 +448,6 @@ class Blokino_Runtime {
 
 		$attrs = $block['attrs'];
 
-		// Red de seguridad de carga (contextos que el pre-escaneo no cubre).
-		self::enqueue();
-
 		// Atributos data-* a inyectar en el wrapper del block.
 		$data_atts = array();
 
@@ -451,6 +491,10 @@ class Blokino_Runtime {
 		if ( empty( $data_atts ) ) {
 			return $block_content;
 		}
+
+		// Carga bajo demanda: el CSS siempre; el script y el gate solo si este
+		// efecto los necesita (O-U-08).
+		self::enqueue( self::needs_script( $data_atts ) );
 
 		$style = self::build_style_vars( $attrs );
 
