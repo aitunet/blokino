@@ -193,6 +193,64 @@ class Blokino_Demo {
 	}
 
 	/**
+	 * IDs pendientes de guardar en el record, por bucket (O-S-09).
+	 *
+	 * @var array<string,int[]>
+	 */
+	private $pending = array();
+
+	/**
+	 * Cuántos IDs hay en $pending.
+	 *
+	 * @var int
+	 */
+	private $pending_count = 0;
+
+	/**
+	 * Como track(), pero acumulando: el record (con images_map y url_map, que
+	 * pesan) se reescribía entero por cada página, entrada o producto creado.
+	 * Se guarda cada 10 IDs, al terminar cada paso (ajax_step) y en shutdown,
+	 * que también corre si PHP corta la petición por tiempo; así un corte deja,
+	 * como mucho, el lote en curso sin rastrear. step_media sigue con track():
+	 * es el paso largo, donde los cortes pasan de verdad (§13.4).
+	 *
+	 * @param string $bucket Record bucket.
+	 * @param int    $id     Object ID.
+	 */
+	public function track_later( $bucket, $id ) {
+		if ( ! $this->pending ) {
+			static $hooked = false;
+			if ( ! $hooked ) {
+				$hooked = true;
+				register_shutdown_function( array( $this, 'flush_tracked' ) );
+			}
+		}
+		$this->pending[ $bucket ][] = (int) $id;
+		if ( ++$this->pending_count >= 10 ) {
+			$this->flush_tracked();
+		}
+	}
+
+	/**
+	 * Guarda en el record los IDs acumulados por track_later(), en una escritura.
+	 */
+	public function flush_tracked() {
+		if ( ! $this->pending ) {
+			return;
+		}
+		$r = self::get_record();
+		foreach ( $this->pending as $bucket => $ids ) {
+			if ( ! isset( $r[ $bucket ] ) || ! is_array( $r[ $bucket ] ) ) {
+				$r[ $bucket ] = array();
+			}
+			$r[ $bucket ] = array_merge( $r[ $bucket ], $ids );
+		}
+		$this->pending       = array();
+		$this->pending_count = 0;
+		update_option( self::RECORD, $r, false );
+	}
+
+	/**
 	 * Store a scalar/array value on the record (e.g. 'cf7', 'images_map', 'url_map').
 	 *
 	 * @param string $key   Record key.
@@ -921,7 +979,7 @@ class Blokino_Demo {
 			if ( is_wp_error( $id ) || ! $id ) {
 				continue;
 			}
-			$this->track( 'projects', $id );
+			$this->track_later( 'projects', $id );
 
 			if ( ! empty( $p['types'] ) ) {
 				$term_ids = $this->ensure_terms( $p['types'], 'project_type' );
@@ -962,7 +1020,7 @@ class Blokino_Demo {
 			if ( is_wp_error( $id ) || ! $id ) {
 				continue;
 			}
-			$this->track( 'posts', $id );
+			$this->track_later( 'posts', $id );
 
 			if ( ! empty( $p['category'] ) ) {
 				$cat_ids = $this->ensure_terms( array( $p['category'] ), 'category' );
@@ -989,9 +1047,9 @@ class Blokino_Demo {
 				$term = wp_insert_term( $name, $taxonomy );
 				if ( ! is_wp_error( $term ) ) {
 					if ( 'project_type' === $taxonomy ) {
-						$this->track( 'project_types', (int) $term['term_id'] );
+						$this->track_later( 'project_types', (int) $term['term_id'] );
 					} elseif ( 'category' === $taxonomy ) {
-						$this->track( 'categories', (int) $term['term_id'] );
+						$this->track_later( 'categories', (int) $term['term_id'] );
 					}
 				}
 			}
@@ -1051,7 +1109,7 @@ class Blokino_Demo {
 				true
 			);
 			if ( ! is_wp_error( $id ) && $id ) {
-				$this->track( 'posts', $id );
+				$this->track_later( 'posts', $id );
 				// 'template' => 'page-narrow': a block-theme custom template (theme.json
 				// customTemplates). Set as meta, not via page_template — wp_insert_post()
 				// validates that argument against classic templates only.
@@ -1237,7 +1295,7 @@ class Blokino_Demo {
 		}
 
 		foreach ( $created as $id ) {
-			$this->track( 'edd_pages', $id );
+			$this->track_later( 'edd_pages', $id );
 		}
 		if ( $prev ) {
 			// Merge, earliest value wins: running the step again on the same record
@@ -1284,7 +1342,7 @@ class Blokino_Demo {
 				)
 			);
 			if ( ! is_wp_error( $term ) ) {
-				$this->track( 'edd_categories', (int) $term['term_id'] );
+				$this->track_later( 'edd_categories', (int) $term['term_id'] );
 			}
 		}
 	}
@@ -1305,7 +1363,7 @@ class Blokino_Demo {
 			if ( ! $term ) {
 				$term = wp_insert_term( $cat_name, 'product_cat' );
 				if ( ! is_wp_error( $term ) ) {
-					$this->track( 'product_cats', (int) $term['term_id'] );
+					$this->track_later( 'product_cats', (int) $term['term_id'] );
 				}
 			}
 			if ( ! is_wp_error( $term ) && isset( $term['term_id'] ) ) {
@@ -1344,7 +1402,7 @@ class Blokino_Demo {
 			}
 			$pid = $product->save();
 			if ( $pid ) {
-				$this->track( 'products', $pid );
+				$this->track_later( 'products', $pid );
 			}
 		}
 	}
@@ -1480,6 +1538,7 @@ class Blokino_Demo {
 			// notices, sideload warnings…) so it can't corrupt the JSON response.
 			ob_start();
 			$result = call_user_func( $steps[ $step ]['cb'] );
+			$this->flush_tracked();
 			ob_end_clean();
 		}
 
