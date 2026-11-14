@@ -25,10 +25,22 @@
 	var reduceMotion = window.matchMedia &&
 		window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
+	// Ancho con el que se rellenó cada marquee por última vez (O-U-04).
+	var lastWidth = typeof WeakMap === 'function' ? new WeakMap() : null;
+
 	function fill( marquee ) {
 		var container = marquee.clientWidth;
 		if ( ! container ) {
 			return;
+		}
+		// Mismo ancho → el relleno sigue valiendo. En móvil el resize salta con
+		// cada scroll (la barra del navegador cambia el alto): sin esto se
+		// reconstruía el DOM de la banda una y otra vez.
+		if ( lastWidth ) {
+			if ( lastWidth.get( marquee ) === container ) {
+				return;
+			}
+			lastWidth.set( marquee, container );
 		}
 		var groups = marquee.querySelectorAll( '.blokino-marquee__group' );
 		for ( var i = 0; i < groups.length; i++ ) {
@@ -108,12 +120,35 @@
 		init();
 	}
 
-	// Re-evaluar en resize (el contenedor puede crecer y revelar un hueco).
+	// Re-evaluar cuando cambia el ancho (el contenedor puede crecer y revelar un
+	// hueco). ResizeObserver por marquee; resize de la ventana como respaldo.
+	function refill() {
+		var marquees = document.querySelectorAll( '.blokino-marquee' );
+		for ( var i = 0; i < marquees.length; i++ ) {
+			fill( marquees[ i ] );
+		}
+	}
 	var resizeTimer = null;
-	window.addEventListener( 'resize', function () {
+	function schedule() {
 		if ( resizeTimer ) {
 			window.clearTimeout( resizeTimer );
 		}
-		resizeTimer = window.setTimeout( init, 200 );
-	} );
+		resizeTimer = window.setTimeout( refill, 200 );
+	}
+	if ( typeof ResizeObserver === 'function' ) {
+		var observer = new ResizeObserver( schedule );
+		var observeAll = function () {
+			var marquees = document.querySelectorAll( '.blokino-marquee' );
+			for ( var i = 0; i < marquees.length; i++ ) {
+				observer.observe( marquees[ i ] );
+			}
+		};
+		if ( document.readyState === 'loading' ) {
+			document.addEventListener( 'DOMContentLoaded', observeAll );
+		} else {
+			observeAll();
+		}
+	} else {
+		window.addEventListener( 'resize', schedule );
+	}
 } )();
