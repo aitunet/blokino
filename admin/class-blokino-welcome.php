@@ -150,13 +150,7 @@ class Blokino_Welcome {
 	 * @return bool
 	 */
 	public static function is_tunet_theme() {
-		$theme = wp_get_theme();
-		foreach ( array( 'AuthorURI', 'UpdateURI' ) as $header ) {
-			if ( false !== stripos( (string) $theme->get( $header ), 'tunetdesign.com' ) ) {
-				return true;
-			}
-		}
-		return false;
+		return blokino_is_tunet_theme();
 	}
 
 	/**

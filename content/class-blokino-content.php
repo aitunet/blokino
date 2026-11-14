@@ -41,6 +41,75 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Blokino_Content {
 
 	const CPT      = 'project';
+
+	/** Opción del ajuste "Portfolio content type" (Settings → General). */
+	const PORTFOLIO_OPTION = 'blokino_portfolio';
+
+	/** Versión del motor con la que se hizo la última migración. */
+	const DB_VERSION_OPTION = 'blokino_db_version';
+
+	/**
+	 * Resultado de portfolio_enabled() en esta petición.
+	 *
+	 * @var bool|null
+	 */
+	private static $portfolio = null;
+
+	/**
+	 * ¿Se registra el portfolio? Con un theme Tunet, con un theme que declara
+	 * add_theme_support( 'blokino-portfolio' ), con un demo que trae proyectos o
+	 * con el ajuste encendido (la migración lo enciende si el sitio ya tenía
+	 * proyectos de Blokino). Filtro: blokino_enable_portfolio.
+	 *
+	 * @return bool
+	 */
+	public static function portfolio_enabled() {
+		if ( null !== self::$portfolio ) {
+			return self::$portfolio;
+		}
+		$on = current_theme_supports( 'blokino-portfolio' )
+			|| ( function_exists( 'blokino_is_tunet_theme' ) && blokino_is_tunet_theme() )
+			|| '1' === get_option( self::PORTFOLIO_OPTION )
+			|| ( class_exists( 'Blokino_Demo' ) && ! empty( Blokino_Demo::manifest()['projects'] ) );
+		/**
+		 * Register the portfolio content type (Projects at /work/).
+		 *
+		 * @param bool $on Default decision.
+		 */
+		self::$portfolio = (bool) apply_filters( 'blokino_enable_portfolio', $on );
+		return self::$portfolio;
+	}
+
+	/**
+	 * Migración al subir de versión: si el sitio ya tiene proyectos DE BLOKINO
+	 * (con sus metadatos o su taxonomía), el portfolio queda encendido para no
+	 * hacerlos desaparecer. Los posts project de Divi u otro plugin no cuentan.
+	 */
+	public static function maybe_migrate() {
+		if ( get_option( self::DB_VERSION_OPTION ) === BLOKINO_VERSION ) {
+			return;
+		}
+		if ( '1' !== get_option( self::PORTFOLIO_OPTION ) ) {
+			global $wpdb;
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- migración de una vez por versión.
+			$has_meta = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT 1 FROM {$wpdb->posts} p INNER JOIN {$wpdb->postmeta} m ON m.post_id = p.ID WHERE p.post_type = %s AND m.meta_key LIKE %s LIMIT 1",
+					self::CPT,
+					$wpdb->esc_like( 'blokino_project_' ) . '%'
+				)
+			);
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- migración de una vez por versión.
+			$has_terms = $wpdb->get_var(
+				$wpdb->prepare( "SELECT 1 FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s LIMIT 1", self::TAXONOMY )
+			);
+			if ( $has_meta || $has_terms ) {
+				update_option( self::PORTFOLIO_OPTION, '1' );
+				self::$portfolio = null;
+			}
+		}
+		update_option( self::DB_VERSION_OPTION, BLOKINO_VERSION );
+	}
 	const TAXONOMY = 'project_type';
 
 	/**
@@ -66,6 +135,8 @@ class Blokino_Content {
 	 * Cablea los hooks de registro.
 	 */
 	public function __construct() {
+		// E-02: migración (antes de registrar) que conserva el portfolio de quien ya lo usa.
+		add_action( 'init', array( __CLASS__, 'maybe_migrate' ), 1 );
 		add_action( 'init', array( $this, 'register_types' ) );
 		add_action( 'init', array( $this, 'maybe_flush_rewrites' ), 99 );
 	}
@@ -604,6 +675,11 @@ class Blokino_Content {
 	 * @return array<string,array>
 	 */
 	private static function core_types() {
+		// E-02: el portfolio (CPT project, /work/) ya no se registra en todos los
+		// sitios: choca con Divi y plugins de portfolio y añade un menú no pedido.
+		if ( ! self::portfolio_enabled() ) {
+			return array();
+		}
 		return array(
 			self::CPT => array(
 				'args'       => array(

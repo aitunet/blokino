@@ -45,7 +45,7 @@ Requires WordPress 6.6 or newer and PHP 7.4 or newer.
 
 = Does it change how my site looks by default? =
 
-No. Every effect is opt-in per block. Installing and activating the plugin applies nothing until you add an effect from the Blokino Effects panel.
+No. Every effect is opt-in per block. Installing and activating the plugin applies nothing until you add an effect from the Blokino Effects panel. With a theme that is not made for Blokino, the plugin also adds no menus, no /work/ address and nothing to your page head: the portfolio content type is a setting (*Settings → General*), off by default.
 
 = Do I need a special theme? =
 

@@ -101,7 +101,10 @@ final class Blokino {
 
 		// Build / performance: assets de bloques del core separados por block,
 		// para poder cargar solo lo que aparece en la página (§3, §10).
-		add_filter( 'should_load_separate_core_block_assets', '__return_true' );
+		// E-05: SOLO con un theme Tunet. En un theme ajeno (sobre todo clásico)
+		// cambiar dónde se imprime el CSS de los bloques core no es decisión de un
+		// plugin: puede alterar la cascada. Se deja el valor que traiga el sitio.
+		add_filter( 'should_load_separate_core_block_assets', 'blokino_separate_core_block_assets' );
 
 		// Arranque de módulos del motor.
 		add_action( 'plugins_loaded', array( $this, 'boot_modules' ) );
@@ -147,6 +150,33 @@ function blokino() {
 
 // Arranca el motor.
 blokino();
+
+/**
+ * ¿El theme activo está hecho para Blokino? (Author URI o Update URI en
+ * tunetdesign.com: los premium y Blokmark). Decide los comportamientos que el
+ * motor solo activa para sus themes (E-02, E-05, E-06).
+ *
+ * @return bool
+ */
+function blokino_is_tunet_theme() {
+	$theme = wp_get_theme();
+	foreach ( array( 'AuthorURI', 'UpdateURI' ) as $header ) {
+		if ( false !== stripos( (string) $theme->get( $header ), 'tunetdesign.com' ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
+ * E-05: carga separada del CSS de bloques core, solo con un theme Tunet.
+ *
+ * @param bool $load Valor actual.
+ * @return bool
+ */
+function blokino_separate_core_block_assets( $load ) {
+	return blokino_is_tunet_theme() ? true : $load;
+}
 
 /**
  * Helper de plantilla: devuelve el markup del logo de marca.
@@ -292,7 +322,17 @@ add_action(
  * si hay un plugin SEO activo, no hace nada.
  */
 function blokino_meta_description() {
-	if ( defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'SEOPRESS_VERSION' ) || defined( 'AIOSEO_VERSION' ) ) {
+	/**
+	 * Print a fallback meta description. Default: only with a theme made for
+	 * Blokino (E-06); any other theme or SEO setup decides its own head.
+	 *
+	 * @param bool $print Whether to print it.
+	 */
+	if ( ! apply_filters( 'blokino_meta_description', blokino_is_tunet_theme() ) ) {
+		return;
+	}
+	if ( defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'SEOPRESS_VERSION' ) || defined( 'AIOSEO_VERSION' )
+		|| defined( 'THE_SEO_FRAMEWORK_VERSION' ) || defined( 'SLIM_SEO_VER' ) || class_exists( 'SQ_Classes_ObjController' ) ) {
 		return; // Un plugin SEO dedicado es dueño de la descripción.
 	}
 

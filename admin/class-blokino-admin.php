@@ -790,6 +790,21 @@ class Blokino_Admin {
 						<?php esc_html_e( 'Enable the effects engine (tf*) on the front-end', 'blokino' ); ?>
 					</label></p>
 					<p class="description"><?php esc_html_e( 'When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging).', 'blokino' ); ?></p>
+					<?php
+					// E-02: el portfolio ya no se registra por defecto con cualquier theme.
+					$blokino_pf_forced = $blokino_tunet || current_theme_supports( 'blokino-portfolio' );
+					?>
+					<p><label>
+						<input type="checkbox" name="blokino_portfolio" value="1" <?php checked( $blokino_pf_forced || '1' === get_option( Blokino_Content::PORTFOLIO_OPTION ) ); ?> <?php disabled( $blokino_pf_forced ); ?> />
+						<?php esc_html_e( 'Portfolio content type (Projects at /work/)', 'blokino' ); ?>
+					</label></p>
+					<p class="description">
+						<?php
+						echo $blokino_pf_forced
+							? esc_html__( 'Always on with your theme, which is built to show projects.', 'blokino' )
+							: esc_html__( 'Adds a Projects menu and the /work/ address. Leave it off if your theme or another plugin already has a portfolio.', 'blokino' );
+						?>
+					</p>
 				</div>
 
 				<?php submit_button( __( 'Save settings', 'blokino' ) ); ?>
@@ -1071,6 +1086,11 @@ class Blokino_Admin {
 		$clean = $this->sanitize_settings( wp_unslash( $_POST ) );
 		update_option( self::OPTION, $clean );
 		$this->sync_custom_logo( $clean, $previous );
+		// E-02: interruptor del portfolio (opción propia, fuera de blokino_settings).
+		// Con theme Tunet el checkbox va deshabilitado (no llega en el POST): no se toca.
+		if ( class_exists( 'Blokino_Content' ) && ! blokino_is_tunet_theme() && ! current_theme_supports( 'blokino-portfolio' ) ) {
+			update_option( Blokino_Content::PORTFOLIO_OPTION, empty( $_POST['blokino_portfolio'] ) ? '0' : '1' );
+		}
 
 		wp_safe_redirect( add_query_arg( 'blokino_notice', 'saved', admin_url( 'admin.php?page=' . self::SETTINGS_SLUG ) ) );
 		exit;

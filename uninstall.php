@@ -26,6 +26,8 @@ function blokino_uninstall_site() {
 		'blokino_demo_record',
 		'blokino_welcome_seen',
 		'blokino_content_signature',
+		'blokino_portfolio',
+		'blokino_db_version',
 	);
 	foreach ( $options as $option ) {
 		delete_option( $option );
