@@ -1492,6 +1492,20 @@ class Blokino_Demo {
 		// wizard then calls the SAME step again, with the bar advancing inside it.
 		$again = is_array( $result ) && ! empty( $result['continue'] );
 		$next  = $again ? $step : $step + 1;
+
+		// T-05: el import terminó. Los themes que necesitan rematar algo (p. ej.
+		// configurar un formulario de CF7) se enganchan aquí en vez de leer el
+		// record en cada admin_init. Salida bufferizada como la de los pasos.
+		if ( ! $again && $next >= $total ) {
+			ob_start();
+			/**
+			 * Fires once, when the demo import has finished.
+			 *
+			 * @param array $record What the import created (blokino_demo_record).
+			 */
+			do_action( 'blokino_demo_imported', self::get_record() );
+			ob_end_clean();
+		}
 		$part  = 0;
 		$label = $next < $total ? $steps[ $next ]['label'] : '';
 		if ( $again ) {
@@ -1515,7 +1529,7 @@ class Blokino_Demo {
 	}
 
 	/**
-	 * Undo import (implemented in Task 7).
+	 * Undo the import: removes what it created and clears the record.
 	 */
 	public function ajax_rollback() {
 		check_ajax_referer( self::NONCE, 'nonce' );
@@ -1523,6 +1537,12 @@ class Blokino_Demo {
 			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'blokino' ) ) );
 		}
 		$this->replace(); // replace() clears the record on its normal path.
+		ob_start();
+		/**
+		 * Fires after the demo import has been undone.
+		 */
+		do_action( 'blokino_demo_removed' );
+		ob_end_clean();
 		wp_send_json_success( array( 'message' => __( 'Import undone.', 'blokino' ) ) );
 	}
 
