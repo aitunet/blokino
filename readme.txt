@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,6 +84,16 @@ Blokino works fully offline. It connects to an external service only in the thre
 5. Export your Blokino settings to a JSON file and import them on another site, for example to move a design from staging to production.
 
 == Changelog ==
+= 1.1.2 =
+* Fix: saving or importing Blokino settings no longer removes a site logo that was set elsewhere (Site Logo block or Customizer). The Main logo field now shows that logo when Blokino has none of its own.
+* Security: background image URLs in Section and Content slider are encoded inside url(), so a crafted URL can no longer add CSS to the page.
+* Fix: if the effects script cannot run (a caching plugin delays it, a blocker stops it), animated content is shown after 3 seconds instead of staying hidden.
+* Fix: the welcome notice appears only on the Dashboard and Plugins screens.
+* Privacy: the deactivation feedback sends only your theme's name, as the dialog says. Theme preview images on the Themes screen load only from the catalog's domain, with no referrer.
+* Hardening: the demo wizard checks the permission to install and to activate separately, shows server messages as plain text, keeps the reason when a plugin install fails, and reports a failed Undo.
+* New: deleting the plugin removes its settings and cached data (your content, media, projects and logo are kept). Deactivating it removes its /work/ address rules.
+* Readme: the three external services and the blocks that get the Effects panel are listed accurately.
+
 = 1.1.1 =
 * Fix: in the editor, Marquee items stay on one row like the front-end band (scroll sideways to reach the last ones) instead of wrapping onto several lines.
 * Fix: in the editor, Marquee no longer forces its row layout onto blocks nested inside an item (a query, its cards), and its separators no longer jump when you select an item.
