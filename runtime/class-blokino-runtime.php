@@ -361,36 +361,10 @@ class Blokino_Runtime {
 			return false;
 		}
 
-		// Fast-path barato: los atributos se serializan como JSON en el
-		// comentario del block; si no aparece ninguna clave, no hay efecto.
-		if ( false === strpos( $content, '"tfAnimation"' )
-			&& false === strpos( $content, '"tfHover"' )
-			&& false === strpos( $content, '"tfScroll"' )
-			&& false === strpos( $content, '"tfBlend"' )
-			&& false === strpos( $content, '"tfBorderFx"' )
-			&& false === strpos( $content, '"tfDisplay"' ) ) {
-			return false;
-		}
-
-		return self::blocks_have_effects( parse_blocks( $content ) );
-	}
-
-	/**
-	 * Recorre recursivamente los blocks buscando un efecto tf* activo.
-	 *
-	 * @param array $blocks Blocks parseados.
-	 * @return bool
-	 */
-	private static function blocks_have_effects( $blocks ) {
-		foreach ( $blocks as $block ) {
-			if ( ! empty( $block['attrs'] ) && self::attrs_have_effect( $block['attrs'] ) ) {
-				return true;
-			}
-			if ( ! empty( $block['innerBlocks'] ) && self::blocks_have_effects( $block['innerBlocks'] ) ) {
-				return true;
-			}
-		}
-		return false;
+		// Los atributos se serializan como JSON en el comentario del block, así que
+		// basta con buscar una clave tf* con un valor distinto de "none" (O-S-03):
+		// mismo criterio que attrs_have_effect() sin parsear el árbol de bloques.
+		return (bool) preg_match( '/"tf(?:Animation|Hover|Scroll|Blend|BorderFx|Display)"\s*:\s*"(?!none")[^"]+"/', $content );
 	}
 
 	/**
