@@ -33,6 +33,75 @@ class Blokino_Welcome {
 	public function __construct() {
 		add_action( 'admin_notices', array( $this, 'maybe_notice' ) );
 		add_action( 'admin_post_blokino_welcome_dismiss', array( $this, 'handle_dismiss' ) );
+		// U-03: "Try it on a new page" precarga un borrador con los patterns del plugin.
+		add_filter( 'default_content', array( $this, 'playground_content' ), 10, 2 );
+		add_filter( 'default_title', array( $this, 'playground_title' ), 10, 2 );
+	}
+
+	/** Query arg + nonce action of the playground link. */
+	const PLAYGROUND = 'blokino_playground';
+
+	/**
+	 * Patterns that make up the playground page, in order.
+	 *
+	 * @var string[]
+	 */
+	private static $playground_patterns = array( 'blokino/hero-gradient', 'blokino/cards', 'blokino/metrics', 'blokino/logo-band' );
+
+	/**
+	 * URL of a new page draft prefilled with the playground (nonce-protected).
+	 *
+	 * @return string
+	 */
+	public static function playground_url() {
+		return wp_nonce_url( admin_url( 'post-new.php?post_type=page' ), self::PLAYGROUND, self::PLAYGROUND );
+	}
+
+	/**
+	 * Is this request the playground link? Valid nonce, a new page, and a user
+	 * who can edit pages. Anything else leaves the new post untouched.
+	 *
+	 * @param WP_Post|null $post The new post.
+	 * @return bool
+	 */
+	private static function is_playground( $post ) {
+		if ( ! isset( $_GET[ self::PLAYGROUND ] ) || ! $post instanceof WP_Post || 'page' !== $post->post_type || ! current_user_can( 'edit_pages' ) ) {
+			return false;
+		}
+		return (bool) wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET[ self::PLAYGROUND ] ) ), self::PLAYGROUND );
+	}
+
+	/**
+	 * Prefill the playground draft with the plugin patterns.
+	 *
+	 * @param string  $content Default content.
+	 * @param WP_Post $post    The new post.
+	 * @return string
+	 */
+	public function playground_content( $content, $post ) {
+		if ( ! self::is_playground( $post ) || ! class_exists( 'WP_Block_Patterns_Registry' ) ) {
+			return $content;
+		}
+		$registry = WP_Block_Patterns_Registry::get_instance();
+		$parts    = array();
+		foreach ( self::$playground_patterns as $name ) {
+			$pattern = $registry->get_registered( $name );
+			if ( $pattern && ! empty( $pattern['content'] ) ) {
+				$parts[] = $pattern['content'];
+			}
+		}
+		return $parts ? implode( "\n\n", $parts ) : $content;
+	}
+
+	/**
+	 * Title of the playground draft.
+	 *
+	 * @param string  $title Default title.
+	 * @param WP_Post $post  The new post.
+	 * @return string
+	 */
+	public function playground_title( $title, $post ) {
+		return self::is_playground( $post ) ? __( 'Blokino playground', 'blokino' ) : $title;
 	}
 
 	/**
@@ -152,7 +221,7 @@ class Blokino_Welcome {
 		<div class="notice notice-info blokino-welcome-notice">
 			<p>
 				<strong><?php esc_html_e( 'Blokino is ready.', 'blokino' ); ?></strong>
-				<?php esc_html_e( 'Pick a theme, import its demo and add motion to any block — the Get started screen walks you through it.', 'blokino' ); ?>
+				<?php esc_html_e( 'Add entrance, hover and scroll effects to your blocks — see how in one minute.', 'blokino' ); ?>
 			</p>
 			<p>
 				<a class="button button-primary" href="<?php echo esc_url( self::url() ); ?>"><?php esc_html_e( 'Get started', 'blokino' ); ?></a>
@@ -187,6 +256,58 @@ class Blokino_Welcome {
 	 * ------------------------------------------------------------------ */
 
 	/**
+	 * Steps for a site whose theme was not made for Blokino (U-03): see an effect
+	 * first, then the blocks and patterns; themes are an optional card at the end.
+	 *
+	 * @param string $demo       Demo state.
+	 * @param string $demo_url   Demo importer URL.
+	 * @param string $editor_url New page URL.
+	 * @param string $themes_url Themes screen URL.
+	 */
+	private static function render_any_theme_steps( $demo, $demo_url, $editor_url, $themes_url ) {
+		?>
+		<h2 class="blokino-welcome__h2"><?php esc_html_e( 'See what it does in one minute', 'blokino' ); ?></h2>
+		<ol class="blokino-welcome__steps">
+			<li class="blokino-welcome__step">
+				<span class="blokino-welcome__num" aria-hidden="true">1</span>
+				<h3><?php esc_html_e( 'Add an effect to a block', 'blokino' ); ?></h3>
+				<p><?php esc_html_e( 'Select a Group, Image, Heading, Paragraph, Cover or Buttons block and open Blokino Effects in the sidebar. Pick an entrance and it plays right there in the editor; a hover effect reacts when you point at the block.', 'blokino' ); ?></p>
+				<div class="blokino-welcome__panel" aria-hidden="true">
+					<div class="blokino-welcome__panel-title"><?php esc_html_e( 'Blokino Effects', 'blokino' ); ?></div>
+					<div class="blokino-welcome__panel-row"><span><?php esc_html_e( 'Animation', 'blokino' ); ?></span><span class="blokino-welcome__panel-val">fade-up</span></div>
+					<div class="blokino-welcome__panel-row"><span><?php esc_html_e( 'Hover', 'blokino' ); ?></span><span class="blokino-welcome__panel-val">lift</span></div>
+				</div>
+				<p>
+					<a class="button button-primary" href="<?php echo esc_url( self::playground_url() ); ?>"><?php esc_html_e( 'Try it on a new page', 'blokino' ); ?></a>
+					<a class="button" href="<?php echo esc_url( $editor_url ); ?>"><?php esc_html_e( 'Start from a blank page', 'blokino' ); ?></a>
+				</p>
+				<p class="description"><?php esc_html_e( 'The first button opens a new draft with sample sections that already use effects. Nothing is published.', 'blokino' ); ?></p>
+			</li>
+			<li class="blokino-welcome__step">
+				<span class="blokino-welcome__num" aria-hidden="true">2</span>
+				<h3><?php esc_html_e( 'Insert a Blokino block or pattern', 'blokino' ); ?></h3>
+				<p><?php esc_html_e( 'In the block inserter (+), the Blokino category has ten blocks — Section, sliders, Marquee, Counter, Testimonials and more. Under Patterns → Blokino there are ready-made sections: heroes, cards, key figures, a logo band and testimonials.', 'blokino' ); ?></p>
+			</li>
+			<?php if ( 'none' !== $demo ) : ?>
+				<li class="blokino-welcome__step<?php echo 'imported' === $demo ? ' is-done' : ''; ?>">
+					<span class="blokino-welcome__num" aria-hidden="true">3</span>
+					<h3><?php esc_html_e( 'Import the demo', 'blokino' ); ?></h3>
+					<p><?php esc_html_e( 'Pages, patterns, images and settings, wired to your Media Library so you can edit or replace anything — with a one-click rollback.', 'blokino' ); ?></p>
+					<p><a class="button" href="<?php echo esc_url( $demo_url ); ?>"><?php echo 'imported' === $demo ? esc_html__( 'Manage', 'blokino' ) : esc_html__( 'Open the Demo importer', 'blokino' ); ?></a></p>
+				</li>
+			<?php endif; ?>
+		</ol>
+		<?php if ( $themes_url ) : ?>
+			<section class="blokino-welcome__card blokino-welcome__card--secondary">
+				<h2><?php esc_html_e( 'Themes made for Blokino (optional)', 'blokino' ); ?></h2>
+				<p><?php esc_html_e( 'Blokino works with the theme you have. If you want a design built around it, Blokmark is free on WordPress.org and the premium themes add their own patterns and a one-click demo.', 'blokino' ); ?></p>
+				<p><a class="button" href="<?php echo esc_url( $themes_url ); ?>"><?php esc_html_e( 'Browse themes', 'blokino' ); ?></a></p>
+			</section>
+		<?php endif; ?>
+		<?php
+	}
+
+	/**
 	 * Render the Get started screen.
 	 */
 	public static function render_page() {
@@ -202,7 +323,8 @@ class Blokino_Welcome {
 		$changes     = self::latest_changes();
 		$demo_url    = class_exists( 'Blokino_Demo' ) ? admin_url( 'admin.php?page=' . Blokino_Demo::MENU_SLUG ) : '';
 		$themes_url  = class_exists( 'Blokino_Themes' ) ? Blokino_Themes::url() : '';
-		$editor_url  = function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ? admin_url( 'site-editor.php' ) : admin_url( 'post-new.php?post_type=page' );
+		// U-03: una página nueva, no la raíz del Site Editor: ahí es donde se prueba un efecto.
+		$editor_url  = admin_url( 'post-new.php?post_type=page' );
 		?>
 		<div class="wrap blokino-admin blokino-welcome">
 			<h1 class="blokino-welcome__title"><?php esc_html_e( 'Get started', 'blokino' ); ?></h1>
@@ -214,6 +336,12 @@ class Blokino_Welcome {
 					<p class="blokino-welcome__lede"><?php esc_html_e( 'Blokino adds entrance, hover and scroll effects to the blocks you already use, plus a few blocks the editor lacks — sliders, sections with rich backgrounds, marquees, counters. Nothing is applied until you switch it on, and every color and curve comes from your theme.', 'blokino' ); ?></p>
 				</div>
 				<ul class="blokino-welcome__status" aria-label="<?php esc_attr_e( 'Site status', 'blokino' ); ?>">
+					<?php
+					// U-03: con un theme ajeno y sin demo, theme y demo no aportan nada aquí
+					// (y sugerían que hacía falta cambiarlos): solo se muestra el estado de los efectos.
+					$blokino_show_site = $blokino_theme || 'none' !== $demo;
+					if ( $blokino_show_site ) :
+						?>
 					<li class="<?php echo $blokino_theme ? 'is-good' : 'is-neutral'; ?>">
 						<span class="blokino-welcome__status-label"><?php esc_html_e( 'Theme', 'blokino' ); ?></span>
 						<strong><?php echo esc_html( $theme->get( 'Name' ) ); ?></strong>
@@ -233,6 +361,7 @@ class Blokino_Welcome {
 							?>
 						</strong>
 					</li>
+					<?php endif; ?>
 					<li class="is-good">
 						<span class="blokino-welcome__status-label"><?php esc_html_e( 'Effects', 'blokino' ); ?></span>
 						<strong><?php esc_html_e( 'Runtime active', 'blokino' ); ?></strong>
@@ -241,6 +370,13 @@ class Blokino_Welcome {
 				</ul>
 			</header>
 
+			<?php
+			// U-03: con un theme que no es Tunet, lo primero es VER un efecto, no
+			// cambiar de theme ni importar un demo.
+			if ( ! $blokino_theme ) :
+				self::render_any_theme_steps( $demo, $demo_url, $editor_url, $themes_url );
+			else :
+				?>
 			<h2 class="blokino-welcome__h2"><?php esc_html_e( 'Three steps to a finished site', 'blokino' ); ?></h2>
 			<ol class="blokino-welcome__steps">
 				<li class="blokino-welcome__step<?php echo $blokino_theme ? ' is-done' : ''; ?>">
@@ -292,9 +428,13 @@ class Blokino_Welcome {
 						<div class="blokino-welcome__panel-row"><span><?php esc_html_e( 'Easing', 'blokino' ); ?></span><span class="blokino-welcome__panel-val">expo</span></div>
 						<div class="blokino-welcome__panel-row"><span><?php esc_html_e( 'Hover', 'blokino' ); ?></span><span class="blokino-welcome__panel-val">lift</span></div>
 					</div>
-					<p><a class="button" href="<?php echo esc_url( $editor_url ); ?>"><?php esc_html_e( 'Open the editor', 'blokino' ); ?></a></p>
+					<p>
+						<a class="button button-primary" href="<?php echo esc_url( self::playground_url() ); ?>"><?php esc_html_e( 'Try it on a new page', 'blokino' ); ?></a>
+						<a class="button" href="<?php echo esc_url( $editor_url ); ?>"><?php esc_html_e( 'Open the editor', 'blokino' ); ?></a>
+					</p>
 				</li>
 			</ol>
+			<?php endif; ?>
 
 			<div class="blokino-welcome__cols">
 				<section class="blokino-welcome__card">
