@@ -142,8 +142,9 @@ class Blokino_Welcome {
 		if ( ! current_user_can( self::CAPABILITY ) || get_option( self::OPTION ) ) {
 			return;
 		}
+		// E-11 (guideline 11 de wp.org): solo en Escritorio y Plugins, nunca en todo el admin.
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
-		if ( $screen && 'toplevel_page_' . Blokino_Admin::MENU_SLUG === $screen->id ) {
+		if ( ! $screen || ! in_array( $screen->id, array( 'dashboard', 'plugins' ), true ) ) {
 			return;
 		}
 		$dismiss = wp_nonce_url( admin_url( 'admin-post.php?action=blokino_welcome_dismiss' ), 'blokino_welcome_dismiss' );
