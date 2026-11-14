@@ -261,9 +261,12 @@ class Blokino_Blocks {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_blocks' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'localize_icons' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_repeater_control' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_carousel_editor' ) );
+		// O-U-05: los helpers del editor se REGISTRAN; los cargan como dependencia
+		// los edit.asset.php de los bloques que los usan (icon, marquee, carruseles).
+		add_action( 'enqueue_block_editor_assets', array( $this, 'localize_icons' ), 1 );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_repeater_control' ), 1 );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_carousel_editor' ), 1 );
+		add_action( 'wp_ajax_' . self::ICONS_ACTION, array( $this, 'serve_icons' ) );
 	}
 
 	/**
@@ -284,17 +287,41 @@ class Blokino_Blocks {
 		'breadcrumbs',
 	);
 
+	/** Acción AJAX que sirve el set de iconos como script cacheable. */
+	const ICONS_ACTION = 'blokino_icons';
+
+	/**
+	 * El set de iconos en JSON (filtrable con blokino_icon_set).
+	 *
+	 * @return string
+	 */
+	private static function icons_json() {
+		require_once BLOKINO_PATH . 'blocks/icon/icons.php';
+		return (string) wp_json_encode( blokino_icon_set() );
+	}
+
 	/**
 	 * Expone el set curado de iconos al editor (para el picker de blokino/icon).
+	 *
+	 * O-U-05: antes iban ~36 KB de JSON inline en cada carga del editor. Ahora es
+	 * un script aparte, versionado por el hash del set (cambia si un theme añade
+	 * iconos con el filtro) y cacheado por el navegador. No puede ser un archivo
+	 * estático justamente por ese filtro.
 	 */
 	public function localize_icons() {
-		require_once BLOKINO_PATH . 'blocks/icon/icons.php';
-		wp_register_script( 'blokino-icons-data', false, array(), BLOKINO_VERSION, false );
-		wp_enqueue_script( 'blokino-icons-data' );
-		wp_add_inline_script( 'blokino-icons-data', 'window.blokinoIcons = ' . wp_json_encode( blokino_icon_set() ) . ';', 'before' );
+		$json = self::icons_json();
+		$src  = add_query_arg(
+			array(
+				'action' => self::ICONS_ACTION,
+				'v'      => substr( md5( $json ), 0, 12 ),
+			),
+			admin_url( 'admin-ajax.php' )
+		);
+		// Versión null: la URL ya lleva el hash; un ?ver= extra no aporta nada.
+		wp_register_script( 'blokino-icons-data', $src, array(), null, false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- versionado por el hash del set en la URL.
 
 		// Helper JS compartido (espejo de blokino_icon_svg) para los pickers.
-		wp_enqueue_script(
+		wp_register_script(
 			'blokino-icon-svg',
 			BLOKINO_URL . 'blocks/icon/icon-svg.js',
 			array( 'blokino-icons-data' ),
@@ -304,13 +331,28 @@ class Blokino_Blocks {
 	}
 
 	/**
+	 * Sirve el set de iconos como JavaScript (admin-ajax, solo con sesión).
+	 * Datos públicos de solo lectura: sin nonce, para que la URL sea cacheable.
+	 */
+	public function serve_icons() {
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			status_header( 403 );
+			exit;
+		}
+		header( 'Content-Type: application/javascript; charset=' . get_option( 'blog_charset' ) );
+		header( 'Cache-Control: private, max-age=31536000, immutable' );
+		echo 'window.blokinoIcons = ' . self::icons_json() . ';'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON de wp_json_encode servido como script.
+		exit;
+	}
+
+	/**
 	 * Encola el componente RepeaterControl compartido (editor). Los edit.js de los
 	 * bloques que lo usan lo declaran como dependencia en su edit.asset.php.
 	 */
 	public function enqueue_repeater_control() {
 		$abs = BLOKINO_PATH . 'blocks/shared/repeater-control.js';
 		$ver = file_exists( $abs ) ? (string) filemtime( $abs ) : BLOKINO_VERSION;
-		wp_enqueue_script(
+		wp_register_script(
 			'blokino-repeater-control',
 			BLOKINO_URL . 'blocks/shared/repeater-control.js',
 			array( 'wp-element', 'wp-components', 'wp-block-editor', 'wp-i18n' ),
@@ -326,6 +368,8 @@ class Blokino_Blocks {
 
 		$css_abs = BLOKINO_PATH . 'blocks/shared/repeater.css';
 		$css_ver = file_exists( $css_abs ) ? (string) filemtime( $css_abs ) : BLOKINO_VERSION;
+		// El CSS (2 KB, barra lateral) sigue encolado: un estilo no puede colgar
+		// como dependencia de un script.
 		wp_enqueue_style(
 			'blokino-repeater-control',
 			BLOKINO_URL . 'blocks/shared/repeater.css',
@@ -344,7 +388,7 @@ class Blokino_Blocks {
 	public function enqueue_carousel_editor() {
 		$editor_abs = BLOKINO_PATH . 'blocks/shared/carousel-editor.js';
 		$editor_ver = file_exists( $editor_abs ) ? (string) filemtime( $editor_abs ) : BLOKINO_VERSION;
-		wp_enqueue_script(
+		wp_register_script(
 			'blokino-carousel-editor',
 			BLOKINO_URL . 'blocks/shared/carousel-editor.js',
 			array( 'wp-element', 'wp-server-side-render' ),
