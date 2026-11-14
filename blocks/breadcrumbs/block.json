@@ -4,26 +4,62 @@
   "name": "blokino/breadcrumbs",
   "version": "0.1.0",
   "title": "Blokino Breadcrumbs",
-  "category": "theme",
+  "category": "blokino",
   "icon": "arrow-right-alt2",
   "description": "Trail from the site home to the current page. Server-rendered, no plugin required, and it emits BreadcrumbList structured data.",
-  "keywords": ["breadcrumb", "trail", "navigation", "seo"],
+  "keywords": [
+    "breadcrumb",
+    "trail",
+    "navigation",
+    "seo"
+  ],
   "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,
-    "align": ["wide", "full"],
-    "spacing": { "margin": true, "padding": true },
-    "typography": { "fontSize": true, "lineHeight": true, "__experimentalFontFamily": true, "__experimentalLetterSpacing": true, "__experimentalTextTransform": true },
-    "color": { "text": true, "background": false, "link": true }
+    "align": [
+      "wide",
+      "full"
+    ],
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalTextTransform": true
+    },
+    "color": {
+      "text": true,
+      "background": false,
+      "link": true
+    }
   },
   "attributes": {
-    "homeLabel": { "type": "string", "default": "" },
-    "separator": { "type": "string", "default": "/" },
-    "showCurrent": { "type": "boolean", "default": true },
-    "structuredData": { "type": "boolean", "default": true }
+    "homeLabel": {
+      "type": "string",
+      "default": ""
+    },
+    "separator": {
+      "type": "string",
+      "default": "/"
+    },
+    "showCurrent": {
+      "type": "boolean",
+      "default": true
+    },
+    "structuredData": {
+      "type": "boolean",
+      "default": true
+    }
   },
   "editorScript": "file:./edit.js",
   "style": "file:./style.css",
-  "render": "file:./render.php"
+  "render": "file:./render.php",
+  "example": {
+    "attributes": {}
+  }
 }

@@ -4,30 +4,98 @@
   "name": "blokino/marquee",
   "version": "0.1.5",
   "title": "Blokino Marquee",
-  "category": "design",
+  "category": "blokino",
   "icon": "controls-repeat",
   "description": "Infinite scrolling band of text or images (logos, claims, metrics). Content is inner blocks; duplicated for a seamless loop.",
-  "keywords": ["marquee", "band", "logos", "ticker", "scroll"],
+  "keywords": [
+    "marquee",
+    "band",
+    "logos",
+    "ticker",
+    "scroll"
+  ],
   "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,
-    "align": ["wide", "full"],
-    "spacing": { "margin": true, "padding": true },
-    "color": { "background": true, "text": true, "gradients": true }
+    "align": [
+      "wide",
+      "full"
+    ],
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "color": {
+      "background": true,
+      "text": true,
+      "gradients": true
+    }
   },
   "attributes": {
-    "speed": { "type": "number", "default": 30 },
-    "direction": { "type": "string", "default": "left" },
-    "gap": { "type": "number", "default": 3 },
-    "pauseOnHover": { "type": "boolean", "default": true },
-    "separator": { "type": "string", "default": "none" },
-    "separatorIcon": { "type": "string", "default": "" },
-    "separatorColor": { "type": "string", "default": "" }
+    "speed": {
+      "type": "number",
+      "default": 30
+    },
+    "direction": {
+      "type": "string",
+      "default": "left"
+    },
+    "gap": {
+      "type": "number",
+      "default": 3
+    },
+    "pauseOnHover": {
+      "type": "boolean",
+      "default": true
+    },
+    "separator": {
+      "type": "string",
+      "default": "none"
+    },
+    "separatorIcon": {
+      "type": "string",
+      "default": ""
+    },
+    "separatorColor": {
+      "type": "string",
+      "default": ""
+    }
   },
   "editorScript": "file:./edit.js",
   "editorStyle": "file:./editor.css",
   "viewScript": "file:./view.js",
   "style": "file:./style.css",
-  "render": "file:./render.php"
+  "render": "file:./render.php",
+  "example": {
+    "attributes": {
+      "separator": "dot"
+    },
+    "innerBlocks": [
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Northwind"
+        }
+      },
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Lumen"
+        }
+      },
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Atlas"
+        }
+      },
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Kestrel"
+        }
+      }
+    ]
+  }
 }

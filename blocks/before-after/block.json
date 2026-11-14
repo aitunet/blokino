@@ -4,32 +4,77 @@
   "name": "blokino/before-after",
   "version": "0.1.0",
   "title": "Blokino Before / After",
-  "category": "design",
+  "category": "blokino",
   "icon": "image-flip-horizontal",
   "description": "Image comparison with a draggable divider (before / after).",
-  "keywords": ["before", "after", "comparison", "slider"],
+  "keywords": [
+    "before",
+    "after",
+    "comparison",
+    "slider"
+  ],
   "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,
-    "align": ["wide", "full"],
-    "spacing": { "margin": true }
+    "align": [
+      "wide",
+      "full"
+    ],
+    "spacing": {
+      "margin": true
+    }
   },
   "attributes": {
-    "beforeId": { "type": "number" },
-    "beforeUrl": { "type": "string", "default": "" },
-    "beforeAlt": { "type": "string", "default": "" },
-    "afterId": { "type": "number" },
-    "afterUrl": { "type": "string", "default": "" },
-    "afterAlt": { "type": "string", "default": "" },
-    "width": { "type": "number" },
-    "height": { "type": "number" },
-    "startPosition": { "type": "number", "default": 50 },
-    "beforeLabel": { "type": "string", "default": "" },
-    "afterLabel": { "type": "string", "default": "" }
+    "beforeId": {
+      "type": "number"
+    },
+    "beforeUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "beforeAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "afterId": {
+      "type": "number"
+    },
+    "afterUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "afterAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "width": {
+      "type": "number"
+    },
+    "height": {
+      "type": "number"
+    },
+    "startPosition": {
+      "type": "number",
+      "default": 50
+    },
+    "beforeLabel": {
+      "type": "string",
+      "default": ""
+    },
+    "afterLabel": {
+      "type": "string",
+      "default": ""
+    }
   },
   "editorScript": "file:./edit.js",
   "viewScript": "file:./view.js",
   "style": "file:./style.css",
-  "render": "file:./render.php"
+  "render": "file:./render.php",
+  "example": {
+    "attributes": {
+      "beforeLabel": "Before",
+      "afterLabel": "After"
+    }
+  }
 }

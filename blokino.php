@@ -38,6 +38,7 @@ define( 'BLOKINO_MIN_PHP', '7.4' );
  * ---------------------------------------------------------------------- */
 require_once BLOKINO_PATH . 'extensions/class-blokino-extensions.php';
 require_once BLOKINO_PATH . 'blocks/class-blokino-blocks.php';
+require_once BLOKINO_PATH . 'patterns/class-blokino-patterns.php';
 require_once BLOKINO_PATH . 'runtime/class-blokino-runtime.php';
 require_once BLOKINO_PATH . 'content/class-blokino-content.php';
 require_once BLOKINO_PATH . 'content/content-types.php';
@@ -118,6 +119,9 @@ final class Blokino {
 		// Andamiaje: registran sus hooks pero todavía no inyectan efectos.
 		new Blokino_Extensions();
 		new Blokino_Blocks();
+
+		// Categoría "Blokino" en el insertador y patterns del plugin (U-08).
+		new Blokino_Patterns();
 
 		// Tipos de contenido compartidos (portfolio). Front + admin.
 		new Blokino_Content();

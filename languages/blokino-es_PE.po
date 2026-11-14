@@ -58,7 +58,7 @@ msgstr "Una banda que destaca"
 msgid "A demo is already imported. Re-importing replaces it; Undo removes it."
 msgstr "Ya hay una demo importada. Volver a importar la reemplaza; Deshacer la elimina."
 
-#: blocks/section/edit.js:125
+#: blocks/content-slider/edit.js:156 blocks/section/edit.js:125 patterns/class-blokino-patterns.php:116
 msgid "A headline that moves"
 msgstr "Un titular que se mueve"
 
@@ -118,19 +118,19 @@ msgstr "Añadir elemento"
 msgid "Add motion to any block"
 msgstr "Añade movimiento a cualquier bloque"
 
-#: blocks/content-slider/edit.js:187
+#: blocks/content-slider/edit.js:202
 msgid "Add slide"
 msgstr "Añadir diapositiva"
 
-#: blocks/content-slider/edit.js:219
+#: blocks/content-slider/edit.js:234
 msgid "Add slides from the “Slides” panel in the block sidebar."
 msgstr "Añade diapositivas desde el panel «Diapositivas» de la barra lateral del bloque."
 
-#: blocks/testimonials/edit.js:87
+#: blocks/testimonials/edit.js:103
 msgid "Add testimonial"
 msgstr "Añadir testimonio"
 
-#: blocks/testimonials/edit.js:100
+#: blocks/testimonials/edit.js:116
 msgid "Add testimonials from the “Items” panel in the block sidebar."
 msgstr "Añade testimonios desde el panel «Elementos» de la barra lateral del bloque."
 
@@ -194,9 +194,13 @@ msgstr "¿Hay algo que pudiéramos haber hecho mejor?"
 msgid "Appearance & styles"
 msgstr "Apariencia y estilos"
 
-#: blocks/content-slider/edit.js:202
+#: blocks/content-slider/edit.js:217
 msgid "Arrows outside"
 msgstr "Flechas por fuera"
+
+#: blocks/content-slider/edit.js:157
+msgid "Arrows, dots and autoplay are in the sidebar."
+msgstr "Flechas, puntos y reproducción automática están en la barra lateral."
 
 #: blocks/content-slider/edit.js:37
 msgid "Auto (original)"
@@ -210,7 +214,7 @@ msgstr "Automática (sigue la paleta)"
 msgid "Automatic shows the alternative logo on dark palettes and style variations, and the main one otherwise. Set both in Blokino → Logos."
 msgstr "La opción automática muestra el logo alternativo en las paletas y variaciones oscuras, y el principal en el resto. Configura los dos en Blokino → Logos."
 
-#: blocks/content-slider/edit.js:197 blocks/testimonials/edit.js:73
+#: blocks/content-slider/edit.js:212 blocks/testimonials/edit.js:89
 msgid "Autoplay"
 msgstr "Reproducción automática"
 
@@ -266,7 +270,7 @@ msgstr "Bloques que el editor no trae"
 msgid "Blog & archives"
 msgstr "Blog y archivos"
 
-#: admin/class-blokino-admin.php:394 admin/class-blokino-admin.php:395 admin/class-blokino-admin.php:434 admin/class-blokino-admin.php:435 admin/class-blokino-admin.php:597 admin/class-blokino-welcome.php:212
+#: admin/class-blokino-admin.php:394 admin/class-blokino-admin.php:395 admin/class-blokino-admin.php:434 admin/class-blokino-admin.php:435 admin/class-blokino-admin.php:597 admin/class-blokino-welcome.php:212 patterns/class-blokino-patterns.php:53 patterns/class-blokino-patterns.php:66
 msgid "Blokino"
 msgstr "Blokino"
 
@@ -282,7 +286,7 @@ msgstr "Efectos Blokino"
 msgid "Blokino Section"
 msgstr "Blokino Sección"
 
-#: blokino.php:393
+#: blokino.php:397
 msgid "Blokino activation"
 msgstr "Activación de Blokino"
 
@@ -294,7 +298,7 @@ msgstr "Blokino añade efectos de entrada, hover y scroll a los bloques que ya u
 msgid "Blokino is ready."
 msgstr "Blokino está listo."
 
-#: blokino.php:388
+#: blokino.php:392
 msgid "Blokino requires WordPress %1$s or newer and PHP %2$s or newer."
 msgstr "Blokino requiere WordPress %1$s o superior y PHP %2$s o superior."
 
@@ -410,7 +414,15 @@ msgstr "Cancelar"
 msgid "Caption (repeat with · )"
 msgstr "Texto (repítelo con · )"
 
-#: blocks/content-slider/edit.js:193 blocks/testimonials/edit.js:19
+#: patterns/class-blokino-patterns.php:171
+msgid "Cards with hover"
+msgstr "Tarjetas con hover"
+
+#: patterns/class-blokino-patterns.php:180
+msgid "Care"
+msgstr "Cuidado"
+
+#: blocks/content-slider/edit.js:208 blocks/testimonials/edit.js:19
 msgid "Carousel"
 msgstr "Carrusel"
 
@@ -454,7 +466,7 @@ msgstr "Elegir imagen"
 msgid "Choose the before and after images to compare."
 msgstr "Elige las imágenes de antes y después para comparar."
 
-#: blocks/section/edit.js:138
+#: blocks/section/edit.js:138 patterns/class-blokino-patterns.php:127
 msgid "Choose the photo in the sidebar (Background → Choose image)."
 msgstr "Elige la foto en la barra lateral (Fondo → Elegir imagen)."
 
@@ -474,6 +486,10 @@ msgstr "Pulsa Reintentar para continuar desde este paso."
 msgid "Client"
 msgstr "Cliente"
 
+#: patterns/class-blokino-patterns.php:140
+msgid "Clients who come back"
+msgstr "Clientes que vuelven"
+
 #: extensions/effects-editor.js:347
 msgid "Clip reveal"
 msgstr "Revelado por recorte"
@@ -490,7 +506,7 @@ msgstr "Banda de color"
 msgid "Color under the image"
 msgstr "Color bajo la imagen"
 
-#: blocks/testimonials/edit.js:68
+#: blocks/testimonials/edit.js:84
 msgid "Columns"
 msgstr "Columnas"
 
@@ -518,7 +534,7 @@ msgstr "Contacto"
 msgid "Contain (fit)"
 msgstr "Contener (ajustar)"
 
-#: blocks/content-slider/edit.js:218
+#: blocks/content-slider/edit.js:233
 msgid "Content Slider"
 msgstr "Carrusel de contenido"
 
@@ -634,6 +650,10 @@ msgstr "Descripción"
 msgid "Description alignment"
 msgstr "Alineación de la descripción"
 
+#: patterns/class-blokino-patterns.php:178
+msgid "Design"
+msgstr "Diseño"
+
 #: admin/class-blokino-welcome.php:305
 msgid "Design tokens"
 msgstr "Tokens de diseño"
@@ -685,6 +705,10 @@ msgstr "Descarga los ajustes actuales como archivo JSON."
 #: blocks/counter/edit.js:70 extensions/effects-editor.js:399
 msgid "Duration (ms)"
 msgstr "Duración (ms)"
+
+#: blocks/content-slider/edit.js:156
+msgid "Each slide has a title, a text, buttons and an optional background image."
+msgstr "Cada diapositiva tiene título, texto, botones y una imagen de fondo opcional."
 
 #: admin/class-blokino-welcome.php:292
 msgid "Easing"
@@ -758,6 +782,10 @@ msgstr "Preguntas frecuentes"
 msgid "Fade up"
 msgstr "Aparecer subiendo"
 
+#: blocks/testimonials/edit.js:52 patterns/class-blokino-patterns.php:162
+msgid "Fast, clear and always one step ahead. We launched on time."
+msgstr "Rápidos, claros y siempre un paso por delante. Lanzamos a tiempo."
+
 #: blocks/content-slider/edit.js:30
 msgid "Filled"
 msgstr "Relleno"
@@ -765,6 +793,10 @@ msgstr "Relleno"
 #: admin/class-blokino-demo.php:232
 msgid "Finishing…"
 msgstr "Finalizando…"
+
+#: blocks/testimonials/edit.js:52 patterns/class-blokino-patterns.php:164
+msgid "Founder"
+msgstr "Fundador"
 
 #: admin/class-blokino-themes.php:237 admin/class-blokino-themes.php:243
 msgid "Free"
@@ -789,6 +821,14 @@ msgstr "Hero a todo el ancho sobre una foto, con una capa oscura para que el tex
 #: blocks/section/edit.js:118
 msgid "Full-width hero on an animated gradient."
 msgstr "Hero a todo el ancho sobre un degradado animado."
+
+#: patterns/class-blokino-patterns.php:113
+msgid "Full-width hero whose title, text and button enter one after another."
+msgstr "Hero a todo el ancho cuyo título, texto y botón entran uno tras otro."
+
+#: patterns/class-blokino-patterns.php:123
+msgid "Full-width hero with a dark gradient overlay. Choose the photo in the sidebar."
+msgstr "Hero a todo el ancho con una capa oscura en degradado. Elige la foto en la barra lateral."
 
 #: admin/class-blokino-admin.php:769 blocks/icon/edit.js:20 blocks/marquee/edit.js:75
 msgid "General"
@@ -825,6 +865,14 @@ msgstr "Rejilla"
 #: admin/class-blokino-welcome.php:311
 msgid "Help"
 msgstr "Ayuda"
+
+#: patterns/class-blokino-patterns.php:122
+msgid "Hero on a photo"
+msgstr "Hero sobre una foto"
+
+#: patterns/class-blokino-patterns.php:112
+msgid "Hero on an animated gradient"
+msgstr "Hero sobre degradado animado"
 
 #: blocks/section/edit.js:117
 msgid "Hero with gradient"
@@ -920,7 +968,7 @@ msgstr "Importando…"
 msgid "Independent of the section width. Set the section to “Full width” (toolbar) and constrain the content here."
 msgstr "Independiente del ancho de la sección. Pon la sección a «Ancho completo» (barra de herramientas) y restringe aquí el contenido."
 
-#: blocks/content-slider/edit.js:196 blocks/testimonials/edit.js:72
+#: blocks/content-slider/edit.js:211 blocks/testimonials/edit.js:88
 msgid "Infinite loop"
 msgstr "Bucle infinito"
 
@@ -980,7 +1028,7 @@ msgstr "Es temporal: estoy buscando un problema"
 msgid "Item"
 msgstr "Elemento"
 
-#: blocks/testimonials/edit.js:80
+#: blocks/testimonials/edit.js:96
 msgid "Items"
 msgstr "Elementos"
 
@@ -990,15 +1038,19 @@ msgid_plural "Journal posts"
 msgstr[0] "Entrada del diario"
 msgstr[1] "Entradas del diario"
 
+#: patterns/class-blokino-patterns.php:132
+msgid "Key figures"
+msgstr "Cifras clave"
+
 #: admin/class-blokino-admin.php:645
 msgid "Large"
 msgstr "Grande"
 
-#: blocks/section/edit.js:320 blocks/testimonials/edit.js:66
+#: blocks/section/edit.js:320 blocks/testimonials/edit.js:82
 msgid "Layout"
 msgstr "Disposición"
 
-#: blocks/badge/render.php:39 blocks/section/edit.js:138
+#: blocks/badge/render.php:39 blocks/content-slider/edit.js:156 blocks/section/edit.js:138 patterns/class-blokino-patterns.php:128
 msgid "Learn more"
 msgstr "Más información"
 
@@ -1042,6 +1094,10 @@ msgstr "Solo carga en las páginas que usan un efecto"
 msgid "Log in"
 msgstr "Iniciar sesión"
 
+#: patterns/class-blokino-patterns.php:146
+msgid "Logo band"
+msgstr "Banda de logos"
+
 #: blocks/section/edit.js:270
 msgid "Loop"
 msgstr "Bucle"
@@ -1069,6 +1125,10 @@ msgstr "Gestionar"
 #: blocks/brand/edit.js:75
 msgid "Manage logo in Blokino → Logos"
 msgstr "Gestiona el logo en Blokino → Logos"
+
+#: blocks/testimonials/edit.js:51 patterns/class-blokino-patterns.php:161
+msgid "Marketing lead"
+msgstr "Responsable de marketing"
 
 #: blocks/marquee/edit.js:106
 msgid "Marquee"
@@ -1130,11 +1190,15 @@ msgstr "Subir"
 msgid "Name"
 msgstr "Nombre"
 
+#: patterns/class-blokino-patterns.php:147
+msgid "Names or logos scrolling in an endless band. Replace them with your clients."
+msgstr "Nombres o logos que pasan en una banda sin fin. Cámbialos por los de tus clientes."
+
 #: blocks/icon/edit.js:21 blocks/marquee/edit.js:76
 msgid "Nav / UI"
 msgstr "Navegación / UI"
 
-#: blocks/content-slider/edit.js:199 blocks/testimonials/edit.js:75
+#: blocks/content-slider/edit.js:214 blocks/testimonials/edit.js:91
 msgid "Navigation arrows"
 msgstr "Flechas de navegación"
 
@@ -1194,6 +1258,10 @@ msgstr "Ninguna (bloque limpio)"
 msgid "Not found"
 msgstr "No se encontró"
 
+#: patterns/class-blokino-patterns.php:136
+msgid "Numbers that speak for us"
+msgstr "Cifras que hablan por nosotros"
+
 #: extensions/effects-editor.js:631
 msgid "On the page, entrance and scroll effects play as the block scrolls into view."
 msgstr "En la página, los efectos de entrada y de scroll se reproducen cuando el bloque aparece en pantalla."
@@ -1222,6 +1290,10 @@ msgstr "Abrir el Editor del sitio"
 msgid "Open the editor"
 msgstr "Abrir el editor"
 
+#: blocks/testimonials/edit.js:53 patterns/class-blokino-patterns.php:167
+msgid "Operations manager"
+msgstr "Gerente de operaciones"
+
 #: admin/class-blokino-admin.php:503
 msgid "Optional"
 msgstr "Opcional"
@@ -1233,6 +1305,10 @@ msgstr "Otro"
 #: admin/class-blokino-themes.php:245
 msgid "Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates, and every effect of this engine."
 msgstr "Nuestro block theme gratis en WordPress.org: una home diseñada desde que lo activas, tres estilos, plantillas de blog y de página, y todos los efectos de este motor."
+
+#: blocks/testimonials/edit.js:53 patterns/class-blokino-patterns.php:165
+msgid "Our visitors stay longer and write to us more often."
+msgstr "Nuestras visitas se quedan más tiempo y nos escriben más."
 
 #: blocks/content-slider/edit.js:31 extensions/effects-editor.js:372
 msgid "Outline"
@@ -1268,11 +1344,15 @@ msgid_plural "Pages"
 msgstr[0] "Página"
 msgstr[1] "Páginas"
 
+#: patterns/class-blokino-patterns.php:179
+msgid "Pages that look like you and guide visitors to act."
+msgstr "Páginas que se parecen a ti y llevan a las visitas a actuar."
+
 #: admin/class-blokino-welcome.php:276
 msgid "Pages, patterns, images and settings, wired to your Media Library so you can edit or replace anything — with a one-click rollback."
 msgstr "Páginas, patrones, imágenes y ajustes, enlazados a tu Biblioteca de medios para que edites o reemplaces lo que quieras, con deshacer de un clic."
 
-#: blocks/content-slider/edit.js:198 blocks/testimonials/edit.js:74
+#: blocks/content-slider/edit.js:213 blocks/testimonials/edit.js:90
 msgid "Pagination"
 msgstr "Paginación"
 
@@ -1312,7 +1392,7 @@ msgstr "Elige un theme, importa su demo y añade movimiento a cualquier bloque: 
 msgid "Pipe"
 msgstr "Barra vertical"
 
-#: blocks/content-slider/edit.js:203
+#: blocks/content-slider/edit.js:218
 msgid "Place the arrows in the side margins instead of over the slides."
 msgstr "Coloca las flechas en los márgenes laterales en vez de encima de las diapositivas."
 
@@ -1383,6 +1463,10 @@ msgstr[1] "Proyectos"
 #: blocks/breadcrumbs/edit.js:19
 msgid "Project name"
 msgstr "Nombre del proyecto"
+
+#: patterns/class-blokino-patterns.php:138
+msgid "Projects delivered"
+msgstr "Proyectos entregados"
 
 #: blocks/testimonials/edit.js:43
 msgid "Quote"
@@ -1496,7 +1580,7 @@ msgstr "Runtime activo"
 msgid "Save settings"
 msgstr "Guardar ajustes"
 
-#: blocks/section/edit.js:125
+#: blocks/section/edit.js:125 patterns/class-blokino-patterns.php:117
 msgid "Say what you do in one clear sentence. Everything here is editable."
 msgstr "Cuenta qué haces en una frase clara. Todo aquí se puede editar."
 
@@ -1644,7 +1728,7 @@ msgstr "Omitir y desactivar"
 msgid "Slash"
 msgstr "Barra"
 
-#: blocks/content-slider/edit.js:188
+#: blocks/content-slider/edit.js:203
 msgid "Slide"
 msgstr "Diapositiva"
 
@@ -1652,15 +1736,23 @@ msgstr "Diapositiva"
 msgid "Slide left"
 msgstr "Deslizar a la izquierda"
 
+#: blocks/content-slider/edit.js:156
+msgid "Slide one"
+msgstr "Diapositiva uno"
+
 #: extensions/effects-editor.js:352
 msgid "Slide right"
 msgstr "Deslizar a la derecha"
 
-#: blocks/content-slider/edit.js:180
+#: blocks/content-slider/edit.js:157
+msgid "Slide two"
+msgstr "Diapositiva dos"
+
+#: blocks/content-slider/edit.js:195
 msgid "Slides"
 msgstr "Diapositivas"
 
-#: blocks/content-slider/edit.js:194 blocks/testimonials/edit.js:70
+#: blocks/content-slider/edit.js:209 blocks/testimonials/edit.js:86
 msgid "Slides per view"
 msgstr "Diapositivas visibles"
 
@@ -1680,7 +1772,7 @@ msgstr "Sólido (por defecto)"
 msgid "Source on GitHub"
 msgstr "Código en GitHub"
 
-#: blocks/content-slider/edit.js:195 blocks/testimonials/edit.js:71
+#: blocks/content-slider/edit.js:210 blocks/testimonials/edit.js:87
 msgid "Space between (px)"
 msgstr "Espacio entre ellas (px)"
 
@@ -1716,7 +1808,7 @@ msgstr "Color inicial (vacío = acento del tema)"
 msgid "Start free with Blokmark, our theme on WordPress.org, or pick a premium one."
 msgstr "Empieza gratis con Blokmark, nuestro theme en WordPress.org, o elige uno premium."
 
-#: blocks/section/edit.js:125
+#: blocks/section/edit.js:125 patterns/class-blokino-patterns.php:118
 msgid "Start now"
 msgstr "Empieza ahora"
 
@@ -1739,6 +1831,10 @@ msgstr "Fijar al desplazar y Barra de progreso funcionan en la página publicada
 #: admin/class-blokino-demo.php:1689
 msgid "Store pages (EDD)"
 msgstr "Páginas de la tienda (EDD)"
+
+#: patterns/class-blokino-patterns.php:176
+msgid "Strategy"
+msgstr "Estrategia"
 
 #: blocks/icon/edit.js:105
 msgid "Stroke width"
@@ -1784,6 +1880,10 @@ msgstr "Sufijo"
 msgid "Support"
 msgstr "Soporte"
 
+#: blocks/content-slider/edit.js:157
+msgid "Swipe, click or wait"
+msgstr "Desliza, haz clic o espera"
+
 #: admin/class-blokino-admin.php:607
 msgid "Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them."
 msgstr "Cambia el aspecto del theme activo —sus variaciones de estilo de color (p. ej. claro / oscuro)— en el editor del sitio. Las variaciones vienen con el theme; el editor es donde las previsualizas y aplicas."
@@ -1796,11 +1896,11 @@ msgstr "Cuéntanos más (opcional)"
 msgid "Tell us why, please."
 msgstr "Cuéntanos por qué, por favor."
 
-#: blocks/testimonials/edit.js:88
+#: blocks/testimonials/edit.js:104
 msgid "Testimonial"
 msgstr "Testimonio"
 
-#: blocks/testimonials/edit.js:65 blocks/testimonials/edit.js:99
+#: blocks/testimonials/edit.js:81 blocks/testimonials/edit.js:115 patterns/class-blokino-patterns.php:154
 msgid "Testimonials"
 msgstr "Testimonios"
 
@@ -1892,6 +1992,10 @@ msgstr "Estos añaden partes opcionales de la demo (formularios, tienda…). Eli
 msgid "These words fill to the brand accent instead of ink. 1-based."
 msgstr "Estas palabras se rellenan con el acento de la marca en vez de con la tinta. Se cuenta desde 1."
 
+#: blocks/testimonials/edit.js:51 patterns/class-blokino-patterns.php:159
+msgid "They understood what we needed from the first call, and the site shows it."
+msgstr "Entendieron lo que necesitábamos desde la primera llamada, y el sitio lo demuestra."
+
 #: admin/class-blokino-admin.php:514
 msgid "This adds the demo pages, posts and images to your site and changes the site title, logo and front page. Your existing content is kept."
 msgstr "Esto añade a tu sitio las páginas, entradas e imágenes del demo y cambia el título del sitio, el logo y la portada. Tu contenido actual se conserva."
@@ -1907,6 +2011,18 @@ msgstr "Este theme no incluye demo. Construye con los patrones de bloques de tu 
 #: blocks/counter/edit.js:78
 msgid "Thousands separator"
 msgstr "Separador de miles"
+
+#: patterns/class-blokino-patterns.php:172
+msgid "Three cards that enter one after another and lift when you point at them."
+msgstr "Tres tarjetas que entran una tras otra y se elevan al pasar el puntero."
+
+#: patterns/class-blokino-patterns.php:155
+msgid "Three client quotes with name, role and rating."
+msgstr "Tres opiniones de clientes con nombre, cargo y valoración."
+
+#: patterns/class-blokino-patterns.php:133
+msgid "Three counters that count up when they scroll into view."
+msgstr "Tres contadores que suben cuando aparecen en pantalla."
 
 #: admin/class-blokino-welcome.php:244
 msgid "Three steps to a finished site"
@@ -1951,6 +2067,10 @@ msgstr "Arriba a la izquierda"
 #: blocks/content-slider/edit.js:50
 msgid "Top right"
 msgstr "Arriba a la derecha"
+
+#: patterns/class-blokino-patterns.php:150
+msgid "Trusted by teams like"
+msgstr "Confían en nosotros equipos como"
 
 #: admin/class-blokino-themes.php:294
 msgid "Try again"
@@ -2032,6 +2152,14 @@ msgstr "Visitar tunetdesign.com ↗"
 msgid "Wave"
 msgstr "Onda"
 
+#: patterns/class-blokino-patterns.php:177
+msgid "We start with your goals and turn them into a clear plan."
+msgstr "Partimos de tus objetivos y los convertimos en un plan claro."
+
+#: patterns/class-blokino-patterns.php:181
+msgid "We stay after launch to measure, fix and improve."
+msgstr "Seguimos después del lanzamiento para medir, corregir y mejorar."
+
 #: content/class-blokino-content.php:665
 msgid "Website"
 msgstr "Sitio web"
@@ -2043,6 +2171,14 @@ msgstr "Qué añade Blokino"
 #: admin/class-blokino-feedback.php:87
 msgid "What broke? Which plugin or theme does it conflict with?"
 msgstr "¿Qué se rompió? ¿Con qué plugin o theme choca?"
+
+#: patterns/class-blokino-patterns.php:158
+msgid "What our clients say"
+msgstr "Lo que dicen nuestros clientes"
+
+#: patterns/class-blokino-patterns.php:175
+msgid "What we do"
+msgstr "Qué hacemos"
 
 #: admin/class-blokino-feedback.php:99
 msgid "What were you trying to do?"
@@ -2088,6 +2224,10 @@ msgstr "Escribe aquí una introducción breve y añade los bloques que necesites
 msgid "Year"
 msgstr "Año"
 
+#: patterns/class-blokino-patterns.php:142
+msgid "Years in business"
+msgstr "Años de trayectoria"
+
 #: admin/class-blokino-admin.php:516
 msgid "Yes, import"
 msgstr "Sí, importar"
@@ -2124,7 +2264,7 @@ msgstr "Tu mensaje (opcional)"
 msgid "Your name"
 msgstr "Tu nombre"
 
-#: blocks/section/edit.js:138
+#: blocks/section/edit.js:138 patterns/class-blokino-patterns.php:126
 msgid "Your story, front and center"
 msgstr "Tu historia, en primer plano"
 
@@ -2420,7 +2560,7 @@ msgctxt "block title"
 msgid "Blokino Breadcrumbs"
 msgstr "Blokino Migas de pan"
 
-#: blocks/content-slider/block.json:6
+#: blocks/content-slider/edit.js:164 blocks/content-slider/block.json:6
 msgctxt "block title"
 msgid "Blokino Content Slider"
 msgstr "Blokino Carrusel de contenido"
@@ -2445,7 +2585,7 @@ msgctxt "block title"
 msgid "Blokino Section"
 msgstr "Blokino Sección"
 
-#: blocks/testimonials/block.json:6
+#: blocks/testimonials/edit.js:60 blocks/testimonials/block.json:6
 msgctxt "block title"
 msgid "Blokino Testimonials"
 msgstr "Blokino Testimonios"

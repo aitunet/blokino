@@ -4,7 +4,7 @@
 	"name": "blokino/section",
 	"version": "0.5.0",
 	"title": "Blokino Section",
-	"category": "design",
+	"category": "blokino",
 	"icon": "cover-image",
 	"description": "Section with advanced backgrounds (animated gradient, mesh, image, video), overlay and shape dividers. The base for premium heroes.",
 	"keywords": [

@@ -4,24 +4,53 @@
   "name": "blokino/badge",
   "version": "0.1.2",
   "title": "Blokino Badge",
-  "category": "design",
+  "category": "blokino",
   "icon": "image-rotate",
   "description": "Rotating circular badge button — caption text on a ring around a center arrow. Links anywhere.",
-  "keywords": ["badge", "circular", "rotate", "cta", "button"],
+  "keywords": [
+    "badge",
+    "circular",
+    "rotate",
+    "cta",
+    "button"
+  ],
   "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,
-    "align": ["left", "center", "right"],
-    "spacing": { "margin": true }
+    "align": [
+      "left",
+      "center",
+      "right"
+    ],
+    "spacing": {
+      "margin": true
+    }
   },
   "attributes": {
-    "text": { "type": "string", "default": "Get in touch · Get in touch · " },
-    "url": { "type": "string", "default": "" },
-    "speed": { "type": "number", "default": 18 },
-    "reverse": { "type": "boolean", "default": false }
+    "text": {
+      "type": "string",
+      "default": "Get in touch · Get in touch · "
+    },
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "speed": {
+      "type": "number",
+      "default": 18
+    },
+    "reverse": {
+      "type": "boolean",
+      "default": false
+    }
   },
   "editorScript": "file:./edit.js",
   "style": "file:./style.css",
-  "render": "file:./render.php"
+  "render": "file:./render.php",
+  "example": {
+    "attributes": {
+      "text": "Get in touch · Get in touch · "
+    }
+  }
 }

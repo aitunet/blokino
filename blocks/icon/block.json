@@ -4,25 +4,54 @@
   "name": "blokino/icon",
   "version": "0.2.0",
   "title": "Blokino Icon",
-  "category": "design",
+  "category": "blokino",
   "icon": "star-filled",
   "description": "An inline SVG icon from a curated stroke set. Inherits color (currentColor), so it's theme-token friendly — no raw HTML needed.",
-  "keywords": ["icon", "svg", "symbol", "glyph"],
+  "keywords": [
+    "icon",
+    "svg",
+    "symbol",
+    "glyph"
+  ],
   "textdomain": "blokino",
   "supports": {
     "html": false,
     "anchor": true,
-    "spacing": { "margin": true, "padding": true },
-    "color": { "text": true, "background": true }
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "color": {
+      "text": true,
+      "background": true
+    }
   },
   "attributes": {
-    "icon": { "type": "string", "default": "star" },
-    "size": { "type": "number", "default": 24 },
-    "strokeWidth": { "type": "number", "default": 2 },
-    "label": { "type": "string", "default": "" }
+    "icon": {
+      "type": "string",
+      "default": "star"
+    },
+    "size": {
+      "type": "number",
+      "default": 24
+    },
+    "strokeWidth": {
+      "type": "number",
+      "default": 2
+    },
+    "label": {
+      "type": "string",
+      "default": ""
+    }
   },
   "editorScript": "file:./edit.js",
   "editorStyle": "file:./editor.css",
   "style": "file:./style.css",
-  "render": "file:./render.php"
+  "render": "file:./render.php",
+  "example": {
+    "attributes": {
+      "icon": "star",
+      "size": 48
+    }
+  }
 }

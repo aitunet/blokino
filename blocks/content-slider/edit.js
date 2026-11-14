@@ -149,7 +149,22 @@
 		);
 	}
 
+	// U-08: al insertar, el bloque trae contenido de muestra para que se vea qué
+	// hace. Como variación por defecto (no como default del atributo): los bloques
+	// ya guardados con la lista vacía no cambian.
+	var SAMPLE = [
+		{ subtitle: __( 'Slide one', 'blokino' ), title: __( 'A headline that moves', 'blokino' ), description: __( 'Each slide has a title, a text, buttons and an optional background image.', 'blokino' ), ctas: [ { text: __( 'Learn more', 'blokino' ), url: '#', style: 'filled' } ] },
+		{ subtitle: __( 'Slide two', 'blokino' ), title: __( 'Swipe, click or wait', 'blokino' ), description: __( 'Arrows, dots and autoplay are in the sidebar.', 'blokino' ), ctas: [] }
+	];
+
 	registerBlockType( 'blokino/content-slider', {
+		variations: [ {
+			name: 'sample',
+			isDefault: true,
+			title: wp.i18n._x( 'Blokino Content Slider', 'block title', 'blokino' ),
+			attributes: { items: SAMPLE, navigation: false },
+			scope: [ 'inserter' ]
+		} ],
 		edit: function ( props ) {
 			var attrs = props.attributes;
 			var setAttributes = props.setAttributes;

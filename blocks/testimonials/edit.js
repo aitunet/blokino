@@ -44,7 +44,23 @@
 		);
 	}
 
+	// U-08: al insertar, el bloque trae contenido de muestra para que se vea qué
+	// hace. Como variación por defecto (no como default del atributo): los bloques
+	// ya guardados con la lista vacía no cambian.
+	var SAMPLE = [
+		{ quote: __( 'They understood what we needed from the first call, and the site shows it.', 'blokino' ), name: 'Laura Méndez', role: __( 'Marketing lead', 'blokino' ), rating: 5 },
+		{ quote: __( 'Fast, clear and always one step ahead. We launched on time.', 'blokino' ), name: 'Daniel Ortiz', role: __( 'Founder', 'blokino' ), rating: 5 },
+		{ quote: __( 'Our visitors stay longer and write to us more often.', 'blokino' ), name: 'Sofía Ramírez', role: __( 'Operations manager', 'blokino' ), rating: 5 }
+	];
+
 	registerBlockType( 'blokino/testimonials', {
+		variations: [ {
+			name: 'sample',
+			isDefault: true,
+			title: wp.i18n._x( 'Blokino Testimonials', 'block title', 'blokino' ),
+			attributes: { items: SAMPLE },
+			scope: [ 'inserter' ]
+		} ],
 		edit: function ( props ) {
 			var attrs = props.attributes;
 			var setAttributes = props.setAttributes;

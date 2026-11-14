@@ -153,6 +153,27 @@
             "Content alignment (slide)": [
                 "Alineación del contenido (diapositiva)"
             ],
+            "Slide one": [
+                "Diapositiva uno"
+            ],
+            "A headline that moves": [
+                "Un titular que se mueve"
+            ],
+            "Each slide has a title, a text, buttons and an optional background image.": [
+                "Cada diapositiva tiene título, texto, botones y una imagen de fondo opcional."
+            ],
+            "Learn more": [
+                "Más información"
+            ],
+            "Slide two": [
+                "Diapositiva dos"
+            ],
+            "Swipe, click or wait": [
+                "Desliza, haz clic o espera"
+            ],
+            "Arrows, dots and autoplay are in the sidebar.": [
+                "Flechas, puntos y reproducción automática están en la barra lateral."
+            ],
             "Slides": [
                 "Diapositivas"
             ],
@@ -194,6 +215,9 @@
             ],
             "Add slides from the “Slides” panel in the block sidebar.": [
                 "Añade diapositivas desde el panel «Diapositivas» de la barra lateral del bloque."
+            ],
+            "block title\u0004Blokino Content Slider": [
+                "Blokino Carrusel de contenido"
             ]
         }
     }
