@@ -30,7 +30,7 @@ msgstr "(predeterminado)"
 msgid "0 = automatic."
 msgstr "0 = automática."
 
-#: extensions/effects-editor.js:549
+#: extensions/effects-editor.js:551
 msgid "0 = default width (2px)."
 msgstr "0 = grosor por defecto (2px)."
 
@@ -42,11 +42,11 @@ msgstr "0 = sin animación (muestra el valor final)."
 msgid "0 = no movement. Default ~20."
 msgstr "0 = sin movimiento. Por defecto ~20."
 
-#: extensions/effects-editor.js:561
+#: extensions/effects-editor.js:563
 msgid "0 = theme speed (--tnt-dur-slow)."
 msgstr "0 = velocidad del tema (--tnt-dur-slow)."
 
-#: extensions/effects-editor.js:404
+#: extensions/effects-editor.js:402
 msgid "0 = use the theme duration (--tnt-dur-base)."
 msgstr "0 = usa la duración del tema (--tnt-dur-base)."
 
@@ -66,6 +66,10 @@ msgstr "Ya hay una demo importada. Volver a importar la reemplaza; Deshacer la e
 msgid "A headline that moves"
 msgstr "Un titular que se mueve"
 
+#: extensions/effects-editor.js:527
+msgid "A moving gradient around the edge of the block."
+msgstr "Un degradado en movimiento alrededor del borde del bloque."
+
 #: blocks/section/edit.js:110
 msgid "A section with room to breathe. Pick a background in the sidebar."
 msgstr "Una sección con aire. Elige un fondo en la barra lateral."
@@ -78,7 +82,7 @@ msgstr "Acento"
 msgid "Accent 2"
 msgstr "Acento 2"
 
-#: extensions/effects-editor.js:441
+#: extensions/effects-editor.js:439
 msgid "Accent words (indices, e.g. \"2,5\")"
 msgstr "Palabras acentuadas (índices, p. ej. «2,5»)"
 
@@ -182,7 +186,7 @@ msgstr "Ocurrió un error."
 msgid "Animate gradient"
 msgstr "Animar el degradado"
 
-#: extensions/effects-editor.js:525
+#: extensions/effects-editor.js:526
 msgid "Animated border"
 msgstr "Borde animado"
 
@@ -290,7 +294,7 @@ msgstr "Blokino"
 msgid "Blokino Before / After"
 msgstr "Blokino Antes / Después"
 
-#: admin/class-blokino-welcome.php:276 admin/class-blokino-welcome.php:426 extensions/effects-editor.js:654
+#: admin/class-blokino-welcome.php:276 admin/class-blokino-welcome.php:426 extensions/effects-editor.js:656
 msgid "Blokino Effects"
 msgstr "Efectos Blokino"
 
@@ -338,7 +342,7 @@ msgstr "Blokino · Themes"
 msgid "Blokino · Tools"
 msgstr "Blokino · Herramientas"
 
-#: extensions/effects-editor.js:349
+#: extensions/effects-editor.js:346
 msgid "Blur in"
 msgstr "Aparecer desenfocado"
 
@@ -350,7 +354,7 @@ msgstr "Cuerpo"
 msgid "Bold (slow)"
 msgstr "Intenso (lento)"
 
-#: extensions/effects-editor.js:544
+#: extensions/effects-editor.js:546
 msgid "Border width (px)"
 msgstr "Grosor del borde (px)"
 
@@ -373,6 +377,10 @@ msgstr "Abajo a la izquierda"
 #: blocks/content-slider/edit.js:56
 msgid "Bottom right"
 msgstr "Abajo a la derecha"
+
+#: extensions/effects-editor.js:415
+msgid "Bouncy (spring)"
+msgstr "Con rebote (spring)"
 
 #: blocks/brand/edit.js:35
 msgid "Brand"
@@ -426,7 +434,7 @@ msgstr "Ver themes hechos para Blokino →"
 msgid "CTA"
 msgstr "Llamada a la acción"
 
-#: extensions/effects-editor.js:432
+#: extensions/effects-editor.js:430
 msgid "Cadence between words. 0 = default cadence."
 msgstr "Cadencia entre palabras. 0 = cadencia por defecto."
 
@@ -514,7 +522,7 @@ msgstr "Cliente"
 msgid "Clients who come back"
 msgstr "Clientes que vuelven"
 
-#: extensions/effects-editor.js:347
+#: extensions/effects-editor.js:344
 msgid "Clip reveal"
 msgstr "Revelado por recorte"
 
@@ -646,7 +654,7 @@ msgstr "Decimales"
 msgid "Defaults to the theme ink color."
 msgstr "Por defecto, el color de tinta del tema."
 
-#: extensions/effects-editor.js:388
+#: extensions/effects-editor.js:386
 msgid "Delay (ms)"
 msgstr "Retardo (ms)"
 
@@ -702,7 +710,7 @@ msgstr "Descartar"
 msgid "Display"
 msgstr "Display"
 
-#: extensions/effects-editor.js:368
+#: extensions/effects-editor.js:365
 msgid "Display style"
 msgstr "Estilo de presentación"
 
@@ -726,7 +734,7 @@ msgstr "Punto"
 msgid "Download the current settings as a JSON file."
 msgstr "Descarga los ajustes actuales como archivo JSON."
 
-#: blocks/counter/edit.js:70 extensions/effects-editor.js:399
+#: blocks/counter/edit.js:70 extensions/effects-editor.js:397
 msgid "Duration (ms)"
 msgstr "Duración (ms)"
 
@@ -738,7 +746,7 @@ msgstr "Cada diapositiva tiene título, texto, botones y una imagen de fondo opc
 msgid "Easing"
 msgstr "Curva"
 
-#: extensions/effects-editor.js:411
+#: extensions/effects-editor.js:409
 msgid "Easing curve"
 msgstr "Curva de aceleración"
 
@@ -778,7 +786,7 @@ msgstr "Activar la superposición"
 msgid "Enable the effects engine (tf*) on the front-end"
 msgstr "Activar el motor de efectos (tf*) en el front-end"
 
-#: extensions/effects-editor.js:582
+#: extensions/effects-editor.js:584
 msgid "End color (empty = theme accent 2)"
 msgstr "Color final (vacío = acento 2 del tema)"
 
@@ -786,7 +794,7 @@ msgstr "Color final (vacío = acento 2 del tema)"
 msgid "End value"
 msgstr "Valor final"
 
-#: extensions/effects-editor.js:342
+#: extensions/effects-editor.js:338
 msgid "Entrance animation"
 msgstr "Animación de entrada"
 
@@ -802,7 +810,7 @@ msgstr "Exportar ajustes (.json)"
 msgid "FAQ"
 msgstr "Preguntas frecuentes"
 
-#: extensions/effects-editor.js:346
+#: extensions/effects-editor.js:343
 msgid "Fade up"
 msgstr "Aparecer subiendo"
 
@@ -874,11 +882,11 @@ msgstr "Conseguir el theme ↗"
 msgid "Getting started guide"
 msgstr "Guía de primeros pasos"
 
-#: extensions/effects-editor.js:460
+#: extensions/effects-editor.js:459
 msgid "Glow"
 msgstr "Resplandor"
 
-#: blocks/content-slider/edit.js:103 blocks/section/edit.js:222 blocks/section/edit.js:234 blocks/section/edit.js:296 extensions/effects-editor.js:529
+#: blocks/content-slider/edit.js:103 blocks/section/edit.js:222 blocks/section/edit.js:234 blocks/section/edit.js:296 extensions/effects-editor.js:531
 msgid "Gradient"
 msgstr "Degradado"
 
@@ -918,9 +926,13 @@ msgstr "Rótulo del inicio"
 msgid "Hover"
 msgstr "Hover"
 
-#: extensions/effects-editor.js:455
+#: extensions/effects-editor.js:453
 msgid "Hover effect"
 msgstr "Efecto al pasar el ratón"
+
+#: extensions/effects-editor.js:339
+msgid "How the block appears when it scrolls into view."
+msgstr "Cómo aparece el bloque cuando entra en pantalla."
 
 #: admin/class-blokino-feedback.php:94
 msgid "I found a better plugin"
@@ -944,7 +956,7 @@ msgid_plural "Images"
 msgstr[0] "Imagen"
 msgstr[1] "Imágenes"
 
-#: extensions/effects-editor.js:464
+#: extensions/effects-editor.js:463
 msgid "Image zoom"
 msgstr "Zoom de imagen"
 
@@ -1098,7 +1110,7 @@ msgstr "Déjalo vacío para usar «Inicio»."
 msgid "Left"
 msgstr "Izquierda"
 
-#: extensions/effects-editor.js:459
+#: extensions/effects-editor.js:458
 msgid "Lift"
 msgstr "Elevar"
 
@@ -1138,7 +1150,7 @@ msgstr "Bucle"
 msgid "Made for this engine"
 msgstr "Hecho para este motor"
 
-#: extensions/effects-editor.js:462
+#: extensions/effects-editor.js:461
 msgid "Magnetic"
 msgstr "Magnético"
 
@@ -1166,7 +1178,7 @@ msgstr "Responsable de marketing"
 msgid "Marquee"
 msgstr "Banda"
 
-#: extensions/effects-editor.js:348
+#: extensions/effects-editor.js:345
 msgid "Mask up"
 msgstr "Máscara hacia arriba"
 
@@ -1193,6 +1205,10 @@ msgstr "Malla — color 3"
 #: blocks/section/edit.js:331
 msgid "Minimum height (vh)"
 msgstr "Altura mínima (vh)"
+
+#: extensions/effects-editor.js:508
+msgid "Mixes the block with what is behind it. Most visible on images over a color or a photo."
+msgstr "Mezcla el bloque con lo que tiene detrás. Se nota más en imágenes sobre un color o una foto."
 
 #: admin/class-blokino-admin.php:652
 msgid "Monospace"
@@ -1278,11 +1294,11 @@ msgstr "Sin repetición"
 msgid "No themes listed yet."
 msgstr "Aún no hay themes en la lista."
 
-#: blocks/marquee/edit.js:157 blocks/section/edit.js:82 blocks/section/edit.js:220 extensions/effects-editor.js:458 extensions/effects-editor.js:477 extensions/effects-editor.js:510 extensions/effects-editor.js:528
+#: blocks/marquee/edit.js:157 blocks/section/edit.js:82 blocks/section/edit.js:220 extensions/effects-editor.js:457 extensions/effects-editor.js:477 extensions/effects-editor.js:511 extensions/effects-editor.js:530
 msgid "None"
 msgstr "Ninguno"
 
-#: extensions/effects-editor.js:345
+#: extensions/effects-editor.js:342
 msgid "None (clean block)"
 msgstr "Ninguna (bloque limpio)"
 
@@ -1294,7 +1310,7 @@ msgstr "No se encontró"
 msgid "Numbers that speak for us"
 msgstr "Cifras que hablan por nosotros"
 
-#: extensions/effects-editor.js:631
+#: extensions/effects-editor.js:633
 msgid "On the page, entrance and scroll effects play as the block scrolls into view."
 msgstr "En la página, los efectos de entrada y de scroll se reproducen cuando el bloque aparece en pantalla."
 
@@ -1342,9 +1358,13 @@ msgstr "Nuestro block theme gratis en WordPress.org: una home diseñada desde qu
 msgid "Our visitors stay longer and write to us more often."
 msgstr "Nuestras visitas se quedan más tiempo y nos escriben más."
 
-#: blocks/content-slider/edit.js:31 extensions/effects-editor.js:372
+#: blocks/content-slider/edit.js:31 extensions/effects-editor.js:370
 msgid "Outline"
 msgstr "Contorno"
+
+#: extensions/effects-editor.js:366
+msgid "Outline draws the letters as a line. Best on large headings."
+msgstr "Contorno dibuja las letras como una línea. Queda mejor en títulos grandes."
 
 #: blocks/breadcrumbs/edit.js:47
 msgid "Output BreadcrumbList structured data"
@@ -1391,6 +1411,10 @@ msgstr "Paginación"
 #: extensions/effects-editor.js:478
 msgid "Parallax"
 msgstr "Parallax"
+
+#: extensions/effects-editor.js:474
+msgid "Parallax and Zoom move with the scroll; Sticky pin keeps the block in place while its section scrolls; Progress bar draws a reading bar."
+msgstr "Parallax y Zoom al desplazar se mueven con el scroll; Fijar al desplazar deja el bloque quieto mientras su sección avanza; Barra de progreso dibuja una barra de lectura."
 
 #: extensions/effects-editor.js:492
 msgid "Parallax intensity"
@@ -1460,7 +1484,7 @@ msgstr "Themes premium"
 msgid "Preparing…"
 msgstr "Preparando…"
 
-#: extensions/effects-editor.js:612
+#: extensions/effects-editor.js:614
 msgid "Preview animation"
 msgstr "Ver animación"
 
@@ -1507,6 +1531,10 @@ msgstr "Valorado %s de 5"
 #: blocks/testimonials/edit.js:40
 msgid "Rating (0–5)"
 msgstr "Valoración (0–5)"
+
+#: extensions/effects-editor.js:454
+msgid "Reacts when the pointer is over the block, or when it has keyboard focus."
+msgstr "Reacciona cuando el puntero está sobre el bloque o cuando tiene el foco del teclado."
 
 #: admin/class-blokino-welcome.php:357
 msgid "Ready to import"
@@ -1596,7 +1624,7 @@ msgstr "Rol"
 msgid "Role · Company"
 msgstr "Puesto · Empresa"
 
-#: extensions/effects-editor.js:530
+#: extensions/effects-editor.js:532
 msgid "Rotating conic"
 msgstr "Cónico giratorio"
 
@@ -1612,11 +1640,11 @@ msgstr "Guardar ajustes"
 msgid "Say what you do in one clear sentence. Everything here is editable."
 msgstr "Cuenta qué haces en una frase clara. Todo aquí se puede editar."
 
-#: extensions/effects-editor.js:350
+#: extensions/effects-editor.js:347
 msgid "Scale in"
 msgstr "Aparecer escalando"
 
-#: extensions/effects-editor.js:474
+#: extensions/effects-editor.js:473
 msgid "Scroll effect"
 msgstr "Efecto al desplazar"
 
@@ -1728,6 +1756,10 @@ msgstr "Forma"
 msgid "Shape dividers"
 msgstr "Divisores de forma"
 
+#: extensions/effects-editor.js:416
+msgid "Sharp (circ)"
+msgstr "Marcada (circ)"
+
 #: admin/class-blokino-admin.php:771
 msgid "Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor."
 msgstr "Muestra una barra lateral —o usa el ancho completo— en las entradas del blog y los archivos. Las páginas no se ven afectadas aquí: usan plantillas por página (p. ej. Estrecha, Con barra lateral) que se eligen en el editor de páginas."
@@ -1768,7 +1800,7 @@ msgstr "Barra"
 msgid "Slide"
 msgstr "Diapositiva"
 
-#: extensions/effects-editor.js:351
+#: extensions/effects-editor.js:348
 msgid "Slide left"
 msgstr "Deslizar a la izquierda"
 
@@ -1776,7 +1808,7 @@ msgstr "Deslizar a la izquierda"
 msgid "Slide one"
 msgstr "Diapositiva uno"
 
-#: extensions/effects-editor.js:352
+#: extensions/effects-editor.js:349
 msgid "Slide right"
 msgstr "Deslizar a la derecha"
 
@@ -1800,7 +1832,15 @@ msgstr "Opacidad en pantallas pequeñas (%)"
 msgid "Small-screen scrim color"
 msgstr "Color del velo en pantallas pequeñas"
 
-#: extensions/effects-editor.js:371
+#: extensions/effects-editor.js:413
+msgid "Smooth (expo)"
+msgstr "Suave (expo)"
+
+#: extensions/effects-editor.js:414
+msgid "Soft (power3)"
+msgstr "Moderada (power3)"
+
+#: extensions/effects-editor.js:369
 msgid "Solid (default)"
 msgstr "Sólido (por defecto)"
 
@@ -1820,7 +1860,7 @@ msgstr "Espacio entre bloques"
 msgid "Spacing (rem)"
 msgstr "Espaciado (rem)"
 
-#: blocks/marquee/edit.js:108 extensions/effects-editor.js:556
+#: blocks/marquee/edit.js:108 extensions/effects-editor.js:558
 msgid "Speed (s per loop)"
 msgstr "Velocidad (s por vuelta)"
 
@@ -1828,15 +1868,15 @@ msgstr "Velocidad (s por vuelta)"
 msgid "Speed of all Blokino effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic."
 msgstr "Velocidad de todos los efectos de Blokino (entrada, hover, scroll). Sutil = más rápido y ajustado; Intenso = más lento y dramático."
 
-#: extensions/effects-editor.js:426
+#: extensions/effects-editor.js:424
 msgid "Stagger (ms)"
 msgstr "Escalonado (ms)"
 
-#: extensions/effects-editor.js:433
+#: extensions/effects-editor.js:431
 msgid "Staggers the entrance of direct children. 0 = no stagger."
 msgstr "Escalona la entrada de los hijos directos. 0 = sin escalonado."
 
-#: extensions/effects-editor.js:569
+#: extensions/effects-editor.js:571
 msgid "Start color (empty = theme accent)"
 msgstr "Color inicial (vacío = acento del tema)"
 
@@ -1864,7 +1904,7 @@ msgstr "Valor inicial"
 msgid "Sticky pin"
 msgstr "Fijar al desplazar"
 
-#: extensions/effects-editor.js:625
+#: extensions/effects-editor.js:627
 msgid "Sticky pin and Progress bar work on the published page, not inside the editor."
 msgstr "Fijar al desplazar y Barra de progreso funcionan en la página publicada, no dentro del editor."
 
@@ -1948,11 +1988,11 @@ msgstr "Testimonios"
 msgid "Text"
 msgstr "Texto"
 
-#: extensions/effects-editor.js:622
+#: extensions/effects-editor.js:624
 msgid "Text animations split the words on the published page, so they play there."
 msgstr "Las animaciones de texto separan las palabras en la página publicada, así que se ven ahí."
 
-#: extensions/effects-editor.js:354
+#: extensions/effects-editor.js:351
 msgid "Text fill"
 msgstr "Relleno de texto"
 
@@ -1960,7 +2000,7 @@ msgstr "Relleno de texto"
 msgid "Text on dark bands"
 msgstr "Texto en bandas oscuras"
 
-#: extensions/effects-editor.js:353
+#: extensions/effects-editor.js:350
 msgid "Text stagger"
 msgstr "Texto escalonado"
 
@@ -2000,13 +2040,9 @@ msgstr "El theme proporciona los valores por defecto. Lo que dejes vacío usa el
 msgid "Theme"
 msgstr "Theme"
 
-#: admin/class-blokino-admin.php:653 admin/class-blokino-admin.php:755 admin/class-blokino-admin.php:863
+#: admin/class-blokino-admin.php:653 admin/class-blokino-admin.php:755 admin/class-blokino-admin.php:863 extensions/effects-editor.js:412
 msgid "Theme default"
 msgstr "Valor del theme"
-
-#: extensions/effects-editor.js:414
-msgid "Theme default (expo)"
-msgstr "Por defecto del tema (expo)"
 
 #: admin/class-blokino-themes.php:51 admin/class-blokino-themes.php:52
 msgid "Themes"
@@ -2040,7 +2076,7 @@ msgstr "Estos añaden partes opcionales de la demo (formularios, tienda…). Eli
 msgid "These values apply to Blokino blocks and effects. Your theme’s own colors and fonts are set in Appearance → Editor → Styles (or the Customizer in classic themes)."
 msgstr "Estos valores se aplican a los bloques y efectos de Blokino. Los colores y fuentes de tu theme se cambian en Apariencia → Editor → Estilos (o en el Personalizador en los themes clásicos)."
 
-#: extensions/effects-editor.js:443
+#: extensions/effects-editor.js:441
 msgid "These words fill to the brand accent instead of ink. 1-based."
 msgstr "Estas palabras se rellenan con el acento de la marca en vez de con la tinta. Se cuenta desde 1."
 
@@ -2080,11 +2116,11 @@ msgstr "Tres contadores que suben cuando aparecen en pantalla."
 msgid "Three steps to a finished site"
 msgstr "Tres pasos para un sitio terminado"
 
-#: extensions/effects-editor.js:461
+#: extensions/effects-editor.js:460
 msgid "Tilt 3D"
 msgstr "Inclinación 3D"
 
-#: extensions/effects-editor.js:628
+#: extensions/effects-editor.js:630
 msgid "Tilt and Magnetic follow the pointer on the published page."
 msgstr "Inclinación 3D y Magnético siguen el puntero en la página publicada."
 
@@ -2140,7 +2176,7 @@ msgstr "Tipos"
 msgid "Typography (Google Fonts)"
 msgstr "Tipografía (Google Fonts)"
 
-#: extensions/effects-editor.js:463
+#: extensions/effects-editor.js:462
 msgid "Underline grow"
 msgstr "Subrayado que crece"
 
@@ -2192,7 +2228,7 @@ msgstr "Ver proyecto"
 msgid "View on tunetdesign.com ↗"
 msgstr "Ver en tunetdesign.com ↗"
 
-#: extensions/effects-editor.js:640
+#: extensions/effects-editor.js:642
 msgid "View page"
 msgstr "Ver página"
 
@@ -2304,7 +2340,7 @@ msgstr "Has puesto un fondo pero no un color de texto: en un theme cuyo color de
 msgid "You set the dark bands but not their text color: make sure the theme's text on dark bands still reads on your new background."
 msgstr "Has definido las bandas oscuras pero no su color de texto: comprueba que el texto del tema sobre bandas oscuras siga leyéndose sobre tu nuevo fondo."
 
-#: extensions/effects-editor.js:615
+#: extensions/effects-editor.js:617
 msgid "Your device asks for reduced motion, so the preview is off. Visitors with that setting see the block without movement."
 msgstr "Tu dispositivo pide reducir el movimiento, así que la vista previa está desactivada. Quien navegue con ese ajuste verá el bloque sin movimiento."
 

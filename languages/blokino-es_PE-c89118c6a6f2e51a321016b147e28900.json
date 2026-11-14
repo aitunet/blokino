@@ -12,6 +12,9 @@
             "Entrance animation": [
                 "Animación de entrada"
             ],
+            "How the block appears when it scrolls into view.": [
+                "Cómo aparece el bloque cuando entra en pantalla."
+            ],
             "None (clean block)": [
                 "Ninguna (bloque limpio)"
             ],
@@ -45,6 +48,9 @@
             "Display style": [
                 "Estilo de presentación"
             ],
+            "Outline draws the letters as a line. Best on large headings.": [
+                "Contorno dibuja las letras como una línea. Queda mejor en títulos grandes."
+            ],
             "Solid (default)": [
                 "Sólido (por defecto)"
             ],
@@ -63,8 +69,20 @@
             "Easing curve": [
                 "Curva de aceleración"
             ],
-            "Theme default (expo)": [
-                "Por defecto del tema (expo)"
+            "Theme default": [
+                "Valor del theme"
+            ],
+            "Smooth (expo)": [
+                "Suave (expo)"
+            ],
+            "Soft (power3)": [
+                "Moderada (power3)"
+            ],
+            "Bouncy (spring)": [
+                "Con rebote (spring)"
+            ],
+            "Sharp (circ)": [
+                "Marcada (circ)"
             ],
             "Stagger (ms)": [
                 "Escalonado (ms)"
@@ -83,6 +101,9 @@
             ],
             "Hover effect": [
                 "Efecto al pasar el ratón"
+            ],
+            "Reacts when the pointer is over the block, or when it has keyboard focus.": [
+                "Reacciona cuando el puntero está sobre el bloque o cuando tiene el foco del teclado."
             ],
             "None": [
                 "Ninguno"
@@ -108,6 +129,9 @@
             "Scroll effect": [
                 "Efecto al desplazar"
             ],
+            "Parallax and Zoom move with the scroll; Sticky pin keeps the block in place while its section scrolls; Progress bar draws a reading bar.": [
+                "Parallax y Zoom al desplazar se mueven con el scroll; Fijar al desplazar deja el bloque quieto mientras su sección avanza; Barra de progreso dibuja una barra de lectura."
+            ],
             "Parallax": [
                 "Parallax"
             ],
@@ -132,8 +156,14 @@
             "Blend mode": [
                 "Modo de fusión"
             ],
+            "Mixes the block with what is behind it. Most visible on images over a color or a photo.": [
+                "Mezcla el bloque con lo que tiene detrás. Se nota más en imágenes sobre un color o una foto."
+            ],
             "Animated border": [
                 "Borde animado"
+            ],
+            "A moving gradient around the edge of the block.": [
+                "Un degradado en movimiento alrededor del borde del bloque."
             ],
             "Gradient": [
                 "Degradado"

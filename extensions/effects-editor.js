@@ -52,6 +52,10 @@
 		'blokino/section', 'blokino/marquee', 'blokino/counter', 'blokino/before-after'
 	];
 
+	// U-10: opciones que solo se notan en ciertos bloques.
+	var TEXT_BLOCKS = [ 'core/heading', 'core/paragraph', 'core/site-title', 'core/post-title' ];
+	var BLEND_BLOCKS = [ 'core/image', 'core/cover', 'core/heading', 'core/post-featured-image', 'core/video', 'core/media-text' ];
+
 	function isAllowed( name ) {
 		return ALLOWED.indexOf( name ) !== -1;
 	}
@@ -332,6 +336,7 @@
 
 			var animationControl = el( SelectControl, {
 				label: __( 'Entrance animation', 'blokino' ),
+				help: __( 'How the block appears when it scrolls into view.', 'blokino' ),
 				value: a.tfAnimation || '',
 				options: [
 					{ label: __( 'None (clean block)', 'blokino' ), value: '' },
@@ -358,6 +363,7 @@
 
 			var displayControl = el( SelectControl, {
 				label: __( 'Display style', 'blokino' ),
+				help: __( 'Outline draws the letters as a line. Best on large headings.', 'blokino' ),
 				value: a.tfDisplay || '',
 				options: [
 					{ label: __( 'Solid (default)', 'blokino' ), value: '' },
@@ -403,11 +409,11 @@
 						label: __( 'Easing curve', 'blokino' ),
 						value: a.tfAnimEasing || '',
 						options: [
-							{ label: __( 'Theme default (expo)', 'blokino' ), value: '' },
-							{ label: 'Expo', value: 'expo' }, // Easing curve names are technical keywords, left raw (untranslated) on purpose.
-							{ label: 'Power3', value: 'power3' },
-							{ label: 'Spring', value: 'spring' },
-							{ label: 'Circ', value: 'circ' }
+							{ label: __( 'Theme default', 'blokino' ), value: '' },
+							{ label: __( 'Smooth (expo)', 'blokino' ), value: 'expo' },
+							{ label: __( 'Soft (power3)', 'blokino' ), value: 'power3' },
+							{ label: __( 'Bouncy (spring)', 'blokino' ), value: 'spring' },
+							{ label: __( 'Sharp (circ)', 'blokino' ), value: 'circ' }
 						],
 						onChange: function ( value ) {
 							set( { tfAnimEasing: value } );
@@ -445,6 +451,7 @@
 			// Hover is independent of the entrance animation.
 			var hoverControl = el( SelectControl, {
 				label: __( 'Hover effect', 'blokino' ),
+				help: __( 'Reacts when the pointer is over the block, or when it has keyboard focus.', 'blokino' ),
 				value: a.tfHover || '',
 				options: [
 					{ label: __( 'None', 'blokino' ), value: '' },
@@ -464,6 +471,7 @@
 			// Scroll.
 			var scrollControl = el( SelectControl, {
 				label: __( 'Scroll effect', 'blokino' ),
+				help: __( 'Parallax and Zoom move with the scroll; Sticky pin keeps the block in place while its section scrolls; Progress bar draws a reading bar.', 'blokino' ),
 				value: a.tfScroll || '',
 				options: [
 					{ label: __( 'None', 'blokino' ), value: '' },
@@ -497,6 +505,7 @@
 			// Blend + border.
 			var blendControl = el( SelectControl, {
 				label: __( 'Blend mode', 'blokino' ),
+				help: __( 'Mixes the block with what is behind it. Most visible on images over a color or a photo.', 'blokino' ),
 				value: a.tfBlend || '',
 				options: [
 					{ label: __( 'None', 'blokino' ), value: '' },
@@ -515,6 +524,7 @@
 
 			var borderControl = el( SelectControl, {
 				label: __( 'Animated border', 'blokino' ),
+				help: __( 'A moving gradient around the edge of the block.', 'blokino' ),
 				value: a.tfBorderFx || '',
 				options: [
 					{ label: __( 'None', 'blokino' ), value: '' },
@@ -646,7 +656,6 @@
 						{ title: __( 'Blokino Effects', 'blokino' ), initialOpen: anyEffect( a ) },
 						animationControl,
 						previewButton,
-						displayControl,
 						detailControls,
 						hr(),
 						hoverControl,
@@ -655,9 +664,10 @@
 						parallaxControl,
 						frontNotice,
 						hr(),
-						blendControl,
+						( BLEND_BLOCKS.indexOf( props.name ) !== -1 || a.tfBlend ) ? blendControl : null,
 						borderControl,
-						borderDetail
+						borderDetail,
+						( TEXT_BLOCKS.indexOf( props.name ) !== -1 || a.tfDisplay ) ? el( Fragment, {}, hr(), displayControl ) : null
 					)
 				)
 			);
