@@ -28,6 +28,26 @@ define( 'BLOKINO_FILE', __FILE__ );
 define( 'BLOKINO_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BLOKINO_URL', plugin_dir_url( __FILE__ ) );
 
+/**
+ * Versión de un asset del plugin (O-U-06).
+ *
+ * En producción, la del plugin: no hace falta tocar el disco en cada carga y la
+ * URL cambia con cada release. Con WP_DEBUG o SCRIPT_DEBUG, la fecha del archivo,
+ * para que un cambio en desarrollo se vea sin vaciar la caché del navegador.
+ *
+ * @param string $relative_path Ruta relativa a la carpeta del plugin.
+ * @return string
+ */
+function blokino_asset_version( $relative_path ) {
+	if ( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ) {
+		$abs = BLOKINO_PATH . $relative_path;
+		if ( file_exists( $abs ) ) {
+			return (string) filemtime( $abs );
+		}
+	}
+	return BLOKINO_VERSION;
+}
+
 /* Versiones mínimas soportadas (se validan en activación). */
 define( 'BLOKINO_MIN_WP', '6.6' );
 define( 'BLOKINO_MIN_PHP', '7.4' );

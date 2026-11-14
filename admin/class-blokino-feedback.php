@@ -114,8 +114,8 @@ class Blokino_Feedback {
 		if ( 'plugins.php' !== $hook || ! self::enabled() ) {
 			return;
 		}
-		wp_enqueue_style( 'blokino-feedback', BLOKINO_URL . 'admin/feedback.css', array(), (string) filemtime( BLOKINO_PATH . 'admin/feedback.css' ) );
-		wp_enqueue_script( 'blokino-feedback', BLOKINO_URL . 'admin/feedback.js', array(), (string) filemtime( BLOKINO_PATH . 'admin/feedback.js' ), true );
+		wp_enqueue_style( 'blokino-feedback', BLOKINO_URL . 'admin/feedback.css', array(), blokino_asset_version( 'admin/feedback.css' ) );
+		wp_enqueue_script( 'blokino-feedback', BLOKINO_URL . 'admin/feedback.js', array(), blokino_asset_version( 'admin/feedback.js' ), true );
 		wp_localize_script(
 			'blokino-feedback',
 			'blokinoFeedback',

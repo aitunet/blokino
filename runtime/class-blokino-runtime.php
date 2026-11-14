@@ -114,12 +114,8 @@ class Blokino_Runtime {
 		if ( ! is_admin() ) {
 			return;
 		}
-		wp_enqueue_style(
-			self::STYLE_HANDLE,
-			BLOKINO_URL . 'runtime/effects.css',
-			array(),
-			self::asset_version( 'runtime/effects.css' )
-		);
+		self::ensure_registered();
+		wp_enqueue_style( self::STYLE_HANDLE );
 	}
 
 	/**
@@ -210,6 +206,18 @@ class Blokino_Runtime {
 	 * de print_bootstrap().
 	 */
 	public function register_assets() {
+		self::ensure_registered();
+	}
+
+	/**
+	 * Único punto de registro de los assets del runtime (O-U-06). Lo llaman el
+	 * registro en wp_enqueue_scripts y, de forma perezosa, enqueue(),
+	 * enqueue_carousel() y la vista previa del editor, por si corren antes.
+	 */
+	private static function ensure_registered() {
+		if ( wp_script_is( self::SCRIPT_HANDLE, 'registered' ) ) {
+			return;
+		}
 		wp_register_style(
 			self::STYLE_HANDLE,
 			BLOKINO_URL . 'runtime/effects.css',
@@ -296,22 +304,7 @@ class Blokino_Runtime {
 			return;
 		}
 
-		if ( ! wp_style_is( self::STYLE_HANDLE, 'registered' ) ) {
-			wp_register_style( self::STYLE_HANDLE, BLOKINO_URL . 'runtime/effects.css', array(), BLOKINO_VERSION );
-		}
-		if ( ! wp_script_is( self::SCRIPT_HANDLE, 'registered' ) ) {
-			wp_register_script(
-				self::SCRIPT_HANDLE,
-				BLOKINO_URL . 'runtime/effects.js',
-				array(),
-				BLOKINO_VERSION,
-				array(
-					'in_footer' => true,
-					'strategy'  => 'defer',
-				)
-			);
-		}
-
+		self::ensure_registered();
 		wp_enqueue_style( self::STYLE_HANDLE );
 		wp_enqueue_script( self::SCRIPT_HANDLE );
 
@@ -325,23 +318,7 @@ class Blokino_Runtime {
 	 * por si un render corre antes de register_assets().
 	 */
 	public static function enqueue_carousel() {
-		if ( ! wp_style_is( self::CAROUSEL_STYLE, 'registered' ) ) {
-			wp_register_style(
-				self::CAROUSEL_STYLE,
-				BLOKINO_URL . 'runtime/carousel.css',
-				array(),
-				self::asset_version( 'runtime/carousel.css' )
-			);
-		}
-		if ( ! wp_script_is( self::CAROUSEL_SCRIPT, 'registered' ) ) {
-			wp_register_script(
-				self::CAROUSEL_SCRIPT,
-				BLOKINO_URL . 'runtime/carousel.js',
-				array(),
-				self::asset_version( 'runtime/carousel.js' ),
-				array( 'in_footer' => true )
-			);
-		}
+		self::ensure_registered();
 		wp_enqueue_style( self::CAROUSEL_STYLE );
 		wp_enqueue_script( self::CAROUSEL_SCRIPT );
 	}
@@ -597,13 +574,12 @@ class Blokino_Runtime {
 	}
 
 	/**
-	 * Versión de un asset basada en filemtime (cache-busting en desarrollo).
+	 * Versión de un asset (ver blokino_asset_version(): filemtime solo con debug).
 	 *
 	 * @param string $relative_path Ruta relativa al directorio del plugin.
 	 * @return string
 	 */
 	private static function asset_version( $relative_path ) {
-		$abs = BLOKINO_PATH . $relative_path;
-		return file_exists( $abs ) ? (string) filemtime( $abs ) : BLOKINO_VERSION;
+		return blokino_asset_version( $relative_path );
 	}
 }

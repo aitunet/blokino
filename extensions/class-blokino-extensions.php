@@ -75,8 +75,7 @@ class Blokino_Extensions {
 	 */
 	public function enqueue_editor_assets() {
 		$rel  = 'extensions/effects-editor.js';
-		$path = BLOKINO_PATH . $rel;
-		$ver  = file_exists( $path ) ? (string) filemtime( $path ) : BLOKINO_VERSION;
+		$ver  = blokino_asset_version( $rel );
 
 		wp_enqueue_script(
 			self::EDITOR_HANDLE,

@@ -505,8 +505,8 @@ class Blokino_Admin {
 			wp_enqueue_media();
 		}
 
-		wp_enqueue_style( 'blokino-admin', BLOKINO_URL . 'admin/admin.css', array(), (string) filemtime( BLOKINO_PATH . 'admin/admin.css' ) );
-		wp_enqueue_script( 'blokino-admin', BLOKINO_URL . 'admin/admin.js', array(), (string) filemtime( BLOKINO_PATH . 'admin/admin.js' ), true );
+		wp_enqueue_style( 'blokino-admin', BLOKINO_URL . 'admin/admin.css', array(), blokino_asset_version( 'admin/admin.css' ) );
+		wp_enqueue_script( 'blokino-admin', BLOKINO_URL . 'admin/admin.js', array(), blokino_asset_version( 'admin/admin.js' ), true );
 
 		wp_localize_script(
 			'blokino-admin',

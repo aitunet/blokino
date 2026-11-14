@@ -350,8 +350,7 @@ class Blokino_Blocks {
 	 * bloques que lo usan lo declaran como dependencia en su edit.asset.php.
 	 */
 	public function enqueue_repeater_control() {
-		$abs = BLOKINO_PATH . 'blocks/shared/repeater-control.js';
-		$ver = file_exists( $abs ) ? (string) filemtime( $abs ) : BLOKINO_VERSION;
+		$ver = blokino_asset_version( 'blocks/shared/repeater-control.js' );
 		wp_register_script(
 			'blokino-repeater-control',
 			BLOKINO_URL . 'blocks/shared/repeater-control.js',
@@ -366,8 +365,7 @@ class Blokino_Blocks {
 			wp_set_script_translations( 'blokino-repeater-control', 'blokino', BLOKINO_PATH . 'languages' );
 		}
 
-		$css_abs = BLOKINO_PATH . 'blocks/shared/repeater.css';
-		$css_ver = file_exists( $css_abs ) ? (string) filemtime( $css_abs ) : BLOKINO_VERSION;
+		$css_ver = blokino_asset_version( 'blocks/shared/repeater.css' );
 		// El CSS (2 KB, barra lateral) sigue encolado: un estilo no puede colgar
 		// como dependencia de un script.
 		wp_enqueue_style(
@@ -386,8 +384,7 @@ class Blokino_Blocks {
 	 * toca el front: es solo un asset de editor.
 	 */
 	public function enqueue_carousel_editor() {
-		$editor_abs = BLOKINO_PATH . 'blocks/shared/carousel-editor.js';
-		$editor_ver = file_exists( $editor_abs ) ? (string) filemtime( $editor_abs ) : BLOKINO_VERSION;
+		$editor_ver = blokino_asset_version( 'blocks/shared/carousel-editor.js' );
 		wp_register_script(
 			'blokino-carousel-editor',
 			BLOKINO_URL . 'blocks/shared/carousel-editor.js',
@@ -396,11 +393,7 @@ class Blokino_Blocks {
 			false
 		);
 
-		$carousel_css = BLOKINO_URL . 'runtime/carousel.css';
-		$carousel_abs = BLOKINO_PATH . 'runtime/carousel.css';
-		if ( file_exists( $carousel_abs ) ) {
-			$carousel_css = add_query_arg( 'ver', filemtime( $carousel_abs ), $carousel_css );
-		}
+		$carousel_css = add_query_arg( 'ver', blokino_asset_version( 'runtime/carousel.css' ), BLOKINO_URL . 'runtime/carousel.css' );
 		wp_add_inline_script(
 			'blokino-carousel-editor',
 			'window.blokino = window.blokino || {}; window.blokino.carouselCssUrl = ' . wp_json_encode( $carousel_css ) . ';',
