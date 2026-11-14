@@ -265,13 +265,20 @@ class Blokino_Runtime {
 	 * @return string Ruta relativa a la carpeta del plugin.
 	 */
 	private static function runtime_file( $name ) {
-		if ( ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ) {
-			$min = 'runtime/' . preg_replace( '/\.(css|js)$/', '.min.$1', $name );
-			if ( file_exists( BLOKINO_PATH . $min ) ) {
-				return $min;
-			}
+		$src = 'runtime/' . $name;
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			return $src;
 		}
-		return 'runtime/' . $name;
+		$min = 'runtime/' . preg_replace( '/\.(css|js)$/', '.min.$1', $name );
+		if ( ! file_exists( BLOKINO_PATH . $min ) ) {
+			return $src;
+		}
+		// En desarrollo (WP_DEBUG), un fuente editado después del último minificado
+		// se sirve tal cual: el cambio se ve sin regenerar el .min a mano.
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && filemtime( BLOKINO_PATH . $src ) > filemtime( BLOKINO_PATH . $min ) ) {
+			return $src;
+		}
+		return $min;
 	}
 
 	/**
