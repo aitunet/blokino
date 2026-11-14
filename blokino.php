@@ -282,16 +282,15 @@ add_filter( 'body_class', 'blokino_body_layout_class' );
  * en el motor (antes duplicado en los cinco functions.php).
  *
  * @param string $content HTML renderizado del bloque.
- * @param array  $block   Bloque parseado.
  * @return string
  */
-function blokino_render_shortcode_blocks( $content, $block ) {
-	if ( isset( $block['blockName'] ) && 'core/shortcode' === $block['blockName'] && false !== strpos( $content, '[' ) ) {
-		return do_shortcode( $content );
-	}
-	return $content;
+function blokino_render_shortcode_blocks( $content ) {
+	return false !== strpos( $content, '[' ) ? do_shortcode( $content ) : $content;
 }
-add_filter( 'render_block', 'blokino_render_shortcode_blocks', 10, 2 );
+// O-S-05: solo en el bloque Shortcode, no en cada bloque renderizado. WP ya hace
+// do_shortcode() sobre plantillas y parts; esto cubre lo que se renderiza fuera
+// de ellas (un do_blocks() propio de un theme, por ejemplo).
+add_filter( 'render_block_core/shortcode', 'blokino_render_shortcode_blocks' );
 
 /**
  * Root-relative links follow a subdirectory install.
