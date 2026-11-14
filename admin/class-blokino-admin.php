@@ -103,13 +103,42 @@ class Blokino_Admin {
 	}
 
 	/**
+	 * Settings already resolved in this request (O-S-02). Null = not read yet.
+	 *
+	 * @var array|null
+	 */
+	private static $settings_cache = null;
+
+	/**
 	 * Current settings (with defaults).
+	 *
+	 * Read once per request: the runtime asks on every rendered block. The cache
+	 * is dropped whenever the option is written or the theme changes, so a save
+	 * or an import in the same request reads the new values.
 	 *
 	 * @return array
 	 */
 	public static function get_settings() {
-		$saved = get_option( self::OPTION, array() );
-		return wp_parse_args( is_array( $saved ) ? $saved : array(), self::defaults() );
+		if ( null !== self::$settings_cache ) {
+			return self::$settings_cache;
+		}
+		static $hooked = false;
+		if ( ! $hooked ) {
+			$hooked = true;
+			foreach ( array( 'add_option_' . self::OPTION, 'update_option_' . self::OPTION, 'delete_option_' . self::OPTION, 'switch_theme' ) as $hook ) {
+				add_action( $hook, array( __CLASS__, 'flush_settings_cache' ) );
+			}
+		}
+		$saved                = get_option( self::OPTION, array() );
+		self::$settings_cache = wp_parse_args( is_array( $saved ) ? $saved : array(), self::defaults() );
+		return self::$settings_cache;
+	}
+
+	/**
+	 * Forget the cached settings (hooked to writes of the option and theme switches).
+	 */
+	public static function flush_settings_cache() {
+		self::$settings_cache = null;
 	}
 
 	/**

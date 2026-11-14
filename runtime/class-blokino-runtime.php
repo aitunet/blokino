@@ -418,15 +418,16 @@ class Blokino_Runtime {
 	 * @return string
 	 */
 	public function render_block_effects( $block_content, $block ) {
+		// Lo barato primero (O-S-02): casi ningún bloque tiene efecto, así que la
+		// mayoría sale aquí sin leer los ajustes.
+		if ( empty( $block['attrs'] ) || ! self::attrs_have_effect( $block['attrs'] ) ) {
+			return $block_content;
+		}
 		if ( ! self::effects_enabled() ) {
 			return $block_content;
 		}
 
-		$attrs = isset( $block['attrs'] ) ? $block['attrs'] : array();
-
-		if ( ! self::attrs_have_effect( $attrs ) ) {
-			return $block_content;
-		}
+		$attrs = $block['attrs'];
 
 		// Red de seguridad de carga (contextos que el pre-escaneo no cubre).
 		self::enqueue();
