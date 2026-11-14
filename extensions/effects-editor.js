@@ -43,21 +43,13 @@
 	var BaseControl = components.BaseControl;
 	var TextControl = components.TextControl;
 
-	// Blocks nativos a los que se aplica la extensión (allowlist, FASE A).
-	var ALLOWED = [
-		'core/group',
-		'core/columns',
-		'core/cover',
-		'core/image',
-		'core/heading',
-		'core/paragraph',
-		'core/buttons',
-		'core/button',
-		// Blocks propios: también pueden tener efectos de entrada/hover/scroll.
-		'blokino/section',
-		'blokino/marquee',
-		'blokino/counter',
-		'blokino/before-after'
+	// Bloques con panel de efectos (U-09): la lista la manda PHP
+	// (Blokino_Extensions::effect_blocks, filtrable con blokino_effect_blocks).
+	// Esta copia es solo la red si el inline script no llegara.
+	var ALLOWED = Array.isArray( window.blokinoEffectBlocks ) ? window.blokinoEffectBlocks : [
+		'core/group', 'core/columns', 'core/cover', 'core/image', 'core/heading',
+		'core/paragraph', 'core/buttons', 'core/button',
+		'blokino/section', 'blokino/marquee', 'blokino/counter', 'blokino/before-after'
 	];
 
 	function isAllowed( name ) {

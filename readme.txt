@@ -77,7 +77,7 @@ Blokino works fully offline. It connects to an external service only in the thre
 
 == Screenshots ==
 
-1. The *Blokino Effects* panel is added to Group, Columns, Cover, Image, Heading, Paragraph and Buttons, and to Blokino's Section, Marquee, Counter and Before/After blocks. The first option is "None (clean block)", and it is the default: nothing moves until you ask it to.
+1. The *Blokino Effects* panel is added to Group, Columns, Column, Cover, Image, Gallery, Media & Text, Video, Heading, Paragraph, List, Quote, Separator, Buttons, Site Title, Post Title, Featured Image and Query Loop, and to Blokino's Section, Marquee, Counter and Before/After blocks (developers can change the list with the blokino_effect_blocks filter). The first option is "None (clean block)", and it is the default: nothing moves until you ask it to.
 2. Ten blocks for the things the editor does not cover: sections, sliders, marquees, counters, icons, badges, testimonials, a before/after comparer, a brand block and breadcrumbs.
 3. *Blokino Section* handles the backgrounds a hero needs — image, video, gradient, mesh — with an overlay you control, including a reinforcement that only applies on small screens.
 4. Global settings: brand colours, typefaces and shape. Left empty, the active theme decides; a value here overrides that token site-wide.
