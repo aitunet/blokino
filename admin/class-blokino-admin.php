@@ -624,7 +624,10 @@ class Blokino_Admin {
 					<p class="description"><?php esc_html_e( 'With the Brand block set to Automatic, the alternative logo is used on dark palettes and dark style variations, and the main one everywhere else. Leave it empty to always use the main logo.', 'blokino' ); ?></p>
 					<table class="form-table" role="presentation">
 						<?php
-						$this->row_logo( __( 'Main logo', 'blokino' ), 'logo_main_id', (int) $s['logo_main_id'] );
+						// Sin logo propio se muestra el Site Logo nativo: el campo no sale
+						// vacío en un sitio que ya tiene logo y guardar no lo borra.
+						$blokino_main_logo = (int) $s['logo_main_id'] ? (int) $s['logo_main_id'] : (int) get_theme_mod( 'custom_logo' );
+						$this->row_logo( __( 'Main logo', 'blokino' ), 'logo_main_id', $blokino_main_logo );
 						$this->row_logo( __( 'Alternative logo (dark backgrounds)', 'blokino' ), 'logo_alt_id', (int) $s['logo_alt_id'], true );
 						?>
 					</table>
@@ -1037,9 +1040,17 @@ class Blokino_Admin {
 		}
 		check_admin_referer( 'blokino_save_settings' );
 
+		// El formulario muestra el Site Logo nativo cuando Blokino no tiene logo
+		// propio (render_settings_page), así que ese es el valor "anterior" que el
+		// usuario vio: si lo vacía con la papelera se quita; si no, no se toca.
+		$previous = (int) self::get( 'logo_main_id' );
+		if ( ! $previous ) {
+			$previous = (int) get_theme_mod( 'custom_logo' );
+		}
+
 		$clean = $this->sanitize_settings( wp_unslash( $_POST ) );
 		update_option( self::OPTION, $clean );
-		$this->sync_custom_logo( $clean );
+		$this->sync_custom_logo( $clean, $previous );
 
 		wp_safe_redirect( add_query_arg( 'blokino_notice', 'saved', admin_url( 'admin.php?page=' . self::SETTINGS_SLUG ) ) );
 		exit;
@@ -1051,13 +1062,22 @@ class Blokino_Admin {
 	 * propagates. Guards for a missing/invalid attachment (an imported ID may not
 	 * exist on the target site).
 	 *
+	 * Never removes a logo Blokino did not set: an empty main logo only clears
+	 * custom_logo (and with it the site_logo option) when the previous main logo
+	 * was set and is still the one in custom_logo. Saving the settings of a site
+	 * whose logo was chosen elsewhere (Site Logo block, Customizer) leaves it alone.
+	 *
 	 * @param array $settings Sanitized settings array.
+	 * @param int   $previous Main logo ID before this save/import (0 = none).
 	 */
-	private function sync_custom_logo( $settings ) {
-		$id = isset( $settings['logo_main_id'] ) ? (int) $settings['logo_main_id'] : 0;
+	private function sync_custom_logo( $settings, $previous = 0 ) {
+		$id       = isset( $settings['logo_main_id'] ) ? (int) $settings['logo_main_id'] : 0;
+		$previous = (int) $previous;
 		if ( $id && wp_attachment_is_image( $id ) ) {
 			set_theme_mod( 'custom_logo', $id );
-		} else {
+			return;
+		}
+		if ( ! $id && $previous > 0 && (int) get_theme_mod( 'custom_logo' ) === $previous ) {
 			remove_theme_mod( 'custom_logo' );
 		}
 	}
@@ -1108,9 +1128,10 @@ class Blokino_Admin {
 			$raw  = file_get_contents( $tmp ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- lectura de un fichero local recién subido, no remota.
 			$data = json_decode( $raw, true );
 			if ( is_array( $data ) && isset( $data['settings'] ) && is_array( $data['settings'] ) ) {
-				$clean = $this->sanitize_settings( $data['settings'] );
+				$previous = (int) self::get( 'logo_main_id' );
+				$clean    = $this->sanitize_settings( $data['settings'] );
 				update_option( self::OPTION, $clean );
-				$this->sync_custom_logo( $clean );
+				$this->sync_custom_logo( $clean, $previous );
 				$notice = 'imported';
 			}
 		}
