@@ -183,15 +183,17 @@
 	opacity: 0;
 }
 
-/* text-fill: relleno gris→tinta palabra a palabra (firma editorial). Solo color;
-   sin transform. Las palabras acento se rellenan al primary del theme. */
+/* text-fill: relleno tenue→pleno palabra a palabra (firma editorial). Solo color;
+   sin transform. Parte del color del PROPIO texto (U-06): un título blanco sobre
+   una portada oscura empieza translúcido y termina blanco, no con el color de
+   texto del theme. Las palabras acento se rellenan al primary del theme. */
 .blokino-tf-ready [data-tf-animation="text-fill"] .tf-word {
 	display: inline-block;
-	color: var( --tnt-color-text-muted );
+	color: color-mix( in srgb, currentColor 35%, transparent );
 	transition: color var( --tf-duration, var( --tnt-dur-base ) ) var( --tf-ease, var( --tnt-ease-expo ) );
 }
 .blokino-tf-ready [data-tf-animation="text-fill"].is-tf-in .tf-word {
-	color: var( --tnt-color-text );
+	color: inherit;
 }
 .blokino-tf-ready [data-tf-animation="text-fill"].is-tf-in .tf-word--accent {
 	color: var( --tnt-color-primary );
@@ -448,7 +450,7 @@
 	}
 	.blokino-tf-ready [data-tf-animation="text-fill"] .tf-word {
 		transition: none !important;
-		color: var( --tnt-color-text ) !important;
+		color: inherit !important;
 	}
 	.blokino-tf-ready [data-tf-animation="text-fill"] .tf-word--accent {
 		color: var( --tnt-color-primary ) !important;
