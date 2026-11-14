@@ -633,8 +633,16 @@ class Blokino_Admin {
 					</table>
 				</div>
 
+				<?php
+				// U-04: con un theme ajeno, estos valores solo llegan a los bloques y
+				// efectos de Blokino. Se dice antes del primer campo.
+				$blokino_tunet = class_exists( 'Blokino_Welcome' ) && Blokino_Welcome::is_tunet_theme();
+				?>
 				<div class="card blokino-section-card">
-					<h2><?php esc_html_e( 'Branding', 'blokino' ); ?></h2>
+					<h2><?php echo $blokino_tunet ? esc_html__( 'Branding', 'blokino' ) : esc_html__( 'Blokino blocks & effects — colors, fonts, shape', 'blokino' ); ?></h2>
+					<?php if ( ! $blokino_tunet ) : ?>
+						<div class="notice notice-info inline"><p><?php esc_html_e( 'These values apply to Blokino blocks and effects. Your theme’s own colors and fonts are set in Appearance → Editor → Styles (or the Customizer in classic themes).', 'blokino' ); ?></p></div>
+					<?php endif; ?>
 
 					<h3><?php esc_html_e( 'Typography (Google Fonts)', 'blokino' ); ?></h3>
 					<table class="form-table" role="presentation">
@@ -749,6 +757,15 @@ class Blokino_Admin {
 					</table>
 				</div>
 
+				<?php
+				// U-04: el sidebar solo existe en themes que lo declaran (los Tunet o
+				// add_theme_support( 'blokino-sidebar' )). En los demás se oculta, pero
+				// los valores se conservan para no perderlos al guardar.
+				if ( ! $blokino_tunet && ! current_theme_supports( 'blokino-sidebar' ) ) :
+					?>
+					<input type="hidden" name="layout_post_single" value="<?php echo esc_attr( $s['layout_post_single'] ); ?>" />
+					<input type="hidden" name="layout_archive" value="<?php echo esc_attr( $s['layout_archive'] ); ?>" />
+				<?php else : ?>
 				<div class="card blokino-section-card">
 					<h2><?php esc_html_e( 'Content layout', 'blokino' ); ?></h2>
 					<p class="description"><?php esc_html_e( 'Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor.', 'blokino' ); ?></p>
@@ -764,6 +781,7 @@ class Blokino_Admin {
 					</table>
 					<p class="description"><?php esc_html_e( 'Themes that ship a sidebar area react automatically. A theme without one simply stays full width.', 'blokino' ); ?></p>
 				</div>
+				<?php endif; ?>
 
 				<div class="card blokino-section-card">
 					<h2><?php esc_html_e( 'General', 'blokino' ); ?></h2>
@@ -905,13 +923,15 @@ class Blokino_Admin {
 	 */
 	private function row_color( $label, $name, $current, $placeholder ) {
 		$current     = $current ? $current : '';
-		$placeholder = $placeholder ? $placeholder : '#000000';
+		// U-04: sin color del theme no se inventa uno (#000000 era falso en TT5).
+		$swatch      = $placeholder ? $placeholder : '#000000';
+		$hint        = $placeholder ? $placeholder . ' (theme)' : __( '(default)', 'blokino' );
 		?>
 		<tr>
 			<th scope="row"><label for="blokino-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label></th>
 			<td class="blokino-color-row">
-				<input type="color" value="<?php echo esc_attr( $current ? $current : $placeholder ); ?>" data-target="blokino-<?php echo esc_attr( $name ); ?>" class="blokino-color-swatch" aria-hidden="true" tabindex="-1" />
-				<input type="text" id="blokino-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" placeholder="<?php echo esc_attr( $placeholder . ' (theme)' ); ?>" class="blokino-color-text regular-text" pattern="#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})" />
+				<input type="color" value="<?php echo esc_attr( $current ? $current : $swatch ); ?>" data-target="blokino-<?php echo esc_attr( $name ); ?>" class="blokino-color-swatch" aria-hidden="true" tabindex="-1" />
+				<input type="text" id="blokino-<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $current ); ?>" placeholder="<?php echo esc_attr( $hint ); ?>" class="blokino-color-text regular-text" pattern="#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})" />
 				<button type="button" class="button blokino-icon-btn blokino-color-clear" data-target="blokino-<?php echo esc_attr( $name ); ?>" title="<?php esc_attr_e( 'Reset to theme color', 'blokino' ); ?>" aria-label="<?php esc_attr_e( 'Reset to theme color', 'blokino' ); ?>">
 					<span class="dashicons dashicons-image-rotate" aria-hidden="true"></span>
 				</button>
