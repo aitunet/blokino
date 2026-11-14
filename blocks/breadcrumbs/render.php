@@ -195,23 +195,27 @@ $blokino_separator = isset( $attributes['separator'] ) && '' !== $attributes['se
 	? (string) $attributes['separator']
 	: '/';
 
-$blokino_wrapper = get_block_wrapper_attributes(
-	array(
-		'class' => 'blokino-breadcrumbs',
-		'style' => '--tnt-breadcrumb-sep:"' . esc_attr( $blokino_separator ) . '";',
-	)
-);
+// E-10: el separador va como data-sep (lo pinta el CSS con attr()). Como
+// --tnt-breadcrumb-sep dentro de style lo filtraba safecss_filter_attr: un ">" se perdía.
+$blokino_wrapper = get_block_wrapper_attributes( array( 'class' => 'blokino-breadcrumbs' ) );
 
 $blokino_last = count( $blokino_trail ) - 1;
 ?>
 <nav <?php echo $blokino_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-label="<?php echo esc_attr__( 'Breadcrumb', 'blokino' ); ?>">
 	<ol class="blokino-breadcrumbs__list">
 		<?php foreach ( $blokino_trail as $blokino_i => $blokino_crumb ) : ?>
-			<li class="blokino-breadcrumbs__item">
-				<?php if ( '' !== $blokino_crumb['url'] && $blokino_i !== $blokino_last ) : ?>
+			<?php
+			// E-10: aria-current solo en la página actual. Con showCurrent apagado el
+			// último eslabón es un ancestro: va como enlace y sin aria-current.
+			$blokino_is_current = $blokino_show_current && $blokino_i === $blokino_last;
+			?>
+			<li class="blokino-breadcrumbs__item"<?php echo $blokino_i > 0 ? ' data-sep="' . esc_attr( $blokino_separator ) . '"' : ''; ?>>
+				<?php if ( $blokino_is_current ) : ?>
+					<span class="blokino-breadcrumbs__current" aria-current="page"><?php echo esc_html( $blokino_crumb['label'] ); ?></span>
+				<?php elseif ( '' !== $blokino_crumb['url'] ) : ?>
 					<a class="blokino-breadcrumbs__link" href="<?php echo esc_url( $blokino_crumb['url'] ); ?>"><?php echo esc_html( $blokino_crumb['label'] ); ?></a>
 				<?php else : ?>
-					<span class="blokino-breadcrumbs__current" aria-current="page"><?php echo esc_html( $blokino_crumb['label'] ); ?></span>
+					<span class="blokino-breadcrumbs__text"><?php echo esc_html( $blokino_crumb['label'] ); ?></span>
 				<?php endif; ?>
 			</li>
 		<?php endforeach; ?>
@@ -227,7 +231,8 @@ foreach ( $blokino_trail as $blokino_i => $blokino_crumb ) {
 	$blokino_item = array(
 		'@type'    => 'ListItem',
 		'position' => $blokino_i + 1,
-		'name'     => $blokino_crumb['label'],
+		// E-10: texto literal en el JSON-LD ("Tom & Jerry's", no "Tom &amp; Jerry&#039;s").
+		'name'     => html_entity_decode( wp_strip_all_tags( (string) $blokino_crumb['label'] ), ENT_QUOTES, 'UTF-8' ),
 	);
 	if ( '' !== $blokino_crumb['url'] ) {
 		$blokino_item['item'] = $blokino_crumb['url'];

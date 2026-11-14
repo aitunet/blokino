@@ -28,7 +28,8 @@
  * real, un lector de pantalla leería "barra" entre cada eslabón.
  */
 .blokino-breadcrumbs__item + .blokino-breadcrumbs__item::before {
-	content: var( --tnt-breadcrumb-sep, "/" );
+	/* Un theme puede fijar el separador con --tnt-breadcrumb-sep; si no, el del bloque. */
+	content: var( --tnt-breadcrumb-sep, attr( data-sep ) );
 	opacity: 0.45;
 }
 
