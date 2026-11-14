@@ -213,7 +213,7 @@ class Blokino_Feedback {
 			'wp'      => get_bloginfo( 'version' ),
 			'php'     => PHP_VERSION,
 			'locale'  => get_user_locale(),
-			'theme'   => trim( $theme->get( 'Name' ) . ' ' . $theme->get( 'Version' ) ),
+			'theme'   => (string) $theme->get( 'Name' ), // S-05: only what the dialog and the readme list.
 		);
 		// Contact details only with the explicit opt-in.
 		if ( ! empty( $_POST['contact'] ) ) {

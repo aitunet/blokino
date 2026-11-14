@@ -7,7 +7,8 @@
  * with the store and never needs a plugin release (CLAUDE.md §12). Built to the
  * wordpress.org guidelines: no notices, no dashboard widgets, no nags — the only
  * way to see it is to open it; the catalog is fetched only then, cached for 12
- * hours, with a neutral user agent (nothing about this site is sent); and the
+ * hours, with a neutral user agent (nothing about this site is sent); preview
+ * images come only from the catalog's domain and load with no referrer; and the
  * plugin keeps every feature whether or not a Tunet theme is active.
  *
  * @package Blokino
@@ -107,6 +108,13 @@ class Blokino_Themes {
 			return is_wp_error( $response ) ? $response : new WP_Error( 'blokino_themes_http', __( 'The theme catalog is not available right now.', 'blokino' ) );
 		}
 		delete_transient( self::TRANSIENT . '_fail' );
+		// S-04: the browser loads the preview images, so they may only come from
+		// the catalog's own domain (or a subdomain: today www.tunetdesign.com).
+		$store_host = preg_replace( '/^www\./', '', strtolower( (string) wp_parse_url( self::endpoint(), PHP_URL_HOST ) ) );
+		$same_store = static function ( $url ) use ( $store_host ) {
+			$host = strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) );
+			return '' !== $store_host && ( $host === $store_host || substr( $host, -strlen( '.' . $store_host ) ) === '.' . $store_host );
+		};
 		$clean = array();
 		foreach ( $items as $item ) {
 			if ( ! is_array( $item ) ) {
@@ -120,6 +128,7 @@ class Blokino_Themes {
 			if ( '' === $field( 'name' ) || '' === $field( 'url' ) ) {
 				continue;
 			}
+			$image   = esc_url_raw( $field( 'image' ) );
 			$clean[] = array(
 				'slug'     => sanitize_key( $field( 'slug' ) ),
 				'theme'    => sanitize_key( $field( 'theme' ) ),
@@ -128,7 +137,7 @@ class Blokino_Themes {
 				'price'    => sanitize_text_field( $field( 'price' ) ),
 				'url'      => esc_url_raw( $field( 'url' ) ),
 				'demo_url' => esc_url_raw( $field( 'demo_url' ) ),
-				'image'    => esc_url_raw( $field( 'image' ) ),
+				'image'    => ( '' !== $image && $same_store( $image ) ) ? $image : '',
 				'version'  => sanitize_text_field( $field( 'version' ) ),
 			);
 		}
@@ -304,7 +313,7 @@ class Blokino_Themes {
 						<article class="blokino-theme-card<?php echo $state ? ' is-' . esc_attr( $state ) : ''; ?>">
 							<a class="blokino-theme-card__shot" href="<?php echo esc_url( self::out( $t['url'], 'image' ) ); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
 								<?php if ( $t['image'] ) : ?>
-									<img src="<?php echo esc_url( $t['image'] ); ?>" alt="" loading="lazy" />
+									<img src="<?php echo esc_url( $t['image'] ); ?>" alt="" loading="lazy" referrerpolicy="no-referrer" />
 								<?php else : ?>
 									<span class="blokino-theme-card__noshot"><?php echo esc_html( $name ); ?></span>
 								<?php endif; ?>
