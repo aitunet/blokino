@@ -21,11 +21,11 @@
  *    contenido se muestra (resiliencia). No hay CLS: solo se animan
  *    opacity/transform, nunca display.
  *
- * Detección: se pre-escanea el contenido del objeto consultado en
- * wp_enqueue_scripts. Como red de seguridad, render_block también encola al
- * renderizar un block con efecto (cubre blocks dinámicos / contextos no
- * singulares); en ese caso el snippet inline puede no llegar al <head> y la
- * clase la añade defensivamente el propio runtime.
+ * Detección: render_block encola al renderizar un block con efecto. En un theme
+ * de bloques eso ocurre antes de wp_head (la plantilla se renderiza primero), así
+ * que basta. En un theme clásico se pre-escanea además el contenido consultado en
+ * wp_enqueue_scripts; si un efecto aparece fuera de él (un widget, un archivo), el
+ * snippet inline no llega al <head> y la clase la añade el propio runtime.
  *
  * @package Blokino
  */
@@ -243,70 +243,24 @@ class Blokino_Runtime {
 	}
 
 	/**
-	 * Pre-escaneo (antes de wp_head) para encolar el runtime si hay un efecto
-	 * activo: primero en el contenido consultado, luego en la PLANTILLA de bloques.
+	 * Pre-escaneo (antes de wp_head) para encolar el runtime si el contenido
+	 * consultado tiene un efecto activo. Solo hace falta en themes CLÁSICOS.
 	 *
-	 * Los efectos también pueden vivir en la plantilla FSE (héroes de single/
-	 * archive) o sus parts, que `post_content` no cubre. Si no se pre-encola, el
-	 * gate anti-FOUC `.blokino-tf-ready` y el `effects.css` no llegan al <head> a
-	 * tiempo → parpadeo. La plantilla resuelta ya está disponible aquí: WP la fija
-	 * en `$_wp_current_template_content` (locate_block_template) durante el
-	 * template-loader, ANTES de incluir el canvas donde corre wp_head. (§4.3/§10.)
+	 * En un theme de bloques WordPress renderiza la plantilla completa (contenido,
+	 * template parts, bloques dinámicos) en template-canvas.php ANTES de llamar a
+	 * wp_head(), así que render_block_effects() ya encola a tiempo y el gate llega
+	 * al <head> sin escanear nada (O-U-01). En un theme clásico, en cambio, el
+	 * contenido se renderiza después de wp_head: hay que detectarlo antes.
 	 */
 	public function maybe_enqueue_runtime() {
-		if ( is_admin() || ! self::effects_enabled() ) {
+		if ( is_admin() || wp_is_block_theme() || ! self::effects_enabled() ) {
 			return;
 		}
 
 		$object = get_queried_object();
 		if ( $object instanceof WP_Post && self::content_has_effects( $object->post_content ) ) {
 			self::enqueue();
-			return;
 		}
-
-		if ( self::template_has_effects() ) {
-			self::enqueue();
-		}
-	}
-
-	/**
-	 * ¿La plantilla de bloques activa (y sus template parts) contienen un efecto
-	 * tf* inline? Escanea la plantilla resuelta + las parts que referencia (un
-	 * nivel), para que los efectos a nivel de plantilla (no en post_content)
-	 * también emitan el gate anti-FOUC en el <head>.
-	 *
-	 * @return bool
-	 */
-	private static function template_has_effects() {
-		if ( ! function_exists( 'wp_is_block_theme' ) || ! wp_is_block_theme() ) {
-			return false;
-		}
-
-		$content = isset( $GLOBALS['_wp_current_template_content'] ) ? (string) $GLOBALS['_wp_current_template_content'] : '';
-		if ( '' === $content ) {
-			return false;
-		}
-
-		if ( self::content_has_effects( $content ) ) {
-			return true;
-		}
-
-		// Resolver las parts referenciadas (un nivel) y escanearlas también:
-		// un hero con efectos podría vivir en un template part.
-		if ( false === strpos( $content, 'wp:template-part' ) || ! function_exists( 'get_block_template' ) ) {
-			return false;
-		}
-		$stylesheet = get_stylesheet();
-		foreach ( parse_blocks( $content ) as $block ) {
-			if ( 'core/template-part' !== ( $block['blockName'] ?? '' ) || empty( $block['attrs']['slug'] ) ) {
-				continue;
-			}
-			$part = get_block_template( $stylesheet . '//' . $block['attrs']['slug'], 'wp_template_part' );
-			if ( $part && ! empty( $part->content ) && self::content_has_effects( $part->content ) ) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
