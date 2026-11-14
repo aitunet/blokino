@@ -109,6 +109,29 @@ class Blokino_Demo {
 	/* ---- Manifest --------------------------------------------------- */
 
 	/**
+	 * ¿La ruta real está DENTRO del theme activo (child o padre), opcionalmente
+	 * en una subcarpeta? Guarda única de contención para todo lo que el demo lee
+	 * del disco (O-S-08): un `..` no puede sacar la lectura del theme.
+	 *
+	 * @param string|false $real   Resultado de realpath().
+	 * @param string       $subdir Subcarpeta del theme ('' = el theme entero).
+	 * @return bool
+	 */
+	private static function path_inside_theme( $real, $subdir = '' ) {
+		if ( ! $real ) {
+			return false;
+		}
+		$suffix = '' === $subdir ? '' : '/' . $subdir;
+		foreach ( array( get_stylesheet_directory(), get_template_directory() ) as $dir ) {
+			$base = realpath( $dir . $suffix );
+			if ( $base && 0 === strpos( $real, $base . DIRECTORY_SEPARATOR ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * @return array
 	 */
 	public static function manifest() {
@@ -271,21 +294,7 @@ class Blokino_Demo {
 		 * ruta convertiría esta función en una fuga de archivos arbitrarios: copiaría
 		 * p. ej. wp-config.php a uploads/ y lo publicaría como adjunto.
 		 */
-		$real  = realpath( $src );
-		$bases = array_filter(
-			array(
-				realpath( get_stylesheet_directory() ),
-				realpath( get_template_directory() ),
-			)
-		);
-		$inside = false;
-		foreach ( $bases as $base ) {
-			if ( $real && 0 === strpos( $real, $base . DIRECTORY_SEPARATOR ) ) {
-				$inside = true;
-				break;
-			}
-		}
-		if ( ! $inside ) {
+		if ( ! self::path_inside_theme( realpath( $src ) ) ) {
 			return 0;
 		}
 
@@ -633,21 +642,8 @@ class Blokino_Demo {
 		 * Comprobar solo uno rompería los themes con child (que son TODOS los nuestros,
 		 * §12.4) en cuanto el child tuviera su propia carpeta patterns/.
 		 */
-		$real  = realpath( $file );
-		$bases = array_filter(
-			array(
-				realpath( get_stylesheet_directory() . '/patterns' ),
-				realpath( get_template_directory() . '/patterns' ),
-			)
-		);
-		$inside = false;
-		foreach ( $bases as $base ) {
-			if ( $real && 0 === strpos( $real, $base . DIRECTORY_SEPARATOR ) ) {
-				$inside = true;
-				break;
-			}
-		}
-		if ( ! $inside ) {
+		$real = realpath( $file );
+		if ( ! self::path_inside_theme( $real, 'patterns' ) ) {
 			return '';
 		}
 

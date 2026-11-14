@@ -179,6 +179,35 @@ if ( ! function_exists( 'blokino_carousel_a11y_attrs' ) ) {
 	}
 }
 
+if ( ! function_exists( 'blokino_carousel_wrapper_args' ) ) {
+	/**
+	 * Atributos del contenedor Swiper, comunes a Content slider y Testimonials
+	 * (O-S-08: estaban copiados en los dos render.php). Incluye los mensajes de
+	 * accesibilidad. El resultado va a get_block_wrapper_attributes().
+	 *
+	 * @param string $class Clases propias del bloque (se añade "blokino-carousel swiper").
+	 * @param array  $o     effect, spv, pspv, space, speed, delay (números/cadenas)
+	 *                      y loop, autoplay, pagination, navigation (bool).
+	 * @return array<string,string>
+	 */
+	function blokino_carousel_wrapper_args( $class, array $o ) {
+		return array(
+			'class'               => $class,
+			'style'               => '--tnt-carousel-spv:' . $o['pspv'] . ';',
+			'data-swiper-base'    => esc_url( BLOKINO_URL . 'runtime/vendor/swiper/' ),
+			'data-effect'         => $o['effect'],
+			'data-spv'            => (string) $o['spv'],
+			'data-space'          => (string) $o['space'],
+			'data-speed'          => (string) $o['speed'],
+			'data-loop'           => $o['loop'] ? '1' : '0',
+			'data-autoplay'       => $o['autoplay'] ? '1' : '0',
+			'data-autoplay-delay' => (string) $o['delay'],
+			'data-pagination'     => $o['pagination'] ? '1' : '0',
+			'data-navigation'     => $o['navigation'] ? '1' : '0',
+		) + blokino_carousel_a11y_attrs();
+	}
+}
+
 if ( ! function_exists( 'blokino_css_url' ) ) {
 	/**
 	 * Único punto para meter una URL dentro de `url("…")` en un inline-style.

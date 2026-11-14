@@ -111,20 +111,21 @@ foreach ( $blokino_items as $blokino_item ) {
 }
 
 $blokino_wrapper = get_block_wrapper_attributes(
-	array(
-		'class'               => 'blokino-testimonials blokino-carousel swiper',
-		'style'               => '--tnt-carousel-spv:' . $blokino_pspv . ';',
-		'data-swiper-base'    => esc_url( BLOKINO_URL . 'runtime/vendor/swiper/' ),
-		'data-effect'         => 'slide',
-		'data-spv'            => (string) $blokino_spv,
-		'data-space'          => (string) $blokino_space,
-		'data-speed'          => (string) $blokino_speed,
-		'data-loop'           => $blokino_loop ? '1' : '0',
-		'data-autoplay'       => $blokino_auto ? '1' : '0',
-		'data-autoplay-delay' => (string) $blokino_delay,
-		'data-pagination'     => $blokino_pag ? '1' : '0',
-		'data-navigation'     => $blokino_nav ? '1' : '0',
-	) + blokino_carousel_a11y_attrs()
+	blokino_carousel_wrapper_args(
+		'blokino-testimonials blokino-carousel swiper',
+		array(
+			'pspv'       => $blokino_pspv,
+			'effect'     => 'slide',
+			'spv'        => $blokino_spv,
+			'space'      => $blokino_space,
+			'speed'      => $blokino_speed,
+			'loop'       => $blokino_loop,
+			'autoplay'   => $blokino_auto,
+			'delay'      => $blokino_delay,
+			'pagination' => $blokino_pag,
+			'navigation' => $blokino_nav,
+		)
+	)
 );
 ?>
 <div <?php echo $blokino_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- salida segura de WP. ?>>

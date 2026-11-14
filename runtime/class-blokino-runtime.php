@@ -602,26 +602,16 @@ class Blokino_Runtime {
 	 * ------------------------------------------------------------------ */
 
 	/**
-	 * Sanea un color CSS proveniente del color picker (hex o funcional).
+	 * Sanea un color CSS proveniente del color picker.
 	 *
-	 * Acepta #hex (3/4/6/8) y rgb()/rgba()/hsl()/hsla(); cualquier otra cosa se
-	 * descarta. Evita inyección en el atributo style.
+	 * O-S-08: un solo criterio en todo el motor, blokino_safe_css_color()
+	 * (hex, palabra clave, var() validado entero; rgb()/hsl() pasan a hex).
 	 *
 	 * @param mixed $value Valor del atributo.
 	 * @return string Color válido o cadena vacía.
 	 */
 	private static function sanitize_css_color( $value ) {
-		if ( ! is_string( $value ) || '' === $value ) {
-			return '';
-		}
-		$value = trim( $value );
-		if ( preg_match( '/^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/', $value ) ) {
-			return $value;
-		}
-		if ( preg_match( '/^(?:rgb|rgba|hsl|hsla)\(\s*[0-9.,%\s\/]+\)$/i', $value ) ) {
-			return $value;
-		}
-		return '';
+		return is_string( $value ) ? blokino_safe_css_color( $value ) : '';
 	}
 
 	/**
