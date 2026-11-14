@@ -401,6 +401,12 @@ register_activation_hook( __FILE__, 'blokino_activate' );
  * En desactivación: limpieza ligera. No borra datos del usuario.
  */
 function blokino_deactivate() {
-	// Placeholder: flush de caches transitorios del motor si los hubiera.
+	// E-07: las reglas de /work/ y /work-type/ no deben sobrevivir al plugin. Un
+	// flush_rewrite_rules() aquí las regeneraría con el CPT aún registrado (el
+	// plugin sigue cargado en esta petición), así que se borra la opción y WP
+	// las reconstruye en la siguiente carga, ya sin Blokino. La firma se borra
+	// para que, al reactivar, el motor vuelva a registrar y refrescar sus tipos.
+	delete_option( 'rewrite_rules' );
+	delete_option( 'blokino_content_signature' );
 }
 register_deactivation_hook( __FILE__, 'blokino_deactivate' );
