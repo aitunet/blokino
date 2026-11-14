@@ -10,23 +10,23 @@ msgstr ""
 "X-Generator: Claude Code\n"
 "X-Domain: blokino\n"
 
-#: admin/class-blokino-demo.php:1499
+#: admin/class-blokino-demo.php:1503
 msgid "%1$s %2$d/%3$d"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1730
+#: admin/class-blokino-demo.php:1741
 msgid "%s does not ship a demo manifest. Activate a theme built for Blokino to unlock its designed demo."
 msgstr ""
 
-#: admin/class-blokino-demo.php:1750
+#: admin/class-blokino-demo.php:1761
 msgid "%s preview"
 msgstr ""
 
-#: blocks/section/edit.js:248
+#: blocks/section/edit.js:254
 msgid "0 = automatic."
 msgstr ""
 
-#: extensions/effects-editor.js:326
+#: extensions/effects-editor.js:549
 msgid "0 = default width (2px)."
 msgstr ""
 
@@ -34,15 +34,15 @@ msgstr ""
 msgid "0 = no animation (shows the final value)."
 msgstr ""
 
-#: extensions/effects-editor.js:274
+#: extensions/effects-editor.js:497
 msgid "0 = no movement. Default ~20."
 msgstr ""
 
-#: extensions/effects-editor.js:338
+#: extensions/effects-editor.js:561
 msgid "0 = theme speed (--tnt-dur-slow)."
 msgstr ""
 
-#: extensions/effects-editor.js:176
+#: extensions/effects-editor.js:404
 msgid "0 = use the theme duration (--tnt-dur-base)."
 msgstr ""
 
@@ -50,19 +50,19 @@ msgstr ""
 msgid "A CSS gradient over the image (for a directional scrim)."
 msgstr ""
 
-#: admin/class-blokino-demo.php:1782
+#: admin/class-blokino-demo.php:1793
 msgid "A demo is already imported. Re-importing replaces it; Undo removes it."
 msgstr ""
 
-#: admin/class-blokino-admin.php:661 admin/class-blokino-admin.php:710
+#: admin/class-blokino-admin.php:664 admin/class-blokino-admin.php:713
 msgid "Accent"
 msgstr ""
 
-#: admin/class-blokino-admin.php:662 admin/class-blokino-admin.php:711
+#: admin/class-blokino-admin.php:665 admin/class-blokino-admin.php:714
 msgid "Accent 2"
 msgstr ""
 
-#: extensions/effects-editor.js:218
+#: extensions/effects-editor.js:441
 msgid "Accent words (indices, e.g. \"2,5\")"
 msgstr ""
 
@@ -70,19 +70,19 @@ msgstr ""
 msgid "Accessibility label"
 msgstr ""
 
-#: admin/class-blokino-admin.php:499 admin/class-blokino-themes.php:241
+#: admin/class-blokino-admin.php:499 admin/class-blokino-themes.php:250
 msgid "Activate"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:260
+#: admin/class-blokino-welcome.php:261
 msgid "Activate Blokmark"
 msgstr ""
 
-#: admin/class-blokino-admin.php:500 admin/class-blokino-themes.php:224 admin/class-blokino-themes.php:312
+#: admin/class-blokino-admin.php:500 admin/class-blokino-themes.php:233 admin/class-blokino-themes.php:321
 msgid "Active"
 msgstr ""
 
-#: admin/class-blokino-admin.php:682
+#: admin/class-blokino-admin.php:685
 msgid "Active: %s. While these are set, switching the style variation will not change them."
 msgstr ""
 
@@ -102,7 +102,7 @@ msgstr ""
 msgid "Add item"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:286
+#: admin/class-blokino-welcome.php:287
 msgid "Add motion to any block"
 msgstr ""
 
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Add testimonials from the “Items” panel in the block sidebar."
 msgstr ""
 
-#: blocks/section/edit.js:239
+#: blocks/section/edit.js:245
 msgid "Adds a flat scrim under 782px, on top of the overlay. Useful when a side gradient stops covering the text on mobile."
 msgstr ""
 
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Alternative"
 msgstr ""
 
-#: admin/class-blokino-admin.php:628
+#: admin/class-blokino-admin.php:631
 msgid "Alternative logo (dark backgrounds)"
 msgstr ""
 
@@ -154,27 +154,27 @@ msgstr ""
 msgid "An error occurred."
 msgstr ""
 
-#: blocks/section/edit.js:164
+#: blocks/section/edit.js:170
 msgid "Animate gradient"
 msgstr ""
 
-#: extensions/effects-editor.js:302
+#: extensions/effects-editor.js:525
 msgid "Animated border"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:290
+#: admin/class-blokino-welcome.php:291
 msgid "Animation"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:219
+#: admin/class-blokino-welcome.php:220
 msgid "Any theme works — effects use the engine defaults"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:248
+#: admin/class-blokino-welcome.php:249
 msgid "Any theme works. A theme made for this engine also brings its own design tokens, block patterns and a one-click demo."
 msgstr ""
 
-#: admin/class-blokino-feedback.php:77
+#: admin/class-blokino-feedback.php:79
 msgid "Anything we could have done better?"
 msgstr ""
 
@@ -202,15 +202,15 @@ msgstr ""
 msgid "Autoplay"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1796
+#: admin/class-blokino-demo.php:1807
 msgid "Back"
 msgstr ""
 
-#: admin/class-blokino-admin.php:663 admin/class-blokino-admin.php:712 blocks/section/edit.js:214
+#: admin/class-blokino-admin.php:666 admin/class-blokino-admin.php:715 blocks/section/edit.js:220
 msgid "Background"
 msgstr ""
 
-#: blocks/section/edit.js:160
+#: blocks/section/edit.js:166
 msgid "Background color"
 msgstr ""
 
@@ -218,11 +218,11 @@ msgstr ""
 msgid "Background image"
 msgstr ""
 
-#: blocks/section/edit.js:145
+#: blocks/section/edit.js:151
 msgid "Background type"
 msgstr ""
 
-#: blocks/section/edit.js:205
+#: blocks/section/edit.js:211
 msgid "Background video always plays muted, with a pause control. Visitors who ask for reduced motion see the poster instead, with a play control — and the video is not downloaded until they ask for it."
 msgstr ""
 
@@ -230,7 +230,7 @@ msgstr ""
 msgid "Badge"
 msgstr ""
 
-#: admin/class-blokino-admin.php:642
+#: admin/class-blokino-admin.php:645
 msgid "Base size"
 msgstr ""
 
@@ -238,23 +238,23 @@ msgstr ""
 msgid "Before label"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:142
+#: admin/class-blokino-feedback.php:145
 msgid "Before you go — why are you deactivating Blokino?"
 msgstr ""
 
-#: extensions/effects-editor.js:284
+#: extensions/effects-editor.js:507
 msgid "Blend mode"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:303
+#: admin/class-blokino-welcome.php:304
 msgid "Blocks the editor lacks"
 msgstr ""
 
-#: admin/class-blokino-admin.php:759
+#: admin/class-blokino-admin.php:762
 msgid "Blog & archives"
 msgstr ""
 
-#: admin/class-blokino-admin.php:394 admin/class-blokino-admin.php:395 admin/class-blokino-admin.php:434 admin/class-blokino-admin.php:435 admin/class-blokino-admin.php:597 admin/class-blokino-welcome.php:211
+#: admin/class-blokino-admin.php:394 admin/class-blokino-admin.php:395 admin/class-blokino-admin.php:434 admin/class-blokino-admin.php:435 admin/class-blokino-admin.php:597 admin/class-blokino-welcome.php:212
 msgid "Blokino"
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 msgid "Blokino Before / After"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:289 extensions/effects-editor.js:386
+#: admin/class-blokino-welcome.php:290 extensions/effects-editor.js:654
 msgid "Blokino Effects"
 msgstr ""
 
@@ -270,11 +270,11 @@ msgstr ""
 msgid "Blokino activation"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:213
+#: admin/class-blokino-welcome.php:214
 msgid "Blokino adds entrance, hover and scroll effects to the blocks you already use, plus a few blocks the editor lacks — sliders, sections with rich backgrounds, marquees, counters. Nothing is applied until you switch it on, and every color and curve comes from your theme."
 msgstr ""
 
-#: admin/class-blokino-welcome.php:153
+#: admin/class-blokino-welcome.php:154
 msgid "Blokino is ready."
 msgstr ""
 
@@ -282,35 +282,35 @@ msgstr ""
 msgid "Blokino requires WordPress %1$s or newer and PHP %2$s or newer."
 msgstr ""
 
-#: admin/class-blokino-demo.php:1719
+#: admin/class-blokino-demo.php:1730
 msgid "Blokino · Demo"
 msgstr ""
 
-#: admin/class-blokino-themes.php:268
+#: admin/class-blokino-themes.php:277
 msgid "Blokino · Themes"
 msgstr ""
 
-#: admin/class-blokino-admin.php:795
+#: admin/class-blokino-admin.php:798
 msgid "Blokino · Tools"
 msgstr ""
 
-#: extensions/effects-editor.js:126
+#: extensions/effects-editor.js:349
 msgid "Blur in"
 msgstr ""
 
-#: admin/class-blokino-admin.php:640
+#: admin/class-blokino-admin.php:643
 msgid "Body"
 msgstr ""
 
-#: admin/class-blokino-admin.php:744
+#: admin/class-blokino-admin.php:747
 msgid "Bold (slow)"
 msgstr ""
 
-#: extensions/effects-editor.js:321
+#: extensions/effects-editor.js:544
 msgid "Border width (px)"
 msgstr ""
 
-#: blocks/section/edit.js:249
+#: blocks/section/edit.js:255
 msgid "Bottom"
 msgstr ""
 
@@ -318,7 +318,7 @@ msgstr ""
 msgid "Bottom center"
 msgstr ""
 
-#: blocks/section/edit.js:265
+#: blocks/section/edit.js:271
 msgid "Bottom divider"
 msgstr ""
 
@@ -342,11 +342,11 @@ msgstr ""
 msgid "Brand assets that persist across themes. The main logo syncs with the native Site Logo. Upload high resolution (retina is automatic)."
 msgstr ""
 
-#: admin/class-blokino-admin.php:646
+#: admin/class-blokino-admin.php:649
 msgid "Brand colors"
 msgstr ""
 
-#: admin/class-blokino-admin.php:678
+#: admin/class-blokino-admin.php:681
 msgid "Brand colors are overriding this theme."
 msgstr ""
 
@@ -354,7 +354,7 @@ msgstr ""
 msgid "Brand logos"
 msgstr ""
 
-#: admin/class-blokino-admin.php:634
+#: admin/class-blokino-admin.php:637
 msgid "Branding"
 msgstr ""
 
@@ -366,15 +366,15 @@ msgstr ""
 msgid "Breadcrumbs"
 msgstr ""
 
-#: admin/class-blokino-themes.php:284
+#: admin/class-blokino-themes.php:293
 msgid "Browse the themes on tunetdesign.com ↗"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:268
+#: admin/class-blokino-welcome.php:269
 msgid "Browse themes"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1734
+#: admin/class-blokino-demo.php:1745
 msgid "Browse themes built for Blokino →"
 msgstr ""
 
@@ -382,11 +382,11 @@ msgstr ""
 msgid "CTA"
 msgstr ""
 
-#: extensions/effects-editor.js:204
+#: extensions/effects-editor.js:432
 msgid "Cadence between words. 0 = default cadence."
 msgstr ""
 
-#: admin/class-blokino-demo.php:1771 admin/class-blokino-demo.php:1791 admin/class-blokino-feedback.php:180
+#: admin/class-blokino-demo.php:1782 admin/class-blokino-demo.php:1802 admin/class-blokino-feedback.php:183
 msgid "Cancel"
 msgstr ""
 
@@ -398,7 +398,7 @@ msgstr ""
 msgid "Carousel"
 msgstr ""
 
-#: blocks/content-slider/edit.js:21 blocks/content-slider/edit.js:26 blocks/content-slider/edit.js:52 blocks/section/edit.js:249
+#: blocks/content-slider/edit.js:21 blocks/content-slider/edit.js:26 blocks/content-slider/edit.js:52 blocks/section/edit.js:255
 msgid "Center"
 msgstr ""
 
@@ -418,7 +418,7 @@ msgstr ""
 msgid "Change before image"
 msgstr ""
 
-#: admin/class-blokino-admin.php:945
+#: admin/class-blokino-admin.php:948
 msgid "Choose / change"
 msgstr ""
 
@@ -430,7 +430,7 @@ msgstr ""
 msgid "Choose before image"
 msgstr ""
 
-#: blocks/section/edit.js:171
+#: blocks/section/edit.js:177
 msgid "Choose image"
 msgstr ""
 
@@ -438,11 +438,11 @@ msgstr ""
 msgid "Choose the before and after images to compare."
 msgstr ""
 
-#: blocks/section/edit.js:176
+#: blocks/section/edit.js:182
 msgid "Choose video"
 msgstr ""
 
-#: admin/class-blokino-admin.php:699
+#: admin/class-blokino-admin.php:702
 msgid "Clear all brand colors"
 msgstr ""
 
@@ -454,11 +454,11 @@ msgstr ""
 msgid "Client"
 msgstr ""
 
-#: extensions/effects-editor.js:124
+#: extensions/effects-editor.js:347
 msgid "Clip reveal"
 msgstr ""
 
-#: blocks/content-slider/edit.js:103 blocks/section/edit.js:149 blocks/section/edit.js:222
+#: blocks/content-slider/edit.js:103 blocks/section/edit.js:155 blocks/section/edit.js:228
 msgid "Color"
 msgstr ""
 
@@ -466,7 +466,7 @@ msgstr ""
 msgid "Columns"
 msgstr ""
 
-#: admin/class-blokino-admin.php:642
+#: admin/class-blokino-admin.php:645
 msgid "Compact"
 msgstr ""
 
@@ -478,7 +478,7 @@ msgstr ""
 msgid "Connection hiccup — retrying…"
 msgstr ""
 
-#: blocks/section/edit.js:254
+#: blocks/section/edit.js:260
 msgid "Constrained (content)"
 msgstr ""
 
@@ -498,23 +498,23 @@ msgstr ""
 msgid "Content alignment (slide)"
 msgstr ""
 
-#: admin/class-blokino-admin.php:750
+#: admin/class-blokino-admin.php:753
 msgid "Content layout"
 msgstr ""
 
-#: blocks/section/edit.js:251
+#: blocks/section/edit.js:257
 msgid "Content width"
 msgstr ""
 
-#: admin/class-blokino-admin.php:502 admin/class-blokino-demo.php:1774
+#: admin/class-blokino-admin.php:502 admin/class-blokino-demo.php:1785
 msgid "Continue"
 msgstr ""
 
-#: admin/class-blokino-admin.php:731
+#: admin/class-blokino-admin.php:734
 msgid "Corner radius (px)"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1595
+#: admin/class-blokino-demo.php:1603
 msgid "Could not reach the plugin directory."
 msgstr ""
 
@@ -526,7 +526,7 @@ msgstr ""
 msgid "Cover (fill)"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1780
+#: admin/class-blokino-demo.php:1791
 msgid "Creates the demo as native, editable blocks — pages, content and settings. You can undo it with one click."
 msgstr ""
 
@@ -554,11 +554,11 @@ msgstr ""
 msgid "Curve"
 msgstr ""
 
-#: admin/class-blokino-admin.php:665 admin/class-blokino-admin.php:722
+#: admin/class-blokino-admin.php:668 admin/class-blokino-admin.php:725
 msgid "Dark bands"
 msgstr ""
 
-#: admin/class-blokino-admin.php:717
+#: admin/class-blokino-admin.php:720
 msgid "Dark bands are the sections the theme draws over a photo or on its ink color (a hero, a closing call to action, the footer). They keep their own colors so they stay readable in every style variation — Background and Text above do not reach them. Set these two to recolor them as well."
 msgstr ""
 
@@ -578,23 +578,23 @@ msgstr ""
 msgid "Defaults to the theme ink color."
 msgstr ""
 
-#: extensions/effects-editor.js:160
+#: extensions/effects-editor.js:388
 msgid "Delay (ms)"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1635 admin/class-blokino-demo.php:1636 admin/class-blokino-welcome.php:222
+#: admin/class-blokino-demo.php:1646 admin/class-blokino-demo.php:1647 admin/class-blokino-welcome.php:223
 msgid "Demo"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1757
+#: admin/class-blokino-demo.php:1768
 msgid "Demo for %s"
 msgstr ""
 
-#: admin/class-blokino-admin.php:491 admin/class-blokino-welcome.php:277
+#: admin/class-blokino-admin.php:491 admin/class-blokino-welcome.php:278
 msgid "Demo imported."
 msgstr ""
 
-#: admin/class-blokino-welcome.php:305
+#: admin/class-blokino-welcome.php:306
 msgid "Demo importer"
 msgstr ""
 
@@ -606,11 +606,11 @@ msgstr ""
 msgid "Description alignment"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:304
+#: admin/class-blokino-welcome.php:305
 msgid "Design tokens"
 msgstr ""
 
-#: admin/class-blokino-themes.php:245
+#: admin/class-blokino-themes.php:254
 msgid "Details ↗"
 msgstr ""
 
@@ -622,27 +622,27 @@ msgstr ""
 msgid "Direction"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:158
+#: admin/class-blokino-welcome.php:159
 msgid "Dismiss"
 msgstr ""
 
-#: admin/class-blokino-admin.php:639
+#: admin/class-blokino-admin.php:642
 msgid "Display"
 msgstr ""
 
-#: extensions/effects-editor.js:140
+#: extensions/effects-editor.js:368
 msgid "Display style"
 msgstr ""
 
-#: blocks/section/edit.js:266
+#: blocks/section/edit.js:272
 msgid "Divider color"
 msgstr ""
 
-#: blocks/section/edit.js:267
+#: blocks/section/edit.js:273
 msgid "Divider height (px)"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:312
+#: admin/class-blokino-welcome.php:313
 msgid "Documentation"
 msgstr ""
 
@@ -650,19 +650,19 @@ msgstr ""
 msgid "Dot"
 msgstr ""
 
-#: admin/class-blokino-admin.php:804
+#: admin/class-blokino-admin.php:807
 msgid "Download the current settings as a JSON file."
 msgstr ""
 
-#: blocks/counter/edit.js:70 extensions/effects-editor.js:171
+#: blocks/counter/edit.js:70 extensions/effects-editor.js:399
 msgid "Duration (ms)"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:291
+#: admin/class-blokino-welcome.php:292
 msgid "Easing"
 msgstr ""
 
-#: extensions/effects-editor.js:183
+#: extensions/effects-editor.js:411
 msgid "Easing curve"
 msgstr ""
 
@@ -674,35 +674,35 @@ msgstr ""
 msgid "Edit Project"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:236
+#: admin/class-blokino-welcome.php:237
 msgid "Effects"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:302
+#: admin/class-blokino-welcome.php:303
 msgid "Effects on native blocks"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:163
+#: admin/class-blokino-feedback.php:166
 msgid "Email"
 msgstr ""
 
-#: admin/class-blokino-admin.php:648
+#: admin/class-blokino-admin.php:651
 msgid "Empty = the theme decides. A value here overrides the theme token site-wide, in every style variation."
 msgstr ""
 
-#: admin/class-blokino-admin.php:734
+#: admin/class-blokino-admin.php:737
 msgid "Empty = theme. Rounding for Blokino blocks/components that use the radius tokens. 0 = sharp."
 msgstr ""
 
-#: blocks/section/edit.js:216
+#: blocks/section/edit.js:222
 msgid "Enable overlay"
 msgstr ""
 
-#: admin/class-blokino-admin.php:769
+#: admin/class-blokino-admin.php:772
 msgid "Enable the effects engine (tf*) on the front-end"
 msgstr ""
 
-#: extensions/effects-editor.js:359
+#: extensions/effects-editor.js:582
 msgid "End color (empty = theme accent 2)"
 msgstr ""
 
@@ -710,23 +710,23 @@ msgstr ""
 msgid "End value"
 msgstr ""
 
-#: extensions/effects-editor.js:119
+#: extensions/effects-editor.js:342
 msgid "Entrance animation"
 msgstr ""
 
-#: admin/class-blokino-admin.php:803
+#: admin/class-blokino-admin.php:806
 msgid "Export"
 msgstr ""
 
-#: admin/class-blokino-admin.php:808
+#: admin/class-blokino-admin.php:811
 msgid "Export settings (.json)"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:314
+#: admin/class-blokino-welcome.php:315
 msgid "FAQ"
 msgstr ""
 
-#: extensions/effects-editor.js:123
+#: extensions/effects-editor.js:346
 msgid "Fade up"
 msgstr ""
 
@@ -738,43 +738,43 @@ msgstr ""
 msgid "Finishing…"
 msgstr ""
 
-#: admin/class-blokino-themes.php:228 admin/class-blokino-themes.php:234
+#: admin/class-blokino-themes.php:237 admin/class-blokino-themes.php:243
 msgid "Free"
 msgstr ""
 
-#: blocks/section/edit.js:256
+#: blocks/section/edit.js:262
 msgid "Full"
 msgstr ""
 
-#: admin/class-blokino-admin.php:755
+#: admin/class-blokino-admin.php:758
 msgid "Full width (no sidebar)"
 msgstr ""
 
-#: admin/class-blokino-admin.php:766 blocks/icon/edit.js:20 blocks/marquee/edit.js:75
+#: admin/class-blokino-admin.php:769 blocks/icon/edit.js:20 blocks/marquee/edit.js:75
 msgid "General"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:265
+#: admin/class-blokino-welcome.php:266
 msgid "Get Blokmark, free ↗"
 msgstr ""
 
-#: admin/class-blokino-admin.php:406 admin/class-blokino-admin.php:407 admin/class-blokino-welcome.php:157 admin/class-blokino-welcome.php:207
+#: admin/class-blokino-admin.php:406 admin/class-blokino-admin.php:407 admin/class-blokino-welcome.php:158 admin/class-blokino-welcome.php:208
 msgid "Get started"
 msgstr ""
 
-#: admin/class-blokino-themes.php:327
+#: admin/class-blokino-themes.php:336
 msgid "Get the theme ↗"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:313
+#: admin/class-blokino-welcome.php:314
 msgid "Getting started guide"
 msgstr ""
 
-#: extensions/effects-editor.js:237
+#: extensions/effects-editor.js:460
 msgid "Glow"
 msgstr ""
 
-#: blocks/content-slider/edit.js:103 blocks/section/edit.js:150 blocks/section/edit.js:162 blocks/section/edit.js:223 extensions/effects-editor.js:306
+#: blocks/content-slider/edit.js:103 blocks/section/edit.js:156 blocks/section/edit.js:168 blocks/section/edit.js:229 extensions/effects-editor.js:529
 msgid "Gradient"
 msgstr ""
 
@@ -782,7 +782,7 @@ msgstr ""
 msgid "Grid"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:310
+#: admin/class-blokino-welcome.php:311
 msgid "Help"
 msgstr ""
 
@@ -794,19 +794,19 @@ msgstr ""
 msgid "Home label"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:292
+#: admin/class-blokino-welcome.php:293
 msgid "Hover"
 msgstr ""
 
-#: extensions/effects-editor.js:232
+#: extensions/effects-editor.js:455
 msgid "Hover effect"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:92
+#: admin/class-blokino-feedback.php:94
 msgid "I found a better plugin"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:76
+#: admin/class-blokino-feedback.php:78
 msgid "I no longer need it"
 msgstr ""
 
@@ -814,17 +814,17 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:81
+#: admin/class-blokino-feedback.php:83
 msgid "If you found a problem, what was it?"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1691 blocks/section/edit.js:152
+#: admin/class-blokino-demo.php:1702 blocks/section/edit.js:158
 msgid "Image"
 msgid_plural "Images"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extensions/effects-editor.js:241
+#: extensions/effects-editor.js:464
 msgid "Image zoom"
 msgstr ""
 
@@ -832,19 +832,19 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
-#: admin/class-blokino-admin.php:814 admin/class-blokino-demo.php:1742
+#: admin/class-blokino-admin.php:817 admin/class-blokino-demo.php:1753
 msgid "Import"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1798
+#: admin/class-blokino-demo.php:1809
 msgid "Import demo"
 msgstr ""
 
-#: admin/class-blokino-admin.php:820
+#: admin/class-blokino-admin.php:823
 msgid "Import settings"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1779 admin/class-blokino-themes.php:325 admin/class-blokino-welcome.php:274
+#: admin/class-blokino-demo.php:1790 admin/class-blokino-themes.php:334 admin/class-blokino-welcome.php:275
 msgid "Import the demo"
 msgstr ""
 
@@ -852,11 +852,11 @@ msgstr ""
 msgid "Import the demo?"
 msgstr ""
 
-#: admin/class-blokino-admin.php:492 admin/class-blokino-demo.php:1522
+#: admin/class-blokino-admin.php:492 admin/class-blokino-demo.php:1526
 msgid "Import undone."
 msgstr ""
 
-#: admin/class-blokino-welcome.php:226
+#: admin/class-blokino-welcome.php:227
 msgid "Imported"
 msgstr ""
 
@@ -868,7 +868,7 @@ msgstr ""
 msgid "Importing…"
 msgstr ""
 
-#: blocks/section/edit.js:258
+#: blocks/section/edit.js:264
 msgid "Independent of the section width. Set the section to “Full width” (toolbar) and constrain the content here."
 msgstr ""
 
@@ -880,19 +880,19 @@ msgstr ""
 msgid "Inherit"
 msgstr ""
 
-#: admin/class-blokino-admin.php:497 admin/class-blokino-demo.php:1773
+#: admin/class-blokino-admin.php:497 admin/class-blokino-demo.php:1784
 msgid "Install & activate"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:263
+#: admin/class-blokino-welcome.php:264
 msgid "Install Blokmark, free"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1601
+#: admin/class-blokino-demo.php:1609
 msgid "Install failed — install it manually."
 msgstr ""
 
-#: admin/class-blokino-themes.php:243
+#: admin/class-blokino-themes.php:252
 msgid "Install from WordPress.org"
 msgstr ""
 
@@ -900,7 +900,7 @@ msgstr ""
 msgid "Install manually"
 msgstr ""
 
-#: admin/class-blokino-themes.php:226 admin/class-blokino-themes.php:314
+#: admin/class-blokino-themes.php:235 admin/class-blokino-themes.php:323
 msgid "Installed"
 msgstr ""
 
@@ -908,27 +908,23 @@ msgstr ""
 msgid "Installing…"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:84
+#: admin/class-blokino-feedback.php:86
 msgid "It broke my site or conflicts with something"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:143
+#: admin/class-blokino-feedback.php:146
 msgid "It takes ten seconds and tells us what to fix. Answering is optional."
 msgstr ""
 
-#: extensions/effects-editor.js:214
-msgid "It will animate once published (the animation runs on the front-end)."
-msgstr ""
-
-#: admin/class-blokino-feedback.php:96
+#: admin/class-blokino-feedback.php:98
 msgid "It's hard to use or I couldn't make it work"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:88
+#: admin/class-blokino-feedback.php:90
 msgid "It's missing a feature I need"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:80
+#: admin/class-blokino-feedback.php:82
 msgid "It's temporary — I'm troubleshooting"
 msgstr ""
 
@@ -940,17 +936,17 @@ msgstr ""
 msgid "Items"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1667
+#: admin/class-blokino-demo.php:1678
 msgid "Journal post"
 msgid_plural "Journal posts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/class-blokino-admin.php:642
+#: admin/class-blokino-admin.php:645
 msgid "Large"
 msgstr ""
 
-#: blocks/section/edit.js:247 blocks/testimonials/edit.js:66
+#: blocks/section/edit.js:253 blocks/testimonials/edit.js:66
 msgid "Layout"
 msgstr ""
 
@@ -970,7 +966,7 @@ msgstr ""
 msgid "Left"
 msgstr ""
 
-#: extensions/effects-editor.js:236
+#: extensions/effects-editor.js:459
 msgid "Lift"
 msgstr ""
 
@@ -986,27 +982,27 @@ msgstr ""
 msgid "Link to Home"
 msgstr ""
 
-#: admin/class-blokino-themes.php:330
+#: admin/class-blokino-themes.php:339
 msgid "Live preview ↗"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:238
+#: admin/class-blokino-welcome.php:239
 msgid "Loads only on pages that use an effect"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1165
+#: admin/class-blokino-demo.php:1169
 msgid "Log in"
 msgstr ""
 
-#: blocks/section/edit.js:197
+#: blocks/section/edit.js:203
 msgid "Loop"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:219
+#: admin/class-blokino-welcome.php:220
 msgid "Made for this engine"
 msgstr ""
 
-#: extensions/effects-editor.js:239
+#: extensions/effects-editor.js:462
 msgid "Magnetic"
 msgstr ""
 
@@ -1014,11 +1010,11 @@ msgstr ""
 msgid "Main"
 msgstr ""
 
-#: admin/class-blokino-admin.php:627
+#: admin/class-blokino-admin.php:630
 msgid "Main logo"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:277
+#: admin/class-blokino-welcome.php:278
 msgid "Manage"
 msgstr ""
 
@@ -1030,7 +1026,7 @@ msgstr ""
 msgid "Marquee"
 msgstr ""
 
-#: extensions/effects-editor.js:125
+#: extensions/effects-editor.js:348
 msgid "Mask up"
 msgstr ""
 
@@ -1038,39 +1034,39 @@ msgstr ""
 msgid "Max width (px)"
 msgstr ""
 
-#: blocks/section/edit.js:151
+#: blocks/section/edit.js:157
 msgid "Mesh"
 msgstr ""
 
-#: blocks/section/edit.js:166
+#: blocks/section/edit.js:172
 msgid "Mesh — color 1"
 msgstr ""
 
-#: blocks/section/edit.js:167
+#: blocks/section/edit.js:173
 msgid "Mesh — color 2"
 msgstr ""
 
-#: blocks/section/edit.js:168
+#: blocks/section/edit.js:174
 msgid "Mesh — color 3"
 msgstr ""
 
-#: blocks/section/edit.js:248
+#: blocks/section/edit.js:254
 msgid "Minimum height (vh)"
 msgstr ""
 
-#: admin/class-blokino-admin.php:641
+#: admin/class-blokino-admin.php:644
 msgid "Monospace"
 msgstr ""
 
-#: admin/class-blokino-admin.php:740
+#: admin/class-blokino-admin.php:743
 msgid "Motion"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:212
+#: admin/class-blokino-welcome.php:213
 msgid "Motion for your blocks, on your terms."
 msgstr ""
 
-#: admin/class-blokino-admin.php:744
+#: admin/class-blokino-admin.php:747
 msgid "Motion intensity"
 msgstr ""
 
@@ -1110,11 +1106,11 @@ msgstr ""
 msgid "No %s found"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:230
+#: admin/class-blokino-welcome.php:231
 msgid "No demo for this theme"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1725
+#: admin/class-blokino-demo.php:1736
 msgid "No demo to import for the active theme."
 msgstr ""
 
@@ -1134,15 +1130,15 @@ msgstr ""
 msgid "No repeat"
 msgstr ""
 
-#: admin/class-blokino-themes.php:293
+#: admin/class-blokino-themes.php:302
 msgid "No themes listed yet."
 msgstr ""
 
-#: blocks/marquee/edit.js:157 blocks/section/edit.js:82 blocks/section/edit.js:148 extensions/effects-editor.js:235 extensions/effects-editor.js:254 extensions/effects-editor.js:287 extensions/effects-editor.js:305
+#: blocks/marquee/edit.js:157 blocks/section/edit.js:82 blocks/section/edit.js:154 extensions/effects-editor.js:458 extensions/effects-editor.js:477 extensions/effects-editor.js:510 extensions/effects-editor.js:528
 msgid "None"
 msgstr ""
 
-#: extensions/effects-editor.js:122
+#: extensions/effects-editor.js:345
 msgid "None (clean block)"
 msgstr ""
 
@@ -1150,7 +1146,11 @@ msgstr ""
 msgid "Not found"
 msgstr ""
 
-#: blocks/section/edit.js:231
+#: extensions/effects-editor.js:631
+msgid "On the page, entrance and scroll effects play as the block scrolls into view."
+msgstr ""
+
+#: blocks/section/edit.js:237
 msgid "Opacity (%)"
 msgstr ""
 
@@ -1162,15 +1162,15 @@ msgstr ""
 msgid "Open in new tab"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:279
+#: admin/class-blokino-welcome.php:280
 msgid "Open the Demo importer"
 msgstr ""
 
-#: admin/class-blokino-themes.php:239
+#: admin/class-blokino-themes.php:248
 msgid "Open the Site Editor"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:294
+#: admin/class-blokino-welcome.php:295
 msgid "Open the editor"
 msgstr ""
 
@@ -1178,15 +1178,15 @@ msgstr ""
 msgid "Optional"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:100
+#: admin/class-blokino-feedback.php:102
 msgid "Other"
 msgstr ""
 
-#: admin/class-blokino-themes.php:236
+#: admin/class-blokino-themes.php:245
 msgid "Our free block theme on WordPress.org: a designed home the moment you activate it, three looks, blog and page templates, and every effect of this engine."
 msgstr ""
 
-#: blocks/content-slider/edit.js:31 extensions/effects-editor.js:144
+#: blocks/content-slider/edit.js:31 extensions/effects-editor.js:372
 msgid "Outline"
 msgstr ""
 
@@ -1194,7 +1194,7 @@ msgstr ""
 msgid "Output BreadcrumbList structured data"
 msgstr ""
 
-#: blocks/section/edit.js:215
+#: blocks/section/edit.js:221
 msgid "Overlay"
 msgstr ""
 
@@ -1202,25 +1202,25 @@ msgstr ""
 msgid "Overlay (%)"
 msgstr ""
 
-#: blocks/content-slider/edit.js:106 blocks/section/edit.js:228
+#: blocks/content-slider/edit.js:106 blocks/section/edit.js:234
 msgid "Overlay color"
 msgstr ""
 
-#: blocks/content-slider/edit.js:116 blocks/section/edit.js:229
+#: blocks/content-slider/edit.js:116 blocks/section/edit.js:235
 msgid "Overlay gradient"
 msgstr ""
 
-#: blocks/content-slider/edit.js:103 blocks/section/edit.js:219
+#: blocks/content-slider/edit.js:103 blocks/section/edit.js:225
 msgid "Overlay type"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1657
+#: admin/class-blokino-demo.php:1668
 msgid "Page"
 msgid_plural "Pages"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/class-blokino-welcome.php:275
+#: admin/class-blokino-welcome.php:276
 msgid "Pages, patterns, images and settings, wired to your Media Library so you can edit or replace anything — with a one-click rollback."
 msgstr ""
 
@@ -1228,11 +1228,11 @@ msgstr ""
 msgid "Pagination"
 msgstr ""
 
-#: extensions/effects-editor.js:255
+#: extensions/effects-editor.js:478
 msgid "Parallax"
 msgstr ""
 
-#: extensions/effects-editor.js:269
+#: extensions/effects-editor.js:492
 msgid "Parallax intensity"
 msgstr ""
 
@@ -1248,15 +1248,15 @@ msgstr ""
 msgid "Pause on hover"
 msgstr ""
 
-#: admin/class-blokino-admin.php:1036 admin/class-blokino-admin.php:1070 admin/class-blokino-admin.php:1092 admin/class-blokino-demo.php:1467 admin/class-blokino-demo.php:1519 admin/class-blokino-demo.php:1573 admin/class-blokino-themes.php:144 admin/class-blokino-welcome.php:169
+#: admin/class-blokino-admin.php:1039 admin/class-blokino-admin.php:1090 admin/class-blokino-admin.php:1112 admin/class-blokino-demo.php:1471 admin/class-blokino-demo.php:1523 admin/class-blokino-demo.php:1577 admin/class-blokino-demo.php:1599 admin/class-blokino-demo.php:1619 admin/class-blokino-themes.php:153 admin/class-blokino-welcome.php:170
 msgid "Permission denied."
 msgstr ""
 
-#: admin/class-blokino-welcome.php:247
+#: admin/class-blokino-welcome.php:248
 msgid "Pick a theme"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:154
+#: admin/class-blokino-welcome.php:155
 msgid "Pick a theme, import its demo and add motion to any block — the Get started screen walks you through it."
 msgstr ""
 
@@ -1272,7 +1272,7 @@ msgstr ""
 msgid "Play"
 msgstr ""
 
-#: blocks/section/edit.js:190
+#: blocks/section/edit.js:196
 msgid "Play automatically"
 msgstr ""
 
@@ -1280,7 +1280,7 @@ msgstr ""
 msgid "Play background video"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1741
+#: admin/class-blokino-demo.php:1752
 msgid "Plugins"
 msgstr ""
 
@@ -1288,7 +1288,7 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
-#: blocks/section/edit.js:185
+#: blocks/section/edit.js:191
 msgid "Poster image"
 msgstr ""
 
@@ -1296,7 +1296,7 @@ msgstr ""
 msgid "Prefix"
 msgstr ""
 
-#: admin/class-blokino-themes.php:277
+#: admin/class-blokino-themes.php:286
 msgid "Premium themes"
 msgstr ""
 
@@ -1304,25 +1304,29 @@ msgstr ""
 msgid "Preparing…"
 msgstr ""
 
-#: admin/class-blokino-admin.php:660 admin/class-blokino-admin.php:709
+#: extensions/effects-editor.js:612
+msgid "Preview animation"
+msgstr ""
+
+#: admin/class-blokino-admin.php:663 admin/class-blokino-admin.php:712
 msgid "Primary"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:172
+#: admin/class-blokino-feedback.php:175
 msgid "Privacy policy"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1672
+#: admin/class-blokino-demo.php:1683
 msgid "Product"
 msgid_plural "Products"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extensions/effects-editor.js:258
+#: extensions/effects-editor.js:481
 msgid "Progress bar"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1662
+#: admin/class-blokino-demo.php:1673
 msgid "Project"
 msgid_plural "Projects"
 msgstr[0] ""
@@ -1344,23 +1348,23 @@ msgstr ""
 msgid "Rating (0–5)"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:228
+#: admin/class-blokino-welcome.php:229
 msgid "Ready to import"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:146
+#: admin/class-blokino-feedback.php:149
 msgid "Reason"
 msgstr ""
 
-#: admin/class-blokino-admin.php:496 admin/class-blokino-demo.php:1766
+#: admin/class-blokino-admin.php:496 admin/class-blokino-demo.php:1777
 msgid "Recommended plugins"
 msgstr ""
 
-#: admin/class-blokino-themes.php:343
+#: admin/class-blokino-themes.php:352
 msgid "Refresh the list"
 msgstr ""
 
-#: blocks/section/edit.js:238
+#: blocks/section/edit.js:244
 msgid "Reinforce on small screens"
 msgstr ""
 
@@ -1368,7 +1372,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: admin/class-blokino-admin.php:946
+#: admin/class-blokino-admin.php:949
 msgid "Remove logo"
 msgstr ""
 
@@ -1400,11 +1404,11 @@ msgstr ""
 msgid "Required"
 msgstr ""
 
-#: admin/class-blokino-admin.php:912
+#: admin/class-blokino-admin.php:915
 msgid "Reset to theme color"
 msgstr ""
 
-#: admin/class-blokino-admin.php:815
+#: admin/class-blokino-admin.php:818
 msgid "Restore settings from a previously exported JSON file."
 msgstr ""
 
@@ -1412,7 +1416,7 @@ msgstr ""
 msgid "Retry"
 msgstr ""
 
-#: extensions/effects-editor.js:257
+#: extensions/effects-editor.js:480
 msgid "Reveal on scroll"
 msgstr ""
 
@@ -1432,23 +1436,23 @@ msgstr ""
 msgid "Role · Company"
 msgstr ""
 
-#: extensions/effects-editor.js:307
+#: extensions/effects-editor.js:530
 msgid "Rotating conic"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:237
+#: admin/class-blokino-welcome.php:238
 msgid "Runtime active"
 msgstr ""
 
-#: admin/class-blokino-admin.php:774
+#: admin/class-blokino-admin.php:777
 msgid "Save settings"
 msgstr ""
 
-#: extensions/effects-editor.js:127
+#: extensions/effects-editor.js:350
 msgid "Scale in"
 msgstr ""
 
-#: extensions/effects-editor.js:251
+#: extensions/effects-editor.js:474
 msgid "Scroll effect"
 msgstr ""
 
@@ -1480,11 +1484,11 @@ msgstr ""
 msgid "Seconds per turn"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:303
+#: admin/class-blokino-welcome.php:304
 msgid "Section, Slider, Marquee, Counter, Before/After, Testimonials, Brand, Icon, Badge."
 msgstr ""
 
-#: admin/class-blokino-welcome.php:287
+#: admin/class-blokino-welcome.php:288
 msgid "Select a Group, Image, Heading, Paragraph, Cover or Buttons block and open the Blokino Effects panel in the sidebar: entrance animation, hover, scroll. Leave it empty and the block stays exactly as it is."
 msgstr ""
 
@@ -1492,11 +1496,11 @@ msgstr ""
 msgid "Select logo"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:125
+#: admin/class-blokino-feedback.php:127
 msgid "Sending…"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:171
+#: admin/class-blokino-feedback.php:174
 msgid "Sent to tunetdesign.com only if you press \"Submit & deactivate\": your answer, the Blokino, WordPress and PHP versions, the admin language and your theme's name. Your email and site address go only if you tick the box above. %s"
 msgstr ""
 
@@ -1528,23 +1532,23 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: admin/class-blokino-admin.php:967
+#: admin/class-blokino-admin.php:970
 msgid "Settings imported successfully."
 msgstr ""
 
-#: admin/class-blokino-admin.php:965
+#: admin/class-blokino-admin.php:968
 msgid "Settings saved."
 msgstr ""
 
-#: admin/class-blokino-admin.php:727 blocks/marquee/edit.js:154
+#: admin/class-blokino-admin.php:730 blocks/marquee/edit.js:154
 msgid "Shape"
 msgstr ""
 
-#: blocks/section/edit.js:263
+#: blocks/section/edit.js:269
 msgid "Shape dividers"
 msgstr ""
 
-#: admin/class-blokino-admin.php:751
+#: admin/class-blokino-admin.php:754
 msgid "Show a sidebar — or run full width — on blog posts and archives. Pages are not affected here: they use per-page templates (e.g. Narrow, With sidebar) chosen in the page editor."
 msgstr ""
 
@@ -1552,11 +1556,11 @@ msgstr ""
 msgid "Show current page"
 msgstr ""
 
-#: admin/class-blokino-admin.php:758
+#: admin/class-blokino-admin.php:761
 msgid "Single posts"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:215
+#: admin/class-blokino-welcome.php:216
 msgid "Site status"
 msgstr ""
 
@@ -1572,7 +1576,7 @@ msgstr ""
 msgid "Size (px)"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:178
+#: admin/class-blokino-feedback.php:181
 msgid "Skip & deactivate"
 msgstr ""
 
@@ -1584,11 +1588,11 @@ msgstr ""
 msgid "Slide"
 msgstr ""
 
-#: extensions/effects-editor.js:128
+#: extensions/effects-editor.js:351
 msgid "Slide left"
 msgstr ""
 
-#: extensions/effects-editor.js:129
+#: extensions/effects-editor.js:352
 msgid "Slide right"
 msgstr ""
 
@@ -1600,19 +1604,19 @@ msgstr ""
 msgid "Slides per view"
 msgstr ""
 
-#: blocks/section/edit.js:245
+#: blocks/section/edit.js:251
 msgid "Small-screen opacity (%)"
 msgstr ""
 
-#: blocks/section/edit.js:244
+#: blocks/section/edit.js:250
 msgid "Small-screen scrim color"
 msgstr ""
 
-#: extensions/effects-editor.js:143
+#: extensions/effects-editor.js:371
 msgid "Solid (default)"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:316
+#: admin/class-blokino-welcome.php:317
 msgid "Source on GitHub"
 msgstr ""
 
@@ -1624,27 +1628,27 @@ msgstr ""
 msgid "Spacing (rem)"
 msgstr ""
 
-#: blocks/marquee/edit.js:108 extensions/effects-editor.js:333
+#: blocks/marquee/edit.js:108 extensions/effects-editor.js:556
 msgid "Speed (s per loop)"
 msgstr ""
 
-#: admin/class-blokino-admin.php:741
+#: admin/class-blokino-admin.php:744
 msgid "Speed of all Blokino effects (entrance, hover, scroll). Subtle = faster and tighter; Bold = slower and more dramatic."
 msgstr ""
 
-#: extensions/effects-editor.js:198
+#: extensions/effects-editor.js:426
 msgid "Stagger (ms)"
 msgstr ""
 
-#: extensions/effects-editor.js:205
+#: extensions/effects-editor.js:433
 msgid "Staggers the entrance of direct children. 0 = no stagger."
 msgstr ""
 
-#: extensions/effects-editor.js:346
+#: extensions/effects-editor.js:569
 msgid "Start color (empty = theme accent)"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:257
+#: admin/class-blokino-welcome.php:258
 msgid "Start free with Blokmark, our theme on WordPress.org, or pick a premium one."
 msgstr ""
 
@@ -1656,11 +1660,15 @@ msgstr ""
 msgid "Start value"
 msgstr ""
 
-#: extensions/effects-editor.js:256
+#: extensions/effects-editor.js:479
 msgid "Sticky pin"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1678
+#: extensions/effects-editor.js:625
+msgid "Sticky pin and Progress bar work on the published page, not inside the editor."
+msgstr ""
+
+#: admin/class-blokino-demo.php:1689
 msgid "Store pages (EDD)"
 msgstr ""
 
@@ -1680,7 +1688,7 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:181
+#: admin/class-blokino-feedback.php:184
 msgid "Submit & deactivate"
 msgstr ""
 
@@ -1696,7 +1704,7 @@ msgstr ""
 msgid "Subtitle before title"
 msgstr ""
 
-#: admin/class-blokino-admin.php:744
+#: admin/class-blokino-admin.php:747
 msgid "Subtle (fast)"
 msgstr ""
 
@@ -1704,7 +1712,7 @@ msgstr ""
 msgid "Suffix"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:315
+#: admin/class-blokino-welcome.php:316
 msgid "Support"
 msgstr ""
 
@@ -1712,11 +1720,11 @@ msgstr ""
 msgid "Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them."
 msgstr ""
 
-#: admin/class-blokino-feedback.php:155
+#: admin/class-blokino-feedback.php:158
 msgid "Tell us more (optional)"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:101
+#: admin/class-blokino-feedback.php:103
 msgid "Tell us why, please."
 msgstr ""
 
@@ -1728,19 +1736,23 @@ msgstr ""
 msgid "Testimonials"
 msgstr ""
 
-#: admin/class-blokino-admin.php:664 admin/class-blokino-admin.php:713 blocks/content-slider/edit.js:32 blocks/content-slider/edit.js:82
+#: admin/class-blokino-admin.php:667 admin/class-blokino-admin.php:716 blocks/content-slider/edit.js:32 blocks/content-slider/edit.js:82
 msgid "Text"
 msgstr ""
 
-#: extensions/effects-editor.js:131
+#: extensions/effects-editor.js:622
+msgid "Text animations split the words on the published page, so they play there."
+msgstr ""
+
+#: extensions/effects-editor.js:354
 msgid "Text fill"
 msgstr ""
 
-#: admin/class-blokino-admin.php:666 admin/class-blokino-admin.php:723
+#: admin/class-blokino-admin.php:669 admin/class-blokino-admin.php:726
 msgid "Text on dark bands"
 msgstr ""
 
-#: extensions/effects-editor.js:130
+#: extensions/effects-editor.js:353
 msgid "Text stagger"
 msgstr ""
 
@@ -1748,7 +1760,7 @@ msgstr ""
 msgid "The band only scrolls on the front end — here the items wrap so you can edit them. Visitors who ask for reduced motion see it still, with a play control."
 msgstr ""
 
-#: admin/class-blokino-themes.php:282
+#: admin/class-blokino-themes.php:291
 msgid "The catalog could not be loaded."
 msgstr ""
 
@@ -1756,7 +1768,7 @@ msgstr ""
 msgid "The demo already imported will be removed first — including any changes you made to its pages, posts and images — and imported again."
 msgstr ""
 
-#: admin/class-blokino-admin.php:969
+#: admin/class-blokino-admin.php:972
 msgid "The file is not a valid settings JSON."
 msgstr ""
 
@@ -1764,7 +1776,7 @@ msgstr ""
 msgid "The server did not answer with JSON (%s). The request was probably cut short by a time limit."
 msgstr ""
 
-#: admin/class-blokino-themes.php:93 admin/class-blokino-themes.php:107
+#: admin/class-blokino-themes.php:94 admin/class-blokino-themes.php:108
 msgid "The theme catalog is not available right now."
 msgstr ""
 
@@ -1772,43 +1784,43 @@ msgstr ""
 msgid "The theme provides the defaults. Anything left empty uses the theme; anything you set overrides it globally (--tnt-* tokens)."
 msgstr ""
 
-#: admin/class-blokino-welcome.php:217
+#: admin/class-blokino-welcome.php:218
 msgid "Theme"
 msgstr ""
 
-#: admin/class-blokino-admin.php:642 admin/class-blokino-admin.php:744 admin/class-blokino-admin.php:842
+#: admin/class-blokino-admin.php:645 admin/class-blokino-admin.php:747 admin/class-blokino-admin.php:845
 msgid "Theme default"
 msgstr ""
 
-#: extensions/effects-editor.js:186
+#: extensions/effects-editor.js:414
 msgid "Theme default (expo)"
 msgstr ""
 
-#: admin/class-blokino-themes.php:50 admin/class-blokino-themes.php:51
+#: admin/class-blokino-themes.php:51 admin/class-blokino-themes.php:52
 msgid "Themes"
 msgstr ""
 
-#: admin/class-blokino-themes.php:341
+#: admin/class-blokino-themes.php:350
 msgid "Themes are sold on %1$s and come as parent + child theme with a license key for updates and support. %2$s"
 msgstr ""
 
-#: admin/class-blokino-themes.php:270
+#: admin/class-blokino-themes.php:279
 msgid "Themes designed for this engine. Blokmark is free on WordPress.org; the premium ones bring bespoke design tokens, block patterns and a one-click demo you import from this plugin. Blokino stays free and works with any theme."
 msgstr ""
 
-#: admin/class-blokino-admin.php:762
+#: admin/class-blokino-admin.php:765
 msgid "Themes that ship a sidebar area react automatically. A theme without one simply stays full width."
 msgstr ""
 
-#: admin/class-blokino-admin.php:701
+#: admin/class-blokino-admin.php:704
 msgid "Then press Save changes."
 msgstr ""
 
-#: admin/class-blokino-demo.php:1767
+#: admin/class-blokino-demo.php:1778
 msgid "These add optional parts of the demo (forms, shop…). Pick any you want and install & activate them, or just continue without them."
 msgstr ""
 
-#: extensions/effects-editor.js:220
+#: extensions/effects-editor.js:443
 msgid "These words fill to the brand accent instead of ink. 1-based."
 msgstr ""
 
@@ -1820,7 +1832,7 @@ msgstr ""
 msgid "This permanently deletes the pages, posts and images the demo created — including any changes you made to them — and restores your previous site title, logo and front page. Content you created yourself is kept."
 msgstr ""
 
-#: admin/class-blokino-welcome.php:281
+#: admin/class-blokino-welcome.php:282
 msgid "This theme ships no demo. Build with the block patterns of your theme, or pick one made for this engine."
 msgstr ""
 
@@ -1828,12 +1840,16 @@ msgstr ""
 msgid "Thousands separator"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:243
+#: admin/class-blokino-welcome.php:244
 msgid "Three steps to a finished site"
 msgstr ""
 
-#: extensions/effects-editor.js:238
+#: extensions/effects-editor.js:461
 msgid "Tilt 3D"
+msgstr ""
+
+#: extensions/effects-editor.js:628
+msgid "Tilt and Magnetic follow the pointer on the published page."
 msgstr ""
 
 #: blocks/content-slider/edit.js:139
@@ -1848,7 +1864,7 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: blocks/section/edit.js:249
+#: blocks/section/edit.js:255
 msgid "Top"
 msgstr ""
 
@@ -1856,7 +1872,7 @@ msgstr ""
 msgid "Top center"
 msgstr ""
 
-#: blocks/section/edit.js:264
+#: blocks/section/edit.js:270
 msgid "Top divider"
 msgstr ""
 
@@ -1868,7 +1884,7 @@ msgstr ""
 msgid "Top right"
 msgstr ""
 
-#: admin/class-blokino-themes.php:285
+#: admin/class-blokino-themes.php:294
 msgid "Try again"
 msgstr ""
 
@@ -1876,15 +1892,15 @@ msgstr ""
 msgid "Types"
 msgstr ""
 
-#: admin/class-blokino-admin.php:636
+#: admin/class-blokino-admin.php:639
 msgid "Typography (Google Fonts)"
 msgstr ""
 
-#: extensions/effects-editor.js:240
+#: extensions/effects-editor.js:463
 msgid "Underline grow"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1799
+#: admin/class-blokino-demo.php:1810
 msgid "Undo import"
 msgstr ""
 
@@ -1892,7 +1908,7 @@ msgstr ""
 msgid "Undo the import?"
 msgstr ""
 
-#: admin/class-blokino-demo.php:1579
+#: admin/class-blokino-demo.php:1583
 msgid "Unknown plugin."
 msgstr ""
 
@@ -1908,11 +1924,11 @@ msgstr ""
 msgid "Variant"
 msgstr ""
 
-#: blocks/section/edit.js:249
+#: blocks/section/edit.js:255
 msgid "Vertical alignment"
 msgstr ""
 
-#: blocks/section/edit.js:153
+#: blocks/section/edit.js:159
 msgid "Video"
 msgstr ""
 
@@ -1924,15 +1940,19 @@ msgstr ""
 msgid "View Project"
 msgstr ""
 
-#: admin/class-blokino-themes.php:327
+#: admin/class-blokino-themes.php:336
 msgid "View on tunetdesign.com ↗"
 msgstr ""
 
-#: admin/class-blokino-admin.php:506 admin/class-blokino-demo.php:1786
+#: extensions/effects-editor.js:640
+msgid "View page"
+msgstr ""
+
+#: admin/class-blokino-admin.php:506 admin/class-blokino-demo.php:1797
 msgid "View site"
 msgstr ""
 
-#: admin/class-blokino-themes.php:294
+#: admin/class-blokino-themes.php:303
 msgid "Visit tunetdesign.com ↗"
 msgstr ""
 
@@ -1944,39 +1964,39 @@ msgstr ""
 msgid "Website"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:300
+#: admin/class-blokino-welcome.php:301
 msgid "What Blokino adds"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:85
+#: admin/class-blokino-feedback.php:87
 msgid "What broke? Which plugin or theme does it conflict with?"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:97
+#: admin/class-blokino-feedback.php:99
 msgid "What were you trying to do?"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:322
+#: admin/class-blokino-welcome.php:323
 msgid "What’s new in %s"
 msgstr ""
 
-#: admin/class-blokino-admin.php:771
+#: admin/class-blokino-admin.php:774
 msgid "When disabled, the runtime is not loaded and blocks render clean (useful for performance debugging)."
 msgstr ""
 
-#: admin/class-blokino-feedback.php:89
+#: admin/class-blokino-feedback.php:91
 msgid "Which feature?"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:93
+#: admin/class-blokino-feedback.php:95
 msgid "Which one, and what does it do better?"
 msgstr ""
 
-#: blocks/section/edit.js:255
+#: blocks/section/edit.js:261
 msgid "Wide"
 msgstr ""
 
-#: admin/class-blokino-admin.php:756
+#: admin/class-blokino-admin.php:759
 msgid "With sidebar"
 msgstr ""
 
@@ -2000,16 +2020,20 @@ msgstr ""
 msgid "Yes, undo import"
 msgstr ""
 
-#: admin/class-blokino-feedback.php:160
+#: admin/class-blokino-feedback.php:163
 msgid "You may contact me about this"
 msgstr ""
 
-#: admin/class-blokino-admin.php:689
+#: admin/class-blokino-admin.php:692
 msgid "You set a background but not a text color: on a theme whose text color changes with the variation, that pair can end up unreadable."
 msgstr ""
 
-#: admin/class-blokino-admin.php:694
+#: admin/class-blokino-admin.php:697
 msgid "You set the dark bands but not their text color: make sure the theme's text on dark bands still reads on your new background."
+msgstr ""
+
+#: extensions/effects-editor.js:615
+msgid "Your device asks for reduced motion, so the preview is off. Visitors with that setting see the block without movement."
 msgstr ""
 
 #: admin/class-blokino-demo.php:522
@@ -2024,11 +2048,11 @@ msgstr ""
 msgid "Your name"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:253
+#: admin/class-blokino-welcome.php:254
 msgid "You’re on %s."
 msgstr ""
 
-#: extensions/effects-editor.js:259
+#: extensions/effects-editor.js:482
 msgid "Zoom on scroll"
 msgstr ""
 
@@ -2346,15 +2370,15 @@ msgstr ""
 msgid "e.g. +, %, K, M"
 msgstr ""
 
-#: admin/class-blokino-welcome.php:302
+#: admin/class-blokino-welcome.php:303
 msgid "entrance, hover and scroll, per block, opt-in."
 msgstr ""
 
-#: admin/class-blokino-welcome.php:304
+#: admin/class-blokino-welcome.php:305
 msgid "every effect reads its colors and curves from the active theme; style variations recolor everything."
 msgstr ""
 
-#: admin/class-blokino-welcome.php:305
+#: admin/class-blokino-welcome.php:306
 msgid "per theme, with progress and rollback."
 msgstr ""
 

@@ -49,6 +49,7 @@ class Blokino_Extensions {
 				'wp-block-editor',
 				'wp-components',
 				'wp-i18n',
+				'wp-data',
 			),
 			$ver,
 			true

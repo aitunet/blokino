@@ -75,9 +75,6 @@
             "Staggers the entrance of direct children. 0 = no stagger.": [
                 "Escalona la entrada de los hijos directos. 0 = sin escalonado."
             ],
-            "It will animate once published (the animation runs on the front-end).": [
-                "Se animará al publicar (la animación ocurre en el front-end)."
-            ],
             "Accent words (indices, e.g. \"2,5\")": [
                 "Palabras acentuadas (índices, p. ej. «2,5»)"
             ],
@@ -161,6 +158,27 @@
             ],
             "End color (empty = theme accent 2)": [
                 "Color final (vacío = acento 2 del tema)"
+            ],
+            "Preview animation": [
+                "Ver animación"
+            ],
+            "Your device asks for reduced motion, so the preview is off. Visitors with that setting see the block without movement.": [
+                "Tu dispositivo pide reducir el movimiento, así que la vista previa está desactivada. Quien navegue con ese ajuste verá el bloque sin movimiento."
+            ],
+            "Text animations split the words on the published page, so they play there.": [
+                "Las animaciones de texto separan las palabras en la página publicada, así que se ven ahí."
+            ],
+            "Sticky pin and Progress bar work on the published page, not inside the editor.": [
+                "Fijar al desplazar y Barra de progreso funcionan en la página publicada, no dentro del editor."
+            ],
+            "Tilt and Magnetic follow the pointer on the published page.": [
+                "Inclinación 3D y Magnético siguen el puntero en la página publicada."
+            ],
+            "On the page, entrance and scroll effects play as the block scrolls into view.": [
+                "En la página, los efectos de entrada y de scroll se reproducen cuando el bloque aparece en pantalla."
+            ],
+            "View page": [
+                "Ver página"
             ],
             "Blokino Effects": [
                 "Efectos Blokino"

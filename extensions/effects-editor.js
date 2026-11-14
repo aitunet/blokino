@@ -5,6 +5,8 @@
  *   1. blocks.registerBlockType → declara los atributos tf* (viven en el
  *      comentario del block; NO se tocan el markup guardado).
  *   2. editor.BlockEdit (HOC)   → panel "Blokino Effects".
+ *   3. editor.BlockListBlock    → vista previa en el lienzo (wrapperProps) y
+ *      botón "Preview animation" (Web Animations), sin tocar el markup.
  *   La inyección de data-tf-* ocurre SOLO en render (PHP render_block), nunca
  *   en save(), para no romper la validación de bloques del editor.
  *
@@ -98,6 +100,153 @@
 	}
 
 	addFilter( 'blocks.registerBlockType', 'blokino/tf-attributes', addTfAttributes );
+
+	/* ----------------------------------------------------------------------
+	 * 1b) Vista previa en el lienzo (U-02).
+	 *    Los mismos data-tf-* y variables --tf-* que el render PHP pone en el
+	 *    front, pero como wrapperProps del editor: viven solo en el lienzo, nunca
+	 *    en el markup guardado (cero errores de validación). effects.css entra al
+	 *    iframe (Blokino_Runtime::enqueue_editor_preview), así que hover, borde,
+	 *    blend, outline, parallax y zoom se ven en vivo. La ENTRADA no se marca
+	 *    aquí: sus estados ocultos dependen de .blokino-tf-ready (solo front); se
+	 *    reproduce a demanda con el botón "Preview animation".
+	 * -------------------------------------------------------------------- */
+	var HOVERS = [ 'lift', 'glow', 'tilt', 'magnetic', 'underline-grow', 'image-zoom' ];
+	// sticky-pin y progress no tienen sentido dentro del lienzo (fijarían o
+	// pintarían una barra sobre el editor): se ven en la página publicada.
+	var CANVAS_SCROLLS = [ 'parallax', 'reveal-on-scroll', 'zoom' ];
+	var BLENDS = [ 'multiply', 'screen', 'overlay', 'difference', 'exclusion', 'luminosity' ];
+	var BORDER_FX = [ 'gradient', 'conic-rotate' ];
+	var EASINGS = [ 'expo', 'power3', 'spring', 'circ' ];
+	var COLOR_RE = /^(#[0-9a-f]{3,8}|(rgb|rgba|hsl|hsla)\(\s*[0-9.,%\s\/]+\))$/i;
+
+	function has( list, v ) {
+		return !! v && list.indexOf( v ) !== -1;
+	}
+
+	/** data-* + style del lienzo, o null si el bloque no tiene nada que mostrar. */
+	function canvasProps( a ) {
+		var data = {};
+		if ( has( HOVERS, a.tfHover ) ) { data[ 'data-tf-hover' ] = a.tfHover; }
+		// reveal-on-scroll se ve en el lienzo solo por su transform compuesto
+		// (sin gate no se oculta): inofensivo y coherente con el front.
+		if ( has( CANVAS_SCROLLS, a.tfScroll ) ) { data[ 'data-tf-scroll' ] = a.tfScroll; }
+		if ( has( BLENDS, a.tfBlend ) ) { data[ 'data-tf-blend' ] = a.tfBlend; }
+		if ( has( BORDER_FX, a.tfBorderFx ) ) { data[ 'data-tf-border-fx' ] = a.tfBorderFx; }
+		if ( a.tfDisplay === 'outline' ) { data[ 'data-tf-display' ] = 'outline'; }
+		if ( ! Object.keys( data ).length ) {
+			return null;
+		}
+		var style = {};
+		if ( a.tfScroll === 'parallax' && a.tfParallaxSpeed ) { style[ '--tf-parallax-speed' ] = String( parseInt( a.tfParallaxSpeed, 10 ) || 0 ); }
+		if ( has( BORDER_FX, a.tfBorderFx ) ) {
+			if ( a.tfBorderWidth ) { style[ '--tf-bw' ] = ( parseInt( a.tfBorderWidth, 10 ) || 0 ) + 'px'; }
+			if ( a.tfBorderSpeed ) { style[ '--tf-bdur' ] = ( parseFloat( a.tfBorderSpeed ) || 0 ) + 's'; }
+			if ( COLOR_RE.test( a.tfBorderColor1 || '' ) ) { style[ '--tf-bc1' ] = a.tfBorderColor1; }
+			if ( COLOR_RE.test( a.tfBorderColor2 || '' ) ) { style[ '--tf-bc2' ] = a.tfBorderColor2; }
+		}
+		return { data: data, style: style };
+	}
+
+	var withCanvasPreview = createHigherOrderComponent( function ( BlockListBlock ) {
+		return function ( props ) {
+			if ( ! isAllowed( props.name ) ) {
+				return el( BlockListBlock, props );
+			}
+			var extra = canvasProps( props.attributes || {} );
+			if ( ! extra ) {
+				return el( BlockListBlock, props );
+			}
+			var wp0 = props.wrapperProps || {};
+			var wrapperProps = Object.assign( {}, wp0, extra.data, {
+				style: Object.assign( {}, wp0.style || {}, extra.style )
+			} );
+			return el( BlockListBlock, Object.assign( {}, props, { wrapperProps: wrapperProps } ) );
+		};
+	}, 'withBlokinoCanvasPreview' );
+
+	addFilter( 'editor.BlockListBlock', 'blokino/tf-canvas-preview', withCanvasPreview );
+
+	/* ----------------------------------------------------------------------
+	 * Reproducción de la entrada a demanda (botón "Preview animation").
+	 * Web Animations API sobre el nodo del lienzo: no toca el DOM editable ni
+	 * los atributos, y al terminar no deja rastro. Valores equivalentes a los
+	 * de effects.css, leídos de los tokens --tnt-* del theme en el iframe.
+	 * -------------------------------------------------------------------- */
+	var PREVIEWABLE = [ 'fade-up', 'clip-reveal', 'mask-up', 'blur-in', 'scale-in', 'slide-left', 'slide-right' ];
+
+	function cssVar( node, name, fallback ) {
+		var v = node.ownerDocument.defaultView.getComputedStyle( node ).getPropertyValue( name ).trim();
+		return v || fallback;
+	}
+	function toMs( v, fallback ) {
+		var n = parseFloat( v );
+		if ( isNaN( n ) ) { return fallback; }
+		return /ms\s*$/.test( v ) ? n : ( /s\s*$/.test( v ) ? n * 1000 : n );
+	}
+	function enterFrames( type, node ) {
+		var s4 = cssVar( node, '--tnt-space-4', '1.5rem' );
+		var s5 = cssVar( node, '--tnt-space-5', '2rem' );
+		var s6 = cssVar( node, '--tnt-space-6', '3rem' );
+		switch ( type ) {
+			case 'fade-up': return [ { opacity: 0, translate: '0 ' + s5 }, { opacity: 1, translate: '0 0' } ];
+			case 'slide-left': return [ { opacity: 0, translate: 'calc(-1 * ' + s6 + ') 0' }, { opacity: 1, translate: '0 0' } ];
+			case 'slide-right': return [ { opacity: 0, translate: s6 + ' 0' }, { opacity: 1, translate: '0 0' } ];
+			case 'scale-in': return [ { opacity: 0, scale: '0.92' }, { opacity: 1, scale: '1' } ];
+			case 'blur-in': return [ { opacity: 0, filter: 'blur(12px)' }, { opacity: 1, filter: 'blur(0)' } ];
+			case 'mask-up': return [ { clipPath: 'inset(0 0 100% 0)', translate: '0 ' + s4 }, { clipPath: 'inset(0)', translate: '0 0' } ];
+			case 'clip-reveal': return [ { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0)' } ];
+		}
+		return null;
+	}
+	function playEntrance( clientId, a ) {
+		var node = canvasDoc().querySelector( '[data-block="' + clientId + '"]' );
+		var type = a.tfAnimation || ( a.tfScroll === 'reveal-on-scroll' ? 'fade-up' : '' );
+		if ( ! node || ! node.animate || PREVIEWABLE.indexOf( type ) === -1 ) {
+			return;
+		}
+		var frames = enterFrames( type, node );
+		var ease = cssVar( node, '--tnt-ease-' + ( has( EASINGS, a.tfAnimEasing ) ? a.tfAnimEasing : 'expo' ), 'cubic-bezier(0.16, 1, 0.3, 1)' );
+		var opts = {
+			duration: a.tfAnimDuration || toMs( cssVar( node, '--tnt-dur-base', '600ms' ), 600 ),
+			delay: a.tfAnimDelay || 0,
+			easing: ease,
+			fill: 'backwards'
+		};
+		// Escalonado: como en el front, anima los hijos directos (no con clip/mask).
+		var kids = [];
+		if ( a.tfStagger && type !== 'clip-reveal' && type !== 'mask-up' ) {
+			kids = Array.prototype.filter.call( node.children, function ( c ) {
+				return ! c.classList.contains( 'block-list-appender' );
+			} );
+		}
+		if ( kids.length ) {
+			kids.forEach( function ( c, i ) {
+				c.animate( frames, Object.assign( {}, opts, { delay: opts.delay + i * a.tfStagger } ) );
+			} );
+		} else {
+			node.animate( frames, opts );
+		}
+	}
+
+	function reducedMotion() {
+		return !! ( window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches );
+	}
+
+	function anyEffect( a ) {
+		return !! ( a.tfAnimation || a.tfHover || a.tfScroll || a.tfBlend || a.tfBorderFx || a.tfDisplay );
+	}
+
+	function permalink() {
+		try {
+			var ed = wp.data && wp.data.select( 'core/editor' );
+			var p = ed && ed.getPermalink && ed.getPermalink();
+			var status = ed && ed.getEditedPostAttribute && ed.getEditedPostAttribute( 'status' );
+			return p && status === 'publish' ? p : '';
+		} catch ( e ) {
+			return '';
+		}
+	}
 
 	/* ----------------------------------------------------------------------
 	 * 2) Panel "Blokino Effects" en InspectorControls (HOC sobre BlockEdit).
@@ -206,6 +355,11 @@
 				],
 				onChange: function ( value ) {
 					set( { tfAnimation: value } );
+					// Elegir una entrada la enseña al momento en el lienzo (U-02).
+					if ( PREVIEWABLE.indexOf( value ) !== -1 && ! reducedMotion() ) {
+						var next = Object.assign( {}, a, { tfAnimation: value } );
+						setTimeout( function () { playEntrance( props.clientId, next ); }, 60 );
+					}
 				},
 				__nextHasNoMarginBottom: true
 			} );
@@ -282,11 +436,6 @@
 						},
 						__nextHasNoMarginBottom: true
 					} ),
-					el(
-						'p',
-						{ style: { fontStyle: 'italic', opacity: 0.7, marginTop: '8px' } },
-						__( 'It will animate once published (the animation runs on the front-end).', 'blokino' )
-					),
 					( a.tfAnimation === 'text-fill' )
 						? el( TextControl, {
 							label: __( 'Accent words (indices, e.g. "2,5")', 'blokino' ),
@@ -448,6 +597,51 @@
 				return el( 'hr', { style: { margin: '16px 0', opacity: 0.4 } } );
 			};
 
+			// U-02: la entrada se reproduce aquí mismo; el resto, lo que de verdad
+			// solo corre al publicar, se dice siempre (no escondido en los detalles).
+			var canPreview = PREVIEWABLE.indexOf( a.tfAnimation ) !== -1 || ( ! a.tfAnimation && a.tfScroll === 'reveal-on-scroll' );
+			var previewButton = canPreview
+				? el(
+					'div',
+					{ style: { margin: '12px 0 20px' } },
+					el( components.Button, {
+						variant: 'secondary',
+						icon: 'controls-play',
+						disabled: reducedMotion(),
+						onClick: function () { playEntrance( props.clientId, a ); }
+					}, __( 'Preview animation', 'blokino' ) ),
+					reducedMotion()
+						? el( 'p', { className: 'components-base-control__help', style: { marginTop: '8px' } },
+							__( 'Your device asks for reduced motion, so the preview is off. Visitors with that setting see the block without movement.', 'blokino' ) )
+						: null
+				)
+				: null;
+
+			var frontOnly = [];
+			if ( a.tfAnimation === 'text-stagger' || a.tfAnimation === 'text-fill' ) {
+				frontOnly.push( __( 'Text animations split the words on the published page, so they play there.', 'blokino' ) );
+			}
+			if ( a.tfScroll === 'sticky-pin' || a.tfScroll === 'progress' ) {
+				frontOnly.push( __( 'Sticky pin and Progress bar work on the published page, not inside the editor.', 'blokino' ) );
+			}
+			if ( a.tfHover === 'tilt' || a.tfHover === 'magnetic' ) {
+				frontOnly.push( __( 'Tilt and Magnetic follow the pointer on the published page.', 'blokino' ) );
+			}
+			if ( a.tfAnimation || a.tfScroll ) {
+				frontOnly.push( __( 'On the page, entrance and scroll effects play as the block scrolls into view.', 'blokino' ) );
+			}
+			var link = frontOnly.length ? permalink() : '';
+			var frontNotice = frontOnly.length
+				? el(
+					'p',
+					{ className: 'components-base-control__help', style: { marginTop: '12px' } },
+					frontOnly.join( ' ' ),
+					link
+						? el( Fragment, {}, ' ', el( 'a', { href: link, target: '_blank', rel: 'noopener noreferrer' }, __( 'View page', 'blokino' ) ) )
+						: null
+				)
+				: null;
+
 			return el(
 				Fragment,
 				{},
@@ -457,8 +651,9 @@
 					{},
 					el(
 						PanelBody,
-						{ title: __( 'Blokino Effects', 'blokino' ), initialOpen: false },
+						{ title: __( 'Blokino Effects', 'blokino' ), initialOpen: anyEffect( a ) },
 						animationControl,
+						previewButton,
 						displayControl,
 						detailControls,
 						hr(),
@@ -466,6 +661,7 @@
 						hr(),
 						scrollControl,
 						parallaxControl,
+						frontNotice,
 						hr(),
 						blendControl,
 						borderControl,
@@ -492,6 +688,6 @@
 	 *    "Block validation failed" en el editor y puede romper contenido. Al
 	 *    inyectar solo en render, save() produce markup core LIMPIO → cero
 	 *    errores de validación y contenido a prueba de futuro. Las animaciones
-	 *    corren en el frontend, así que no se pierde nada en el editor.
+	 *    se previsualizan en el lienzo con wrapperProps (paso 1b), que no se guardan.
 	 * -------------------------------------------------------------------- */
 } )( window.wp );

@@ -98,6 +98,28 @@ class Blokino_Runtime {
 		// Branding global (overrides --tnt-* + Google Fonts) en front y editor.
 		// Independiente del toggle de efectos. enqueue_block_assets cubre ambos.
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_branding' ) );
+
+		// U-02: vista previa en el editor. effects.css entra al iframe del lienzo.
+		add_action( 'enqueue_block_assets', array( $this, 'enqueue_editor_preview' ) );
+	}
+
+	/**
+	 * Carga effects.css en el lienzo del editor (U-02) para que hover, borde,
+	 * blend y outline se vean en vivo. Seguro: los estados ocultos de entrada
+	 * dependen de .blokino-tf-ready, que el editor nunca tiene, así que nada se
+	 * oculta; y solo afecta a bloques a los que el editor pasa data-tf-*
+	 * (effects-editor.js), es decir, a los que ya tienen un efecto elegido.
+	 */
+	public function enqueue_editor_preview() {
+		if ( ! is_admin() ) {
+			return;
+		}
+		wp_enqueue_style(
+			self::STYLE_HANDLE,
+			BLOKINO_URL . 'runtime/effects.css',
+			array(),
+			self::asset_version( 'runtime/effects.css' )
+		);
 	}
 
 	/**
