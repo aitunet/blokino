@@ -180,6 +180,11 @@
 				'<span class="blokino-plugin__state" data-i="' + i + '"></span>';
 			// S-03: the label comes from the theme manifest — text, never markup.
 			li.querySelector( '.blokino-plugin__name' ).textContent = String( p.label || p.slug || '' );
+			// The list is re-rendered when the queue ends: keep a failed install's
+			// message visible instead of wiping it.
+			if ( p._err && p.state !== 'active' ) {
+				showError( li.querySelector( '.blokino-plugin__state' ), p._err.message, p._err.url );
+			}
 			listEl.appendChild( li );
 		} );
 		$all( 'input[type=checkbox]', listEl ).forEach( function ( cb ) {
@@ -253,17 +258,17 @@
 			post( 'blokino_demo_install', { slug: p.slug } ).then( function ( res ) {
 				if ( res && res.success ) {
 					p.state = 'active';
+					p._err = null;
 					if ( stateEl ) { stateEl.innerHTML = '<span class="dashicons dashicons-yes"></span>'; }
 				} else {
-					var url = res && res.data && res.data.install_url;
-					if ( stateEl ) {
-						showError( stateEl, ( res && res.data && res.data.message ) || i18n.error, url );
-					}
+					p._err = { message: ( res && res.data && res.data.message ) || i18n.error, url: res && res.data && res.data.install_url };
+					if ( stateEl ) { showError( stateEl, p._err.message, p._err.url ); }
 				}
 				next();
 			} ).catch( function ( err ) {
 				// Installing/activating a plugin can also outlive a tight host limit.
-				if ( stateEl ) { showError( stateEl, describe( err ) ); }
+				p._err = { message: describe( err ) };
+				if ( stateEl ) { showError( stateEl, p._err.message ); }
 				next();
 			} );
 		}
