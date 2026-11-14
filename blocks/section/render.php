@@ -57,7 +57,9 @@ if ( $blokino_min > 0 ) {
 	$blokino_vars[] = '--tf-sec-min-h:' . min( 100, $blokino_min ) . 'vh';
 }
 
-if ( 'color' === $blokino_bg_type && ! empty( $attributes['bgColor'] ) ) {
+// Con imagen, bgColor es el color de base bajo la foto (mientras carga o si
+// aún no se eligió): las variaciones nuevas lo usan; el contenido viejo no lo tiene.
+if ( in_array( $blokino_bg_type, array( 'color', 'image' ), true ) && ! empty( $attributes['bgColor'] ) ) {
 	$blokino_bg_color = blokino_safe_css_color( $attributes['bgColor'] );
 	if ( '' !== $blokino_bg_color ) {
 		$blokino_vars[] = '--tf-sec-bg:' . $blokino_bg_color;
@@ -165,6 +167,8 @@ $blokino_wrapper = get_block_wrapper_attributes(
 	?>
 	<?php if ( '' !== $blokino_bg_css_url ) : ?>
 		<div class="blokino-section__bg" style="<?php echo esc_attr( 'background-image:url("' . $blokino_bg_css_url . '")' ); ?>"></div>
+	<?php elseif ( 'image' === $blokino_bg_type && ! empty( $attributes['bgColor'] ) ) : ?>
+		<div class="blokino-section__bg"></div>
 	<?php elseif ( 'video' === $blokino_bg_type && ! empty( $attributes['bgVideoUrl'] ) ) : ?>
 		<?php
 		$blokino_vmime   = ! empty( $attributes['bgVideoId'] ) ? get_post_mime_type( (int) $attributes['bgVideoId'] ) : '';
@@ -202,7 +206,7 @@ $blokino_wrapper = get_block_wrapper_attributes(
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<div class="blokino-section__inner">
+	<div class="blokino-section__inner<?php echo ! empty( $attributes['innerFlow'] ) ? ' has-flow-gap' : ''; ?>">
 		<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML de bloques internos ya renderizado. ?>
 	</div>
 

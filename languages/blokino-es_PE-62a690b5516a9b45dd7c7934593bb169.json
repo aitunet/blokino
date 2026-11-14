@@ -27,6 +27,60 @@
             "Curve": [
                 "Curva"
             ],
+            "Blokino Section": [
+                "Blokino Sección"
+            ],
+            "A section with room to breathe. Pick a background in the sidebar.": [
+                "Una sección con aire. Elige un fondo en la barra lateral."
+            ],
+            "Section title": [
+                "Título de la sección"
+            ],
+            "Write a short introduction here, then add any blocks you need.": [
+                "Escribe aquí una introducción breve y añade los bloques que necesites."
+            ],
+            "Hero with gradient": [
+                "Hero con degradado"
+            ],
+            "Full-width hero on an animated gradient.": [
+                "Hero a todo el ancho sobre un degradado animado."
+            ],
+            "A headline that moves": [
+                "Un titular que se mueve"
+            ],
+            "Say what you do in one clear sentence. Everything here is editable.": [
+                "Cuenta qué haces en una frase clara. Todo aquí se puede editar."
+            ],
+            "Start now": [
+                "Empieza ahora"
+            ],
+            "Hero with image": [
+                "Hero con imagen"
+            ],
+            "Full-width hero on a photo, with a dark overlay so the text stays readable.": [
+                "Hero a todo el ancho sobre una foto, con una capa oscura para que el texto se lea."
+            ],
+            "Your story, front and center": [
+                "Tu historia, en primer plano"
+            ],
+            "Choose the photo in the sidebar (Background → Choose image).": [
+                "Elige la foto en la barra lateral (Fondo → Elegir imagen)."
+            ],
+            "Learn more": [
+                "Más información"
+            ],
+            "Color band": [
+                "Banda de color"
+            ],
+            "Full-width band in your theme surface color.": [
+                "Banda a todo el ancho con el color de superficie de tu theme."
+            ],
+            "A band that stands apart": [
+                "Una banda que destaca"
+            ],
+            "Use it to separate parts of a page. The color follows your theme; change it under Background.": [
+                "Úsala para separar partes de una página. El color sigue a tu theme; cámbialo en Fondo."
+            ],
             "Background type": [
                 "Tipo de fondo"
             ],
@@ -63,6 +117,9 @@
             ],
             "Choose image": [
                 "Elegir imagen"
+            ],
+            "Color under the image": [
+                "Color bajo la imagen"
             ],
             "Choose video": [
                 "Elegir vídeo"
@@ -114,6 +171,15 @@
             ],
             "Layout": [
                 "Disposición"
+            ],
+            "Your theme does not offer wide or full width, so the section stays as wide as the content column.": [
+                "Tu theme no ofrece ancho amplio ni completo, así que la sección queda tan ancha como la columna de contenido."
+            ],
+            "Space between blocks": [
+                "Espacio entre bloques"
+            ],
+            "Separates the blocks inside the section with the theme spacing.": [
+                "Separa los bloques de la sección con el espaciado del theme."
             ],
             "Minimum height (vh)": [
                 "Altura mínima (vh)"

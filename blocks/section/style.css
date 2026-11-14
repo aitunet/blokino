@@ -42,6 +42,17 @@
 	padding-inline: var( --tnt-space-4 );
 }
 
+/* Separación entre bloques (U-07): solo en secciones nuevas (innerFlow, que
+   las variaciones activan al insertar). Imita el layout "flow" de WP con el
+   blockGap del theme; :where() deja la especificidad en 0, así que cualquier
+   regla del theme gana. Las secciones existentes no cambian de altura. */
+:where( .blokino-section__inner.has-flow-gap ) > * {
+	margin-block: 0;
+}
+:where( .blokino-section__inner.has-flow-gap ) > * + * {
+	margin-block-start: var( --wp--style--block-gap, 1.5rem );
+}
+
 /* Ancho del contenido (independiente del ancho de la sección):
    constrained = content-size · wide = wide-size · full = sin límite. */
 .blokino-section.is-content-constrained .blokino-section__inner {
@@ -68,6 +79,11 @@
 
 .is-bg-color .blokino-section__bg {
 	background: var( --tf-sec-bg, var( --tnt-color-surface ) );
+}
+
+/* Imagen: color de base bajo la foto solo si se eligió (variación Hero with image). */
+.is-bg-image .blokino-section__bg {
+	background-color: var( --tf-sec-bg, transparent );
 }
 
 .is-bg-gradient .blokino-section__bg {

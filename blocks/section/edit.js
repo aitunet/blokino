@@ -85,7 +85,72 @@
 		{ label: __( 'Curve', 'blokino' ), value: 'curve' }
 	];
 
+	/* U-07: al insertar, una sección nace visible y con aire. Estos valores van
+	   como atributos del bloque (editables en el sidebar), nunca como CSS global:
+	   las secciones que ya existen no cambian. Los textos de muestra se editan
+	   en el lienzo; los colores de los héroes se eligen para que el texto blanco
+	   sea legible con cualquier theme. */
+	var PAD = { top: 'clamp(3.5rem, 8vw, 7rem)', bottom: 'clamp(3.5rem, 8vw, 7rem)' };
+	function sampleContent( level, heading, text, button ) {
+		var blocks = [
+			[ 'core/heading', { level: level, content: heading } ],
+			[ 'core/paragraph', { content: text } ]
+		];
+		if ( button ) {
+			// Botón claro: los héroes van sobre fondo oscuro con cualquier theme.
+			blocks.push( [ 'core/buttons', {}, [ [ 'core/button', { text: button, style: { color: { background: '#ffffff', text: '#0b1020' } } } ] ] ] );
+		}
+		return blocks;
+	}
+	var VARIATIONS = [
+		{
+			name: 'section',
+			isDefault: true,
+			title: __( 'Blokino Section', 'blokino' ),
+			description: __( 'A section with room to breathe. Pick a background in the sidebar.', 'blokino' ),
+			attributes: { innerFlow: true, contentWidth: 'wide', style: { spacing: { padding: PAD } } },
+			innerBlocks: sampleContent( 2, __( 'Section title', 'blokino' ), __( 'Write a short introduction here, then add any blocks you need.', 'blokino' ) ),
+			scope: [ 'inserter' ]
+		},
+		{
+			name: 'hero-gradient',
+			title: __( 'Hero with gradient', 'blokino' ),
+			description: __( 'Full-width hero on an animated gradient.', 'blokino' ),
+			icon: 'cover-image',
+			attributes: {
+				align: 'full', innerFlow: true, contentWidth: 'wide', minHeight: 70,
+				bgType: 'gradient', gradient: 'linear-gradient(135deg,#1e1b4b 0%,#4c1d95 55%,#be185d 100%)', gradientAnimate: true,
+				style: { color: { text: '#ffffff' }, spacing: { padding: PAD }, elements: { link: { color: { text: '#ffffff' } } } }
+			},
+			innerBlocks: sampleContent( 1, __( 'A headline that moves', 'blokino' ), __( 'Say what you do in one clear sentence. Everything here is editable.', 'blokino' ), __( 'Start now', 'blokino' ) ),
+			scope: [ 'inserter', 'block' ]
+		},
+		{
+			name: 'hero-image',
+			title: __( 'Hero with image', 'blokino' ),
+			description: __( 'Full-width hero on a photo, with a dark overlay so the text stays readable.', 'blokino' ),
+			icon: 'format-image',
+			attributes: {
+				align: 'full', innerFlow: true, contentWidth: 'wide', minHeight: 70,
+				bgType: 'image', bgColor: '#0b1020', overlay: true, overlayColor: '#0b1020', overlayOpacity: 55,
+				style: { color: { text: '#ffffff' }, spacing: { padding: PAD }, elements: { link: { color: { text: '#ffffff' } } } }
+			},
+			innerBlocks: sampleContent( 1, __( 'Your story, front and center', 'blokino' ), __( 'Choose the photo in the sidebar (Background → Choose image).', 'blokino' ), __( 'Learn more', 'blokino' ) ),
+			scope: [ 'inserter', 'block' ]
+		},
+		{
+			name: 'color-band',
+			title: __( 'Color band', 'blokino' ),
+			description: __( 'Full-width band in your theme surface color.', 'blokino' ),
+			icon: 'align-wide',
+			attributes: { align: 'full', innerFlow: true, contentWidth: 'wide', bgType: 'color', style: { spacing: { padding: PAD } } },
+			innerBlocks: sampleContent( 2, __( 'A band that stands apart', 'blokino' ), __( 'Use it to separate parts of a page. The color follows your theme; change it under Background.', 'blokino' ) ),
+			scope: [ 'inserter', 'block' ]
+		}
+	];
+
 	registerBlockType( 'blokino/section', {
+		variations: VARIATIONS,
 		edit: function ( props ) {
 			var a = props.attributes;
 			var set = props.setAttributes;
@@ -94,11 +159,12 @@
 				: ( useSetting ? [ useSetting( 'color.palette' ), useSetting( 'color.gradients' ) ] : [] );
 			var palette = colorSettings[ 0 ] || [];
 			var gradients = colorSettings[ 1 ] || [];
+			var alignWide = !! ( wp.data && wp.data.select( 'core/block-editor' ).getSettings().alignWide );
 
 			/* ---- Estilos (CSS vars) del preview ---- */
 			var style = {};
 			if ( a.minHeight > 0 ) { style[ '--tf-sec-min-h' ] = a.minHeight + 'vh'; }
-			if ( a.bgType === 'color' && a.bgColor ) { style[ '--tf-sec-bg' ] = a.bgColor; }
+			if ( ( a.bgType === 'color' || a.bgType === 'image' ) && a.bgColor ) { style[ '--tf-sec-bg' ] = a.bgColor; }
 			if ( a.bgType === 'gradient' && a.gradient ) { style[ '--tf-sec-gradient' ] = a.gradient; }
 			if ( a.bgType === 'mesh' ) {
 				if ( a.meshColor1 ) { style[ '--tf-mesh-1' ] = a.meshColor1; }
@@ -129,7 +195,7 @@
 			// .blokino-section__inner, exactly as on the front end, so a theme grid on __inner lays them out the same
 			// in the editor. With the old <InnerBlocks/> two extra wrappers broke every multi-column section.
 			var innerProps = be.useInnerBlocksProps
-				? be.useInnerBlocksProps( { className: 'blokino-section__inner' }, { renderAppender: InnerBlocks.ButtonBlockAppender } )
+				? be.useInnerBlocksProps( { className: 'blokino-section__inner' + ( a.innerFlow ? ' has-flow-gap' : '' ) }, { renderAppender: InnerBlocks.ButtonBlockAppender } )
 				: null;
 
 			/* ---- Capa de fondo del preview ---- */
@@ -140,7 +206,7 @@
 				// El preview del editor refleja lo configurado (poster, loop, autoplay) para
 				// que se vea aqui lo mismo que en el front.
 				bgLayer = el( 'video', { className: 'blokino-section__bg', src: a.bgVideoUrl, poster: a.bgVideoPosterUrl || undefined, muted: true, loop: a.bgVideoLoop !== false, autoPlay: a.bgVideoAutoplay !== false, playsInline: true } );
-			} else if ( a.bgType === 'color' || a.bgType === 'gradient' || a.bgType === 'mesh' ) {
+			} else if ( a.bgType === 'color' || a.bgType === 'gradient' || a.bgType === 'mesh' || ( a.bgType === 'image' && a.bgColor ) ) {
 				bgLayer = el( 'div', { className: 'blokino-section__bg' } );
 			}
 
@@ -177,6 +243,7 @@
 					mediaField( __( 'Choose image', 'blokino' ), 'image', a.bgImageId, a.bgImageUrl,
 						function ( m ) { set( { bgImageId: m.id, bgImageUrl: m.url } ); },
 						function () { set( { bgImageId: undefined, bgImageUrl: '' } ); } ) ) );
+				bgControls.push( colorRow( __( 'Color under the image', 'blokino' ), a.bgColor, palette, function ( v ) { set( { bgColor: v } ); } ) );
 			} else if ( a.bgType === 'video' ) {
 				bgControls.push( el( 'div', { key: 'vid', style: { marginBottom: '12px' } },
 					mediaField( __( 'Choose video', 'blokino' ), 'video', a.bgVideoId, a.bgVideoUrl,
@@ -251,6 +318,16 @@
 						( a.overlay && a.overlayMobile ) ? el( c.RangeControl, { key: 'ovmobop', label: __( 'Small-screen opacity (%)', 'blokino' ), value: a.overlayMobileOpacity, min: 0, max: 100, onChange: function ( v ) { set( { overlayMobileOpacity: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ) : null
 					),
 					el( c.PanelBody, { title: __( 'Layout', 'blokino' ), initialOpen: false },
+						// U-07: un theme clásico sin align-wide no ofrece "Full width" en la barra.
+						alignWide ? null : el( 'p', { className: 'blokino-editor-note' },
+							__( 'Your theme does not offer wide or full width, so the section stays as wide as the content column.', 'blokino' ) ),
+						el( c.ToggleControl, {
+							label: __( 'Space between blocks', 'blokino' ),
+							help: __( 'Separates the blocks inside the section with the theme spacing.', 'blokino' ),
+							checked: !! a.innerFlow,
+							onChange: function ( v ) { set( { innerFlow: !! v } ); },
+							__nextHasNoMarginBottom: true
+						} ),
 						el( c.RangeControl, { label: __( 'Minimum height (vh)', 'blokino' ), value: a.minHeight, min: 0, max: 100, help: __( '0 = automatic.', 'blokino' ), onChange: function ( v ) { set( { minHeight: ( v === undefined || v === null ) ? 0 : v } ); }, __nextHasNoMarginBottom: true } ),
 						el( c.SelectControl, { label: __( 'Vertical alignment', 'blokino' ), value: a.verticalAlignment, options: [ { label: __( 'Top', 'blokino' ), value: 'top' }, { label: __( 'Center', 'blokino' ), value: 'center' }, { label: __( 'Bottom', 'blokino' ), value: 'bottom' } ], onChange: function ( v ) { set( { verticalAlignment: v } ); }, __nextHasNoMarginBottom: true } ),
 						el( c.SelectControl, {
@@ -280,7 +357,7 @@
 					bgLayer,
 					a.overlay ? el( 'div', { className: 'blokino-section__overlay' } ) : null,
 					( a.overlay && a.overlayMobile ) ? el( 'div', { className: 'blokino-section__scrim' } ) : null,
-					innerProps ? el( 'div', innerProps ) : el( 'div', { className: 'blokino-section__inner' }, el( InnerBlocks, { renderAppender: InnerBlocks.ButtonBlockAppender } ) ),
+					innerProps ? el( 'div', innerProps ) : el( 'div', { className: 'blokino-section__inner' + ( a.innerFlow ? ' has-flow-gap' : '' ) }, el( InnerBlocks, { renderAppender: InnerBlocks.ButtonBlockAppender } ) ),
 					a.dividerBottom !== 'none' ? el( 'div', { className: 'blokino-section__divider blokino-section__divider--bottom' }, dividerSvg( a.dividerBottom ) ) : null
 				)
 			);

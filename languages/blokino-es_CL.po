@@ -22,7 +22,7 @@ msgstr "%s no incluye un manifiesto de demo. Activa un theme hecho para Blokino 
 msgid "%s preview"
 msgstr "Vista previa de %s"
 
-#: blocks/section/edit.js:254
+#: blocks/section/edit.js:331
 msgid "0 = automatic."
 msgstr "0 = automática."
 
@@ -50,9 +50,21 @@ msgstr "0 = usa la duración del tema (--tnt-dur-base)."
 msgid "A CSS gradient over the image (for a directional scrim)."
 msgstr "Un degradado CSS sobre la imagen (para un velo direccional)."
 
+#: blocks/section/edit.js:147
+msgid "A band that stands apart"
+msgstr "Una banda que destaca"
+
 #: admin/class-blokino-demo.php:1793
 msgid "A demo is already imported. Re-importing replaces it; Undo removes it."
 msgstr "Ya hay una demo importada. Volver a importar la reemplaza; Deshacer la elimina."
+
+#: blocks/section/edit.js:125
+msgid "A headline that moves"
+msgstr "Un titular que se mueve"
+
+#: blocks/section/edit.js:110
+msgid "A section with room to breathe. Pick a background in the sidebar."
+msgstr "Una sección con aire. Elige un fondo en la barra lateral."
 
 #: admin/class-blokino-admin.php:664 admin/class-blokino-admin.php:713
 msgid "Accent"
@@ -122,7 +134,7 @@ msgstr "Añadir testimonio"
 msgid "Add testimonials from the “Items” panel in the block sidebar."
 msgstr "Añade testimonios desde el panel «Elementos» de la barra lateral del bloque."
 
-#: blocks/section/edit.js:245
+#: blocks/section/edit.js:312
 msgid "Adds a flat scrim under 782px, on top of the overlay. Useful when a side gradient stops covering the text on mobile."
 msgstr "Añade un velo plano por debajo de 782px, encima de la superposición. Útil cuando un degradado lateral deja de cubrir el texto en móvil."
 
@@ -154,7 +166,7 @@ msgstr "Logo alternativo (fondos oscuros)"
 msgid "An error occurred."
 msgstr "Ocurrió un error."
 
-#: blocks/section/edit.js:170
+#: blocks/section/edit.js:236
 msgid "Animate gradient"
 msgstr "Animar el degradado"
 
@@ -206,11 +218,11 @@ msgstr "Reproducción automática"
 msgid "Back"
 msgstr "Atrás"
 
-#: admin/class-blokino-admin.php:666 admin/class-blokino-admin.php:715 blocks/section/edit.js:220
+#: admin/class-blokino-admin.php:666 admin/class-blokino-admin.php:715 blocks/section/edit.js:287
 msgid "Background"
 msgstr "Fondo"
 
-#: blocks/section/edit.js:166
+#: blocks/section/edit.js:232
 msgid "Background color"
 msgstr "Color de fondo"
 
@@ -218,11 +230,11 @@ msgstr "Color de fondo"
 msgid "Background image"
 msgstr "Imagen de fondo"
 
-#: blocks/section/edit.js:151
+#: blocks/section/edit.js:217
 msgid "Background type"
 msgstr "Tipo de fondo"
 
-#: blocks/section/edit.js:211
+#: blocks/section/edit.js:278
 msgid "Background video always plays muted, with a pause control. Visitors who ask for reduced motion see the poster instead, with a play control — and the video is not downloaded until they ask for it."
 msgstr "El vídeo de fondo se reproduce siempre sin sonido y con un control de pausa. Quien pide movimiento reducido ve el póster en su lugar, con un control de reproducción, y el vídeo no se descarga hasta que lo pide."
 
@@ -265,6 +277,10 @@ msgstr "Blokino Antes / Después"
 #: admin/class-blokino-welcome.php:290 extensions/effects-editor.js:654
 msgid "Blokino Effects"
 msgstr "Efectos Blokino"
+
+#: blocks/section/edit.js:109
+msgid "Blokino Section"
+msgstr "Blokino Sección"
 
 #: blokino.php:393
 msgid "Blokino activation"
@@ -310,7 +326,7 @@ msgstr "Intenso (lento)"
 msgid "Border width (px)"
 msgstr "Grosor del borde (px)"
 
-#: blocks/section/edit.js:255
+#: blocks/section/edit.js:332
 msgid "Bottom"
 msgstr "Abajo"
 
@@ -318,7 +334,7 @@ msgstr "Abajo"
 msgid "Bottom center"
 msgstr "Abajo al centro"
 
-#: blocks/section/edit.js:271
+#: blocks/section/edit.js:348
 msgid "Bottom divider"
 msgstr "Divisor inferior"
 
@@ -398,7 +414,7 @@ msgstr "Texto (repítelo con · )"
 msgid "Carousel"
 msgstr "Carrusel"
 
-#: blocks/content-slider/edit.js:21 blocks/content-slider/edit.js:26 blocks/content-slider/edit.js:52 blocks/section/edit.js:255
+#: blocks/content-slider/edit.js:21 blocks/content-slider/edit.js:26 blocks/content-slider/edit.js:52 blocks/section/edit.js:332
 msgid "Center"
 msgstr "Centro"
 
@@ -430,7 +446,7 @@ msgstr "Elegir la imagen «después»"
 msgid "Choose before image"
 msgstr "Elegir la imagen «antes»"
 
-#: blocks/section/edit.js:177
+#: blocks/section/edit.js:243
 msgid "Choose image"
 msgstr "Elegir imagen"
 
@@ -438,7 +454,11 @@ msgstr "Elegir imagen"
 msgid "Choose the before and after images to compare."
 msgstr "Elige las imágenes de antes y después para comparar."
 
-#: blocks/section/edit.js:182
+#: blocks/section/edit.js:138
+msgid "Choose the photo in the sidebar (Background → Choose image)."
+msgstr "Elige la foto en la barra lateral (Fondo → Elegir imagen)."
+
+#: blocks/section/edit.js:249
 msgid "Choose video"
 msgstr "Elegir vídeo"
 
@@ -458,9 +478,17 @@ msgstr "Cliente"
 msgid "Clip reveal"
 msgstr "Revelado por recorte"
 
-#: blocks/content-slider/edit.js:103 blocks/section/edit.js:155 blocks/section/edit.js:228
+#: blocks/content-slider/edit.js:103 blocks/section/edit.js:221 blocks/section/edit.js:295
 msgid "Color"
 msgstr "Color"
+
+#: blocks/section/edit.js:143
+msgid "Color band"
+msgstr "Banda de color"
+
+#: blocks/section/edit.js:246
+msgid "Color under the image"
+msgstr "Color bajo la imagen"
 
 #: blocks/testimonials/edit.js:68
 msgid "Columns"
@@ -478,7 +506,7 @@ msgstr "Comparar antes y después"
 msgid "Connection hiccup — retrying…"
 msgstr "Fallo de conexión; reintentando…"
 
-#: blocks/section/edit.js:260
+#: blocks/section/edit.js:337
 msgid "Constrained (content)"
 msgstr "Restringido (contenido)"
 
@@ -502,7 +530,7 @@ msgstr "Alineación del contenido (diapositiva)"
 msgid "Content layout"
 msgstr "Disposición del contenido"
 
-#: blocks/section/edit.js:257
+#: blocks/section/edit.js:334
 msgid "Content width"
 msgstr "Ancho del contenido"
 
@@ -634,11 +662,11 @@ msgstr "Display"
 msgid "Display style"
 msgstr "Estilo de presentación"
 
-#: blocks/section/edit.js:272
+#: blocks/section/edit.js:349
 msgid "Divider color"
 msgstr "Color del divisor"
 
-#: blocks/section/edit.js:273
+#: blocks/section/edit.js:350
 msgid "Divider height (px)"
 msgstr "Altura del divisor (px)"
 
@@ -694,7 +722,7 @@ msgstr "Vacío = decide el theme. Un valor aquí anula el token del theme en tod
 msgid "Empty = theme. Rounding for Blokino blocks/components that use the radius tokens. 0 = sharp."
 msgstr "Vacío = theme. Redondeo para los bloques/componentes de Blokino que usan los tokens de radio. 0 = recto."
 
-#: blocks/section/edit.js:222
+#: blocks/section/edit.js:289
 msgid "Enable overlay"
 msgstr "Activar la superposición"
 
@@ -742,13 +770,25 @@ msgstr "Finalizando…"
 msgid "Free"
 msgstr "Gratis"
 
-#: blocks/section/edit.js:262
+#: blocks/section/edit.js:339
 msgid "Full"
 msgstr "Completo"
 
 #: admin/class-blokino-admin.php:758
 msgid "Full width (no sidebar)"
 msgstr "Ancho completo (sin barra lateral)"
+
+#: blocks/section/edit.js:144
+msgid "Full-width band in your theme surface color."
+msgstr "Banda a todo el ancho con el color de superficie de tu theme."
+
+#: blocks/section/edit.js:131
+msgid "Full-width hero on a photo, with a dark overlay so the text stays readable."
+msgstr "Hero a todo el ancho sobre una foto, con una capa oscura para que el texto se lea."
+
+#: blocks/section/edit.js:118
+msgid "Full-width hero on an animated gradient."
+msgstr "Hero a todo el ancho sobre un degradado animado."
 
 #: admin/class-blokino-admin.php:769 blocks/icon/edit.js:20 blocks/marquee/edit.js:75
 msgid "General"
@@ -774,7 +814,7 @@ msgstr "Guía de primeros pasos"
 msgid "Glow"
 msgstr "Resplandor"
 
-#: blocks/content-slider/edit.js:103 blocks/section/edit.js:156 blocks/section/edit.js:168 blocks/section/edit.js:229 extensions/effects-editor.js:529
+#: blocks/content-slider/edit.js:103 blocks/section/edit.js:222 blocks/section/edit.js:234 blocks/section/edit.js:296 extensions/effects-editor.js:529
 msgid "Gradient"
 msgstr "Degradado"
 
@@ -785,6 +825,14 @@ msgstr "Rejilla"
 #: admin/class-blokino-welcome.php:311
 msgid "Help"
 msgstr "Ayuda"
+
+#: blocks/section/edit.js:117
+msgid "Hero with gradient"
+msgstr "Hero con degradado"
+
+#: blocks/section/edit.js:130
+msgid "Hero with image"
+msgstr "Hero con imagen"
 
 #: blocks/breadcrumbs/edit.js:19 blocks/breadcrumbs/render.php:36
 msgid "Home"
@@ -818,7 +866,7 @@ msgstr "Icono"
 msgid "If you found a problem, what was it?"
 msgstr "Si encontraste un problema, ¿cuál fue?"
 
-#: admin/class-blokino-demo.php:1702 blocks/section/edit.js:158
+#: admin/class-blokino-demo.php:1702 blocks/section/edit.js:224
 msgid "Image"
 msgid_plural "Images"
 msgstr[0] "Imagen"
@@ -868,7 +916,7 @@ msgstr "Importando archivos multimedia…"
 msgid "Importing…"
 msgstr "Importando…"
 
-#: blocks/section/edit.js:264
+#: blocks/section/edit.js:341
 msgid "Independent of the section width. Set the section to “Full width” (toolbar) and constrain the content here."
 msgstr "Independiente del ancho de la sección. Pon la sección a «Ancho completo» (barra de herramientas) y restringe aquí el contenido."
 
@@ -946,11 +994,11 @@ msgstr[1] "Entradas del diario"
 msgid "Large"
 msgstr "Grande"
 
-#: blocks/section/edit.js:253 blocks/testimonials/edit.js:66
+#: blocks/section/edit.js:320 blocks/testimonials/edit.js:66
 msgid "Layout"
 msgstr "Disposición"
 
-#: blocks/badge/render.php:39
+#: blocks/badge/render.php:39 blocks/section/edit.js:138
 msgid "Learn more"
 msgstr "Más información"
 
@@ -994,7 +1042,7 @@ msgstr "Solo carga en las páginas que usan un efecto"
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: blocks/section/edit.js:203
+#: blocks/section/edit.js:270
 msgid "Loop"
 msgstr "Bucle"
 
@@ -1034,23 +1082,23 @@ msgstr "Máscara hacia arriba"
 msgid "Max width (px)"
 msgstr "Ancho máximo (px)"
 
-#: blocks/section/edit.js:157
+#: blocks/section/edit.js:223
 msgid "Mesh"
 msgstr "Malla"
 
-#: blocks/section/edit.js:172
+#: blocks/section/edit.js:238
 msgid "Mesh — color 1"
 msgstr "Malla — color 1"
 
-#: blocks/section/edit.js:173
+#: blocks/section/edit.js:239
 msgid "Mesh — color 2"
 msgstr "Malla — color 2"
 
-#: blocks/section/edit.js:174
+#: blocks/section/edit.js:240
 msgid "Mesh — color 3"
 msgstr "Malla — color 3"
 
-#: blocks/section/edit.js:254
+#: blocks/section/edit.js:331
 msgid "Minimum height (vh)"
 msgstr "Altura mínima (vh)"
 
@@ -1134,7 +1182,7 @@ msgstr "Sin repetición"
 msgid "No themes listed yet."
 msgstr "Aún no hay themes en la lista."
 
-#: blocks/marquee/edit.js:157 blocks/section/edit.js:82 blocks/section/edit.js:154 extensions/effects-editor.js:458 extensions/effects-editor.js:477 extensions/effects-editor.js:510 extensions/effects-editor.js:528
+#: blocks/marquee/edit.js:157 blocks/section/edit.js:82 blocks/section/edit.js:220 extensions/effects-editor.js:458 extensions/effects-editor.js:477 extensions/effects-editor.js:510 extensions/effects-editor.js:528
 msgid "None"
 msgstr "Ninguno"
 
@@ -1150,7 +1198,7 @@ msgstr "No se encontró"
 msgid "On the page, entrance and scroll effects play as the block scrolls into view."
 msgstr "En la página, los efectos de entrada y de scroll se reproducen cuando el bloque aparece en pantalla."
 
-#: blocks/section/edit.js:237
+#: blocks/section/edit.js:304
 msgid "Opacity (%)"
 msgstr "Opacidad (%)"
 
@@ -1194,7 +1242,7 @@ msgstr "Contorno"
 msgid "Output BreadcrumbList structured data"
 msgstr "Emitir datos estructurados BreadcrumbList"
 
-#: blocks/section/edit.js:221
+#: blocks/section/edit.js:288
 msgid "Overlay"
 msgstr "Superposición"
 
@@ -1202,15 +1250,15 @@ msgstr "Superposición"
 msgid "Overlay (%)"
 msgstr "Superposición (%)"
 
-#: blocks/content-slider/edit.js:106 blocks/section/edit.js:234
+#: blocks/content-slider/edit.js:106 blocks/section/edit.js:301
 msgid "Overlay color"
 msgstr "Color de la superposición"
 
-#: blocks/content-slider/edit.js:116 blocks/section/edit.js:235
+#: blocks/content-slider/edit.js:116 blocks/section/edit.js:302
 msgid "Overlay gradient"
 msgstr "Degradado de la superposición"
 
-#: blocks/content-slider/edit.js:103 blocks/section/edit.js:225
+#: blocks/content-slider/edit.js:103 blocks/section/edit.js:292
 msgid "Overlay type"
 msgstr "Tipo de superposición"
 
@@ -1240,7 +1288,7 @@ msgstr "Intensidad del parallax"
 msgid "Pause"
 msgstr "Pausar"
 
-#: blocks/section/render.php:154
+#: blocks/section/render.php:156
 msgid "Pause background video"
 msgstr "Pausar el vídeo de fondo"
 
@@ -1272,11 +1320,11 @@ msgstr "Coloca las flechas en los márgenes laterales en vez de encima de las di
 msgid "Play"
 msgstr "Reproducir"
 
-#: blocks/section/edit.js:196
+#: blocks/section/edit.js:263
 msgid "Play automatically"
 msgstr "Reproducir automáticamente"
 
-#: blocks/section/render.php:154
+#: blocks/section/render.php:156
 msgid "Play background video"
 msgstr "Reproducir el vídeo de fondo"
 
@@ -1288,7 +1336,7 @@ msgstr "Plugins"
 msgid "Position"
 msgstr "Posición"
 
-#: blocks/section/edit.js:191
+#: blocks/section/edit.js:258
 msgid "Poster image"
 msgstr "Imagen de póster"
 
@@ -1364,7 +1412,7 @@ msgstr "Plugins recomendados"
 msgid "Refresh the list"
 msgstr "Actualizar la lista"
 
-#: blocks/section/edit.js:244
+#: blocks/section/edit.js:311
 msgid "Reinforce on small screens"
 msgstr "Reforzar en pantallas pequeñas"
 
@@ -1448,6 +1496,10 @@ msgstr "Runtime activo"
 msgid "Save settings"
 msgstr "Guardar ajustes"
 
+#: blocks/section/edit.js:125
+msgid "Say what you do in one clear sentence. Everything here is editable."
+msgstr "Cuenta qué haces en una frase clara. Todo aquí se puede editar."
+
 #: extensions/effects-editor.js:350
 msgid "Scale in"
 msgstr "Aparecer escalando"
@@ -1484,6 +1536,10 @@ msgstr "Buscar…"
 msgid "Seconds per turn"
 msgstr "Segundos por vuelta"
 
+#: blocks/section/edit.js:112
+msgid "Section title"
+msgstr "Título de la sección"
+
 #: admin/class-blokino-welcome.php:304
 msgid "Section, Slider, Marquee, Counter, Before/After, Testimonials, Brand, Icon, Badge."
 msgstr "Sección, Slider, Marquesina, Contador, Antes/Después, Testimonios, Marca, Icono, Insignia."
@@ -1503,6 +1559,10 @@ msgstr "Enviando…"
 #: admin/class-blokino-feedback.php:174
 msgid "Sent to tunetdesign.com only if you press \"Submit & deactivate\": your answer, the Blokino, WordPress and PHP versions, the admin language and your theme's name. Your email and site address go only if you tick the box above. %s"
 msgstr "Se envía a tunetdesign.com solo si pulsas «Enviar y desactivar»: tu respuesta, las versiones de Blokino, WordPress y PHP, el idioma del administrador y el nombre de tu theme. Tu correo y la dirección del sitio solo se envían si marcas la casilla de arriba. %s"
+
+#: blocks/section/edit.js:326
+msgid "Separates the blocks inside the section with the theme spacing."
+msgstr "Separa los bloques de la sección con el espaciado del theme."
 
 #: blocks/breadcrumbs/edit.js:35 blocks/marquee/edit.js:152
 msgid "Separator"
@@ -1544,7 +1604,7 @@ msgstr "Ajustes guardados."
 msgid "Shape"
 msgstr "Forma"
 
-#: blocks/section/edit.js:269
+#: blocks/section/edit.js:346
 msgid "Shape dividers"
 msgstr "Divisores de forma"
 
@@ -1604,11 +1664,11 @@ msgstr "Diapositivas"
 msgid "Slides per view"
 msgstr "Diapositivas visibles"
 
-#: blocks/section/edit.js:251
+#: blocks/section/edit.js:318
 msgid "Small-screen opacity (%)"
 msgstr "Opacidad en pantallas pequeñas (%)"
 
-#: blocks/section/edit.js:250
+#: blocks/section/edit.js:317
 msgid "Small-screen scrim color"
 msgstr "Color del velo en pantallas pequeñas"
 
@@ -1623,6 +1683,10 @@ msgstr "Código en GitHub"
 #: blocks/content-slider/edit.js:195 blocks/testimonials/edit.js:71
 msgid "Space between (px)"
 msgstr "Espacio entre ellas (px)"
+
+#: blocks/section/edit.js:325
+msgid "Space between blocks"
+msgstr "Espacio entre bloques"
 
 #: blocks/marquee/edit.js:127
 msgid "Spacing (rem)"
@@ -1651,6 +1715,10 @@ msgstr "Color inicial (vacío = acento del tema)"
 #: admin/class-blokino-welcome.php:258
 msgid "Start free with Blokmark, our theme on WordPress.org, or pick a premium one."
 msgstr "Empieza gratis con Blokmark, nuestro theme en WordPress.org, o elige uno premium."
+
+#: blocks/section/edit.js:125
+msgid "Start now"
+msgstr "Empieza ahora"
 
 #: blocks/before-after/edit.js:79
 msgid "Start position (%)"
@@ -1864,7 +1932,7 @@ msgstr "Alineación del título"
 msgid "Tools"
 msgstr "Herramientas"
 
-#: blocks/section/edit.js:255
+#: blocks/section/edit.js:332
 msgid "Top"
 msgstr "Arriba"
 
@@ -1872,7 +1940,7 @@ msgstr "Arriba"
 msgid "Top center"
 msgstr "Arriba al centro"
 
-#: blocks/section/edit.js:270
+#: blocks/section/edit.js:347
 msgid "Top divider"
 msgstr "Divisor superior"
 
@@ -1916,6 +1984,10 @@ msgstr "Plugin desconocido."
 msgid "Update %s"
 msgstr "Actualizar %s"
 
+#: blocks/section/edit.js:147
+msgid "Use it to separate parts of a page. The color follows your theme; change it under Background."
+msgstr "Úsala para separar partes de una página. El color sigue a tu theme; cámbialo en Fondo."
+
 #: admin/class-blokino-admin.php:495
 msgid "Use this logo"
 msgstr "Usar este logo"
@@ -1924,11 +1996,11 @@ msgstr "Usar este logo"
 msgid "Variant"
 msgstr "Variante"
 
-#: blocks/section/edit.js:255
+#: blocks/section/edit.js:332
 msgid "Vertical alignment"
 msgstr "Alineación vertical"
 
-#: blocks/section/edit.js:159
+#: blocks/section/edit.js:225
 msgid "Video"
 msgstr "Vídeo"
 
@@ -1992,7 +2064,7 @@ msgstr "¿Qué función?"
 msgid "Which one, and what does it do better?"
 msgstr "¿Cuál, y qué hace mejor?"
 
-#: blocks/section/edit.js:261
+#: blocks/section/edit.js:338
 msgid "Wide"
 msgstr "Ancho"
 
@@ -2007,6 +2079,10 @@ msgstr "Con el bloque Marca en Automático, el logo alternativo se usa en paleta
 #: blocks/breadcrumbs/edit.js:19
 msgid "Work"
 msgstr "Trabajo"
+
+#: blocks/section/edit.js:112
+msgid "Write a short introduction here, then add any blocks you need."
+msgstr "Escribe aquí una introducción breve y añade los bloques que necesites."
 
 #: content/class-blokino-content.php:659
 msgid "Year"
@@ -2047,6 +2123,14 @@ msgstr "Tu mensaje (opcional)"
 #: admin/class-blokino-demo.php:521
 msgid "Your name"
 msgstr "Tu nombre"
+
+#: blocks/section/edit.js:138
+msgid "Your story, front and center"
+msgstr "Tu historia, en primer plano"
+
+#: blocks/section/edit.js:323
+msgid "Your theme does not offer wide or full width, so the section stays as wide as the content column."
+msgstr "Tu theme no ofrece ancho amplio ni completo, así que la sección queda tan ancha como la columna de contenido."
 
 #: admin/class-blokino-welcome.php:254
 msgid "You’re on %s."
