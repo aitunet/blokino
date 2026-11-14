@@ -4,7 +4,7 @@ Tags: blocks, effects, animation, block-editor, carousel
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,12 +16,13 @@ Blokino adds motion and interaction to WordPress blocks without ever hardcoding 
 
 **What it provides**
 
-* **Effects on native blocks (tf* attributes).** A "Blokino Effects" panel is added to Group, Columns, Cover, Image, Heading, Paragraph and Buttons. Choose an entrance animation (fade-up, clip-reveal, mask-up, blur-in, scale-in, slide, text-stagger), a hover effect (lift, glow, tilt, magnetic, image-zoom, underline-grow), a scroll effect (parallax, sticky-pin, reveal, progress), blend modes and animated borders. A block with no effect attribute stays completely clean.
+* **Effects on native blocks (tf* attributes), previewed in the editor.** A "Blokino Effects" panel is added to Group, Columns, Cover, Image, Heading, Paragraph, Buttons, Media & Text, Query Loop and more. Hover, borders and blend modes show live on the canvas, and an entrance plays the moment you pick it. Choose an entrance animation (fade-up, clip-reveal, mask-up, blur-in, scale-in, slide, text-stagger), a hover effect (lift, glow, tilt, magnetic, image-zoom, underline-grow), a scroll effect (parallax, sticky-pin, reveal, progress), blend modes and animated borders. A block with no effect attribute stays completely clean.
 * **Custom blocks where the core falls short.** Section (advanced backgrounds: video, gradient, mesh, overlay, shape dividers), Marquee (infinite band), Counter (animated number on scroll), Before/After (image comparator), Slider and Testimonials (Swiper-powered), Brand, Icon and Badge.
 * **A lightweight effects runtime.** Effects are detected per page and their assets are enqueued only when a block on the page uses them. Reveal uses the native IntersectionObserver and scroll effects run on requestAnimationFrame — no third-party animation library. Swiper (MIT) is the only bundled library, loaded solely on pages with a slider. `prefers-reduced-motion` is always respected.
 * **An options panel + demo importer.** Global settings, JSON import/export, sidebar layout controls, and a per-theme demo importer with a progress bar and one-click rollback.
 * **A free theme to start with.** Blokmark, our free block theme on WordPress.org, is built for this engine: a designed home the moment you activate it, three looks, blog and page templates. The Themes screen installs it with WordPress's own theme installer, then lists the premium themes.
-* **A Get started screen.** Site status, the three steps to a finished site (theme → demo → effects) and the doors to the documentation.
+* **Ready-made patterns and a one-click playground.** Six patterns that work with any theme (heroes, cards, key figures, logo band, testimonials) and a "Try it on a new page" button that opens a draft with effects already in place.
+* **A Get started screen.** It starts with what the plugin does — add an effect, insert a block or pattern — and keeps themes as an optional extra.
 
 **Design principles**
 
@@ -88,6 +89,21 @@ Blokino works fully offline. It connects to an external service only in the thre
 5. Export your Blokino settings to a JSON file and import them on another site, for example to move a design from staging to production.
 
 == Changelog ==
+= 1.2.0 =
+* New: effects preview in the editor. Hover, animated borders, blend modes, outline text, parallax and zoom show live on the canvas; "Preview animation" (and picking an entrance) plays it right there.
+* New: "Blokino" category in the inserter and in Patterns, with six patterns that work with any theme, and a preview for every block.
+* New: "Try it on a new page" on Get started opens a draft with sample sections that already use effects.
+* New: Section is inserted ready to use — sample content and padding, plus variations: Hero with gradient, Hero with image, Color band. Text and link color support, "Space between blocks" and a color under the image.
+* New: Testimonials and Content slider are inserted with sample items.
+* New: the Effects panel is available on more blocks (Column, Gallery, Media & Text, Video, List, Quote, Separator, Site Title, Post Title, Featured Image, Query Loop); developers can change the list with the blokino_effect_blocks filter.
+* Improved: default colors follow the active theme's palette (light or dark), so Blokino blocks and effects match any theme. Content made with a Blokino theme keeps its spacing and colors with other themes.
+* Improved: every control in the Effects panel explains what it does; Outline and Blend appear only on blocks where they show; clearer easing names.
+* Improved: Get started leads with the effect; Settings says what it affects when the theme is not made for Blokino.
+* Changed: with a theme not made for Blokino, the plugin no longer registers the portfolio (Projects at /work/), changes how core block styles load or prints a meta description. The portfolio is a setting (Settings → General); sites that already have Blokino projects keep it.
+* Fix: Text fill ends on the text's own color (a white heading stays white).
+* Accessibility: carousels with autoplay get a pause button and stop while focused, and announce in the site language; Before/After lets you scroll on touch and says what it shows; Breadcrumbs mark only the current page.
+* Developers: blokino_demo_imported and blokino_demo_removed actions.
+
 = 1.1.2 =
 * Fix: saving or importing Blokino settings no longer removes a site logo that was set elsewhere (Site Logo block or Customizer). The Main logo field now shows that logo when Blokino has none of its own.
 * Security: background image URLs in Section and Content slider are encoded inside url(), so a crafted URL can no longer add CSS to the page.
