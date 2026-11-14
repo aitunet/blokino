@@ -17,8 +17,9 @@
  *    paint sin necesidad de descargar el runtime.
  *  - footer: el runtime real (IntersectionObserver) con strategy "defer", que
  *    no bloquea el parseo. Revela los elementos al entrar en viewport.
- *  - Si el runtime nunca carga, el contenido queda visible (resiliencia) y no
- *    hay CLS: solo se animan opacity/transform, nunca display.
+ *  - Si el runtime no se ejecuta en 3 s, el propio snippet quita el gate y el
+ *    contenido se muestra (resiliencia). No hay CLS: solo se animan
+ *    opacity/transform, nunca display.
  *
  * Detección: se pre-escanea el contenido del objeto consultado en
  * wp_enqueue_scripts. Como red de seguridad, render_block también encola al
@@ -210,8 +211,11 @@ class Blokino_Runtime {
 		}
 
 		// Por la API de WP y no con un <script> literal (review de wp.org): mismo id, sigue síncrono en el <head>.
+		// Red de seguridad (U-11/E-04): si a los 3 s el runtime no se ejecutó (caché que
+		// lo retrasa, bloqueador, error de red), se quita el gate y el contenido se ve.
+		// El flag gateReleased evita que un runtime tardío vuelva a ocultarlo.
 		wp_print_inline_script_tag(
-			"document.documentElement.classList.add('blokino-tf-ready');",
+			"(function(d){d.classList.add('blokino-tf-ready');setTimeout(function(){var b=window.blokino=window.blokino||{};if(!b.runtimeLoaded){b.gateReleased=true;d.classList.remove('blokino-tf-ready');}},3000);})(document.documentElement);",
 			array( 'id' => 'blokino-tf-bootstrap' )
 		);
 	}

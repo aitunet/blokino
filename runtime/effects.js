@@ -29,10 +29,15 @@
 
 	var root = document.documentElement;
 
-	// Reafirmación defensiva del gate (la vía principal es el snippet inline).
-	root.classList.add( 'blokino-tf-ready' );
-
 	window.blokino = window.blokino || {};
+
+	// Reafirmación defensiva del gate (la vía principal es el snippet inline),
+	// salvo que la red de seguridad del <head> ya lo haya soltado: el runtime
+	// llegó tarde y el contenido ya está a la vista, no se vuelve a ocultar.
+	if ( ! window.blokino.gateReleased ) {
+		root.classList.add( 'blokino-tf-ready' );
+	}
+
 	window.blokino.runtimeLoaded = true;
 
 	var reduceMotion = window.matchMedia &&
