@@ -14,6 +14,10 @@ msgstr ""
 msgid "%1$s %2$d/%3$d"
 msgstr "%1$s %2$d/%3$d"
 
+#: blocks/before-after/render.php:67 blocks/before-after/render.php:69
+msgid "%d%% of the before image"
+msgstr "%d %% de la imagen de antes"
+
 #: admin/class-blokino-demo.php:1761
 msgid "%s does not ship a demo manifest. Activate a theme built for Blokino to unlock its designed demo."
 msgstr "%s no incluye un manifiesto de demo. Activa un theme hecho para Blokino para desbloquear su demo diseñada."
@@ -422,7 +426,7 @@ msgstr "Logos de marca"
 msgid "Branding"
 msgstr "Identidad de marca"
 
-#: blocks/breadcrumbs/render.php:207
+#: blocks/breadcrumbs/render.php:204
 msgid "Breadcrumb"
 msgstr "Miga de pan"
 

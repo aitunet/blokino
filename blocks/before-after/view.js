@@ -20,6 +20,14 @@
 		var handle = el.querySelector( '.blokino-ba__handle' );
 		var dragging = false;
 
+		// E-09: el lector de pantalla anuncia "40 % de la imagen antes", no solo "40".
+		function setValueText( n ) {
+			var tpl = handle && handle.getAttribute( 'data-valuetext' );
+			if ( tpl ) {
+				handle.setAttribute( 'aria-valuetext', tpl.replace( '%d', n ).replace( '%%', '%' ) );
+			}
+		}
+
 		function setPos( clientX ) {
 			var rect = el.getBoundingClientRect();
 			if ( ! rect.width ) {
@@ -29,6 +37,7 @@
 			el.style.setProperty( '--tnt-ba-pos', pct + '%' );
 			if ( handle ) {
 				handle.setAttribute( 'aria-valuenow', Math.round( pct ) );
+				setValueText( Math.round( pct ) );
 			}
 		}
 
@@ -75,6 +84,7 @@
 				cur = clamp( cur );
 				el.style.setProperty( '--tnt-ba-pos', cur + '%' );
 				handle.setAttribute( 'aria-valuenow', Math.round( cur ) );
+				setValueText( Math.round( cur ) );
 			} );
 		}
 	}

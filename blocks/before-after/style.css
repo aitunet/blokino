@@ -12,7 +12,10 @@
 	border-radius: var( --tnt-radius-md );
 	line-height: 0;
 	user-select: none;
-	touch-action: none; /* permite arrastrar en táctil sin scroll */
+	/* E-09: pan-y deja hacer scroll vertical empezando sobre la imagen; el arrastre
+	   horizontal sigue moviendo el divisor (si el navegador decide hacer scroll,
+	   cancela el puntero y view.js suelta el arrastre). */
+	touch-action: pan-y;
 	cursor: ew-resize;
 }
 

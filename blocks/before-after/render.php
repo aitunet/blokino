@@ -62,7 +62,11 @@ $blokino_wrapper = get_block_wrapper_attributes(
 
 	<div class="blokino-ba__handle" role="slider" tabindex="0"
 		aria-label="<?php esc_attr_e( 'Compare before and after', 'blokino' ); ?>"
-		aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?php echo esc_attr( $blokino_pos ); ?>">
+		aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?php echo esc_attr( $blokino_pos ); ?>" aria-orientation="horizontal"
+		<?php /* translators: %d: percentage of the "before" image that is visible. */ ?>
+		aria-valuetext="<?php echo esc_attr( sprintf( __( '%d%% of the before image', 'blokino' ), (int) $blokino_pos ) ); ?>"
+		<?php /* translators: %d: placeholder kept for the script, do not translate it. */ ?>
+		data-valuetext="<?php echo esc_attr( __( '%d%% of the before image', 'blokino' ) ); ?>">
 		<span class="blokino-ba__grip" aria-hidden="true"></span>
 	</div>
 </div>
