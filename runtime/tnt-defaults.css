@@ -23,16 +23,27 @@
 
 @layer tnt-defaults {
 	:root {
-		/* ---- COLOR (neutral, theme-agnóstico) ---- */
-		--tnt-color-bg:         #FAFAFC; /* off-white frío, no blanco puro */
-		--tnt-color-surface:    #FFFFFF;
-		--tnt-color-text:       #1A1A22; /* casi-negro, no negro puro */
-		--tnt-color-text-muted: #5A5A66;
-		--tnt-color-primary:    #4F46E5; /* indigo — acciones/enlaces */
-		--tnt-color-accent:     #0EA5A4; /* teal — highlights/glow */
+		/* ---- COLOR: sigue la paleta del theme activo (U-05) ----
+		   Cada token lee primero los slugs habituales de WordPress (TT4/TT5 usan
+		   base/contrast; otros themes background/foreground/primary/accent) y cae al
+		   hex neutro de siempre. Un theme Tunet define estos --tnt-* sin capa y gana
+		   siempre: para él no cambia nada.
+		   SIN CICLOS: estos tokens nunca leen los slugs que este archivo define más
+		   abajo (bg, surface, text-muted, accent-2, line). */
+		--tnt-color-bg:         var(--wp--preset--color--base, var(--wp--preset--color--background, #FAFAFC));
+		--tnt-color-text:       var(--wp--preset--color--contrast, var(--wp--preset--color--foreground, #1A1A22));
+		/* Superficie = el fondo con un toque del texto: se distingue del fondo en
+		   claro y en oscuro (una banda "surface" ya no desaparece en TT5). */
+		--tnt-color-surface:    color-mix(in srgb, var(--tnt-color-bg) 94%, var(--tnt-color-text));
+		--tnt-color-text-muted: color-mix(in srgb, var(--tnt-color-text) 68%, var(--tnt-color-bg));
+		--tnt-color-primary:    var(--wp--preset--color--primary, var(--wp--preset--color--accent, #4F46E5)); /* indigo de red */
+		--tnt-color-accent:     var(--wp--preset--color--accent, var(--wp--preset--color--secondary, #0EA5A4)); /* teal de red */
 		--tnt-color-accent-2:   #DB2777; /* rose — pop, uso mínimo */
-		--tnt-color-border:     #E7E7EE;
+		--tnt-color-border:     color-mix(in srgb, var(--tnt-color-text) 14%, transparent);
 		--tnt-color-star:       #F5B301; /* dorado — rating; un theme puede sobreescribirlo */
+		/* Bandas oscuras fijas (contrato extendido §6, T-02): no siguen la paleta. */
+		--tnt-color-ink:        #14141B;
+		--tnt-color-on-ink:     #FFFFFF;
 
 		/* ---- TIPOGRAFÍA (system stacks; el theme impone las webfonts) ---- */
 		--tnt-font-display: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -100,6 +111,66 @@
 		--tnt-brand-main-display: block;
 		--tnt-brand-alt-display:  none;
 	}
+
+	/* ---- PRESETS con los slugs Tunet (T-01) ----
+	   El contenido hecho con un theme Tunet guarda var(--wp--preset--spacing--7),
+	   backgroundColor:"surface", fontSize:"xl"… Con otro theme esos presets no
+	   existen y el contenido perdía paddings y colores. Aquí se definen a partir de
+	   los --tnt-* (en capa: si el theme activo define el slug, gana el suyo).
+	   NO se definen primary, accent ni foreground: son slugs comunes que el theme
+	   ajeno suele tener y que los --tnt-* de arriba leen (sería un ciclo). */
+	:root {
+		--wp--preset--spacing--1: var(--tnt-space-1);
+		--wp--preset--spacing--2: var(--tnt-space-2);
+		--wp--preset--spacing--3: var(--tnt-space-3);
+		--wp--preset--spacing--4: var(--tnt-space-4);
+		--wp--preset--spacing--5: var(--tnt-space-5);
+		--wp--preset--spacing--6: var(--tnt-space-6);
+		--wp--preset--spacing--7: var(--tnt-space-7);
+		--wp--preset--spacing--8: var(--tnt-space-8);
+		--wp--preset--spacing--9: var(--tnt-space-9);
+		--wp--preset--spacing--10: var(--tnt-space-10);
+		--wp--preset--spacing--11: var(--tnt-space-11);
+		--wp--preset--spacing--12: var(--tnt-space-12);
+		--wp--preset--color--bg: var(--tnt-color-bg);
+		--wp--preset--color--surface: var(--tnt-color-surface);
+		--wp--preset--color--text-muted: var(--tnt-color-text-muted);
+		--wp--preset--color--accent-2: var(--tnt-color-accent-2);
+		--wp--preset--color--line: var(--tnt-color-border);
+		--wp--preset--font-size--xs: var(--tnt-text-xs);
+		--wp--preset--font-size--sm: var(--tnt-text-sm);
+		--wp--preset--font-size--base: var(--tnt-text-base);
+		--wp--preset--font-size--md: var(--tnt-text-md);
+		--wp--preset--font-size--lg: var(--tnt-text-lg);
+		--wp--preset--font-size--xl: var(--tnt-text-xl);
+		--wp--preset--font-size--2xl: var(--tnt-text-2xl);
+		--wp--preset--font-family--display: var(--tnt-font-display);
+		--wp--preset--font-family--body: var(--tnt-font-body);
+		--wp--preset--font-family--mono: var(--tnt-font-mono);
+	}
+
+	/* Clases que WordPress genera solo para la paleta del theme activo: sin ellas,
+	   un has-surface-background-color pegado desde un theme Tunet no pinta nada. */
+	.has-bg-color { color: var(--wp--preset--color--bg); }
+	.has-bg-background-color { background-color: var(--wp--preset--color--bg); }
+	.has-surface-color { color: var(--wp--preset--color--surface); }
+	.has-surface-background-color { background-color: var(--wp--preset--color--surface); }
+	.has-text-muted-color { color: var(--wp--preset--color--text-muted); }
+	.has-text-muted-background-color { background-color: var(--wp--preset--color--text-muted); }
+	.has-accent-2-color { color: var(--wp--preset--color--accent-2); }
+	.has-accent-2-background-color { background-color: var(--wp--preset--color--accent-2); }
+	.has-line-color { color: var(--wp--preset--color--line); }
+	.has-line-background-color { background-color: var(--wp--preset--color--line); }
+	.has-xs-font-size { font-size: var(--wp--preset--font-size--xs); }
+	.has-sm-font-size { font-size: var(--wp--preset--font-size--sm); }
+	.has-base-font-size { font-size: var(--wp--preset--font-size--base); }
+	.has-md-font-size { font-size: var(--wp--preset--font-size--md); }
+	.has-lg-font-size { font-size: var(--wp--preset--font-size--lg); }
+	.has-xl-font-size { font-size: var(--wp--preset--font-size--xl); }
+	.has-2xl-font-size { font-size: var(--wp--preset--font-size--2xl); }
+	.has-display-font-family { font-family: var(--wp--preset--font-family--display); }
+	.has-body-font-family { font-family: var(--wp--preset--font-family--body); }
+	.has-mono-font-family { font-family: var(--wp--preset--font-family--mono); }
 
 	/* Accesibilidad: el motor respeta prefers-reduced-motion también en el
 	   baseline (el runtime ya lo respeta; esto cubre durations leídas por CSS). */
