@@ -1,6 +1,6 @@
 <?php
 /**
- * Extensiones tf* sobre blocks NATIVOS — FASE A (tfAnimation = "fade-up").
+ * Extensiones tf* sobre blocks NATIVOS.
  *
  * Vía principal del motor (CLAUDE.md §4.1): se EXTIENDEN los blocks del core,
  * no se recrean. El lado editor (atributos, panel "Blokino Effects", inyección en
@@ -104,8 +104,6 @@ class Blokino_Extensions {
 		);
 
 		// i18n del lado JS (cadenas con dominio 'blokino').
-		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( self::EDITOR_HANDLE, 'blokino', BLOKINO_PATH . 'languages' );
-		}
+		wp_set_script_translations( self::EDITOR_HANDLE, 'blokino', BLOKINO_PATH . 'languages' );
 	}
 }

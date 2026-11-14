@@ -10,13 +10,9 @@
  *   La inyección de data-tf-* ocurre SOLO en render (PHP render_block), nunca
  *   en save(), para no romper la validación de bloques del editor.
  *
- * FASE B · LOTE 1 — animaciones de entrada (vanilla, sin GSAP):
- *   tfAnimation: fade-up, clip-reveal, mask-up, blur-in, scale-in,
- *                slide-left, slide-right, text-stagger.
- *   tfStagger:   escalona la entrada de los hijos directos (y de las palabras
- *                en text-stagger).
- *   El resto del catálogo (hover, scroll, blend, border-fx) llega en los
- *   lotes 2 y 3; sus atributos siguen declarados pero sin controles.
+ * Catálogo (vanilla, sin GSAP): entradas (tfAnimation + tfStagger), hover,
+ *   scroll, blend, borde animado y outline. Los valores válidos son las
+ *   constantes de Blokino_Runtime; el CSS y el JS del front viven en runtime/.
  *
  * Sin JSX a propósito: usa los globales wp.* para no exigir paso de build en
  * esta fase. El bundle con @wordpress/scripts llega con los blocks propios.
@@ -61,9 +57,7 @@
 	}
 
 	/* ----------------------------------------------------------------------
-	 * 1) Declaración de atributos tf*.
-	 *    FASE A implementa animation/delay/duration/easing. El resto del
-	 *    catálogo (§4.1) queda declarado pero sin controles ni salida todavía.
+	 * 1) Declaración de atributos tf* (catálogo completo del §4.1).
 	 * -------------------------------------------------------------------- */
 	function addTfAttributes( settings, name ) {
 		if ( ! isAllowed( name ) ) {
@@ -71,12 +65,10 @@
 		}
 
 		settings.attributes = Object.assign( {}, settings.attributes, {
-			// Implementados en FASE A:
 			tfAnimation:    { type: 'string', default: '' },
 			tfAnimDelay:    { type: 'number', default: 0 },
 			tfAnimDuration: { type: 'number', default: 0 },
 			tfAnimEasing:   { type: 'string', default: '' },
-			// Declarados, sin implementar hasta FASE B:
 			tfStagger:       { type: 'number', default: 0 },
 			tfHover:         { type: 'string', default: '' },
 			tfScroll:        { type: 'string', default: '' },

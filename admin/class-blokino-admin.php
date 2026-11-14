@@ -630,7 +630,7 @@ class Blokino_Admin {
 				<div class="notice notice-success is-dismissible"><p><?php echo esc_html( $this->notice_text( $notice ) ); ?></p></div>
 			<?php endif; ?>
 
-			<?php if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) : ?>
+			<?php if ( wp_is_block_theme() ) : ?>
 				<div class="card blokino-section-card">
 					<h2><?php esc_html_e( 'Appearance & styles', 'blokino' ); ?></h2>
 					<p class="description"><?php esc_html_e( 'Switch the active theme’s look — its color style variations (e.g. light / dark) — in the Site Editor. The variations ship with the theme; the editor is where you preview and apply them.', 'blokino' ); ?></p>

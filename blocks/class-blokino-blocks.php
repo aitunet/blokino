@@ -1,19 +1,12 @@
 <?php
 /**
- * Blocks PROPIOS del motor (STUB — PIEZA 1).
+ * Blocks PROPIOS del motor y helpers que comparten sus render.php.
  *
  * Solo se crean blocks donde el core no llega (CLAUDE.md §4.2). No se duplican
- * párrafos, botones ni columnas del core.
- *
- * Blocks previstos (cada uno con su block.json y carga de assets condicional
- * vía should_load_separate_core_block_assets, ya activado en el orquestador):
- *   - blokino/section       (backgrounds avanzados, overlay, shape divider)
- *   - blokino/marquee       (banda infinita)
- *   - blokino/counter       (número animado on-scroll)
- *   - blokino/before-after  (comparador de imágenes)
- *
- * Cada block dinámico encolará el runtime en su render llamando a
- * Blokino_Runtime::enqueue() — así nada se carga si el block no aparece.
+ * párrafos, botones ni columnas del core. Cada uno vive en blocks/<slug>/ con
+ * su block.json; WordPress carga su CSS/JS solo si el block aparece en la
+ * página, y los carruseles encolan Swiper desde su render
+ * (Blokino_Runtime::enqueue_carousel()).
  *
  * @package Blokino
  */
@@ -281,7 +274,7 @@ if ( ! function_exists( 'blokino_safe_css_gradient' ) ) {
 }
 
 /**
- * Registra (en el futuro) los blocks propios del motor.
+ * Registra los blocks propios del motor y los helpers de su editor.
  */
 class Blokino_Blocks {
 
@@ -390,9 +383,7 @@ class Blokino_Blocks {
 
 		// Este script NO se registra desde un block.json, así que nadie le cablea las
 		// traducciones: hay que declararlas aquí o sus labels salen siempre en inglés.
-		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( 'blokino-repeater-control', 'blokino', BLOKINO_PATH . 'languages' );
-		}
+		wp_set_script_translations( 'blokino-repeater-control', 'blokino', BLOKINO_PATH . 'languages' );
 
 		$css_ver = blokino_asset_version( 'blocks/shared/repeater.css' );
 		// El CSS (2 KB, barra lateral) sigue encolado: un estilo no puede colgar
@@ -464,9 +455,6 @@ class Blokino_Blocks {
 	 * generate_block_asset_handle() y es contrato de WP, no nuestro.
 	 */
 	private function set_block_script_translations() {
-		if ( ! function_exists( 'wp_set_script_translations' ) || ! class_exists( 'WP_Block_Type_Registry' ) ) {
-			return;
-		}
 
 		$registry = WP_Block_Type_Registry::get_instance();
 		$langs    = BLOKINO_PATH . 'languages';

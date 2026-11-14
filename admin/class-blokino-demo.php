@@ -324,8 +324,6 @@ class Blokino_Demo {
 		$this->start_record();
 	}
 
-	/** Placeholder builder steps — implemented in later tasks. */
-
 	/**
 	 * Copy a theme-relative file into the media library.
 	 *

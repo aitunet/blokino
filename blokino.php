@@ -49,12 +49,9 @@ function blokino_asset_version( $relative_path ) {
 }
 
 /* Versiones mínimas soportadas (se validan en activación). */
-define( 'BLOKINO_MIN_WP', '6.6' );
-define( 'BLOKINO_MIN_PHP', '7.4' );
 
 /* -------------------------------------------------------------------------
  * Carga de los módulos del motor (cada uno vive en su carpeta, §9).
- * De momento son andamiaje: registran sus hooks pero aún no aplican efectos.
  * ---------------------------------------------------------------------- */
 require_once BLOKINO_PATH . 'extensions/class-blokino-extensions.php';
 require_once BLOKINO_PATH . 'blocks/class-blokino-blocks.php';
@@ -154,7 +151,7 @@ final class Blokino {
 	public function boot_modules() {
 		$this->runtime = new Blokino_Runtime();
 
-		// Andamiaje: registran sus hooks pero todavía no inyectan efectos.
+		// Atributos tf* sobre bloques nativos y bloques propios del motor.
 		new Blokino_Extensions();
 		new Blokino_Blocks();
 
@@ -448,32 +445,9 @@ function blokino_suppress_theme_updates( $value ) {
 add_filter( 'site_transient_update_themes', 'blokino_suppress_theme_updates' );
 
 /* -------------------------------------------------------------------------
- * Activación / desactivación seguras.
+ * Desactivación. (La activación no necesita código: WordPress comprueba las
+ * cabeceras Requires at least / Requires PHP antes de activar el plugin.)
  * ---------------------------------------------------------------------- */
-
-/**
- * En activación: validar entorno mínimo. Si no se cumple, abortar limpio.
- */
-function blokino_activate() {
-	if ( version_compare( PHP_VERSION, BLOKINO_MIN_PHP, '<' )
-		|| version_compare( get_bloginfo( 'version' ), BLOKINO_MIN_WP, '<' ) ) {
-
-		deactivate_plugins( plugin_basename( BLOKINO_FILE ) );
-		wp_die(
-			esc_html(
-				sprintf(
-					/* translators: 1: required WordPress version, 2: required PHP version. */
-					__( 'Blokino requires WordPress %1$s or newer and PHP %2$s or newer.', 'blokino' ),
-					BLOKINO_MIN_WP,
-					BLOKINO_MIN_PHP
-				)
-			),
-			esc_html__( 'Blokino activation', 'blokino' ),
-			array( 'back_link' => true )
-		);
-	}
-}
-register_activation_hook( __FILE__, 'blokino_activate' );
 
 /**
  * En desactivación: limpieza ligera. No borra datos del usuario.
