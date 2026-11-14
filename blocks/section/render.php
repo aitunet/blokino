@@ -158,8 +158,13 @@ $blokino_wrapper = get_block_wrapper_attributes(
 		</div>
 	<?php endif; ?>
 
-	<?php if ( 'image' === $blokino_bg_type && ! empty( $attributes['bgImageUrl'] ) ) : ?>
-		<div class="blokino-section__bg" style="background-image:url('<?php echo esc_url( $attributes['bgImageUrl'] ); ?>')"></div>
+	<?php
+	// S-02: la URL va codificada dentro de url("…"); esc_url() dejaba que una
+	// comilla (decodificada por el navegador) cerrara la cadena y añadiera CSS.
+	$blokino_bg_css_url = ( 'image' === $blokino_bg_type && ! empty( $attributes['bgImageUrl'] ) ) ? blokino_css_url( $attributes['bgImageUrl'] ) : '';
+	?>
+	<?php if ( '' !== $blokino_bg_css_url ) : ?>
+		<div class="blokino-section__bg" style="<?php echo esc_attr( 'background-image:url("' . $blokino_bg_css_url . '")' ); ?>"></div>
 	<?php elseif ( 'video' === $blokino_bg_type && ! empty( $attributes['bgVideoUrl'] ) ) : ?>
 		<?php
 		$blokino_vmime   = ! empty( $attributes['bgVideoId'] ) ? get_post_mime_type( (int) $attributes['bgVideoId'] ) : '';

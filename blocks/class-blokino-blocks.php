@@ -126,6 +126,32 @@ if ( ! function_exists( 'blokino_safe_css_color' ) ) {
 	}
 }
 
+if ( ! function_exists( 'blokino_css_url' ) ) {
+	/**
+	 * Único punto para meter una URL dentro de `url("…")` en un inline-style.
+	 *
+	 * esc_url() conserva `)` y `;`, y su `&#039;` el navegador lo decodifica antes
+	 * de parsear el CSS: una URL de atributo podía cerrar el url() y añadir
+	 * declaraciones (position:fixed sobre toda la página). Aquí se codifica todo
+	 * lo que puede terminar la cadena o la función. El llamador la envuelve en
+	 * comillas dobles y pasa el style entero por esc_attr().
+	 *
+	 * @param string $url URL tal cual viene del atributo o de la biblioteca.
+	 * @return string URL segura dentro de url("…"), o '' si no es http(s).
+	 */
+	function blokino_css_url( $url ) {
+		$url = esc_url_raw( (string) $url, array( 'http', 'https' ) );
+		if ( '' === $url ) {
+			return '';
+		}
+		return str_replace(
+			array( '\\', '"', "'", '(', ')', ';', ' ', "\n", "\r", "\t" ),
+			array( '%5C', '%22', '%27', '%28', '%29', '%3B', '%20', '', '', '' ),
+			$url
+		);
+	}
+}
+
 if ( ! function_exists( 'blokino_safe_css_gradient' ) ) {
 	/**
 	 * Valida un valor de gradiente CSS antes de emitirlo en un inline-style.

@@ -69,6 +69,9 @@ foreach ( $blokino_items as $blokino_item ) {
 	if ( ! $blokino_bg_url && '' !== $blokino_img_url ) {
 		$blokino_bg_url = $blokino_img_url;
 	}
+	// Codificada para url("…"): una URL de atributo no puede cerrar el url() y
+	// añadir declaraciones (S-01). Si no es http(s) válida, no hay capa de fondo.
+	$blokino_bg_url = blokino_css_url( $blokino_bg_url );
 
 	$blokino_bg = '';
 	if ( $blokino_bg_url ) {
@@ -77,7 +80,7 @@ foreach ( $blokino_items as $blokino_item ) {
 		$blokino_bg_pos  = isset( $blokino_item['bgPosition'] ) && in_array( $blokino_item['bgPosition'], $blokino_positions, true ) ? $blokino_item['bgPosition'] : 'center center';
 		$blokino_bg_size = isset( $blokino_item['bgSize'] ) && in_array( $blokino_item['bgSize'], array( 'cover', 'contain', 'auto' ), true ) ? $blokino_item['bgSize'] : 'cover';
 		$blokino_bg_rep  = isset( $blokino_item['bgRepeat'] ) && in_array( $blokino_item['bgRepeat'], array( 'no-repeat', 'repeat', 'repeat-x', 'repeat-y' ), true ) ? $blokino_item['bgRepeat'] : 'no-repeat';
-		$blokino_bg_style = 'background-image:url(' . esc_url( $blokino_bg_url ) . ');'
+		$blokino_bg_style = 'background-image:url("' . $blokino_bg_url . '");'
 			. 'background-position:' . $blokino_bg_pos . ';'
 			. 'background-size:' . $blokino_bg_size . ';'
 			. 'background-repeat:' . $blokino_bg_rep . ';';
