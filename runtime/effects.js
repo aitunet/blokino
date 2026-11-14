@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Blokino · Runtime de efectos — FASE B · LOTE 1 (entrada)
+ * Blokino · Runtime de efectos
  * --------------------------------------------------------------------------
  * Se carga en el footer con defer (no bloquea el render). El gate anti-FOUC
  * (.blokino-tf-ready) lo añade un snippet inline en el <head>; aquí solo se
@@ -367,7 +367,7 @@
 
 	/* --------------------------------------------------------------------
 	 * CINEMATIC ZOOM (firma del theme) — scrub suavizado, vanilla.
-	 * La imagen escala de 1 a --tf-zoom-to (1.26 por defecto) mientras el
+	 * La imagen escala de 1 a 1.26 mientras el
 	 * elemento recorre el viewport: empieza cuando su borde superior entra al
 	 * 85 % de la altura y termina cuando su borde inferior sale por arriba
 	 * (el mismo tramo que antes hacía GSAP ScrollTrigger). El valor objetivo
@@ -393,7 +393,7 @@
 			return {
 				el: el,
 				target: target,
-				to: parseFloat( el.getAttribute( 'data-tf-zoom-to' ) ) || 1.26,
+				to: 1.26,
 				goal: 0,
 				current: -1, // fuerza el primer pintado
 			};

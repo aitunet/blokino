@@ -1,6 +1,6 @@
 <?php
 /**
- * Runtime de efectos — registro, carga CONDICIONAL e inyección PHP — FASE A.
+ * Runtime de efectos — registro, carga CONDICIONAL e inyección PHP.
  *
  * Filosofía (CLAUDE.md §3, §4.3, §10):
  *  - Nada se carga "por si acaso". El runtime se ENCOLA solo si la página

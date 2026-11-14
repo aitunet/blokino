@@ -1,5 +1,5 @@
 /* ==========================================================================
- * Blokino · CSS del runtime de efectos — FASE B (catálogo completo)
+ * Blokino · CSS del runtime de efectos
  * --------------------------------------------------------------------------
  * COMPOSICIÓN DE TRANSFORM POR VARIABLES (endurecido):
  *   Ningún efecto escribe `transform` directamente. Cada uno escribe SOLO sus
@@ -37,7 +37,6 @@
 @property --tf-hover-scale{ syntax: "<number>"; inherits: false; initial-value: 1; }
 @property --tf-rot-x      { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
 @property --tf-rot-y      { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
-@property --tf-rotate     { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
 @property --tf-perspective{ syntax: "<length>"; inherits: false; initial-value: 100000px; }
 @property --tf-zoom-scale { syntax: "<number>"; inherits: false; initial-value: 1; }
 @property --tf-angle      { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
@@ -65,7 +64,6 @@
 			0
 		)
 		scale( calc( var( --tf-enter-scale, 1 ) * var( --tf-hover-scale, 1 ) * var( --tf-zoom-scale, 1 ) ) )
-		rotate( var( --tf-rotate, 0deg ) )
 		rotateX( var( --tf-rot-x, 0deg ) )
 		rotateY( var( --tf-rot-y, 0deg ) );
 }
@@ -92,8 +90,7 @@
 		--tf-hover-scale var( --tnt-dur-base ) var( --tf-hover-ease, var( --tnt-ease-power3 ) ),
 		box-shadow var( --tnt-dur-base ) var( --tnt-ease-power3 ),
 		--tf-rot-x var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
-		--tf-rot-y var( --tnt-dur-fast ) var( --tnt-ease-power3 ),
-		--tf-rotate var( --tnt-dur-fast ) var( --tnt-ease-power3 );
+		--tf-rot-y var( --tnt-dur-fast ) var( --tnt-ease-power3 );
 }
 
 /* will-change SOLO en efectos continuos (los que se mueven con el scroll), no en
