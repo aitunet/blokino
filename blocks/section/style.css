@@ -53,6 +53,16 @@
 	margin-block-start: var( --wp--style--block-gap, 1.5rem );
 }
 
+/* Color de texto de la sección → también a los títulos. Muchos themes pintan
+   h1–h6 con su propio color (TT4: `h1`; Kadence: `h1`; Astra:
+   `.entry-content :where(h1)`, especificidad 0,1,0) y ganaban al color heredado:
+   título oscuro sobre el hero oscuro. Esta regla (0,2,0) solo actúa si el
+   usuario eligió un color de texto para la sección; un título con color propio
+   sigue mandando (inline o clase de preset con !important). */
+.blokino-section.has-text-color :where( h1, h2, h3, h4, h5, h6 ) {
+	color: inherit;
+}
+
 /* Ancho del contenido (independiente del ancho de la sección):
    constrained = content-size · wide = wide-size · full = sin límite. */
 .blokino-section.is-content-constrained .blokino-section__inner {
