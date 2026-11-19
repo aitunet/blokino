@@ -140,6 +140,14 @@
 	.blokino-marquee__track { animation-play-state: paused; }
 	/* Con JS, solo si el visitante lo pide explícitamente con el control. */
 	.blokino-marquee.is-playing .blokino-marquee__track { animation-play-state: running; }
+	/* Muchos themes (también 6 de los nuestros) anulan TODA animación con
+	   `* { animation-duration: .01ms !important }` en esta media query: el play
+	   no hacía nada (pruebas 2026-11-19, Vector). El visitante pidió el movimiento,
+	   así que la banda recupera su duración y su bucle. */
+	.blokino-marquee.is-playing .blokino-marquee__track {
+		animation-duration: var( --tnt-marquee-duration, 30s ) !important;
+		animation-iteration-count: infinite !important;
+	}
 	/* ...y aun así se puede pausar por hover o volviendo a pulsar. */
 	.blokino-marquee.is-playing.is-pausable:hover .blokino-marquee__track,
 	.blokino-marquee.is-playing.is-paused .blokino-marquee__track { animation-play-state: paused; }

@@ -63,6 +63,19 @@
 	color: inherit;
 }
 
+/* Fondo oscuro sin color de texto elegido (render.php → is-tone-*): el texto
+   pasa a contrastar. Sin esto una banda hecha para un theme (Aurora: cifras con
+   `var(--tnt-color-text)` de fondo y texto claro desde su CSS) se leía negro
+   sobre negro en cualquier otro theme. Especificidad baja a propósito: el
+   theme que ya pinta esa banda (con una clase propia) sigue mandando; solo se
+   gana a los títulos coloreados por etiqueta (`h1 { … }` de TT4 o Kadence). */
+:where( .blokino-section.is-tone-dark ) { color: var( --tnt-color-on-ink, #fff ); }
+:where( .blokino-section.is-tone-inverse ) { color: var( --tnt-color-bg, #fff ); }
+:where( .blokino-section.is-tone-dark, .blokino-section.is-tone-inverse ) :where( h1, h2, h3, h4, h5, h6 ):not( .has-text-color ),
+:where( .blokino-section.is-tone-dark, .blokino-section.is-tone-inverse ) .blokino-counter:not( .has-text-color ) {
+	color: inherit;
+}
+
 /* Ancho del contenido (independiente del ancho de la sección):
    constrained = content-size · wide = wide-size · full = sin límite. */
 .blokino-section.is-content-constrained .blokino-section__inner {

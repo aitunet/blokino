@@ -102,6 +102,8 @@ Blokino works fully offline. It connects to an external service only in the thre
 * Changed: with a theme not made for Blokino, the plugin no longer registers the portfolio (Projects at /work/), changes how core block styles load or prints a meta description. The portfolio is a setting (Settings → General); sites that already have Blokino projects keep it.
 * Fix: Text fill ends on the text's own color (a white heading stays white).
 * Fix: when a Section has a text color, its headings use it too, even in themes that color every heading (Twenty Twenty-Four, Astra, Kadence); a heading with its own color keeps it.
+* Fix: a Section with a dark background color and no text color now gets light text in themes not made for Blokino. A band built for another theme no longer reads dark on dark after switching themes.
+* Fix: under reduced motion, the Marquee play button works even in themes that turn off every animation.
 * Accessibility: carousels with autoplay get a pause button and stop while focused, and announce in the site language; Before/After lets you scroll on touch and says what it shows; Breadcrumbs mark only the current page.
 * Developers: blokino_demo_imported and blokino_demo_removed actions.
 * Fix: saving or importing Blokino settings no longer removes a site logo that was set elsewhere (Site Logo block or Customizer). The Main logo field now shows that logo when Blokino has none of its own.

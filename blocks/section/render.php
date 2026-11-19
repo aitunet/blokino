@@ -63,6 +63,16 @@ if ( in_array( $blokino_bg_type, array( 'color', 'image' ), true ) && ! empty( $
 	$blokino_bg_color = blokino_safe_css_color( $attributes['bgColor'] );
 	if ( '' !== $blokino_bg_color ) {
 		$blokino_vars[] = '--tf-sec-bg:' . $blokino_bg_color;
+		// Sin color de texto propio, el texto sigue al fondo (ver style.css). Los
+		// themes Tunet ya pintan sus bandas oscuras: ahí no se toca nada.
+		$blokino_tone = 'color' === $blokino_bg_type
+			&& apply_filters( 'blokino_section_auto_tone', ! blokino_is_tunet_theme() )
+			&& empty( $attributes['textColor'] )
+			&& empty( $attributes['style']['color']['text'] )
+			? blokino_bg_tone( $blokino_bg_color ) : '';
+		if ( '' !== $blokino_tone ) {
+			$blokino_classes[] = 'is-tone-' . $blokino_tone;
+		}
 	}
 }
 if ( 'gradient' === $blokino_bg_type && ! empty( $attributes['gradient'] ) ) {

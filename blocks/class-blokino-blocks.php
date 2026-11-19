@@ -126,6 +126,39 @@ if ( ! function_exists( 'blokino_safe_css_color' ) ) {
 	}
 }
 
+if ( ! function_exists( 'blokino_bg_tone' ) ) {
+	/**
+	 * Tono de un color de fondo, para que el texto de una sección contraste en
+	 * cualquier theme. Una banda pensada para un theme concreto (Aurora pinta sus
+	 * cifras con `var(--tnt-color-text)` de fondo y pone el texto claro desde su
+	 * propio CSS) se leía negro sobre negro al cambiar de theme (pruebas
+	 * 2026-11-19, Aurora → TT5).
+	 *
+	 * @param string $color Valor de bgColor ya validado.
+	 * @return string 'inverse' (fondo = color del texto), 'dark' o '' (claro o desconocido).
+	 */
+	function blokino_bg_tone( $color ) {
+		$color = strtolower( trim( (string) $color ) );
+		if ( preg_match( '/^var\(\s*--tnt-color-text\s*[,)]/', $color ) ) {
+			return 'inverse';
+		}
+		if ( preg_match( '/^var\(\s*--tnt-color-ink\s*[,)]/', $color ) ) {
+			return 'dark';
+		}
+		if ( ! preg_match( '/^#([0-9a-f]{3}|[0-9a-f]{6})([0-9a-f]{1,2})?$/', $color, $m ) ) {
+			return '';
+		}
+		$hex = 3 === strlen( $m[1] ) ? preg_replace( '/(.)/', '$1$1', $m[1] ) : $m[1];
+		$lum = 0;
+		foreach ( array( 0.2126, 0.7152, 0.0722 ) as $i => $weight ) {
+			$c    = hexdec( substr( $hex, $i * 2, 2 ) ) / 255;
+			$lum += $weight * ( $c <= 0.03928 ? $c / 12.92 : pow( ( $c + 0.055 ) / 1.055, 2.4 ) );
+		}
+		// Por debajo de 0.18 el texto blanco contrasta más que el negro.
+		return $lum < 0.18 ? 'dark' : '';
+	}
+}
+
 if ( ! function_exists( 'blokino_carousel_a11y_attrs' ) ) {
 	/**
 	 * Etiquetas accesibles de los carruseles (E-08), como data-* del wrapper.
